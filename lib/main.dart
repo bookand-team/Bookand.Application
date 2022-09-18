@@ -2,7 +2,9 @@ import 'package:bookand/themes/theme_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'app/test_page.dart';
 import 'config.dart';
 
 void main() async {
@@ -14,16 +16,18 @@ void main() async {
       await const MethodChannel('flavor').invokeMethod<String>('getFlavor');
   Config(flavor);
 
-  runApp(const MyApp());
+  runApp(const App());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class App extends StatelessWidget {
+  const App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Book&',
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: lightThemeData,
       darkTheme: darkThemeData,
       home: _getStartScreen(),
@@ -31,6 +35,6 @@ class MyApp extends StatelessWidget {
   }
 
   Widget _getStartScreen() {
-    throw UnimplementedError();
+    return const TestPage();
   }
 }
