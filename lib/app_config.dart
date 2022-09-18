@@ -1,24 +1,32 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class Config {
+const String devMode = "dev";
+const String productMode = "product";
+
+class AppConfig {
   final String baseUrl;
   final String token;
 
-  Config._dev():
+  AppConfig._dev():
       baseUrl = dotenv.env['BASE_URL_DEV'] ?? "EMPTY_URL",
       token = dotenv.env['TOKEN_DEV'] ?? "EMPTY_TOKEN";
 
-  Config._product():
+  AppConfig._product():
       baseUrl = dotenv.env['BASE_URL_PRODUCT'] ?? "EMPTY_URL",
       token = dotenv.env['TOKEN_PRODUCT'] ?? "EMPTY_TOKEN";
 
-  factory Config(String? flavor) {
+  static late final AppConfig instance;
+  static late final String mode;
+
+  factory AppConfig(String? flavor) {
     switch (flavor) {
-      case 'dev':
-        instance = Config._dev();
+      case devMode:
+        mode = flavor!;
+        instance = AppConfig._dev();
         break;
-      case 'product':
-        instance = Config._product();
+      case productMode:
+        mode = flavor!;
+        instance = AppConfig._product();
         break;
       default:
         throw Exception("Unknown flavor : $flavor");
@@ -26,6 +34,4 @@ class Config {
 
     return instance;
   }
-
-  static late final Config instance;
 }

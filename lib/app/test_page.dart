@@ -7,7 +7,12 @@ class TestPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: Text(AppLocalizations.of(context)!.hello_1)),
+      body: SafeArea(child: Column(
+        children: [
+          Text(AppLocalizations.of(context)!.hello_1),
+          ElevatedButton(onPressed: () => throw Exception(), child: const Text("error"))
+        ],
+      )),
     );
   }
 

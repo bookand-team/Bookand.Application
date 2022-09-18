@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>336065052158-8d30bn5um9d4d95g46jkb8o6ovkb395b.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.336065052158-8d30bn5um9d4d95g46jkb8o6ovkb395b</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAJlL4ANqlFk_oZTj5WM0aCi6ZySjF--Cs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>336065052158</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>kr.co.bookand.mobile</string>
+	<key>PROJECT_ID</key>
+	<string>bookand-154bf</string>
+	<key>STORAGE_BUCKET</key>
+	<string>bookand-154bf.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:336065052158:ios:615300d4572d4474e314af</string>
+</dict>
+</plist>
