@@ -1,12 +1,10 @@
 # BOOK& Mobile Application
 
----
 ## 목차
-1. [Flutter flavor](#Flutter-flavor)
-2. [국제화](#국제화)
-3. [JSON 직렬화 코드 생성](#JSON-직렬화-코드-생성)
+1. [Flutter flavor](#1-flutter-flavor)
+2. [국제화](#2-국제화)
+3. [JSON 직렬화 코드 생성](#3-json-직렬화-코드-생성)
 
----
 ## 1. Flutter flavor
 
 #### 현재 운영 환경은 [dev]와 [product]로 나뉘어져 있음.
@@ -54,7 +52,6 @@ flutter build appbundle --flavor product -t lib/main.dart
 flutter build ios --flavor product -t lib/main.dart
 ```
 
----
 ## 2. 국제화
 
 ### 2-1. lib/l10n에 있는 arb파일에 언어별로 사용할 제목, 내용 등 입력
@@ -76,7 +73,6 @@ AppLocalizations.of(context)!.test
 </code>
 </pre>
 
----
 ## 3. JSON 직렬화 코드 생성
 
 ### 모델 클래스에 아래 어노테이션 붙이기
