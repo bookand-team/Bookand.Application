@@ -1,15 +1,18 @@
-import 'package:bookand/themes/theme_data.dart';
+import 'package:bookand/theme/theme_data.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'app/test_page.dart';
+import 'app/page/login_page.dart';
 import 'app_config.dart';
-import 'firebase_options.dart';
+import 'firebase/firebase_options_dev.dart';
+import 'firebase/firebase_options_product.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,15 +24,24 @@ void main() async {
 
   await initFirebase();
 
-  runApp(const App());
+  runApp(const ProviderScope(child: App()));
 }
 
 Future<void> initFirebase() async {
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  switch (AppConfig.mode) {
+    case devMode:
+      await Firebase.initializeApp(
+        options: FirebaseOptionsDev.currentPlatform,
+      );
+      break;
+    case productMode:
+      await Firebase.initializeApp(
+        options: FirebaseOptionsProduct.currentPlatform,
+      );
+      break;
+  }
 
-  if (AppConfig.mode == productMode) {
+  if (kReleaseMode) {
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   }
 }
@@ -55,6 +67,6 @@ class App extends StatelessWidget {
   }
 
   Widget _getStartScreen() {
-    return const TestPage();
+    return const LoginPage();
   }
 }

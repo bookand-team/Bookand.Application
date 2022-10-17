@@ -1,20 +1,19 @@
-import 'package:bookand/themes/bottom_sheet_theme_data.dart';
-import 'package:bookand/themes/button_theme_data.dart';
-import 'package:bookand/themes/chip_theme_data.dart';
-import 'package:bookand/themes/dialog_theme.dart';
-import 'package:bookand/themes/text_button_theme.dart';
-import 'package:bookand/themes/text_theme.dart';
+import 'package:bookand/theme/text_button_theme.dart';
 import 'package:flutter/material.dart';
 
+import 'bottom_sheet_theme_data.dart';
+import 'chip_theme_data.dart';
 import 'color_table.dart';
+import 'dialog_theme.dart';
+
+const String pretendard = "Pretendard";
 
 final ThemeData lightThemeData = ThemeData(
-  textTheme: lightTextTheme,
+  fontFamily: pretendard,
   backgroundColor: Colors.white,
   dialogBackgroundColor: Colors.white,
   bottomSheetTheme: lightBottomSheetThemeData,
   dialogTheme: lightDialogTheme,
-  buttonTheme: lightButtonThemeData,
   chipTheme: lightChipTheme,
   textButtonTheme: lightTextButtonTheme,
   dividerColor: const Color(0xFFF5F5F5),

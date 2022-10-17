@@ -1,37 +1,37 @@
 {
   "project_info": {
-    "project_number": "336065052158",
-    "project_id": "bookand-154bf",
-    "storage_bucket": "bookand-154bf.appspot.com"
+    "project_number": "936059076861",
+    "project_id": "bookand-dev",
+    "storage_bucket": "bookand-dev.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:336065052158:android:524822d5dd6ba808e314af",
+        "mobilesdk_app_id": "1:936059076861:android:cf32d4907b0cb0addc7e94",
         "android_client_info": {
-          "package_name": "kr.co.bookand.mobile"
+          "package_name": "kr.co.bookand.mobile.dev"
         }
       },
       "oauth_client": [
         {
-          "client_id": "336065052158-6kmvfakcqvvrja1ioa0hdgrqdu0gbfp0.apps.googleusercontent.com",
+          "client_id": "936059076861-8cfdjdej3va6n6dhas5r5b92imb0of9n.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "kr.co.bookand.mobile",
+            "package_name": "kr.co.bookand.mobile.dev",
             "certificate_hash": "b198a4924fcafd283ba024edbb335e2b23852439"
           }
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDvumrVAxGXked_lI02_P_hsMCZ3WOHYKQ"
+          "current_key": "AIzaSyD0VRCMum_G301J3dW1tsbLsYLZcNIem40"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "336065052158-dnaom9tregjigukp5umbro3chjg1l1va.apps.googleusercontent.com",
+              "client_id": "936059076861-bsvmuacduv8tf7c0oa01v9j7f3i7kehf.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "kr.co.bookand.mobile.dev"

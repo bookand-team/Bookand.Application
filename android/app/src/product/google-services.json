@@ -14,7 +14,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "336065052158-6kmvfakcqvvrja1ioa0hdgrqdu0gbfp0.apps.googleusercontent.com",
+          "client_id": "336065052158-6sflva6fksuur0g2jf23u3u8gp2lgq9t.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "kr.co.bookand.mobile",
@@ -24,17 +24,17 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDvumrVAxGXked_lI02_P_hsMCZ3WOHYKQ"
+          "current_key": "AIzaSyAN0ttV4veoSChbW5LgKxKmb_v3QgPQmtA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "336065052158-dnaom9tregjigukp5umbro3chjg1l1va.apps.googleusercontent.com",
+              "client_id": "336065052158-nl53g77amriv995fg0g1n3h700ob5cob.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "kr.co.bookand.mobile.dev"
+                "bundle_id": "kr.co.bookand.mobile"
               }
             }
           ]

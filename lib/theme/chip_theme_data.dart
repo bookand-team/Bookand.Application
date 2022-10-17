@@ -1,4 +1,4 @@
-import 'package:bookand/themes/color_table.dart';
+import 'package:bookand/theme/color_table.dart';
 import 'package:flutter/material.dart';
 
 const ChipThemeData lightChipTheme = ChipThemeData(

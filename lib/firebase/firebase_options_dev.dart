@@ -8,13 +8,13 @@ import 'package:flutter/foundation.dart'
 ///
 /// Example:
 /// ```dart
-/// import 'firebase_options.dart';
+/// import 'firebase_options_dev.dart';
 /// // ...
 /// await Firebase.initializeApp(
 ///   options: DefaultFirebaseOptions.currentPlatform,
 /// );
 /// ```
-class DefaultFirebaseOptions {
+class FirebaseOptionsDev {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
       throw UnsupportedError(
@@ -50,20 +50,21 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBnp9WGaHCPkMGBCSipE70tsjvwUKqC-dk',
-    appId: '1:336065052158:android:0022d3fe932950dbe314af',
-    messagingSenderId: '336065052158',
-    projectId: 'bookand-154bf',
-    storageBucket: 'bookand-154bf.appspot.com',
+    apiKey: 'AIzaSyD0VRCMum_G301J3dW1tsbLsYLZcNIem40',
+    appId: '1:936059076861:android:cf32d4907b0cb0addc7e94',
+    messagingSenderId: '936059076861',
+    projectId: 'bookand-dev',
+    storageBucket: 'bookand-dev.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAJlL4ANqlFk_oZTj5WM0aCi6ZySjF--Cs',
-    appId: '1:336065052158:ios:615300d4572d4474e314af',
-    messagingSenderId: '336065052158',
-    projectId: 'bookand-154bf',
-    storageBucket: 'bookand-154bf.appspot.com',
-    iosClientId: '336065052158-8d30bn5um9d4d95g46jkb8o6ovkb395b.apps.googleusercontent.com',
-    iosBundleId: 'kr.co.bookand.mobile',
+    apiKey: 'AIzaSyDbtMlUrvRBfubxPz6wtNSlGhHTznZ__Ps',
+    appId: '1:936059076861:ios:84e80f825df60c9adc7e94',
+    messagingSenderId: '936059076861',
+    projectId: 'bookand-dev',
+    storageBucket: 'bookand-dev.appspot.com',
+    androidClientId: '936059076861-8cfdjdej3va6n6dhas5r5b92imb0of9n.apps.googleusercontent.com',
+    iosClientId: '936059076861-bsvmuacduv8tf7c0oa01v9j7f3i7kehf.apps.googleusercontent.com',
+    iosBundleId: 'kr.co.bookand.mobile.dev',
   );
 }
