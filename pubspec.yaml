@@ -30,6 +30,7 @@ dependencies:
   dio: ^4.0.6
   get_it: ^7.2.0
   json_annotation: ^4.7.0
+  sign_in_with_apple: ^4.1.0
 
 dev_dependencies:
   flutter_test:

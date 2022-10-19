@@ -1,13 +1,14 @@
 import 'dart:io';
 
-import 'package:bookand/app/provider/login_provider.dart';
 import 'package:bookand/theme/custom_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../const/social_login_const.dart';
 import '../../widget/social_login_button.dart';
+import '../provider/login_provider.dart';
 
 class LoginPage extends HookConsumerWidget {
   const LoginPage({super.key});
@@ -31,7 +32,9 @@ class LoginPage extends HookConsumerWidget {
                   ? Padding(
                       padding: const EdgeInsets.only(bottom: 12),
                       child: SocialLoginButton(
-                          onTap: () {},
+                          onTap: () {
+                            socialLogin.login(SocialType.apple);
+                          },
                           width: MediaQuery.of(context).size.width,
                           height: 44,
                           radius: 8,
