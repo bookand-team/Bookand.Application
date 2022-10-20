@@ -1,8 +1,16 @@
 import 'package:bookand/theme/color_table.dart';
+import 'package:bookand/theme/theme_data.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 extension CustomTextStyle on TextStyle {
+  TextStyle logoText() => const TextStyle(
+    fontFamily: gMarketSansTTF,
+    fontSize: 18,
+    letterSpacing: -0.03,
+    color: Colors.white
+  );
+
   TextStyle roundRectButtonText({bool enabled = true}) => TextStyle(
       fontWeight: FontWeight.w500,
       fontSize: 15,

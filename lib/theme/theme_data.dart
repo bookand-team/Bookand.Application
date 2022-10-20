@@ -7,6 +7,7 @@ import 'color_table.dart';
 import 'dialog_theme.dart';
 
 const String pretendard = "Pretendard";
+const String gMarketSansTTF = "GmarketSansTTF";
 
 final ThemeData lightThemeData = ThemeData(
   fontFamily: pretendard,

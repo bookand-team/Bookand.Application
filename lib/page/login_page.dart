@@ -24,10 +24,17 @@ class LoginPage extends HookConsumerWidget {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 127),
+          padding: const EdgeInsets.only(left: 16, right: 16, top: 216, bottom: 127),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              SvgPicture.asset('assets/images/ic_logo.svg',
+                  width: 61, height: 70),
+              const SizedBox(height: 10),
+              Text(
+                AppLocalizations.of(context)!.appName,
+                style: const TextStyle().logoText(),
+              ),
+              const Spacer(),
               Platform.isIOS
                   ? Padding(
                       padding: const EdgeInsets.only(bottom: 12),
