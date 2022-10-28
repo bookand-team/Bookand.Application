@@ -36,7 +36,7 @@ class SocialLogin with ErrorHandler {
     final accessToken = auth?.accessToken;
 
     debugPrint("테스트: $accessToken");
-    if (accessToken?.isEmpty ?? true) {
+    if (accessToken == null || accessToken.isEmpty) {
       final error = BaseError(
           value: SocialErrorType.cancel,
           message:

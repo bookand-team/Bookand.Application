@@ -47,9 +47,13 @@ extension CustomTextStyle on TextStyle {
       letterSpacing: -0.04,
       color: lightColorFFACACAC);
 
-  TextStyle socialLoginText() => GoogleFonts.roboto(
-    fontWeight: FontWeight.w500,
-    fontSize: 14,
-    color: lightColorFF222222
-  );
+  TextStyle googleLoginText() => GoogleFonts.roboto(
+      fontWeight: FontWeight.w500, fontSize: 16, letterSpacing: -0.04, color: lightColorFF222222);
+
+  TextStyle appleLoginText() => const TextStyle(
+      fontFamily: pretendard,
+      fontWeight: FontWeight.w400,
+      fontSize: 16,
+      letterSpacing: -0.02,
+      color: lightColorFF222222);
 }

@@ -24,17 +24,19 @@ class LoginPage extends HookConsumerWidget {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: 16, right: 16, top: 216, bottom: 127),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SvgPicture.asset('assets/images/ic_logo.svg',
                   width: 61, height: 70),
-              const SizedBox(height: 10),
-              Text(
-                AppLocalizations.of(context)!.appName,
-                style: const TextStyle().logoText(),
+              Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 110),
+                child: Text(
+                  AppLocalizations.of(context)!.appName,
+                  style: const TextStyle().logoText(),
+                ),
               ),
-              const Spacer(),
               Platform.isIOS
                   ? Padding(
                       padding: const EdgeInsets.only(bottom: 12),
@@ -43,24 +45,24 @@ class LoginPage extends HookConsumerWidget {
                             socialLogin.login(SocialType.apple);
                           },
                           width: MediaQuery.of(context).size.width,
-                          height: 44,
+                          height: 56,
                           radius: 8,
                           image: SvgPicture.asset('assets/images/ic_apple.svg',
-                              width: 18, height: 18),
+                              width: 24, height: 24),
                           text: Text(AppLocalizations.of(context)!.appleSocial,
-                              style: const TextStyle().socialLoginText())))
+                              style: const TextStyle().appleLoginText())))
                   : const SizedBox(),
               SocialLoginButton(
                   onTap: () {
                     socialLogin.login(SocialType.google);
                   },
                   width: MediaQuery.of(context).size.width,
-                  height: 44,
+                  height: 56,
                   radius: 8,
                   image: SvgPicture.asset('assets/images/ic_google.svg',
-                      width: 18, height: 18),
+                      width: 24, height: 24),
                   text: Text(AppLocalizations.of(context)!.googleSocial,
-                      style: const TextStyle().socialLoginText()))
+                      style: const TextStyle().googleLoginText()))
             ],
           ),
         ),
