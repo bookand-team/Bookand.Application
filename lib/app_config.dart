@@ -1,19 +1,14 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 const String devMode = "dev";
 const String productMode = "product";
 
 class AppConfig {
   final String baseUrl;
-  final String token;
 
   AppConfig._dev():
-      baseUrl = dotenv.env['BASE_URL_DEV'] ?? "EMPTY_URL",
-      token = dotenv.env['TOKEN_DEV'] ?? "EMPTY_TOKEN";
+      baseUrl = 'https://dev.bookand.co.kr/';
 
   AppConfig._product():
-      baseUrl = dotenv.env['BASE_URL_PRODUCT'] ?? "EMPTY_URL",
-      token = dotenv.env['TOKEN_PRODUCT'] ?? "EMPTY_TOKEN";
+      baseUrl = 'https://api.bookand.co.kr/';
 
   static late final AppConfig instance;
   static late final String mode;

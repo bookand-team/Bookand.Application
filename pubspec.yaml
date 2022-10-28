@@ -16,7 +16,6 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  flutter_dotenv: ^5.0.2
   intl: ^0.17.0
   firebase_core: ^1.22.0
   firebase_crashlytics: ^2.8.10
@@ -47,7 +46,6 @@ flutter:
   generate: true
 
   assets:
-    - bookand_app.env
     - assets/images/
 
   fonts:
