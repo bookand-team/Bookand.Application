@@ -37,21 +37,21 @@ class LoginPage extends HookConsumerWidget {
                   style: const TextStyle().logoText(),
                 ),
               ),
-              Platform.isIOS
-                  ? Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
-                      child: SocialLoginButton(
-                          onTap: () {
-                            socialLogin.login(SocialType.apple);
-                          },
-                          width: MediaQuery.of(context).size.width,
-                          height: 56,
-                          radius: 8,
-                          image: SvgPicture.asset('assets/images/ic_apple.svg',
-                              width: 24, height: 24),
-                          text: Text(AppLocalizations.of(context)!.appleSocial,
-                              style: const TextStyle().appleLoginText())))
-                  : const SizedBox(),
+              // Platform.isIOS
+              //     ? Padding(
+              //         padding: const EdgeInsets.only(bottom: 12),
+              //         child: SocialLoginButton(
+              //             onTap: () {
+              //               socialLogin.login(SocialType.apple);
+              //             },
+              //             width: MediaQuery.of(context).size.width,
+              //             height: 56,
+              //             radius: 8,
+              //             image: SvgPicture.asset('assets/images/ic_apple.svg',
+              //                 width: 24, height: 24),
+              //             text: Text(AppLocalizations.of(context)!.appleSocial,
+              //                 style: const TextStyle().appleLoginText())))
+              //     : const SizedBox(),
               SocialLoginButton(
                   onTap: () {
                     socialLogin.login(SocialType.google);
