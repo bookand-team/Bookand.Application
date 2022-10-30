@@ -1,49 +1,25 @@
 import 'package:bookand/page/login_page.dart';
 import 'package:bookand/theme/theme_data.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'app_config.dart';
-import 'firebase/firebase_options_dev.dart';
-import 'firebase/firebase_options_product.dart';
+import 'app_init.dart';
+import 'firebase/firebase_init.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  String? flavor = await const MethodChannel('flavor').invokeMethod<String>('getFlavor');
-  AppConfig(flavor);
-
+  await initFlavor();
+  await Hive.initFlutter();
+  await initEncryptionKey();
   await initFirebase();
 
   runApp(const ProviderScope(child: App()));
 }
-
-Future<void> initFirebase() async {
-  switch (AppConfig.mode) {
-    case devMode:
-      await Firebase.initializeApp(
-        options: FirebaseOptionsDev.currentPlatform,
-      );
-      break;
-    case productMode:
-      await Firebase.initializeApp(
-        options: FirebaseOptionsProduct.currentPlatform,
-      );
-      break;
-  }
-
-  if (kReleaseMode) {
-    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-  }
-}
-
-FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);

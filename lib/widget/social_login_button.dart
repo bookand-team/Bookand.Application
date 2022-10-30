@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 
 class SocialLoginButton extends StatelessWidget {
-  final GestureTapCallback onTap;
-  final double width;
-  final double height;
-  final double radius;
+  final Function() onTap;
   final Widget image;
   final Widget text;
 
   const SocialLoginButton(
       {super.key,
       required this.onTap,
-      required this.width,
-      required this.radius,
-      required this.height,
       required this.image,
       required this.text});
 
@@ -21,19 +15,19 @@ class SocialLoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
         color: Colors.white,
-        shape: RoundedRectangleBorder(
-            side: const BorderSide(color: Color(0xFF999999)),
-            borderRadius: BorderRadius.all(Radius.circular(radius))),
+        shape: const RoundedRectangleBorder(
+            side: BorderSide(color: Color(0xFF999999)),
+            borderRadius: BorderRadius.all(Radius.circular(8))),
         child: InkWell(
           onTap: onTap,
           hoverColor: Colors.black12,
-          borderRadius: BorderRadius.all(Radius.circular(radius)),
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
           child: Stack(
             alignment: Alignment.centerLeft,
             children: [
               Container(
-                width: width,
-                height: height,
+                width: MediaQuery.of(context).size.width,
+                height: 56,
                 alignment: Alignment.center,
                 child: text,
               ),

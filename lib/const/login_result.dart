@@ -1,0 +1,3 @@
+enum LoginResult {
+  cancel, error
+}

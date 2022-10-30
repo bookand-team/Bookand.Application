@@ -1,8 +1,14 @@
 {
     "appName": "BOOKAND",
+    "info": "안내",
+    "ok": "확인",
+    "agree":"동의",
 
     "googleSocial":"구글로 로그인",
     "appleSocial":"Apple로 로그인",
+
+    "loginCancel":"로그인이 취소되었습니다.",
+    "loginError":"로그인 에러",
 
     "termsOfServiceAgree":"이용약관에\n동의해주세요",
     "allAgree":"모두 동의",
@@ -12,6 +18,6 @@
     "start":"시작하기",
 
     "termsOfService":"서비스 이용약관 동의",
-    "collectAndUsePrivacy":"개인정보 수집 및 이용 동의",
-    "agree":"동의"
+    "collectAndUsePrivacy":"개인정보 수집 및 이용 동의"
+
 }

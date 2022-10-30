@@ -1,8 +1,14 @@
 {
     "appName": "BOOKAND",
+    "info": "Info",
+    "ok": "OK",
+    "agree":"Agree",
 
     "googleSocial":"Sign in with Google",
     "appleSocial":"Sign in with Apple",
+
+    "loginCancel":"Your login has been canceled.",
+    "loginError":"Login Error",
 
     "termsOfServiceAgree":"Please accept\nthe terms and conditions.",
     "allAgree":"All agree",
@@ -12,6 +18,5 @@
     "start":"Getting Started",
 
     "termsOfService":"Agree to the Terms and Conditions of Service",
-    "collectAndUsePrivacy":"Agree to collect and use personal information",
-    "agree":"agree"
+    "collectAndUsePrivacy":"Agree to collect and use personal information"
 }

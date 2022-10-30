@@ -8,7 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../widget/check_button.dart';
 import '../../widget/circle_check_button.dart';
 import '../../widget/round_rect_button.dart';
-import '../provider/terms_provider.dart';
+import '../notifier/terms_provider.dart';
 
 class TermsAgreePage extends HookConsumerWidget {
   const TermsAgreePage({super.key});
