@@ -36,6 +36,11 @@ flutter build appbundle --flavor dev -t lib/main.dart
 flutter build ios --flavor dev -t lib/main.dart
 ```
 
+#### ipa
+```shell
+flutter build ipa --flavor dev -t lib/main.dart
+```
+
 ### [product]에서의 빌드 방법
 #### APK
 ```shell
@@ -50,6 +55,11 @@ flutter build appbundle --flavor product -t lib/main.dart
 #### iOS
 ```shell
 flutter build ios --flavor product -t lib/main.dart
+```
+
+#### ipa
+```shell
+flutter build ipa --flavor product -t lib/main.dart
 ```
 
 ## 2. 국제화
