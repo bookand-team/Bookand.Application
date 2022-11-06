@@ -61,7 +61,7 @@ class LoginPage extends ConsumerWidget with CustomDialog {
                       if (state.isSigned) {
                         context.replaceNamed(MainTab.routeName);
                       } else {
-                        context.goNamed(TermsPage.routeName, extra: value as SocialToken);
+                        context.pushNamed(TermsPage.routeName, extra: value as SocialToken);
                       }
                     }).catchError((e) {
                       logger.e(e);
