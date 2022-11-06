@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ArticleDetailPage extends ConsumerWidget {
+  static String get routeName => 'articleDetail';
   final String name;
 
   const ArticleDetailPage({super.key, required this.name});

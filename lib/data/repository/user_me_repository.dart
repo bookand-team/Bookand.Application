@@ -4,23 +4,23 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/http.dart';
 
 import '../../provider/dio_provider.dart';
-import '../model/user_model.dart';
+import '../model/response_data.dart';
 
 part 'user_me_repository.g.dart';
 
 final userMeRepositoryProvider = Provider<UserMeRepository>((ref) {
   final dio = ref.watch(dioProvider);
 
-  return UserMeRepository(dio, baseUrl: '${AppConfig.instance.baseUrl}/api/v1/account/me');
+  return UserMeRepository(dio, baseUrl: AppConfig.instance.baseUrl);
 });
 
 @RestApi()
 abstract class UserMeRepository {
   factory UserMeRepository(Dio dio, {String baseUrl}) = _UserMeRepository;
 
-  @GET('/')
+  @GET('/api/v1/account/me')
   @Headers({
-    'accessToken': 'true',
+    'Authorization': 'true',
   })
-  Future<UserModel> getMe();
+  Future<ResponseData> getMe();
 }
