@@ -1,16 +1,16 @@
+import 'package:bookand/config/theme/custom_text_style.dart';
 import 'package:bookand/page/terms_page.dart';
-import 'package:bookand/theme/custom_text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../widget/check_button.dart';
 import '../../widget/circle_check_button.dart';
 import '../../widget/round_rect_button.dart';
-import '../notifier/terms_provider.dart';
+import '../provider/terms_provider.dart';
 
-class TermsAgreePage extends HookConsumerWidget {
+class TermsAgreePage extends ConsumerWidget {
   const TermsAgreePage({super.key});
 
   @override

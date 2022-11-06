@@ -1,4 +1,4 @@
-import 'package:bookand/theme/text_button_theme.dart';
+import 'package:bookand/config/theme/text_button_theme.dart';
 import 'package:flutter/material.dart';
 
 import 'bottom_sheet_theme_data.dart';

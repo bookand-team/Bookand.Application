@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../theme/color_table.dart';
+import '../config/theme/color_table.dart';
 
 class CircleCheckButton extends StatelessWidget {
   final bool value;
-  final GestureTapCallback onTap;
+  final Function() onTap;
 
   const CircleCheckButton(
       {super.key, required this.value, required this.onTap});

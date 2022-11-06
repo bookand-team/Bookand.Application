@@ -8,6 +8,7 @@ import 'firebase_options_dev.dart';
 import 'firebase_options_product.dart';
 
 FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+FirebaseCrashlytics crashlytics = FirebaseCrashlytics.instance;
 
 Future<void> initFirebase() async {
   switch (AppConfig.mode) {
@@ -24,6 +25,6 @@ Future<void> initFirebase() async {
   }
 
   if (kReleaseMode) {
-    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+    FlutterError.onError = crashlytics.recordFlutterFatalError;
   }
 }

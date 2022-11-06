@@ -5,10 +5,10 @@ class AppConfig {
   final String baseUrl;
 
   AppConfig._dev():
-      baseUrl = 'https://dev.bookand.co.kr/';
+      baseUrl = 'http://dev.bookand.co.kr';
 
   AppConfig._product():
-      baseUrl = 'https://api.bookand.co.kr/';
+      baseUrl = 'https://api.bookand.co.kr';
 
   static late final AppConfig instance;
   static late final String mode;

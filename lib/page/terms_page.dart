@@ -1,4 +1,4 @@
-import 'package:bookand/theme/custom_text_style.dart';
+import 'package:bookand/config/theme/custom_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_svg/svg.dart';

@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 
 class CheckButton extends StatelessWidget {
   final bool value;
-  final GestureTapCallback onTap;
+  final Function() onTap;
 
   const CheckButton(
       {super.key, required this.value, required this.onTap});

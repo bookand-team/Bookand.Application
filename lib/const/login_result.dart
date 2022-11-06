@@ -1,3 +1,0 @@
-enum LoginResult {
-  cancel, error
-}

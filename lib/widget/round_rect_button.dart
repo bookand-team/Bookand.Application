@@ -1,13 +1,13 @@
-import 'package:bookand/theme/custom_text_style.dart';
+import 'package:bookand/config/theme/custom_text_style.dart';
 import 'package:flutter/material.dart';
 
-import '../theme/color_table.dart';
+import '../config/theme/color_table.dart';
 
 class RoundRectButton extends StatelessWidget {
   final String text;
   final double width;
   final double height;
-  final VoidCallback onPressed;
+  final Function() onPressed;
   final bool enabled;
 
   const RoundRectButton(

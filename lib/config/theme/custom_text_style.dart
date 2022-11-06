@@ -1,7 +1,8 @@
-import 'package:bookand/theme/color_table.dart';
-import 'package:bookand/theme/theme_data.dart';
+import 'package:bookand/config/theme/theme_data.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'color_table.dart';
 
 extension CustomTextStyle on TextStyle {
   TextStyle logoText() => const TextStyle(

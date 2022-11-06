@@ -1,46 +1,40 @@
-import 'package:bookand/page/login_page.dart';
-import 'package:bookand/theme/theme_data.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:bookand/provider/router_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:hive_flutter/adapters.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'app_init.dart';
-import 'firebase/firebase_init.dart';
+import 'config/app_init.dart';
+import 'config/firebase/firebase_init.dart';
+import 'config/theme/theme_data.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await initFlavor();
-  await Hive.initFlutter();
-  await initEncryptionKey();
   await initFirebase();
-
+  FlutterNativeSplash.remove();
   runApp(const ProviderScope(child: App()));
 }
 
-class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
-  
+class App extends ConsumerWidget {
+  const App({super.key});
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(routerProvider);
+
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Book&',
-      navigatorObservers: [
-        FirebaseAnalyticsObserver(analytics: analytics)
-      ],
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       theme: lightThemeData,
       darkTheme: darkThemeData,
-      home: _getStartScreen(),
+      routeInformationProvider: router.routeInformationProvider,
+      routeInformationParser: router.routeInformationParser,
+      routerDelegate: router.routerDelegate,
     );
-  }
-
-  Widget _getStartScreen() {
-    return const LoginPage();
   }
 }

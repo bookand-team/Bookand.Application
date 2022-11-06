@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 mixin CustomDialog {
-  void showInfoDialog(BuildContext context, String title, String content, String btnName,
+  void showOneBtnDialog(BuildContext context, String title, String content, String btnName,
           Function() onPressed) =>
       showDialog(
           context: context,
