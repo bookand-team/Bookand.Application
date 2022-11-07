@@ -6,8 +6,8 @@ mixin CustomDialog {
           String title = '안내',
           required String content,
           String btnName = '확인',
-          Function()? onPressed}) =>
-      showDialog(
+          Function()? onPressed}) async =>
+      await showDialog(
           context: context,
           builder: (context) {
             return AlertDialog(

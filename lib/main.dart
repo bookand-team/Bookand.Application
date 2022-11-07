@@ -27,14 +27,14 @@ class App extends ConsumerWidget {
 
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return MaterialApp.router(
-      title: 'Book&',
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      theme: lightThemeData,
-      darkTheme: darkThemeData,
       routeInformationProvider: router.routeInformationProvider,
       routeInformationParser: router.routeInformationParser,
       routerDelegate: router.routerDelegate,
+      title: 'Book&',
+      theme: lightThemeData,
+      darkTheme: darkThemeData,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
     );
   }
 }
