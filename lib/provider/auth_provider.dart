@@ -3,13 +3,12 @@ import 'package:bookand/page/login_page.dart';
 import 'package:bookand/page/main_tab.dart';
 import 'package:bookand/page/splash_page.dart';
 import 'package:bookand/page/terms_detail_page.dart';
-import 'package:bookand/page/terms_page.dart';
+import 'package:bookand/page/terms_agree_page.dart';
 import 'package:bookand/provider/user_me_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../data/model/social_token.dart';
 import '../data/model/user_model.dart';
 
 final authProvider = ChangeNotifierProvider<AuthProvider>((ref) {
@@ -40,37 +39,41 @@ class AuthProvider extends ChangeNotifier {
         ]),
         GoRoute(
             path: '/splash', name: SplashPage.routeName, builder: (_, __) => const SplashPage()),
-        GoRoute(path: '/login', name: LoginPage.routeName, builder: (_, __) => const LoginPage()),
         GoRoute(
-            path: '/terms',
-            name: TermsPage.routeName,
-            builder: (_, state) => TermsPage(socialToken: state.extra as SocialToken),
+            path: '/login',
+            name: LoginPage.routeName,
+            builder: (_, __) => const LoginPage(),
             routes: [
               GoRoute(
-                  path: 'termsDetail/:id',
-                  name: TermsDetailPage.routeName,
-                  builder: (_, state) => TermsDetailPage(id: state.params['id']!))
-            ])
+                  path: 'termsAgree',
+                  name: TermsAgreePage.routeName,
+                  builder: (_, __) => const TermsAgreePage(),
+                  routes: [
+                    GoRoute(
+                        path: 'termsAgreeDetail/:id',
+                        name: TermsAgreeDetailPage.routeName,
+                        builder: (_, state) => TermsAgreeDetailPage(id: state.params['id']!))
+                  ])
+            ]),
       ];
 
   String? redirectLogic(BuildContext context, GoRouterState state) {
-    final UserModelBase? user = ref.read(userMeProvider);
-    final logginIn = state.location == '/login';
+    final UserModelBase user = ref.read(userMeProvider);
 
-    if (user == null) {
-      if (logginIn || state.location.startsWith('/terms')) {
+    if (user is UserModelInit) {
+      return '/login';
+    }
+
+    if (user is UserModelSignUp) {
+      if (state.location.startsWith('/login/termsAgree/termsAgreeDetail')) {
         return null;
       } else {
-        return '/login';
+        return '/login/termsAgree';
       }
     }
 
     if (user is UserModel) {
-      return logginIn || state.location == '/splash' ? '/' : null;
-    }
-
-    if (user is UserModelError) {
-      return !logginIn ? '/login' : null;
+      return state.location.startsWith('/login') || state.location == '/splash' ? '/' : null;
     }
 
     return null;

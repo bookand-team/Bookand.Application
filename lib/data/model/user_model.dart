@@ -4,13 +4,17 @@ part 'user_model.g.dart';
 
 abstract class UserModelBase {}
 
+class UserModelInit implements UserModelBase {}
+
+class UserModelSignUp implements UserModelBase {}
+
+class UserModelLoading implements UserModelBase {}
+
 class UserModelError implements UserModelBase {
   final String message;
 
   UserModelError({required this.message});
 }
-
-class UserModelLoading implements UserModelBase {}
 
 @JsonSerializable()
 class UserModel implements UserModelBase {

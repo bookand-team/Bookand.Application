@@ -7,11 +7,11 @@ import 'package:go_router/go_router.dart';
 
 import '../../widget/round_rect_button.dart';
 
-class TermsDetailPage extends StatelessWidget {
-  static String get routeName => 'termsDetail';
+class TermsAgreeDetailPage extends StatelessWidget {
+  static String get routeName => 'termsAgreeDetail';
   final String id;
 
-  const TermsDetailPage({super.key, required this.id});
+  const TermsAgreeDetailPage({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {

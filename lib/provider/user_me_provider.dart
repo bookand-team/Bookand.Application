@@ -13,7 +13,7 @@ import '../data/model/user_model.dart';
 import '../data/repository/auth_repository.dart';
 import '../data/repository/user_me_repository.dart';
 
-final userMeProvider = StateNotifierProvider<UserMeStateNotifier, UserModelBase?>((ref) {
+final userMeProvider = StateNotifierProvider<UserMeStateNotifier, UserModelBase>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   final userMeRepository = ref.watch(userMeRepositoryProvider);
   final storage = ref.watch(secureStorageProvider);
@@ -22,13 +22,11 @@ final userMeProvider = StateNotifierProvider<UserMeStateNotifier, UserModelBase?
       authRepository: authRepository, repository: userMeRepository, storage: storage);
 });
 
-class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
+class UserMeStateNotifier extends StateNotifier<UserModelBase> {
   final AuthRepository authRepository;
   final UserMeRepository repository;
   final FlutterSecureStorage storage;
-
-  bool isSigned = false;
-  bool isLoading = false;
+  late SocialToken socialToken;
 
   UserMeStateNotifier(
       {required this.authRepository, required this.repository, required this.storage})
@@ -36,12 +34,12 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     getMe();
   }
 
-  Future<void> getMe() async {
+  void getMe() async {
     final refreshToken = await storage.read(key: refreshTokenKey);
     final accessToken = await storage.read(key: accessTokenKey);
 
     if (refreshToken == null || accessToken == null) {
-      state = null;
+      state = UserModelInit();
       return;
     }
 
@@ -51,13 +49,34 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     state = resp;
   }
 
-  Future<void> login({required String accessToken, required SocialType socialType}) async {
+  void googleLogin() async {
+    state = UserModelLoading();
     try {
-      isLoading = true;
+      final googleSignIn = GoogleSignIn();
+      final account = await googleSignIn.signIn();
+      final auth = await account?.authentication;
+      final accessToken = auth?.accessToken;
+
+      if (accessToken == null) {
+        state = UserModelError(message: '구글 로그인이 취소되었습니다.');
+      } else {
+        socialToken = SocialToken(accessToken, SocialType.google);
+        // TODO: 신규 유저 체크
+        /// 신규 유저인 경우 state = UserModelSignUp()
+        /// 신규 유저가 아닌 경우 로그인 요청
+        state = UserModelSignUp();
+      }
+    } catch (e) {
+      state = UserModelError(message: '구글 로그인에 실패했습니다.');
+    }
+  }
+
+  void login({required SocialToken socialToken}) async {
+    try {
       state = UserModelLoading();
 
-      final resp =
-          await authRepository.fetchLogin(accessToken: accessToken, socialType: socialType);
+      final resp = await authRepository.fetchLogin(
+          accessToken: socialToken.token, socialType: socialToken.socialType);
 
       await storage.write(key: refreshTokenKey, value: resp.refreshToken);
       await storage.write(key: accessTokenKey, value: resp.accessToken);
@@ -70,7 +89,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
       logger.e(e);
       var type = '';
 
-      switch (socialType) {
+      switch (socialToken.socialType) {
         case SocialType.google:
           type = '구글';
           break;
@@ -80,42 +99,18 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
       }
 
       state = UserModelError(message: '$type 로그인에 실패했습니다.');
-    } finally {
-      isLoading = false;
     }
-  }
-
-  Future<SocialTokenBase> googleLogin() async {
-    final completer = Completer<SocialTokenBase>();
-    try {
-      isLoading = true;
-      final googleSignIn = GoogleSignIn();
-      final account = await googleSignIn.signIn();
-      final auth = await account?.authentication;
-      final accessToken = auth?.accessToken;
-
-      if (accessToken == null) {
-        completer.completeError(SocialTokenError(message: '구글 로그인이 취소되었습니다.'));
-      } else {
-        // TODO: 가입자 여부에 따라 약관 동의 페이지와 홈 페이지로 분기
-        /// 가입자가 아닌 경우 state = null 처리 후 약관 동의 페이지로 이동
-        /// 가입자인 경우 로그인 요청 후 state에 유저 정보 저장 후 홈 페이지로 이동
-        completer.complete(SocialToken(accessToken, SocialType.google));
-      }
-    } catch (e) {
-      completer.completeError(SocialTokenError(message: '구글 로그인에 실패했습니다.'));
-    } finally {
-      isLoading = false;
-    }
-
-    return completer.future;
   }
 
   Future<void> logout() async {
-    state = null;
+    state = UserModelInit();
 
     final accessToken = await storage.read(key: accessTokenKey);
     authRepository.logout(accessToken!);
     await Future.wait([storage.delete(key: refreshTokenKey), storage.delete(key: accessTokenKey)]);
+  }
+
+  void cancelSignUp() {
+    state = UserModelInit();
   }
 }
