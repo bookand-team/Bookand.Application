@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:bookand/provider/router_provider.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -10,12 +13,14 @@ import 'config/firebase/firebase_init.dart';
 import 'config/theme/theme_data.dart';
 
 void main() async {
-  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  await initFlavor();
-  await initFirebase();
-  FlutterNativeSplash.remove();
-  runApp(const ProviderScope(child: App()));
+  runZonedGuarded<Future<void>>(() async {
+    final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+    FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+    await initFlavor();
+    await initFirebase();
+    FlutterNativeSplash.remove();
+    runApp(const ProviderScope(child: App()));
+  }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack, fatal: true));
 }
 
 class App extends ConsumerWidget {

@@ -16,7 +16,6 @@ import '../provider/terms_provider.dart';
 
 class TermsAgreePage extends ConsumerWidget with CustomDialog {
   static String get routeName => 'termsAgree';
-  static String get path => '/login/termsAgree';
 
   const TermsAgreePage({super.key});
 
