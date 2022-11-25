@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:go_router/go_router.dart';
 
 import '../../widget/check_button.dart';
@@ -26,12 +27,6 @@ class TermsAgreePage extends ConsumerWidget with CustomDialog {
     final allAgreeState = ref.watch(allAgreeProvider.notifier);
     final agree14YearsOfAgeOrOlderState = ref.watch(agree14YearsOfAgeOrOlderProvider.notifier);
     final agreeTermsOfServiceState = ref.watch(agreeTermsOfServiceProvider.notifier);
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (user is UserModelError) {
-        showOneBtnDialog(context: context, content: user.message);
-      }
-    });
 
     return WillPopScope(
       onWillPop: () async {
@@ -108,7 +103,8 @@ class TermsAgreePage extends ConsumerWidget with CustomDialog {
                               CheckButton(
                                   value: ref.watch(agreeTermsOfServiceProvider),
                                   onTap: () {
-                                    agreeTermsOfServiceState.state = !agreeTermsOfServiceState.state;
+                                    agreeTermsOfServiceState.state =
+                                        !agreeTermsOfServiceState.state;
                                     allAgreeState.checkAgreeList();
                                   }),
                               const SizedBox(width: 20),
@@ -134,7 +130,8 @@ class TermsAgreePage extends ConsumerWidget with CustomDialog {
                               CheckButton(
                                   value: ref.watch(agreeCollectAndUsePrivacyProvider),
                                   onTap: () {
-                                    var agree = ref.watch(agreeCollectAndUsePrivacyProvider.notifier);
+                                    var agree =
+                                        ref.watch(agreeCollectAndUsePrivacyProvider.notifier);
                                     agree.state = !agree.state;
                                     allAgreeState.checkAgreeList();
                                   }),
@@ -158,7 +155,11 @@ class TermsAgreePage extends ConsumerWidget with CustomDialog {
                           width: MediaQuery.of(context).size.width,
                           height: 56,
                           onPressed: () {
-                            state.login(socialToken: state.socialToken);
+                            state.login(
+                                socialToken: state.socialToken,
+                                onError: (msg) {
+                                  showOneBtnDialog(context: context, content: msg);
+                                });
                           },
                           enabled: ref.watch(allAgreeProvider))
                     ],

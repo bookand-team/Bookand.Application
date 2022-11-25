@@ -30,6 +30,10 @@ class AuthProvider extends ChangeNotifier {
     ref.read(userMeProvider.notifier).logout();
   }
 
+  Future<void> refreshToken() async {
+    await ref.read(userMeProvider.notifier).refreshToken();
+  }
+
   List<GoRoute> get routes => [
         GoRoute(path: '/', name: MainTab.routeName, builder: (_, __) => const MainTab(), routes: [
           GoRoute(

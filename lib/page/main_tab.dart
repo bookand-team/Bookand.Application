@@ -9,11 +9,9 @@ class MainTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(title: const Text('메인 페이지')),
-      body: const Center(
-        child: Text('메인 페이지'),
-      )
-    );
+        appBar: AppBar(title: const Text('메인 페이지')),
+        body: const Center(
+          child: Text('메인 페이지'),
+        ));
   }
-
 }

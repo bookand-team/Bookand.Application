@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../const/social_type.dart';
 import '../const/storage_key.dart';
@@ -49,7 +50,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
     state = resp;
   }
 
-  void googleLogin() async {
+  void googleLogin({required Function(String) onError}) async {
     state = UserModelLoading();
     try {
       final googleSignIn = GoogleSignIn();
@@ -58,7 +59,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
       final accessToken = auth?.accessToken;
 
       if (accessToken == null) {
-        state = UserModelError(message: '구글 로그인이 취소되었습니다.');
+        onError('구글 로그인이 취소되었습니다.');
       } else {
         socialToken = SocialToken(accessToken, SocialType.google);
         // TODO: 신규 유저 체크
@@ -67,11 +68,47 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
         state = UserModelSignUp();
       }
     } catch (e) {
-      state = UserModelError(message: '구글 로그인에 실패했습니다.');
+      logger.e(e);
+      onError('구글 로그인에 실패했습니다.');
     }
   }
 
-  void login({required SocialToken socialToken}) async {
+  void appleLogin({required Function(String) onError}) async {
+    final credential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+      webAuthenticationOptions: WebAuthenticationOptions(
+        clientId: "Apple Developer 에서 설정한 Service ID",
+        redirectUri: Uri.parse(
+          "Apple Developer 에서 설정한 redirectUri",
+        ),
+      ),
+    );
+
+    logger.d(credential);
+
+    // state = UserModelLoading();
+    // try {
+    //   final appleSignIn = SignInWithApple();
+    //   appleSignIn.
+    //
+    //   if (accessToken == null) {
+    //     state = UserModelError(message: '애플 로그인이 취소되었습니다.');
+    //   } else {
+    //     socialToken = SocialToken(accessToken, SocialType.apple);
+    //     // TODO: 신규 유저 체크
+    //     /// 신규 유저인 경우 state = UserModelSignUp()
+    //     /// 신규 유저가 아닌 경우 로그인 요청
+    //     state = UserModelSignUp();
+    //   }
+    // } catch (e) {
+    //   state = UserModelError(message: '애플 로그인에 실패했습니다.');
+    // }
+  }
+
+  void login({required SocialToken socialToken, required Function(String) onError}) async {
     try {
       state = UserModelLoading();
 
@@ -98,7 +135,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
           break;
       }
 
-      state = UserModelError(message: '$type 로그인에 실패했습니다.');
+      onError('$type 로그인에 실패했습니다.');
     }
   }
 
@@ -108,6 +145,10 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
     final accessToken = await storage.read(key: accessTokenKey);
     authRepository.logout(accessToken!);
     await Future.wait([storage.delete(key: refreshTokenKey), storage.delete(key: accessTokenKey)]);
+  }
+
+  Future<void> refreshToken() async {
+    await authRepository.refreshToken();
   }
 
   void cancelSignUp() {

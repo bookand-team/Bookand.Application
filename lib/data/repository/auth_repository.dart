@@ -33,11 +33,13 @@ class AuthRepository {
     return TokenResponse.fromJson(respData.data);
   }
 
-  // TODO: 사용자가 앱을 열 때, 1시간 마다 토큰 새로고침
-  Future<void> updateToken(String accessToken, String refreshToken) async {
+  Future<void> refreshToken() async {
+    final accessToken = await ref.read(secureStorageProvider).read(key: accessTokenKey);
+    final refreshToken = await ref.read(secureStorageProvider).read(key: refreshTokenKey);
+
     final resp = await dio.post('$baseUrl/api/v1/auth/reissue',
         data: {'refreshToken': refreshToken},
-        options: Options(headers: {'Authorization': accessToken}));
+        options: Options(headers: {'Authorization': 'BEARER $accessToken'}));
 
     final respData = ResponseData.fromJson(resp.data);
     final token = TokenResponse.fromJson(respData.data);
@@ -48,6 +50,6 @@ class AuthRepository {
 
   void logout(String accessToken) async {
     await dio.get('$baseUrl/api/v1/auth/logout',
-        options: Options(headers: {'Authorization': accessToken}));
+        options: Options(headers: {'Authorization': 'BEARER $accessToken'}));
   }
 }

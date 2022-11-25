@@ -5,7 +5,7 @@ class AppConfig {
   final String baseUrl;
 
   AppConfig._dev():
-      baseUrl = 'http://dev.bookand.co.kr';
+      baseUrl = 'https://dev.bookand.co.kr';
 
   AppConfig._product():
       baseUrl = 'https://api.bookand.co.kr';
