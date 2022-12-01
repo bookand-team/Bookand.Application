@@ -1,9 +1,9 @@
 import 'package:bookand/page/article_detail_page.dart';
 import 'package:bookand/page/login_page.dart';
-import 'package:bookand/page/main_tab.dart';
+import 'package:bookand/page/main/main_tab.dart';
 import 'package:bookand/page/splash_page.dart';
-import 'package:bookand/page/terms_detail_page.dart';
-import 'package:bookand/page/terms_agree_page.dart';
+import 'package:bookand/page/terms/terms_detail_page.dart';
+import 'package:bookand/page/terms/terms_agree_page.dart';
 import 'package:bookand/provider/user_me_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

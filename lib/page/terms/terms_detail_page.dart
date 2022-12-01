@@ -6,7 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:go_router/go_router.dart';
 
-import '../../widget/round_rect_button.dart';
+import '../../../widget/round_rect_button.dart';
 
 class TermsAgreeDetailPage extends StatelessWidget {
   static String get routeName => 'termsAgreeDetail';

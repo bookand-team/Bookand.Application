@@ -1,5 +1,6 @@
 import 'package:bookand/config/theme/custom_text_style.dart';
-import 'package:bookand/page/terms_detail_page.dart';
+import 'package:bookand/page/main/main_tab.dart';
+import 'package:bookand/page/terms/terms_detail_page.dart';
 import 'package:bookand/provider/user_me_provider.dart';
 import 'package:bookand/widget/custom_dialog.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +10,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:go_router/go_router.dart';
 
-import '../../widget/check_button.dart';
-import '../../widget/circle_check_button.dart';
-import '../../widget/round_rect_button.dart';
-import '../data/model/user_model.dart';
-import '../provider/terms_provider.dart';
+import '../../../widget/check_button.dart';
+import '../../../widget/circle_check_button.dart';
+import '../../../widget/round_rect_button.dart';
+import '../../data/model/user_model.dart';
+import '../../provider/terms_provider.dart';
 
 class TermsAgreePage extends ConsumerWidget with CustomDialog {
   static String get routeName => 'termsAgree';
@@ -155,11 +156,12 @@ class TermsAgreePage extends ConsumerWidget with CustomDialog {
                           width: MediaQuery.of(context).size.width,
                           height: 56,
                           onPressed: () {
-                            state.login(
-                                socialToken: state.socialToken,
-                                onError: (msg) {
-                                  showOneBtnDialog(context: context, content: msg);
-                                });
+                            // state.login(
+                            //     socialToken: state.socialToken,
+                            //     onError: (msg) {
+                            //       showOneBtnDialog(context: context, content: msg);
+                            //     });
+                            context.goNamed(MainTab.routeName);
                           },
                           enabled: ref.watch(allAgreeProvider))
                     ],
