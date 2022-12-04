@@ -10,6 +10,8 @@ class UserModelSignUp implements UserModelBase {}
 
 class UserModelLoading implements UserModelBase {}
 
+class UserModelError implements UserModelBase {}
+
 @JsonSerializable()
 class UserModel implements UserModelBase {
   final String email;

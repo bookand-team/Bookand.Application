@@ -1,14 +1,13 @@
 import 'package:bookand/config/theme/custom_text_style.dart';
-import 'package:bookand/page/main/main_tab.dart';
 import 'package:bookand/page/terms/terms_detail_page.dart';
 import 'package:bookand/provider/user_me_provider.dart';
 import 'package:bookand/widget/custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 import '../../../widget/check_button.dart';
 import '../../../widget/circle_check_button.dart';
@@ -61,7 +60,7 @@ class TermsAgreePage extends ConsumerWidget with CustomDialog {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        AppLocalizations.of(context)!.termsOfServiceAgree,
+                        Intl.message('termsOfServiceAgree'),
                         style: const TextStyle().termsOfServicePageTitle(),
                       ),
                       const SizedBox(height: 70),
@@ -75,7 +74,7 @@ class TermsAgreePage extends ConsumerWidget with CustomDialog {
                           ),
                           const SizedBox(width: 19),
                           Text(
-                            AppLocalizations.of(context)!.allAgree,
+                            Intl.message('allAgree'),
                             style: const TextStyle().termsOfServiceAllAgreeText(),
                           )
                         ],
@@ -91,7 +90,7 @@ class TermsAgreePage extends ConsumerWidget with CustomDialog {
                                 allAgreeState.checkAgreeList();
                               }),
                           const SizedBox(width: 20),
-                          Text(AppLocalizations.of(context)!.termsOfServiceItem1,
+                          Text(Intl.message('termsOfServiceItem1'),
                               style: const TextStyle().termsOfServiceItemText())
                         ],
                       ),
@@ -109,7 +108,7 @@ class TermsAgreePage extends ConsumerWidget with CustomDialog {
                                     allAgreeState.checkAgreeList();
                                   }),
                               const SizedBox(width: 20),
-                              Text(AppLocalizations.of(context)!.termsOfServiceItem2,
+                              Text(Intl.message('termsOfServiceItem2'),
                                   style: const TextStyle().termsOfServiceItemText())
                             ],
                           ),
@@ -137,7 +136,7 @@ class TermsAgreePage extends ConsumerWidget with CustomDialog {
                                     allAgreeState.checkAgreeList();
                                   }),
                               const SizedBox(width: 20),
-                              Text(AppLocalizations.of(context)!.termsOfServiceItem3,
+                              Text(Intl.message('termsOfServiceItem3'),
                                   style: const TextStyle().termsOfServiceItemText())
                             ],
                           ),
@@ -152,16 +151,15 @@ class TermsAgreePage extends ConsumerWidget with CustomDialog {
                       ),
                       const Spacer(),
                       RoundRectButton(
-                          text: AppLocalizations.of(context)!.start,
+                          text: Intl.message('start'),
                           width: MediaQuery.of(context).size.width,
                           height: 56,
                           onPressed: () {
-                            // state.login(
-                            //     socialToken: state.socialToken,
-                            //     onError: (msg) {
-                            //       showOneBtnDialog(context: context, content: msg);
-                            //     });
-                            context.goNamed(MainTab.routeName);
+                            state.login(
+                                socialToken: state.socialToken,
+                                onError: (msg) {
+                                  showOneBtnDialog(context: context, content: msg);
+                                });
                           },
                           enabled: ref.watch(allAgreeProvider))
                     ],

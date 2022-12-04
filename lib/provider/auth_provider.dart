@@ -1,4 +1,4 @@
-import 'package:bookand/page/article_detail_page.dart';
+import 'package:bookand/page/main/article_page.dart';
 import 'package:bookand/page/login_page.dart';
 import 'package:bookand/page/main/main_tab.dart';
 import 'package:bookand/page/splash_page.dart';
@@ -35,14 +35,21 @@ class AuthProvider extends ChangeNotifier {
   }
 
   List<GoRoute> get routes => [
-        GoRoute(path: '/', name: MainTab.routeName, builder: (_, __) => const MainTab(), routes: [
-          GoRoute(
-              path: 'article/:id',
-              name: ArticleDetailPage.routeName,
-              builder: (_, state) => ArticleDetailPage(name: state.params['id']!))
-        ]),
         GoRoute(
-            path: '/splash', name: SplashPage.routeName, builder: (_, __) => const SplashPage()),
+            path: '/',
+            name: MainTab.routeName,
+            builder: (_, __) => const MainTab(),
+            routes: [
+              GoRoute(
+                  path: 'article/:id',
+                  name: ArticlePage.routeName,
+                  builder: (_, state) =>
+                      ArticlePage(name: state.params['id']!))
+            ]),
+        GoRoute(
+            path: '/splash',
+            name: SplashPage.routeName,
+            builder: (_, __) => const SplashPage()),
         GoRoute(
             path: '/login',
             name: LoginPage.routeName,
@@ -56,7 +63,8 @@ class AuthProvider extends ChangeNotifier {
                     GoRoute(
                         path: 'termsAgreeDetail/:id',
                         name: TermsAgreeDetailPage.routeName,
-                        builder: (_, state) => TermsAgreeDetailPage(id: state.params['id']!))
+                        builder: (_, state) =>
+                            TermsAgreeDetailPage(id: state.params['id']!))
                   ])
             ]),
       ];
@@ -77,7 +85,9 @@ class AuthProvider extends ChangeNotifier {
     }
 
     if (user is UserModel) {
-      return state.location.startsWith('/login') || state.location == '/splash' ? '/' : null;
+      return state.location.startsWith('/login') || state.location == '/splash'
+          ? '/'
+          : null;
     }
 
     return null;

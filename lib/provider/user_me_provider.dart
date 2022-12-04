@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bookand/config/app_config.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -123,6 +124,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
 
       state = userResp;
     } catch (e) {
+      state = UserModelError();
       logger.e(e);
       var type = '';
 
@@ -135,7 +137,13 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
           break;
       }
 
-      onError('$type 로그인에 실패했습니다.');
+      var popUpMsg = '$type 로그인에 실패했습니다.';
+
+      if (AppConfig.isDevMode) {
+        popUpMsg += '\n에러: ${e.toString()}';
+      }
+
+      onError(popUpMsg);
     }
   }
 

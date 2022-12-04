@@ -1,0 +1,28 @@
+{
+  "@@locale": "en",
+  "appName": "BOOKAND",
+  "info": "Info",
+  "ok": "OK",
+  "agree": "Agree",
+
+  "googleSocial": "Sign in with Google",
+  "appleSocial": "Sign in with Apple",
+
+  "loginCancel": "Your login has been canceled.",
+  "loginError": "Login Error",
+
+  "termsOfServiceAgree": "Please accept\nthe terms and conditions.",
+  "allAgree": "All agree",
+  "termsOfServiceItem1": "14 years of age or older (required)",
+  "termsOfServiceItem2": "Accept the terms and conditions of service (required)",
+  "termsOfServiceItem3": "Consent to collect and use personal information (required)",
+  "start": "Getting Started",
+
+  "termsOfService": "Agree to the Terms and Conditions of Service",
+  "collectAndUsePrivacy": "Agree to collect and use personal information",
+
+  "home": "home",
+  "map": "map",
+  "bookmark": "bookmark",
+  "myPage": "my"
+}

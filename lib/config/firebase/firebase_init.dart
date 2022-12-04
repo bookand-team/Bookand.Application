@@ -12,17 +12,14 @@ import 'firebase_options_product.dart';
 FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
 Future<void> initFirebase() async {
-  switch (AppConfig.mode) {
-    case devMode:
-      await Firebase.initializeApp(
-        options: FirebaseOptionsDev.currentPlatform,
-      );
-      break;
-    case productMode:
-      await Firebase.initializeApp(
-        options: FirebaseOptionsProduct.currentPlatform,
-      );
-      break;
+  if (AppConfig.isProductMode) {
+    await Firebase.initializeApp(
+      options: FirebaseOptionsProduct.currentPlatform,
+    );
+  } else {
+    await Firebase.initializeApp(
+      options: FirebaseOptionsDev.currentPlatform,
+    );
   }
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;

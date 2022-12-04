@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ArticleDetailPage extends ConsumerWidget {
-  static String get routeName => 'articleDetail';
+class ArticlePage extends ConsumerWidget {
+  static String get routeName => 'article';
   final String name;
 
-  const ArticleDetailPage({super.key, required this.name});
+  const ArticlePage({super.key, required this.name});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

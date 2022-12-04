@@ -11,16 +11,19 @@ class AppConfig {
       baseUrl = 'https://api.bookand.co.kr';
 
   static late final AppConfig instance;
-  static late final String mode;
+  static late bool isDevMode;
+  static late bool isProductMode;
 
   factory AppConfig(String? flavor) {
     switch (flavor) {
       case devMode:
-        mode = flavor!;
+        isDevMode = true;
+        isProductMode = false;
         instance = AppConfig._dev();
         break;
       case productMode:
-        mode = flavor!;
+        isDevMode = false;
+        isProductMode = true;
         instance = AppConfig._product();
         break;
       default:

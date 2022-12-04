@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:bookand/config/theme/custom_text_style.dart';
 import 'package:bookand/data/model/user_model.dart';
 import 'package:bookand/provider/user_me_provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:bookand/widget/custom_dialog.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 
 import '../../widget/social_login_button.dart';
 
@@ -46,7 +46,7 @@ class LoginPage extends ConsumerWidget with CustomDialog {
                               });
                             },
                             image: SvgPicture.asset('assets/images/ic_apple.svg', width: 24),
-                            text: Text(AppLocalizations.of(context)!.appleSocial,
+                            text: Text(Intl.message('appleSocial'),
                                 style: const TextStyle().appleLoginText()))
                         : const SizedBox(height: 56),
                     const SizedBox(height: 16),
@@ -57,7 +57,7 @@ class LoginPage extends ConsumerWidget with CustomDialog {
                           });
                         },
                         image: SvgPicture.asset('assets/images/ic_google.svg', width: 24),
-                        text: Text(AppLocalizations.of(context)!.googleSocial,
+                        text: Text(Intl.message('googleSocial'),
                             style: const TextStyle().googleLoginText()))
                   ],
                 ),

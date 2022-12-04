@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../config/app_config.dart';
+
 mixin CustomDialog {
   void showOneBtnDialog(
           {required BuildContext context,
@@ -12,7 +14,9 @@ mixin CustomDialog {
           builder: (context) {
             return AlertDialog(
               title: Text(title),
-              content: Text(content),
+              content: AppConfig.isDevMode
+                  ? SingleChildScrollView(child: SelectableText(content))
+                  : Text(content),
               actions: [
                 ElevatedButton(
                     onPressed: onPressed ??

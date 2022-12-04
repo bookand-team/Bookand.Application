@@ -2,9 +2,9 @@ import 'package:bookand/config/theme/custom_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 import '../../../widget/round_rect_button.dart';
 
@@ -51,7 +51,7 @@ class TermsAgreeDetailPage extends StatelessWidget {
                           data: 'content',
                           padding: const EdgeInsets.symmetric(vertical: 5)))),
               RoundRectButton(
-                  text: AppLocalizations.of(context)!.agree,
+                  text: Intl.message('agree'),
                   width: MediaQuery.of(context).size.width,
                   height: 56,
                   onPressed: () {
