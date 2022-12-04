@@ -60,4 +60,26 @@ extension CustomTextStyle on TextStyle {
     fontSize: 8,
     color: Color(0xFF999999)
   );
+
+  TextStyle hashtagText() => const TextStyle(
+      fontWeight: FontWeight.w500,
+      fontSize: 10,
+      letterSpacing: -0.02,
+      color: Colors.black
+  );
+
+  TextStyle articleBoxTitleText() => const TextStyle(
+    fontWeight: FontWeight.w600,
+    fontSize: 26,
+    letterSpacing: -0.02,
+    color: Colors.white,
+    height: 1.2
+  );
+
+  TextStyle articleBoxContentText() => const TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: 14,
+    letterSpacing: -0.02,
+    color: Colors.white
+  );
 }

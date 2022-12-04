@@ -18,7 +18,12 @@ class MainTab extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(toolbarHeight: 0),
+      appBar: AppBar(
+        toolbarHeight: 0,
+        surfaceTintColor: Colors.white,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.white,
+      ),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -40,7 +45,8 @@ class MainTab extends ConsumerWidget {
                     BottomNavigationBarItem(
                       icon: Padding(
                         padding: const EdgeInsets.all(5.0),
-                        child: SvgPicture.asset('assets/images/home/ic_24_bottom_home_inactive.svg'),
+                        child:
+                            SvgPicture.asset('assets/images/home/ic_24_bottom_home_inactive.svg'),
                       ),
                       label: Intl.message('home'),
                       activeIcon: Padding(
@@ -62,8 +68,8 @@ class MainTab extends ConsumerWidget {
                     BottomNavigationBarItem(
                       icon: Padding(
                         padding: const EdgeInsets.all(5.0),
-                        child:
-                            SvgPicture.asset('assets/images/home/ic_24_bottom_bookmark_inactive.svg'),
+                        child: SvgPicture.asset(
+                            'assets/images/home/ic_24_bottom_bookmark_inactive.svg'),
                       ),
                       label: Intl.message('bookmark'),
                       activeIcon: Padding(
@@ -81,7 +87,8 @@ class MainTab extends ConsumerWidget {
                       label: Intl.message('myPage'),
                       activeIcon: Padding(
                         padding: const EdgeInsets.all(5.0),
-                        child: SvgPicture.asset('assets/images/home/ic_24_bottom_mypage_active.svg'),
+                        child:
+                            SvgPicture.asset('assets/images/home/ic_24_bottom_mypage_active.svg'),
                       ),
                     ),
                   ],
