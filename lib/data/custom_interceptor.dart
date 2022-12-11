@@ -2,11 +2,12 @@ import 'dart:io';
 
 import 'package:bookand/provider/auth_provider.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../const/storage_key.dart';
-import '../util/logger.dart';
+import '../common/const/storage_key.dart';
+import '../common/util/logger.dart';
 
 class CustomInterceptor extends Interceptor {
   final FlutterSecureStorage storage;
@@ -16,8 +17,6 @@ class CustomInterceptor extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    logger.i('[REQ] [${options.method}] ${options.uri}');
-
     if (options.headers['Authorization'] == 'true') {
       options.headers.remove('Authorization');
 
@@ -26,12 +25,20 @@ class CustomInterceptor extends Interceptor {
       options.headers.addAll({'Authorization': 'BEARER $token'});
     }
 
+    var logMsg = '[REQ] [${options.method}] ${options.uri}';
+
+    if (kDebugMode) {
+      logMsg += '\n[Authorization] ${options.headers['Authorization']}\n[DATA] ${options.data}';
+    }
+
+    logger.i(logMsg);
+
     return super.onRequest(options, handler);
   }
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    logger.i('[RESP] [${response.requestOptions.method}] ${response.requestOptions.uri}\n[Response Data] ${response.data}');
+    logger.i('[RESP] [${response.requestOptions.method}] ${response.requestOptions.uri}\n[DATA] ${response.data}');
 
     return super.onResponse(response, handler);
   }
@@ -39,7 +46,7 @@ class CustomInterceptor extends Interceptor {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) async {
     logger.e(
-        '[ERR] [${err.requestOptions.method}] ${err.requestOptions.uri}\n[Status Code] ${err.response?.statusCode}\n[Response Data] ${err.response?.data}');
+        '[ERR] [${err.requestOptions.method}] ${err.requestOptions.uri}\n[Status Code] ${err.response?.statusCode}\n[DATA] ${err.response?.data}');
 
     var accessToken = await storage.read(key: accessTokenKey);
     final refreshToken = await storage.read(key: refreshTokenKey);
@@ -49,7 +56,7 @@ class CustomInterceptor extends Interceptor {
     }
 
     final isStatus401 = err.response?.statusCode == HttpStatus.unauthorized;
-    final isPathRefresh = err.requestOptions.path == 'api/v1/auth/reissue';
+    final isPathRefresh = err.requestOptions.uri.path == 'api/v1/auth/reissue';
 
     if (isStatus401 && !isPathRefresh) {
       final dio = Dio();

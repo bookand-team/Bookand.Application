@@ -1,4 +1,4 @@
-import 'package:bookand/config/theme/custom_text_style.dart';
+import 'package:bookand/common/theme/custom_text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -22,5 +22,4 @@ class HashtagBox extends StatelessWidget {
       ),
     );
   }
-
 }

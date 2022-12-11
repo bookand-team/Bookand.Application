@@ -1,4 +1,5 @@
-import 'package:bookand/config/theme/custom_text_style.dart';
+import 'package:bookand/common/layout/common_layout.dart';
+import 'package:bookand/common/theme/custom_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,16 +9,15 @@ import 'package:intl/intl.dart';
 
 import '../../../widget/round_rect_button.dart';
 
-class TermsAgreeDetailPage extends StatelessWidget {
+class TermsAgreeDetailScreen extends StatelessWidget {
   static String get routeName => 'termsAgreeDetail';
   final String id;
 
-  const TermsAgreeDetailPage({super.key, required this.id});
+  const TermsAgreeDetailScreen({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+    return CommonLayout(
       appBar: AppBar(
         surfaceTintColor: Theme.of(context).backgroundColor,
         automaticallyImplyLeading: false,
@@ -33,7 +33,7 @@ class TermsAgreeDetailPage extends StatelessWidget {
           ),
         ),
       ),
-      body: SafeArea(
+      child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 20, right: 20, bottom: 56),
           child: Column(

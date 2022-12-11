@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../common/const/app_mode.dart';
 import '../config/app_config.dart';
 
 mixin CustomDialog {
@@ -14,7 +15,7 @@ mixin CustomDialog {
           builder: (context) {
             return AlertDialog(
               title: Text(title),
-              content: AppConfig.isDevMode
+              content: AppConfig.appMode == AppMode.dev
                   ? SingleChildScrollView(child: SelectableText(content))
                   : Text(content),
               actions: [

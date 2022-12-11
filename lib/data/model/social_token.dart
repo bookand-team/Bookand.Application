@@ -1,4 +1,4 @@
-import 'package:bookand/const/social_type.dart';
+import '../../common/const/social_type.dart';
 
 class SocialToken {
   final String token;

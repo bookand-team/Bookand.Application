@@ -1,0 +1,3 @@
+enum AppMode {
+  dev, production
+}

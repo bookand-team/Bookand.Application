@@ -6,8 +6,8 @@ import 'package:bookand/provider/dio_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../const/social_type.dart';
-import '../../const/storage_key.dart';
+import '../../common/const/social_type.dart';
+import '../../common/const/storage_key.dart';
 import '../../provider/secure_storage_provider.dart';
 import '../model/token_response.dart';
 

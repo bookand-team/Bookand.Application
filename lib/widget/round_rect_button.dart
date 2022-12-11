@@ -1,7 +1,7 @@
-import 'package:bookand/config/theme/custom_text_style.dart';
+import 'package:bookand/common/theme/custom_text_style.dart';
 import 'package:flutter/material.dart';
 
-import '../config/theme/color_table.dart';
+import '../common/theme/color_table.dart';
 
 class RoundRectButton extends StatelessWidget {
   final String text;
@@ -27,8 +27,7 @@ class RoundRectButton extends StatelessWidget {
             backgroundColor: lightColorFF222222,
             foregroundColor: enabled ? Colors.white10 : Colors.transparent,
             disabledBackgroundColor: lightColorFFDDDDDD,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0))),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0))),
         child: Text(
           text,
           style: const TextStyle().roundRectButtonText(enabled: enabled),

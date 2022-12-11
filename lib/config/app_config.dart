@@ -1,3 +1,5 @@
+import '../common/const/app_mode.dart';
+
 const String devMode = "dev";
 const String productMode = "product";
 
@@ -8,22 +10,19 @@ class AppConfig {
       baseUrl = 'https://dev.bookand.co.kr';
 
   AppConfig._product():
-      baseUrl = 'https://api.bookand.co.kr';
+      baseUrl = 'http://api.bookand.co.kr';
 
   static late final AppConfig instance;
-  static late bool isDevMode;
-  static late bool isProductMode;
+  static late AppMode appMode;
 
   factory AppConfig(String? flavor) {
     switch (flavor) {
       case devMode:
-        isDevMode = true;
-        isProductMode = false;
+        appMode = AppMode.dev;
         instance = AppConfig._dev();
         break;
       case productMode:
-        isDevMode = false;
-        isProductMode = true;
+        appMode = AppMode.production;
         instance = AppConfig._product();
         break;
       default:

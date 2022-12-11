@@ -1,13 +1,14 @@
+import 'package:bookand/common/layout/common_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
 import '../../provider/bottom_nav_index_provider.dart';
-import 'bookmark_page.dart';
-import 'home_page.dart';
-import 'map_page.dart';
-import 'my_page.dart';
+import 'bookmark_screen.dart';
+import 'home_screen.dart';
+import 'map_screen.dart';
+import 'my_screen.dart';
 
 class MainTab extends ConsumerWidget {
   static String get routeName => 'main';
@@ -16,22 +17,21 @@ class MainTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      backgroundColor: Colors.white,
+    return CommonLayout(
       appBar: AppBar(
         toolbarHeight: 0,
         surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
         foregroundColor: Colors.white,
       ),
-      body: SafeArea(
+      child: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Expanded(
               child: IndexedStack(
                 index: ref.watch(bottomNavIndexProvider),
-                children: const [HomePage(), MapPage(), BookmarkPage(), MyPage()],
+                children: const [HomeScreen(), MapScreen(), BookmarkScreen(), MyScreen()],
               ),
             ),
             Container(

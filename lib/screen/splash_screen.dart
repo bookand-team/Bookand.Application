@@ -1,20 +1,21 @@
+import 'package:bookand/common/layout/common_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-class SplashPage extends StatelessWidget {
+class SplashScreen extends StatelessWidget {
   static String get routeName => 'splash';
 
-  const SplashPage({super.key});
+  const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return CommonLayout(
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
       ),
-      body: SafeArea(
+      child: SafeArea(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

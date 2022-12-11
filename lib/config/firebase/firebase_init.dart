@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 
+import '../../common/const/app_mode.dart';
 import '../app_config.dart';
 import 'firebase_options_dev.dart';
 import 'firebase_options_product.dart';
@@ -12,7 +13,7 @@ import 'firebase_options_product.dart';
 FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
 Future<void> initFirebase() async {
-  if (AppConfig.isProductMode) {
+  if (AppConfig.appMode == AppMode.production) {
     await Firebase.initializeApp(
       options: FirebaseOptionsProduct.currentPlatform,
     );

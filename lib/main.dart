@@ -9,9 +9,9 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'common/theme/theme_data.dart';
 import 'config/app_init.dart';
 import 'config/firebase/firebase_init.dart';
-import 'config/theme/theme_data.dart';
 import 'generated/l10n.dart';
 
 void main() async {
@@ -48,10 +48,7 @@ class App extends ConsumerWidget {
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate
               ],
-              supportedLocales: const [
-                Locale('en', ''),
-                Locale('ko', '')
-              ],
+              supportedLocales: const [Locale('en', ''), Locale('ko', '')],
               builder: (context, child) => MediaQuery(
                   data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0), child: child!),
             ));

@@ -6,10 +6,11 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-import '../const/social_type.dart';
-import '../const/storage_key.dart';
+import '../common/const/app_mode.dart';
+import '../common/const/social_type.dart';
+import '../common/const/storage_key.dart';
+import '../common/util/logger.dart';
 import '../data/model/social_token.dart';
-import '../util/logger.dart';
 import 'secure_storage_provider.dart';
 import '../data/model/user_model.dart';
 import '../data/repository/auth_repository.dart';
@@ -57,12 +58,12 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
       final googleSignIn = GoogleSignIn();
       final account = await googleSignIn.signIn();
       final auth = await account?.authentication;
-      final accessToken = auth?.accessToken;
+      final googleAccessToken = auth?.accessToken;
 
-      if (accessToken == null) {
+      if (googleAccessToken == null) {
         onError('구글 로그인이 취소되었습니다.');
       } else {
-        socialToken = SocialToken(accessToken, SocialType.google);
+        socialToken = SocialToken(googleAccessToken, SocialType.google);
         // TODO: 신규 유저 체크
         /// 신규 유저인 경우 state = UserModelSignUp()
         /// 신규 유저가 아닌 경우 로그인 요청
@@ -139,7 +140,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
 
       var popUpMsg = '$type 로그인에 실패했습니다.';
 
-      if (AppConfig.isDevMode) {
+      if (AppConfig.appMode == AppMode.dev) {
         popUpMsg += '\n에러: ${e.toString()}';
       }
 
