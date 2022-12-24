@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/http.dart';
 
 import '../../provider/dio_provider.dart';
-import '../model/response_data.dart';
+import '../model/user_model.dart';
 
 part 'user_me_repository.g.dart';
 
@@ -22,5 +22,5 @@ abstract class UserMeRepository {
   @Headers({
     'Authorization': 'true',
   })
-  Future<ResponseData> getMe();
+  Future<UserModel> getMe();
 }

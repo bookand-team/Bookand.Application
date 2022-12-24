@@ -148,12 +148,7 @@ class TermsAgreeScreen extends ConsumerWidget with CustomDialog {
                   width: MediaQuery.of(context).size.width,
                   height: 56,
                   onPressed: () {
-                    state.login(
-                        socialToken: state.socialToken,
-                        onError: (msg) {
-                          showOneBtnDialog(context: context, content: msg);
-                        });
-                    // context.goNamed(MainTab.routeName);
+                    state.signUp();
                   },
                   enabled: ref.watch(allAgreeProvider))
             ],

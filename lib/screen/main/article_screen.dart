@@ -62,7 +62,7 @@ class ArticleScreen extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
-                                width: 210,
+                                  width: 210,
                                 child: Text(
                                   'title',
                                   maxLines: 2,
@@ -108,7 +108,7 @@ class ArticleScreen extends ConsumerWidget {
           SliverList(
               delegate: SliverChildBuilderDelegate((context, index) {
             return const ListTile(
-              title: Text('서점서점서점'),
+              title: Text('서점서점서점') ,
             );
           }, childCount: 3))
         ],

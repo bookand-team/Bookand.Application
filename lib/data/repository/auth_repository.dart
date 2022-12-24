@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bookand/config/app_config.dart';
-import 'package:bookand/data/model/response_data.dart';
+import 'package:bookand/data/model/login_response.dart';
 import 'package:bookand/provider/dio_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../common/const/social_type.dart';
 import '../../common/const/storage_key.dart';
 import '../../provider/secure_storage_provider.dart';
-import '../model/token_response.dart';
+import '../model/token.dart';
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   final dio = ref.watch(dioProvider);
@@ -24,13 +24,13 @@ class AuthRepository {
 
   AuthRepository({required this.baseUrl, required this.dio, required this.ref});
 
-  Future<TokenResponse> fetchLogin(
+  Future<LoginResponse> fetchLogin(
       {required String accessToken, required SocialType socialType}) async {
     final resp = await dio.post('$baseUrl/api/v1/auth/login',
         data: {'accessToken': accessToken, 'socialType': socialType.type});
 
-    final respData = ResponseData.fromJson(resp.data);
-    return TokenResponse.fromJson(respData.data);
+    final respData = LoginResponse.fromJson(resp.data);
+    return respData;
   }
 
   Future<void> refreshToken() async {
@@ -41,8 +41,7 @@ class AuthRepository {
         data: {'refreshToken': refreshToken},
         options: Options(headers: {'Authorization': 'BEARER $accessToken'}));
 
-    final respData = ResponseData.fromJson(resp.data);
-    final token = TokenResponse.fromJson(respData.data);
+    final token = Token.fromJson(resp.data);
 
     ref.read(secureStorageProvider).write(key: accessTokenKey, value: token.accessToken);
     ref.read(secureStorageProvider).write(key: refreshTokenKey, value: token.refreshToken);

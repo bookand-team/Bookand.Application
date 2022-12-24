@@ -7,6 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../common/const/app_mode.dart';
+import '../common/const/login_result.dart';
 import '../common/const/social_type.dart';
 import '../common/const/storage_key.dart';
 import '../common/util/logger.dart';
@@ -46,8 +47,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
       return;
     }
 
-    final respData = await repository.getMe();
-    final resp = UserModel.fromJson(respData.data);
+    final resp = await repository.getMe();
 
     state = resp;
   }
@@ -64,14 +64,18 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
         onError('구글 로그인이 취소되었습니다.');
       } else {
         socialToken = SocialToken(googleAccessToken, SocialType.google);
-        // TODO: 신규 유저 체크
-        /// 신규 유저인 경우 state = UserModelSignUp()
-        /// 신규 유저가 아닌 경우 로그인 요청
-        state = UserModelSignUp();
+        _login(socialToken: socialToken);
       }
     } catch (e) {
       logger.e(e);
-      onError('구글 로그인에 실패했습니다.');
+
+      var errMsg = '구글 로그인에 실패했습니다.';
+
+      if (AppConfig.appMode == AppMode.dev) {
+        errMsg += '\n${e.toString()}';
+      }
+
+      onError(errMsg);
     }
   }
 
@@ -110,41 +114,28 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
     // }
   }
 
-  void login({required SocialToken socialToken, required Function(String) onError}) async {
-    try {
-      state = UserModelLoading();
+  void signUp() async {
+    // TODO: 신규유저 가입 완료 처리 로직
+  }
 
-      final resp = await authRepository.fetchLogin(
-          accessToken: socialToken.token, socialType: socialToken.socialType);
+  void _login({required SocialToken socialToken}) async {
+    state = UserModelLoading();
 
-      await storage.write(key: refreshTokenKey, value: resp.refreshToken);
-      await storage.write(key: accessTokenKey, value: resp.accessToken);
+    final resp = await authRepository.fetchLogin(
+        accessToken: socialToken.token, socialType: socialToken.socialType);
 
-      final respData = await repository.getMe();
-      final userResp = UserModel.fromJson(respData.data);
+    switch (resp.result) {
+      case LoginResult.OK:
+        await storage.write(key: refreshTokenKey, value: resp.token.refreshToken);
+        await storage.write(key: accessTokenKey, value: resp.token.accessToken);
 
-      state = userResp;
-    } catch (e) {
-      state = UserModelError();
-      logger.e(e);
-      var type = '';
+        final userResp = await repository.getMe();
 
-      switch (socialToken.socialType) {
-        case SocialType.google:
-          type = '구글';
-          break;
-        case SocialType.apple:
-          type = '애플';
-          break;
-      }
-
-      var popUpMsg = '$type 로그인에 실패했습니다.';
-
-      if (AppConfig.appMode == AppMode.dev) {
-        popUpMsg += '\n에러: ${e.toString()}';
-      }
-
-      onError(popUpMsg);
+        state = userResp;
+        break;
+      case LoginResult.NEW_USER:
+        state = UserModelSignUp();
+        break;
     }
   }
 
