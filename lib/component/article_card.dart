@@ -1,58 +1,69 @@
 import 'package:bookand/common/theme/custom_text_style.dart';
-import 'package:bookand/widget/hashtag_box.dart';
+import 'package:bookand/component/hashtag_box.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-class ArticleWidget extends StatelessWidget {
-  final String imgUrl;
+import 'bookmark_button.dart';
+
+class ArticleCard extends StatelessWidget {
+  final Widget image;
   final bool isBookmark;
   final Function() onTapBookmark;
   final List<String> hashtagList;
   final String title;
   final String content;
+  final String heroKey;
 
-  const ArticleWidget(
-      {super.key,
-      required this.imgUrl,
-      required this.isBookmark,
-      required this.onTapBookmark,
-      required this.hashtagList,
-      required this.title,
-      required this.content});
+  const ArticleCard({
+    super.key,
+    required this.image,
+    required this.isBookmark,
+    required this.onTapBookmark,
+    required this.hashtagList,
+    required this.title,
+    required this.content,
+    required this.heroKey,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 400,
-      decoration: BoxDecoration(
-          image: DecorationImage(image: NetworkImage(imgUrl), fit: BoxFit.cover),
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: const [
-            BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.3), offset: Offset(0, 4), blurRadius: 20)
-          ]),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), boxShadow: const [
+        BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.3), offset: Offset(0, 4), blurRadius: 20)
+      ]),
       child: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              gradient: const LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [
-                    Colors.transparent,
-                    Color.fromRGBO(0, 0, 0, 0.6),
-                  ]),
+          Hero(
+            tag: ObjectKey(heroKey),
+            child: Container(
+              foregroundDecoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                gradient: const LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [
+                      Colors.transparent,
+                      Color.fromRGBO(0, 0, 0, 0.6),
+                    ]),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: OverflowBox(
+                  minWidth: 0,
+                  minHeight: 0,
+                  maxWidth: double.infinity,
+                  child: image,
+                ),
+              ),
             ),
           ),
           Positioned(
             top: 20,
             right: 16,
-            child: GestureDetector(
-              onTap: onTapBookmark,
-              child: SvgPicture.asset(isBookmark
-                  ? 'assets/images/home/ic_40_bookmark_active.svg'
-                  : 'assets/images/home/ic_40_bookmark_inactive.svg'),
+            child: BookmarkButton(
+              isBookmark: isBookmark,
+              onTapBookmark: onTapBookmark,
             ),
           ),
           Positioned(

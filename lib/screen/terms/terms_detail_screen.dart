@@ -7,7 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-import '../../../widget/round_rect_button.dart';
+import '../../../component/round_rect_button.dart';
 
 class TermsAgreeDetailScreen extends StatelessWidget {
   static String get routeName => 'termsAgreeDetail';

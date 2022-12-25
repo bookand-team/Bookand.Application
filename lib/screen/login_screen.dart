@@ -4,7 +4,8 @@ import 'package:bookand/common/layout/common_layout.dart';
 import 'package:bookand/common/theme/custom_text_style.dart';
 import 'package:bookand/data/model/user_model.dart';
 import 'package:bookand/provider/user_me_provider.dart';
-import 'package:bookand/widget/custom_dialog.dart';
+import 'package:bookand/screen/main/main_tab.dart';
+import 'package:bookand/component/custom_dialog.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,7 +13,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
-import '../../widget/social_login_button.dart';
+import '../../component/social_login_button.dart';
 
 class LoginScreen extends ConsumerWidget with CustomDialog {
   static String get routeName => 'login';

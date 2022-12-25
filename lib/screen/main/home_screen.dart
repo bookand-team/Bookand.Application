@@ -1,5 +1,5 @@
 import 'package:bookand/screen/main/article_screen.dart';
-import 'package:bookand/widget/article_widget.dart';
+import 'package:bookand/component/article_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

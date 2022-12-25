@@ -2,7 +2,7 @@ import 'package:bookand/common/layout/common_layout.dart';
 import 'package:bookand/common/theme/custom_text_style.dart';
 import 'package:bookand/screen/terms/terms_detail_screen.dart';
 import 'package:bookand/provider/user_me_provider.dart';
-import 'package:bookand/widget/custom_dialog.dart';
+import 'package:bookand/component/custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,9 +10,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-import '../../../widget/check_button.dart';
-import '../../../widget/circle_check_button.dart';
-import '../../../widget/round_rect_button.dart';
+import '../../../component/check_button.dart';
+import '../../../component/circle_check_button.dart';
+import '../../../component/round_rect_button.dart';
 import '../../data/model/user_model.dart';
 import '../../provider/terms_provider.dart';
 

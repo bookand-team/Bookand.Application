@@ -1,9 +1,9 @@
 import 'package:bookand/common/layout/common_layout.dart';
 import 'package:bookand/common/theme/custom_text_style.dart';
+import 'package:bookand/component/bookmark_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
 
 class ArticleScreen extends ConsumerWidget {
   static String get routeName => 'article';
