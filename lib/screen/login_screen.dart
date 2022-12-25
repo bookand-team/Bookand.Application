@@ -53,9 +53,11 @@ class LoginScreen extends ConsumerWidget with CustomDialog {
             const SizedBox(height: 16),
             SocialLoginButton(
                 onTap: () {
-                  state.googleLogin(onError: (errMsg) {
-                    showOneBtnDialog(context: context, content: errMsg);
-                  });
+                  // TODO: 로그인 구현 후 적용
+                  // state.googleLogin(onError: (errMsg) {
+                  //   showOneBtnDialog(context: context, content: errMsg);
+                  // });
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => MainTab()));
                 },
                 image: SvgPicture.asset('assets/images/ic_google.svg', width: 24),
                 text:
