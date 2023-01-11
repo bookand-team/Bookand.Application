@@ -18,10 +18,7 @@ class HomeScreen extends ConsumerWidget {
             padding: EdgeInsets.only(bottom: index == 19 ? 48 : 20),
             child: GestureDetector(
               onTap: () {
-                // TODO: 로그인 구현 후 적용
-                // context.pushNamed(ArticleScreen.routeName, params: {'id': index.toString()});
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => ArticleScreen(name: index.toString())));
+                context.pushNamed(ArticleScreen.routeName, params: {'id': index.toString()});
               },
               child: ArticleCard(
                 image: Image.network(
