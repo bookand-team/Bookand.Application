@@ -32,39 +32,38 @@ class LoginScreen extends ConsumerWidget with CustomDialog {
         backgroundColor: Colors.transparent,
       ),
       child: SafeArea(
-          child: Padding(
-        padding: EdgeInsets.only(bottom: 80.h, left: 16, right: 16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            SvgPicture.asset('assets/images/ic_logo_and_title.svg', width: 120.w),
-            SizedBox(height: 158.h),
-            Platform.isIOS
-                ? SocialLoginButton(
-                    onTap: () {
-                      state.appleLogin(onError: (errMsg) {
-                        showOneBtnDialog(context: context, content: errMsg);
-                      });
-                    },
-                    image: SvgPicture.asset('assets/images/ic_apple.svg', width: 24),
-                    text: Text(Intl.message('appleSocial'),
-                        style: const TextStyle().appleLoginText()))
-                : const SizedBox(height: 56),
-            const SizedBox(height: 16),
-            SocialLoginButton(
-                onTap: () {
-                  // TODO: 로그인 구현 후 적용
-                  // state.googleLogin(onError: (errMsg) {
-                  //   showOneBtnDialog(context: context, content: errMsg);
-                  // });
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => MainTab()));
-                },
-                image: SvgPicture.asset('assets/images/ic_google.svg', width: 24),
-                text:
-                    Text(Intl.message('googleSocial'), style: const TextStyle().googleLoginText()))
-          ],
+        child: Padding(
+          padding: EdgeInsets.only(bottom: 80.h, left: 16, right: 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SvgPicture.asset('assets/images/ic_logo_and_title.svg', width: 120.w),
+              SizedBox(height: 158.h),
+              Platform.isIOS
+                  ? SocialLoginButton(
+                      onTap: () {
+                        state.appleLogin(onError: (errMsg) {
+                          showOneBtnDialog(context: context, content: errMsg);
+                        });
+                      },
+                      image: SvgPicture.asset('assets/images/ic_apple.svg', width: 24),
+                      text: Text(Intl.message('appleSocial'),
+                          style: const TextStyle().appleLoginText()))
+                  : const SizedBox(height: 56),
+              const SizedBox(height: 16),
+              SocialLoginButton(
+                  onTap: () {
+                    state.googleLogin(onError: (errMsg) {
+                      showOneBtnDialog(context: context, content: errMsg);
+                    });
+                  },
+                  image: SvgPicture.asset('assets/images/ic_google.svg', width: 24),
+                  text: Text(Intl.message('googleSocial'),
+                      style: const TextStyle().googleLoginText()))
+            ],
+          ),
         ),
-      )),
+      ),
     );
   }
 }

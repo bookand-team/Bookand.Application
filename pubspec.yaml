@@ -24,7 +24,7 @@ dependencies:
   firebase_analytics: ^10.0.4
   firebase_performance: ^0.9.0+6
   flutter_riverpod: ^2.0.2
-  riverpod_annotation: ^1.0.4
+  riverpod_annotation: ^1.1.1
   flutter_svg: ^1.1.5
   google_fonts: ^3.0.1
   google_sign_in: ^5.4.2
@@ -45,13 +45,13 @@ dev_dependencies:
 
   flutter_lints: ^2.0.0
   build_runner: ^2.3.0
+  riverpod_generator: ^1.1.1
   json_serializable: ^6.5.1
   retrofit_generator: ^4.2.0
 
 flutter:
 
   uses-material-design: true
-  generate: true
 
   assets:
     - assets/images/

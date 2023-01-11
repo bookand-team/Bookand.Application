@@ -28,7 +28,7 @@ class CustomInterceptor extends Interceptor {
     var logMsg = '[REQ] [${options.method}] ${options.uri}';
 
     if (kDebugMode) {
-      logMsg += '\n[Authorization] ${options.headers['Authorization']}\n[DATA] ${options.data}';
+      logMsg += '\n[Authorization] ${options.headers['Authorization']}\n[BODY] ${options.data}';
     }
 
     logger.i(logMsg);
@@ -38,7 +38,7 @@ class CustomInterceptor extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    logger.i('[RESP] [${response.requestOptions.method}] ${response.requestOptions.uri}\n[DATA] ${response.data}');
+    logger.i('[RES] [${response.requestOptions.method}] ${response.requestOptions.uri}\n[BODY] ${response.data}');
 
     return super.onResponse(response, handler);
   }
@@ -55,27 +55,39 @@ class CustomInterceptor extends Interceptor {
       return handler.reject(err);
     }
 
-    final isStatus401 = err.response?.statusCode == HttpStatus.unauthorized;
+    final dio = Dio();
     final isPathRefresh = err.requestOptions.uri.path == 'api/v1/auth/reissue';
+    final isNewUser = err.requestOptions.uri.path == 'api/v1/auth/login';
 
-    if (isStatus401 && !isPathRefresh) {
-      final dio = Dio();
+    switch (err.response?.statusCode) {
+      case HttpStatus.unauthorized:
+        if (!isPathRefresh) {
+          try {
+            await ref.read(authProvider.notifier).refreshToken();
 
-      try {
-        await ref.read(authProvider.notifier).refreshToken();
+            accessToken = await storage.read(key: accessTokenKey);
 
-        accessToken = await storage.read(key: accessTokenKey);
+            final options = err.requestOptions;
+            options.headers.addAll({'Authorization': 'BEARER $accessToken'});
 
-        final options = err.requestOptions;
-        options.headers.addAll({'Authorization': 'BEARER $accessToken'});
+            final response = await dio.fetch(options);
 
-        final response = await dio.fetch(options);
-
-        return handler.resolve(response);
-      } on DioError catch (e) {
-        ref.read(authProvider.notifier).logout();
-        return handler.reject(e);
-      }
+            return handler.resolve(response);
+          } on DioError catch (e) {
+            ref.read(authProvider.notifier).logout();
+            return handler.reject(e);
+          }
+        }
+        break;
+      case HttpStatus.notFound:
+        if (isNewUser) {
+          try {
+            await ref.read(authProvider.notifier).signUp();
+          } on DioError catch (e) {
+            return handler.reject(e);
+          }
+        }
+        break;
     }
 
     return handler.reject(err);

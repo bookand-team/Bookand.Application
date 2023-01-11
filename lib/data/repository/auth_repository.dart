@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bookand/config/app_config.dart';
-import 'package:bookand/data/model/login_response.dart';
 import 'package:bookand/provider/dio_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,12 +23,12 @@ class AuthRepository {
 
   AuthRepository({required this.baseUrl, required this.dio, required this.ref});
 
-  Future<LoginResponse> fetchLogin(
+  Future<Token> fetchLogin(
       {required String accessToken, required SocialType socialType}) async {
     final resp = await dio.post('$baseUrl/api/v1/auth/login',
         data: {'accessToken': accessToken, 'socialType': socialType.type});
 
-    final respData = LoginResponse.fromJson(resp.data);
+    final respData = Token.fromJson(resp.data);
     return respData;
   }
 

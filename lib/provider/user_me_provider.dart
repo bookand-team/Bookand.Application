@@ -7,7 +7,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../common/const/app_mode.dart';
-import '../common/const/login_result.dart';
 import '../common/const/social_type.dart';
 import '../common/const/storage_key.dart';
 import '../common/util/logger.dart';
@@ -39,17 +38,23 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
   }
 
   void getMe() async {
-    final refreshToken = await storage.read(key: refreshTokenKey);
-    final accessToken = await storage.read(key: accessTokenKey);
+    try {
+      final refreshToken = await storage.read(key: refreshTokenKey);
+      final accessToken = await storage.read(key: accessTokenKey);
 
-    if (refreshToken == null || accessToken == null) {
-      state = UserModelInit();
-      return;
+      if (refreshToken == null || accessToken == null) {
+        state = UserModelInit();
+        return;
+      }
+
+      final resp = await repository.getMe();
+
+      state = resp;
+    } catch (e) {
+      logger.w(e);
+
+      state = UserModelError(message: '로그인에 실패했습니다.');
     }
-
-    final resp = await repository.getMe();
-
-    state = resp;
   }
 
   void googleLogin({required Function(String) onError}) async {
@@ -114,8 +119,9 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
     // }
   }
 
-  void signUp() async {
+  Future<void> signUp() async {
     // TODO: 신규유저 가입 완료 처리 로직
+    state = UserModelSignUp();
   }
 
   void _login({required SocialToken socialToken}) async {
@@ -124,19 +130,10 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
     final resp = await authRepository.fetchLogin(
         accessToken: socialToken.token, socialType: socialToken.socialType);
 
-    switch (resp.result) {
-      case LoginResult.OK:
-        await storage.write(key: refreshTokenKey, value: resp.token.refreshToken);
-        await storage.write(key: accessTokenKey, value: resp.token.accessToken);
+    await storage.write(key: refreshTokenKey, value: resp.refreshToken);
+    await storage.write(key: accessTokenKey, value: resp.accessToken);
 
-        final userResp = await repository.getMe();
-
-        state = userResp;
-        break;
-      case LoginResult.NEW_USER:
-        state = UserModelSignUp();
-        break;
-    }
+    getMe();
   }
 
   Future<void> logout() async {

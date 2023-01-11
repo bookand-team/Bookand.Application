@@ -8,15 +8,16 @@ import 'package:path_provider/path_provider.dart';
 import '../const/app_mode.dart';
 
 final logger = Logger(
-    filter: _LoggerFilter(),
-    printer: PrettyPrinter(
-        methodCount: 2,
-        errorMethodCount: 8,
-        lineLength: 120,
-        colors: true,
-        printEmojis: true,
-        printTime: true),
-    output: _LoggerOutput());
+  filter: _LoggerFilter(),
+  printer: PrettyPrinter(
+    methodCount: 2,
+    errorMethodCount: 8,
+    lineLength: 120,
+    colors: true,
+    printEmojis: true,
+  ),
+  output: _LoggerOutput(),
+);
 
 class _LoggerFilter extends LogFilter {
   @override
@@ -53,15 +54,12 @@ class _LoggerOutput extends LogOutput {
 
   @override
   void output(OutputEvent event) async {
-    if (file != null) {
-      for (var line in event.lines) {
+    for (var line in event.lines) {
+      if (file != null) {
         await file!.writeAsString('${line.toString()}\n', mode: FileMode.writeOnlyAppend);
       }
-    } else {
-      for (var line in event.lines) {
-        if (kDebugMode) {
-          print(line);
-        }
+      if (kDebugMode) {
+        print(line);
       }
     }
   }

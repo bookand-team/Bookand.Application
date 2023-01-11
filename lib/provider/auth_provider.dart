@@ -9,7 +9,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../common/const/route_path.dart';
 import '../data/model/user_model.dart';
 
 final authProvider = ChangeNotifierProvider<AuthProvider>((ref) {
@@ -27,6 +26,10 @@ class AuthProvider extends ChangeNotifier {
     });
   }
 
+  Future<void> signUp() async {
+    ref.read(userMeProvider.notifier).signUp();
+  }
+
   void logout() {
     ref.read(userMeProvider.notifier).logout();
   }
@@ -37,7 +40,7 @@ class AuthProvider extends ChangeNotifier {
 
   List<GoRoute> get routes => [
         GoRoute(
-            path: RoutePath.home.path,
+            path: '/',
             name: MainTab.routeName,
             builder: (_, __) => const MainTab(),
             routes: [
@@ -47,11 +50,11 @@ class AuthProvider extends ChangeNotifier {
                   builder: (_, state) => ArticleScreen(name: state.params['id']!))
             ]),
         GoRoute(
-            path: RoutePath.splash.path,
+            path: '/splash',
             name: SplashScreen.routeName,
             builder: (_, __) => const SplashScreen()),
         GoRoute(
-            path: RoutePath.login.path,
+            path: '/login',
             name: LoginScreen.routeName,
             builder: (_, __) => const LoginScreen(),
             routes: [
@@ -72,21 +75,21 @@ class AuthProvider extends ChangeNotifier {
     final UserModelBase user = ref.read(userMeProvider);
 
     if (user is UserModelInit) {
-      return RoutePath.login.path;
+      return '/login';
     }
 
     if (user is UserModelSignUp) {
-      if (state.location.startsWith(RoutePath.termsAgreeDetail.path)) {
+      if (state.location.startsWith('/login/termsAgree/termsAgreeDetail')) {
         return null;
       } else {
-        return RoutePath.termsAgree.path;
+        return '/login/termsAgree';
       }
     }
 
     if (user is UserModel) {
-      return state.location.startsWith(RoutePath.login.path) ||
-              state.location == RoutePath.splash.path
-          ? RoutePath.home.path
+      return state.location.startsWith('/login') ||
+              state.location == '/splash'
+          ? '/'
           : null;
     }
 
