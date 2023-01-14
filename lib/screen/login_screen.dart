@@ -4,7 +4,6 @@ import 'package:bookand/common/layout/common_layout.dart';
 import 'package:bookand/common/theme/custom_text_style.dart';
 import 'package:bookand/data/model/user_model.dart';
 import 'package:bookand/provider/user_me_provider.dart';
-import 'package:bookand/screen/main/main_tab.dart';
 import 'package:bookand/component/custom_dialog.dart';
 import 'package:flutter/material.dart';
 
