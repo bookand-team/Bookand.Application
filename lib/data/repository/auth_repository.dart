@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:bookand/config/app_config.dart';
-import 'package:bookand/data/model/user_model.dart';
 import 'package:bookand/provider/dio_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -87,38 +87,32 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
   }
 
   void appleLogin({required Function(String) onError}) async {
-    final credential = await SignInWithApple.getAppleIDCredential(
-      scopes: [
-        AppleIDAuthorizationScopes.email,
-        AppleIDAuthorizationScopes.fullName,
-      ],
-      webAuthenticationOptions: WebAuthenticationOptions(
-        clientId: "Apple Developer 에서 설정한 Service ID",
-        redirectUri: Uri.parse(
-          "Apple Developer 에서 설정한 redirectUri",
-        ),
-      ),
-    );
+    state = UserModelLoading();
+    try {
+      final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
 
-    logger.d(credential);
+      if (credential.identityToken == null) {
+        onError('애플 로그인이 취소되었습니다.');
+      } else {
+        socialToken = SocialToken(credential.identityToken!, SocialType.apple);
+        login(socialToken: socialToken);
+      }
+    } catch (e) {
+      logger.e(e);
 
-    // state = UserModelLoading();
-    // try {
-    //   final appleSignIn = SignInWithApple();
-    //   appleSignIn.
-    //
-    //   if (accessToken == null) {
-    //     state = UserModelError(message: '애플 로그인이 취소되었습니다.');
-    //   } else {
-    //     socialToken = SocialToken(accessToken, SocialType.apple);
-    //     // TODO: 신규 유저 체크
-    //     /// 신규 유저인 경우 state = UserModelSignUp()
-    //     /// 신규 유저가 아닌 경우 로그인 요청
-    //     state = UserModelSignUp();
-    //   }
-    // } catch (e) {
-    //   state = UserModelError(message: '애플 로그인에 실패했습니다.');
-    // }
+      var errMsg = '애플 로그인에 실패했습니다.';
+
+      if (AppConfig.appMode == AppMode.dev) {
+        errMsg += '\n${e.toString()}';
+      }
+
+      onError(errMsg);
+    }
   }
 
   void login({required SocialToken socialToken}) async {
@@ -142,12 +136,19 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
     }
   }
 
-  Future<void> logout() async {
-    state = UserModelInit();
-
-    final accessToken = await storage.read(key: accessTokenKey);
-    authRepository.logout(accessToken!);
-    await Future.wait([storage.delete(key: refreshTokenKey), storage.delete(key: accessTokenKey)]);
+  void logout() async {
+    try {
+      final accessToken = await storage.read(key: accessTokenKey);
+      authRepository.logout(accessToken!);
+    } catch (e) {
+      logger.w(e);
+    } finally {
+      state = UserModelInit();
+      await Future.wait([
+        storage.delete(key: refreshTokenKey),
+        storage.delete(key: accessTokenKey),
+      ]);
+    }
   }
 
   Future<void> refreshToken() async {
