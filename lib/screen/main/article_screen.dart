@@ -62,7 +62,7 @@ class _ArticleScreenState extends ConsumerState<ArticleScreen> {
 
   Widget _articleAppBar() {
     const changeHeight = 170;
-    const durationMs = 300;
+    const durationMs = 200;
 
     return SliverAppBar(
       automaticallyImplyLeading: false,
