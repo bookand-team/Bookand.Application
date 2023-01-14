@@ -144,13 +144,15 @@ class TermsAgreeScreen extends ConsumerWidget with CustomDialog {
               ),
               const Spacer(),
               RoundRectButton(
-                  text: Intl.message('start'),
-                  width: MediaQuery.of(context).size.width,
-                  height: 56,
-                  onPressed: () {
-                    state.signUp();
-                  },
-                  enabled: ref.watch(allAgreeProvider))
+                text: Intl.message('start'),
+                width: MediaQuery.of(context).size.width,
+                height: 56,
+                onPressed: () {
+                  final socialToken = ref.read(userMeProvider.notifier).socialToken;
+                  state.login(socialToken: socialToken);
+                },
+                enabled: ref.watch(allAgreeProvider),
+              ),
             ],
           ),
         )));

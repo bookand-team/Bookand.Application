@@ -57,38 +57,25 @@ class CustomInterceptor extends Interceptor {
     }
 
     final dio = Dio();
-    final isPathRefresh = err.requestOptions.uri.path == 'api/v1/auth/reissue';
-    final isNewUser = err.requestOptions.uri.path == 'api/v1/auth/login';
+    final statusCode = err.response?.statusCode;
+    final isPathRefresh = err.requestOptions.uri.path == '/api/v1/auth/reissue';
 
-    switch (err.response?.statusCode) {
-      case HttpStatus.unauthorized:
-        if (!isPathRefresh) {
-          try {
-            await ref.read(authProvider.notifier).refreshToken();
+    if (statusCode == HttpStatus.unauthorized && !isPathRefresh) {
+      try {
+        await ref.read(authProvider.notifier).refreshToken();
 
-            accessToken = await storage.read(key: accessTokenKey);
+        accessToken = await storage.read(key: accessTokenKey);
 
-            final options = err.requestOptions;
-            options.headers.addAll({'Authorization': 'BEARER $accessToken'});
+        final options = err.requestOptions;
+        options.headers.addAll({'Authorization': 'BEARER $accessToken'});
 
-            final response = await dio.fetch(options);
+        final response = await dio.fetch(options);
 
-            return handler.resolve(response);
-          } on DioError catch (e) {
-            ref.read(authProvider.notifier).logout();
-            return handler.reject(e);
-          }
-        }
-        break;
-      case HttpStatus.notFound:
-        if (isNewUser) {
-          try {
-            await ref.read(authProvider.notifier).signUp();
-          } on DioError catch (e) {
-            return handler.reject(e);
-          }
-        }
-        break;
+        return handler.resolve(response);
+      } on DioError catch (e) {
+        ref.read(authProvider.notifier).logout();
+        return handler.reject(e);
+      }
     }
 
     return handler.reject(err);

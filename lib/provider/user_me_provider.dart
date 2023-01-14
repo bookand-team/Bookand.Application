@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bookand/config/app_config.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -69,7 +71,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
         onError('구글 로그인이 취소되었습니다.');
       } else {
         socialToken = SocialToken(googleAccessToken, SocialType.google);
-        _login(socialToken: socialToken);
+        login(socialToken: socialToken);
       }
     } catch (e) {
       logger.e(e);
@@ -119,21 +121,25 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
     // }
   }
 
-  Future<void> signUp() async {
-    // TODO: 신규유저 가입 완료 처리 로직
-    state = UserModelSignUp();
-  }
-
-  void _login({required SocialToken socialToken}) async {
+  void login({required SocialToken socialToken}) async {
     state = UserModelLoading();
 
-    final resp = await authRepository.fetchLogin(
-        accessToken: socialToken.token, socialType: socialToken.socialType);
+    try {
+      final resp = await authRepository.fetchLogin(
+          accessToken: socialToken.token, socialType: socialToken.socialType);
 
-    await storage.write(key: refreshTokenKey, value: resp.refreshToken);
-    await storage.write(key: accessTokenKey, value: resp.accessToken);
+      await storage.write(key: refreshTokenKey, value: resp.refreshToken);
+      await storage.write(key: accessTokenKey, value: resp.accessToken);
 
-    getMe();
+      getMe();
+    } on DioError catch (e) {
+      logger.w(e);
+      if (e.response?.statusCode == HttpStatus.notFound) {
+        state = UserModelSignUp();
+      } else {
+        rethrow;
+      }
+    }
   }
 
   Future<void> logout() async {

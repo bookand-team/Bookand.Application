@@ -26,10 +26,6 @@ class AuthProvider extends ChangeNotifier {
     });
   }
 
-  Future<void> signUp() async {
-    ref.read(userMeProvider.notifier).signUp();
-  }
-
   void logout() {
     ref.read(userMeProvider.notifier).logout();
   }
