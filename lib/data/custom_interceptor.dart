@@ -38,7 +38,8 @@ class CustomInterceptor extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    logger.i('[RES] [${response.requestOptions.method}] ${response.requestOptions.uri}\n[BODY] ${response.data}');
+    logger.i(
+        '[RESP] [${response.requestOptions.method}] ${response.requestOptions.uri}\n[Status Code] ${response.statusCode}\n[BODY] ${response.data}');
 
     return super.onResponse(response, handler);
   }
@@ -46,7 +47,7 @@ class CustomInterceptor extends Interceptor {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) async {
     logger.e(
-        '[ERR] [${err.requestOptions.method}] ${err.requestOptions.uri}\n[Status Code] ${err.response?.statusCode}\n[DATA] ${err.response?.data}');
+        '[ERR] [${err.requestOptions.method}] ${err.requestOptions.uri}\n[Status Code] ${err.response?.statusCode}\n[BODY] ${err.response?.data}');
 
     var accessToken = await storage.read(key: accessTokenKey);
     final refreshToken = await storage.read(key: refreshTokenKey);
