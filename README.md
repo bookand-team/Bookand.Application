@@ -24,57 +24,32 @@ flutter pub run build_runner watch
 
 #### 현재 운영 환경은 [dev]와 [product]로 나뉘어져 있음.
 #### 따라서 실행 또는 배포하려면 반드시 구분해야함.
+##### release 로 할 경우 --release 추가
 
-### [dev]에서의 실행 방법
+### 실행 방법
 ```shell
-flutter run --flavor dev -t lib/main.dart
+flutter run --flavor [dev/product]
 ```
 
-### [product]에서의 실행 방법
-```shell
-flutter run --flavor product -t lib/main.dart
-```
-
-### [dev]에서의 빌드 방법
+### 빌드 방법
 #### APK
 ```shell
-flutter build apk --flavor dev -t lib/main.dart
+flutter build apk --flavor [dev/product]
 ```
 
 #### App Bundle
 ```shell
-flutter build appbundle --flavor dev -t lib/main.dart
+flutter build appbundle --flavor [dev/product]
 ```
 
 #### iOS
 ```shell
-flutter build ios --flavor dev -t lib/main.dart
+flutter build ios --flavor [dev/product]
 ```
 
 #### ipa
 ```shell
-flutter build ipa --flavor dev -t lib/main.dart
-```
-
-### [product]에서의 빌드 방법
-#### APK
-```shell
-flutter build apk --flavor product -t lib/main.dart
-```
-
-#### App Bundle
-```shell
-flutter build appbundle --flavor product -t lib/main.dart
-```
-
-#### iOS
-```shell
-flutter build ios --flavor product -t lib/main.dart
-```
-
-#### ipa
-```shell
-flutter build ipa --flavor product -t lib/main.dart
+flutter build ipa --flavor [dev/product]
 ```
 
 ## 3. 국제화
