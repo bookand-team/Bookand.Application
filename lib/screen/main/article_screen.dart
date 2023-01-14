@@ -2,6 +2,7 @@ import 'package:bookand/common/layout/common_layout.dart';
 import 'package:bookand/common/theme/custom_text_style.dart';
 import 'package:bookand/component/bookmark_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -65,6 +66,8 @@ class _ArticleScreenState extends ConsumerState<ArticleScreen> {
     const durationMs = 200;
 
     return SliverAppBar(
+      systemOverlayStyle:
+          topHeight <= changeHeight ? SystemUiOverlayStyle.dark : SystemUiOverlayStyle.light,
       automaticallyImplyLeading: false,
       expandedHeight: 448,
       elevation: 0,
@@ -148,9 +151,11 @@ class _ArticleScreenState extends ConsumerState<ArticleScreen> {
                       ],
                     ),
                     AnimatedOpacity(
+                      curve: Curves.easeInOutCirc,
                       duration: Duration(milliseconds: defaultDurationMs),
                       opacity: _bookmarkVisible ? 1.0 : 0.5,
                       child: AnimatedContainer(
+                        curve: Curves.easeInOutCirc,
                         duration: Duration(milliseconds: defaultDurationMs),
                         width: _bookmarkVisible ? _bookmarkWidth : _bookmarkWidth / 2,
                         height: _bookmarkVisible ? _bookmarkHeight : _bookmarkWidth / 2,
