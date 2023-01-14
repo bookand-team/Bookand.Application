@@ -203,6 +203,7 @@ class _ArticleScreenState extends ConsumerState<ArticleScreen> {
   Widget _articleBody() {
     return SliverToBoxAdapter(
       child: AnimatedPadding(
+        curve: Curves.easeInOutCirc,
         duration: Duration(milliseconds: defaultDurationMs),
         padding: EdgeInsets.only(top: _articleTopPadding),
         child: AnimatedOpacity(
