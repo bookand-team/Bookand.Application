@@ -1,16 +1,13 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class BookmarkButton extends StatefulWidget {
-  final double? width;
-  final double? height;
   final bool isBookmark;
   final Function() onTapBookmark;
 
   const BookmarkButton({
     super.key,
-    this.width = 40,
-    this.height = 40,
     required this.isBookmark,
     required this.onTapBookmark,
   });
@@ -41,12 +38,9 @@ class _BookmarkButtonState extends State<BookmarkButton> with SingleTickerProvid
         });
         widget.onTapBookmark();
       },
-      child: Container(
-          width: widget.width,
-          height: widget.height,
-          alignment: Alignment.center,
-          decoration: const BoxDecoration(
-              color: Color.fromRGBO(255, 255, 255, 0.8), shape: BoxShape.circle),
+      child: CircleAvatar(
+          foregroundColor: Colors.transparent,
+          backgroundColor: const Color.fromRGBO(255, 255, 255, 0.8),
           child: ScaleTransition(
             scale: _animation,
             child: SvgPicture.asset(
@@ -54,7 +48,8 @@ class _BookmarkButtonState extends State<BookmarkButton> with SingleTickerProvid
                   ? 'assets/images/home/ic_40_bookmark_active.svg'
                   : 'assets/images/home/ic_40_bookmark_inactive.svg',
             ),
-          )),
+          )
+      ),
     );
   }
 }

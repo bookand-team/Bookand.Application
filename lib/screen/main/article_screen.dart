@@ -20,7 +20,7 @@ class ArticleScreen extends ConsumerStatefulWidget {
 class _ArticleScreenState extends ConsumerState<ArticleScreen> {
   final scrollController = ScrollController();
 
-  final defaultDurationMs = 400;
+  final defaultDurationMs = 500;
 
   bool _bookmarkVisible = false;
   double _bookmarkWidth = 0.0;
@@ -120,48 +120,52 @@ class _ArticleScreenState extends ConsumerState<ArticleScreen> {
             title: AnimatedOpacity(
               duration: const Duration(milliseconds: durationMs),
               opacity: topHeight <= changeHeight ? 0 : 1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        'title',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle().articleBoxTitleText(),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'content',
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle().articleBoxContentText(),
-                      ),
-                    ],
-                  ),
-                  AnimatedOpacity(
-                    duration: Duration(milliseconds: defaultDurationMs),
-                    opacity: _bookmarkVisible ? 1.0 : 0.0,
-                    child: AnimatedSize(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 16,
+                  right: 16,
+                  bottom: 25,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          'title',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle().articleBoxTitleText(),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'content',
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle().articleBoxContentText(),
+                        ),
+                      ],
+                    ),
+                    AnimatedOpacity(
                       duration: Duration(milliseconds: defaultDurationMs),
-                      child: BookmarkButton(
-                        width: _bookmarkWidth,
-                        height: _bookmarkHeight,
-                        isBookmark: false,
-                        onTapBookmark: () {},
+                      opacity: _bookmarkVisible ? 1.0 : 0.5,
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: defaultDurationMs),
+                        width: _bookmarkVisible ? _bookmarkWidth : _bookmarkWidth / 2,
+                        height: _bookmarkVisible ? _bookmarkHeight : _bookmarkWidth / 2,
+                        decoration: const BoxDecoration(shape: BoxShape.circle),
+                        child: BookmarkButton(
+                          isBookmark: false,
+                          onTapBookmark: () {},
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            titlePadding: const EdgeInsets.only(
-              left: 16,
-              right: 16,
-              bottom: 25,
-            ),
+            titlePadding: EdgeInsets.zero,
             centerTitle: false,
             expandedTitleScale: 1,
             background: Hero(
