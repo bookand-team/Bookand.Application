@@ -53,7 +53,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
 
       state = resp;
     } catch (e) {
-      logger.w(e);
+      logger.e(e);
 
       state = UserModelError(message: '로그인에 실패했습니다.');
     }
@@ -127,7 +127,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
 
       getMe();
     } on DioError catch (e) {
-      logger.w(e);
+      logger.e(e);
       if (e.response?.statusCode == HttpStatus.notFound) {
         state = UserModelSignUp();
       } else {
@@ -141,7 +141,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
       final accessToken = await storage.read(key: accessTokenKey);
       authRepository.logout(accessToken!);
     } catch (e) {
-      logger.w(e);
+      logger.e(e);
     } finally {
       state = UserModelInit();
       await Future.wait([

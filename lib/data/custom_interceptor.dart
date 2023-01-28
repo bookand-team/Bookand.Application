@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:bookand/provider/auth_provider.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -17,6 +16,8 @@ class CustomInterceptor extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+    logger.i('[REQ] [${options.method}] ${options.uri}');
+
     if (options.headers['Authorization'] == 'true') {
       options.headers.remove('Authorization');
 
@@ -24,14 +25,6 @@ class CustomInterceptor extends Interceptor {
 
       options.headers.addAll({'Authorization': 'BEARER $token'});
     }
-
-    var logMsg = '[REQ] [${options.method}] ${options.uri}';
-
-    if (kDebugMode) {
-      logMsg += '\n[Authorization] ${options.headers['Authorization']}\n[BODY] ${options.data}';
-    }
-
-    logger.i(logMsg);
 
     return super.onRequest(options, handler);
   }
