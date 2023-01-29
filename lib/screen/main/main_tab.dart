@@ -1,22 +1,43 @@
 import 'package:bookand/common/layout/common_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
-import '../../provider/bottom_nav_index_provider.dart';
 import 'bookmark_screen.dart';
 import 'home_screen.dart';
 import 'map_screen.dart';
 import 'my_screen.dart';
 
-class MainTab extends ConsumerWidget {
+class MainTab extends StatefulWidget {
   static String get routeName => 'main';
 
   const MainTab({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  State<MainTab> createState() => _MainTabState();
+}
+
+class _MainTabState extends State<MainTab> with SingleTickerProviderStateMixin {
+  late final tabController = TabController(length: screens.length, vsync: this);
+  final screens = [
+    const HomeScreen(),
+    const MapScreen(),
+    const BookmarkScreen(),
+    const MyScreen(),
+  ];
+
+  int currentScreenIdx = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController.addListener(() {
+      currentScreenIdx = tabController.index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return CommonLayout(
       appBar: AppBar(
         toolbarHeight: 0,
@@ -24,92 +45,60 @@ class MainTab extends ConsumerWidget {
         backgroundColor: Colors.white,
         foregroundColor: Colors.white,
       ),
-      child: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Expanded(
-              child: IndexedStack(
-                index: ref.watch(bottomNavIndexProvider),
-                children: const [HomeScreen(), MapScreen(), BookmarkScreen(), MyScreen()],
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+            border: Border(top: BorderSide(color: Color.fromRGBO(0, 0, 0, 0.05), width: 2))),
+        child: Theme(
+          data: ThemeData(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+          ),
+          child: BottomNavigationBar(
+            items: [
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset('assets/images/home/ic_24_bottom_home_inactive.svg'),
+                label: Intl.message('home'),
+                activeIcon: SvgPicture.asset('assets/images/home/ic_24_bottom_home_active.svg'),
               ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(bottom: 24),
-              decoration: const BoxDecoration(
-                  border: Border(top: BorderSide(color: Color.fromRGBO(0, 0, 0, 0.05), width: 2))),
-              child: Theme(
-                data: ThemeData(splashColor: Colors.transparent),
-                child: BottomNavigationBar(
-                  items: [
-                    BottomNavigationBarItem(
-                      icon: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child:
-                            SvgPicture.asset('assets/images/home/ic_24_bottom_home_inactive.svg'),
-                      ),
-                      label: Intl.message('home'),
-                      activeIcon: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: SvgPicture.asset('assets/images/home/ic_24_bottom_home_active.svg'),
-                      ),
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: SvgPicture.asset('assets/images/home/ic_24_bottom_map_inactive.svg'),
-                      ),
-                      label: Intl.message('map'),
-                      activeIcon: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: SvgPicture.asset('assets/images/home/ic_24_bottom_map_active.svg'),
-                      ),
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: SvgPicture.asset(
-                            'assets/images/home/ic_24_bottom_bookmark_inactive.svg'),
-                      ),
-                      label: Intl.message('bookmark'),
-                      activeIcon: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child:
-                            SvgPicture.asset('assets/images/home/ic_24_bottom_bookmark_active.svg'),
-                      ),
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child:
-                            SvgPicture.asset('assets/images/home/ic_24_bottom_mypage_inactive.svg'),
-                      ),
-                      label: Intl.message('myPage'),
-                      activeIcon: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child:
-                            SvgPicture.asset('assets/images/home/ic_24_bottom_mypage_active.svg'),
-                      ),
-                    ),
-                  ],
-                  backgroundColor: Colors.white,
-                  type: BottomNavigationBarType.fixed,
-                  showSelectedLabels: true,
-                  showUnselectedLabels: true,
-                  unselectedItemColor: const Color(0xFF999999),
-                  selectedItemColor: Colors.black,
-                  unselectedFontSize: 8,
-                  selectedFontSize: 8,
-                  onTap: (index) {
-                    ref.watch(bottomNavIndexProvider.notifier).state = index;
-                  },
-                  currentIndex: ref.watch(bottomNavIndexProvider),
-                  elevation: 0,
-                ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset('assets/images/home/ic_24_bottom_map_inactive.svg'),
+                label: Intl.message('map'),
+                activeIcon: SvgPicture.asset('assets/images/home/ic_24_bottom_map_active.svg'),
               ),
-            )
-          ],
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset('assets/images/home/ic_24_bottom_bookmark_inactive.svg'),
+                label: Intl.message('bookmark'),
+                activeIcon: SvgPicture.asset('assets/images/home/ic_24_bottom_bookmark_active.svg'),
+              ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset('assets/images/home/ic_24_bottom_mypage_inactive.svg'),
+                label: Intl.message('myPage'),
+                activeIcon: SvgPicture.asset('assets/images/home/ic_24_bottom_mypage_active.svg'),
+              ),
+            ],
+            backgroundColor: Colors.white,
+            type: BottomNavigationBarType.fixed,
+            showSelectedLabels: true,
+            showUnselectedLabels: true,
+            unselectedItemColor: const Color(0xFF999999),
+            selectedItemColor: Colors.black,
+            unselectedFontSize: 8,
+            selectedFontSize: 8,
+            onTap: (index) {
+              setState(() {
+                currentScreenIdx = index;
+              });
+              tabController.index = currentScreenIdx;
+            },
+            currentIndex: currentScreenIdx,
+            elevation: 0,
+          ),
         ),
+      ),
+      child: TabBarView(
+        controller: tabController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: screens,
       ),
     );
   }

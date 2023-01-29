@@ -5,18 +5,20 @@ class CommonLayout extends StatelessWidget {
   final WillPopCallback? onWillPop;
   final bool ignoring;
   final PreferredSizeWidget? appBar;
-  final Widget child;
+  final Widget? bottomNavigationBar;
   final bool isLoading;
+  final Widget child;
 
-  const CommonLayout(
-      {Key? key,
-      this.backgroundColor,
-      this.onWillPop,
-      this.ignoring = false,
-      this.appBar,
-      required this.child,
-      this.isLoading = false})
-      : super(key: key);
+  const CommonLayout({
+    Key? key,
+    this.backgroundColor,
+    this.onWillPop,
+    this.ignoring = false,
+    this.appBar,
+    this.bottomNavigationBar,
+    this.isLoading = false,
+    required this.child,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,7 @@ class CommonLayout extends StatelessWidget {
               backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.background,
               appBar: appBar,
               body: child,
+              bottomNavigationBar: bottomNavigationBar,
             ),
             Visibility(visible: isLoading, child: const Center(child: CircularProgressIndicator()))
           ],
