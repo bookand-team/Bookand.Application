@@ -5,7 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 
 final logger = Logger(
-  filter: DevelopmentFilter(),
+  filter: ProductionFilter(),
   printer: PrefixPrinter(PrettyPrinter(
     colors: false,
     printTime: true,
