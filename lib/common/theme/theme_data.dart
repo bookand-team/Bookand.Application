@@ -7,20 +7,21 @@ import 'color_table.dart';
 import 'dialog_theme.dart';
 
 const String pretendard = "Pretendard";
-const String gMarketSansTTF = "GmarketSansTTF";
 
 final ThemeData lightThemeData = ThemeData(
   fontFamily: pretendard,
-  backgroundColor: Colors.white,
   dialogBackgroundColor: Colors.white,
   bottomSheetTheme: lightBottomSheetThemeData,
   dialogTheme: lightDialogTheme,
   chipTheme: lightChipTheme,
   textButtonTheme: lightTextButtonTheme,
+  colorScheme: ColorScheme.fromSeed(
+    seedColor: lightColorFF222222,
+    background: Colors.white,
+    error: lightErrorColor,
+  ),
   dividerColor: const Color(0xFFF5F5F5),
-  errorColor: lightErrorColor,
   hintColor: lightColorFFACACAC,
-  toggleableActiveColor: lightColorFF222222,
   unselectedWidgetColor: lightColorFFF5F5F7,
   useMaterial3: true
 );

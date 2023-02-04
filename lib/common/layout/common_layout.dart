@@ -1,6 +1,12 @@
+import 'package:bookand/common/util/shake_log_sender.dart';
+import 'package:bookand/component/custom_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:shake/shake.dart';
 
-class CommonLayout extends StatelessWidget {
+import '../../config/app_config.dart';
+import '../const/app_mode.dart';
+
+class CommonLayout extends StatefulWidget {
   final Color? backgroundColor;
   final WillPopCallback? onWillPop;
   final bool ignoring;
@@ -21,20 +27,54 @@ class CommonLayout extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<CommonLayout> createState() => _CommonLayoutState();
+}
+
+class _CommonLayoutState extends State<CommonLayout> with CustomDialog {
+  ShakeDetector? detector;
+
+  @override
+  void initState() {
+    super.initState();
+    if (AppConfig.appMode == AppMode.dev) {
+      ShakeLogSender.getShakeLogSender(
+        onSuccess: () {
+          showOneBtnDialog(context: context, content: '로그 전송 성공');
+        },
+        onError: (msg) {
+          showOneBtnDialog(context: context, title: '로그 전송 실패', content: msg);
+        },
+      ).then((value) {
+        detector = value;
+        detector?.startListening();
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    if (detector != null && AppConfig.appMode == AppMode.dev) {
+      detector?.stopListening();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: onWillPop,
+      onWillPop: widget.onWillPop,
       child: IgnorePointer(
-        ignoring: ignoring,
+        ignoring: widget.ignoring,
         child: Stack(
           children: [
             Scaffold(
-              backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.background,
-              appBar: appBar,
-              body: child,
-              bottomNavigationBar: bottomNavigationBar,
+              backgroundColor: widget.backgroundColor ?? Theme.of(context).colorScheme.background,
+              appBar: widget.appBar,
+              body: widget.child,
+              bottomNavigationBar: widget.bottomNavigationBar,
             ),
-            Visibility(visible: isLoading, child: const Center(child: CircularProgressIndicator()))
+            Visibility(
+                visible: widget.isLoading, child: const Center(child: CircularProgressIndicator()))
           ],
         ),
       ),

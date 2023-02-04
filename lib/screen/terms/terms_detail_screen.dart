@@ -19,7 +19,7 @@ class TermsAgreeDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return CommonLayout(
       appBar: AppBar(
-        surfaceTintColor: Theme.of(context).backgroundColor,
+        surfaceTintColor: Theme.of(context).colorScheme.background,
         automaticallyImplyLeading: false,
         leading: InkWell(
           onTap: () {

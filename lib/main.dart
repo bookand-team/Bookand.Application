@@ -18,7 +18,7 @@ void main() async {
   runZonedGuarded<Future<void>>(() async {
     final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-    await initFlavor();
+    await initApplication();
     await initFirebase();
     FlutterNativeSplash.remove();
     runApp(const ProviderScope(child: App()));

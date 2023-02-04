@@ -22,18 +22,22 @@ class FileOutput extends LogOutput {
   @override
   void init() async {
     super.init();
-    final now = DateTime.now();
-    final formatter = DateFormat('yyyy-MM-dd');
-    final fileName = '${formatter.format(now)}.log';
-    final appDocDir = await getApplicationDocumentsDirectory();
-    final appDocPath = appDocDir.path;
-    final logDir = await Directory('$appDocPath/logs').create();
-    file = File('${logDir.path}/$fileName');
+    final path = await generateLogFilePath();
+    file = File(path);
   }
 
   @override
   void output(OutputEvent event) {
     event.lines.forEach(logWriteFile);
+  }
+
+  Future<String> generateLogFilePath() async {
+    final now = DateTime.now();
+    final formatter = DateFormat('yyyy-MM-dd');
+    final fileName = '${formatter.format(now)}.log';
+    final appDocDir = await getApplicationDocumentsDirectory();
+    final logDir = await Directory('${appDocDir.path}/logs').create();
+    return '${logDir.path}/$fileName';
   }
 
   void logWriteFile(String msg) {
