@@ -10,13 +10,7 @@ class UserModelSignUp implements UserModelBase {}
 
 class UserModelLoading implements UserModelBase {}
 
-class UserModelError implements UserModelBase {
-  final String message;
-
-  UserModelError({
-    required this.message,
-  });
-}
+class UserModelError implements UserModelBase {}
 
 @JsonSerializable()
 class UserModel implements UserModelBase {

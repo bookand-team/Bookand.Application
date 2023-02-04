@@ -1,14 +1,12 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:bookand/config/app_config.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-import '../common/const/app_mode.dart';
 import '../common/const/social_type.dart';
 import '../common/const/storage_key.dart';
 import '../common/util/logger.dart';
@@ -54,8 +52,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
       state = resp;
     } catch (e) {
       logger.e(e);
-
-      state = UserModelError(message: '로그인에 실패했습니다.');
+      state = UserModelError();
     }
   }
 
@@ -68,21 +65,18 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
       final googleAccessToken = auth?.accessToken;
 
       if (googleAccessToken == null) {
+        state = UserModelInit();
         onError('구글 로그인이 취소되었습니다.');
       } else {
         socialToken = SocialToken(googleAccessToken, SocialType.google);
-        login(socialToken: socialToken);
+        login(socialToken: socialToken).onError((DioError e, _) {
+          onError('로그인 중 문제가 발생하였습니다.\n에러: ${e.response?.data['code'] ?? e.error}');
+        });
       }
     } catch (e) {
       logger.e(e);
-
-      var errMsg = '구글 로그인에 실패했습니다.';
-
-      if (AppConfig.appMode == AppMode.dev) {
-        errMsg += '\n${e.toString()}';
-      }
-
-      onError(errMsg);
+      state = UserModelError();
+      onError('구글 로그인에 실패했습니다.');
     }
   }
 
@@ -100,22 +94,17 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
         onError('애플 로그인이 취소되었습니다.');
       } else {
         socialToken = SocialToken(credential.identityToken!, SocialType.apple);
-        login(socialToken: socialToken);
+        login(socialToken: socialToken).onError((DioError e, _) {
+          onError('로그인 중 문제가 발생하였습니다.\n에러: ${e.response?.data['code'] ?? e.error}');
+        });
       }
     } catch (e) {
       logger.e(e);
-
-      var errMsg = '애플 로그인에 실패했습니다.';
-
-      if (AppConfig.appMode == AppMode.dev) {
-        errMsg += '\n${e.toString()}';
-      }
-
-      onError(errMsg);
+      onError('애플 로그인에 실패했습니다.');
     }
   }
 
-  void login({required SocialToken socialToken}) async {
+  Future<void> login({required SocialToken socialToken}) async {
     state = UserModelLoading();
 
     try {
@@ -131,8 +120,12 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
       if (e.response?.statusCode == HttpStatus.notFound) {
         state = UserModelSignUp();
       } else {
-        rethrow;
+        state = UserModelError();
+        return Future.error(e);
       }
+    } catch (e) {
+      state = UserModelError();
+      return Future.error(e);
     }
   }
 
