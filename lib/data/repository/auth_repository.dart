@@ -38,7 +38,7 @@ class AuthRepository {
 
     final resp = await dio.post('$baseUrl/api/v1/auth/reissue',
         data: {'refreshToken': refreshToken},
-        options: Options(headers: {'Authorization': 'BEARER $accessToken'}));
+        options: Options(headers: {'Authorization': 'Bearer $accessToken'}));
 
     final token = Token.fromJson(resp.data);
 
@@ -48,6 +48,6 @@ class AuthRepository {
 
   void logout(String accessToken) async {
     await dio.get('$baseUrl/api/v1/auth/logout',
-        options: Options(headers: {'Authorization': 'BEARER $accessToken'}));
+        options: Options(headers: {'Authorization': 'Bearer $accessToken'}));
   }
 }

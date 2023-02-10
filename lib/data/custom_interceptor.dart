@@ -23,7 +23,7 @@ class CustomInterceptor extends Interceptor {
 
       final token = await storage.read(key: accessTokenKey);
 
-      options.headers.addAll({'Authorization': 'BEARER $token'});
+      options.headers.addAll({'Authorization': 'Bearer $token'});
     }
 
     return super.onRequest(options, handler);
@@ -63,7 +63,7 @@ class CustomInterceptor extends Interceptor {
         accessToken = await storage.read(key: accessTokenKey);
 
         final options = err.requestOptions;
-        options.headers.addAll({'Authorization': 'BEARER $accessToken'});
+        options.headers.addAll({'Authorization': 'Bearer $accessToken'});
 
         final response = await dio.fetch(options);
 
