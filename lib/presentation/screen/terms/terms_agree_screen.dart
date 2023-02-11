@@ -1,4 +1,5 @@
 import 'package:bookand/core/theme/custom_text_style.dart';
+import 'package:bookand/presentation/provider/member_provider.dart';
 import 'package:bookand/presentation/screen/terms/terms_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,13 +8,12 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/layout/common_layout.dart';
-import '../../../data/model/member/member_model.dart';
+import '../../../domain/model/member_model.dart';
 import '../../component/check_button.dart';
 import '../../component/circle_check_button.dart';
 import '../../component/custom_dialog.dart';
 import '../../component/round_rect_button.dart';
 import '../../provider/terms_provider.dart';
-import '../../provider/user_me_provider.dart';
 
 class TermsAgreeScreen extends ConsumerWidget with CustomDialog {
   static String get routeName => 'termsAgree';
@@ -22,8 +22,8 @@ class TermsAgreeScreen extends ConsumerWidget with CustomDialog {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userMeProvider);
-    final state = ref.watch(userMeProvider.notifier);
+    final user = ref.watch(memberStateNotifierProvider);
+    final state = ref.watch(memberStateNotifierProvider.notifier);
     final allAgreeState = ref.watch(allAgreeProvider.notifier);
     final agree14YearsOfAgeOrOlderState = ref.watch(agree14YearsOfAgeOrOlderProvider.notifier);
     final agreeTermsOfServiceState = ref.watch(agreeTermsOfServiceProvider.notifier);

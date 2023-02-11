@@ -1,16 +1,26 @@
 import 'dart:async';
 
-import 'package:bookand/data/datasource/remote/user_remote_data_source.dart';
-import 'package:bookand/data/model/member/member_model.dart';
-import 'package:bookand/data/model/member/member_profile_update.dart';
-import 'package:bookand/data/model/result_response.dart';
+import 'package:bookand/data/entity/member/member_entity.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../api/user_api.dart';
+import '../../../api/member_api.dart';
+import '../../../entity/member/member_profile_update.dart';
+import '../../../entity/result_response.dart';
+import 'member_remote_data_source.dart';
 
-class UserRemoteDataSourceImpl implements UserRemoteDataSource {
-  final UserApi api;
+part 'member_remote_data_source_impl.g.dart';
 
-  UserRemoteDataSourceImpl(this.api);
+@riverpod
+MemberRemoteDataSource memberRemoteDataSource(MemberRemoteDataSourceRef ref) {
+  final memberApi = ref.read(memberApiProvider);
+
+  return MemberRemoteDataSourceImpl(memberApi);
+}
+
+class MemberRemoteDataSourceImpl implements MemberRemoteDataSource {
+  final MemberApi api;
+
+  MemberRemoteDataSourceImpl(this.api);
 
   @override
   Future<ResultResponse> checkNicknameDuplicate(String nickname) async {
@@ -41,8 +51,8 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   }
 
   @override
-  Future<MemberModel> getMe(String accessToken) async {
-    final completer = Completer<MemberModel>();
+  Future<MemberEntity> getMe(String accessToken) async {
+    final completer = Completer<MemberEntity>();
 
     try {
       final resp = await api.getMe(accessToken);
@@ -55,13 +65,14 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   }
 
   @override
-  Future<MemberModel> updateMemberProfile(
+  Future<MemberEntity> updateMemberProfile(
     String accessToken,
-    MemberProfileUpdate memberProfileUpdate,
+    String nickname,
   ) async {
-    final completer = Completer<MemberModel>();
+    final completer = Completer<MemberEntity>();
 
     try {
+      final memberProfileUpdate = MemberProfileUpdate(nickname);
       final resp = await api.updateMemberProfile(accessToken, memberProfileUpdate);
       completer.complete(resp);
     } catch (e) {

@@ -1,11 +1,23 @@
 import 'dart:async';
 
-import 'package:bookand/data/datasource/remote/auth_remote_data_source.dart';
-import 'package:bookand/data/model/auth/reissue_request.dart';
-import 'package:bookand/data/model/auth/social_token.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../api/auth_api.dart';
-import '../../model/auth/token_reponse.dart';
+import '../../../../core/const/social_type.dart';
+import '../../../api/auth_api.dart';
+import '../../../entity/auth/reissue_request.dart';
+import '../../../entity/auth/sign_up_entity.dart';
+import '../../../entity/auth/social_token.dart';
+import '../../../entity/auth/token_reponse.dart';
+import 'auth_remote_data_source.dart';
+
+part 'auth_remote_data_source_impl.g.dart';
+
+@riverpod
+AuthRemoteDataSource authRemoteDataSource(AuthRemoteDataSourceRef ref) {
+  final authApi = ref.read(authApiProvider);
+
+  return AuthRemoteDataSourceImpl(authApi);
+}
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final AuthApi api;
@@ -13,10 +25,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   AuthRemoteDataSourceImpl(this.api);
 
   @override
-  Future<TokenResponse> login(SocialToken socialToken) async {
+  Future<TokenResponse> login(String accessToken, SocialType socialType) async {
     final completer = Completer<TokenResponse>();
 
     try {
+      final socialToken = SocialToken(accessToken, socialType);
       final resp = await api.login(socialToken);
       completer.complete(resp);
     } catch (e) {
@@ -41,10 +54,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<TokenResponse> reissue(ReissueRequest reissueRequest) async {
+  Future<TokenResponse> reissue(String refreshToken) async {
     final completer = Completer<TokenResponse>();
 
     try {
+      final reissueRequest = ReissueRequest(refreshToken);
       final resp = await api.reissue(reissueRequest);
       completer.complete(resp);
     } catch (e) {
@@ -59,7 +73,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final completer = Completer<TokenResponse>();
 
     try {
-      final resp = await api.signUp({'signToken': signToken});
+      final signUpEntity = SignUpEntity(signToken);
+      final resp = await api.signUp(signUpEntity);
       completer.complete(resp);
     } catch (e) {
       completer.completeError(e);

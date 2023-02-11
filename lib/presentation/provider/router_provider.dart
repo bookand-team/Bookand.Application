@@ -1,11 +1,14 @@
 import 'package:firebase_analytics/observer.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../core/config/firebase/firebase_init.dart';
 import 'auth_provider.dart';
 
-final routerProvider = Provider<GoRouter>((ref) {
+part 'router_provider.g.dart';
+
+@riverpod
+GoRouter router(RouterRef ref) {
   final provider = ref.read(authProvider);
 
   return GoRouter(
@@ -14,4 +17,4 @@ final routerProvider = Provider<GoRouter>((ref) {
       refreshListenable: provider,
       redirect: provider.redirectLogic,
       observers: [FirebaseAnalyticsObserver(analytics: analytics)]);
-});
+}

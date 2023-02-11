@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:bookand/data/model/auth/reissue_request.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -8,6 +7,7 @@ import '../core/config/app_config.dart';
 import '../core/const/storage_key.dart';
 import '../core/util/logger.dart';
 import 'api/auth_api.dart';
+import 'entity/auth/reissue_request.dart';
 
 class ApiHelper {
   static Dio create() {

@@ -1,15 +1,15 @@
-import 'package:bookand/presentation/provider/user_me_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../data/model/member/member_model.dart';
+import '../../domain/model/member_model.dart';
 import '../screen/login_screen.dart';
 import '../screen/main/article_screen.dart';
 import '../screen/main/main_tab.dart';
 import '../screen/splash_screen.dart';
 import '../screen/terms/terms_agree_screen.dart';
 import '../screen/terms/terms_detail_screen.dart';
+import 'member_provider.dart';
 
 final authProvider = ChangeNotifierProvider<AuthProvider>((ref) {
   return AuthProvider(ref: ref);
@@ -19,15 +19,11 @@ class AuthProvider extends ChangeNotifier {
   final Ref ref;
 
   AuthProvider({required this.ref}) {
-    ref.listen<MemberModelBase?>(userMeProvider, (previous, next) {
+    ref.listen<MemberModelBase?>(memberStateNotifierProvider, (previous, next) {
       if (previous != next) {
         notifyListeners();
       }
     });
-  }
-
-  void logout() {
-    ref.read(userMeProvider.notifier).logout();
   }
 
   List<GoRoute> get routes => [
@@ -60,13 +56,13 @@ class AuthProvider extends ChangeNotifier {
       ];
 
   String? redirectLogic(BuildContext context, GoRouterState state) {
-    final MemberModelBase user = ref.read(userMeProvider);
+    final member = ref.read(memberStateNotifierProvider);
 
-    if (user is MemberModelInit) {
+    if (member is MemberModelInit) {
       return '/login';
     }
 
-    if (user is MemberModelSignUp) {
+    if (member is MemberModelSignUp) {
       if (state.location.startsWith('/login/termsAgree/termsAgreeDetail')) {
         return null;
       } else {
@@ -74,7 +70,7 @@ class AuthProvider extends ChangeNotifier {
       }
     }
 
-    if (user is MemberModel) {
+    if (member is MemberModel) {
       return state.location.startsWith('/login') || state.location == '/splash' ? '/' : null;
     }
 

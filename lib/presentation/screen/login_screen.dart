@@ -8,10 +8,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
 import '../../core/layout/common_layout.dart';
-import '../../data/model/member/member_model.dart';
+import '../../domain/model/member_model.dart';
 import '../component/custom_dialog.dart';
 import '../component/social_login_button.dart';
-import '../provider/user_me_provider.dart';
+import '../provider/member_provider.dart';
 
 class LoginScreen extends ConsumerWidget with CustomDialog {
   static String get routeName => 'login';
@@ -20,8 +20,8 @@ class LoginScreen extends ConsumerWidget with CustomDialog {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userMeProvider);
-    final state = ref.watch(userMeProvider.notifier);
+    final user = ref.watch(memberStateNotifierProvider);
+    final state = ref.watch(memberStateNotifierProvider.notifier);
 
     return CommonLayout(
       backgroundColor: Colors.black,
