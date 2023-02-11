@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../data/model/user_model.dart';
+import '../../data/model/member/member_model.dart';
 import '../screen/login_screen.dart';
 import '../screen/main/article_screen.dart';
 import '../screen/main/main_tab.dart';
@@ -19,7 +19,7 @@ class AuthProvider extends ChangeNotifier {
   final Ref ref;
 
   AuthProvider({required this.ref}) {
-    ref.listen<UserModelBase?>(userMeProvider, (previous, next) {
+    ref.listen<MemberModelBase?>(userMeProvider, (previous, next) {
       if (previous != next) {
         notifyListeners();
       }
@@ -28,10 +28,6 @@ class AuthProvider extends ChangeNotifier {
 
   void logout() {
     ref.read(userMeProvider.notifier).logout();
-  }
-
-  Future<void> refreshToken() async {
-    await ref.read(userMeProvider.notifier).refreshToken();
   }
 
   List<GoRoute> get routes => [
@@ -64,13 +60,13 @@ class AuthProvider extends ChangeNotifier {
       ];
 
   String? redirectLogic(BuildContext context, GoRouterState state) {
-    final UserModelBase user = ref.read(userMeProvider);
+    final MemberModelBase user = ref.read(userMeProvider);
 
-    if (user is UserModelInit) {
+    if (user is MemberModelInit) {
       return '/login';
     }
 
-    if (user is UserModelSignUp) {
+    if (user is MemberModelSignUp) {
       if (state.location.startsWith('/login/termsAgree/termsAgreeDetail')) {
         return null;
       } else {
@@ -78,7 +74,7 @@ class AuthProvider extends ChangeNotifier {
       }
     }
 
-    if (user is UserModel) {
+    if (user is MemberModel) {
       return state.location.startsWith('/login') || state.location == '/splash' ? '/' : null;
     }
 

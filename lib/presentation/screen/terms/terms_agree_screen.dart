@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/layout/common_layout.dart';
-import '../../../data/model/user_model.dart';
+import '../../../data/model/member/member_model.dart';
 import '../../component/check_button.dart';
 import '../../component/circle_check_button.dart';
 import '../../component/custom_dialog.dart';
@@ -33,7 +33,7 @@ class TermsAgreeScreen extends ConsumerWidget with CustomDialog {
           state.cancelSignUp();
           return false;
         },
-        ignoring: user is UserModelLoading,
+        ignoring: user is MemberModelLoading,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           leading: InkWell(
@@ -147,8 +147,10 @@ class TermsAgreeScreen extends ConsumerWidget with CustomDialog {
                 width: MediaQuery.of(context).size.width,
                 height: 56,
                 onPressed: () {
-                  final socialToken = ref.read(userMeProvider.notifier).socialToken;
-                  state.login(socialToken: socialToken);
+                  state.signUp().onError((e, _) {
+                    showOneBtnDialog(
+                        context: context, content: '회원가입 중 문제가 발생하였습니다.\n에러: ${e.toString()}');
+                  });
                 },
                 enabled: ref.watch(allAgreeProvider),
               ),

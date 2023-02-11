@@ -1,18 +1,21 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_model.dart';
+part of 'member_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
-      email: json['email'] as String,
-      nickname: json['nickname'] as String,
-      providerEmail: json['providerEmail'] as String,
+MemberModel _$MemberModelFromJson(Map<String, dynamic> json) => MemberModel(
+      json['id'] as int,
+      json['email'] as String,
+      json['nickname'] as String,
+      json['providerEmail'] as String,
     );
 
-Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
+Map<String, dynamic> _$MemberModelToJson(MemberModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
       'email': instance.email,
       'nickname': instance.nickname,
       'providerEmail': instance.providerEmail,

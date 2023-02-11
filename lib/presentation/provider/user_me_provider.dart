@@ -1,5 +1,10 @@
 import 'dart:io';
 
+import 'package:bookand/data/api/auth_api.dart';
+import 'package:bookand/data/api/user_api.dart';
+import 'package:bookand/data/api_helper.dart';
+import 'package:bookand/data/datasource/remote/auth_remote_data_source_impl.dart';
+import 'package:bookand/data/datasource/remote/user_remote_data_source_impl.dart';
 import 'package:bookand/presentation/provider/secure_storage_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,32 +12,43 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
+import '../../core/config/app_config.dart';
 import '../../core/const/social_type.dart';
 import '../../core/const/storage_key.dart';
 import '../../core/util/logger.dart';
-import '../../data/model/social_token.dart';
-import '../../data/model/user_model.dart';
-import '../../data/repository/auth_repository.dart';
-import '../../data/repository/user_me_repository.dart';
+import '../../data/datasource/remote/auth_remote_data_source.dart';
+import '../../data/datasource/remote/user_remote_data_source.dart';
+import '../../data/model/auth/social_token.dart';
+import '../../data/model/member/member_model.dart';
 
-final userMeProvider = StateNotifierProvider<UserMeStateNotifier, UserModelBase>((ref) {
-  final authRepository = ref.watch(authRepositoryProvider);
-  final userMeRepository = ref.watch(userMeRepositoryProvider);
+final userMeProvider = StateNotifierProvider<UserMeStateNotifier, MemberModelBase>((ref) {
+  final authRemoteDataSource = AuthRemoteDataSourceImpl(AuthApi(
+    ApiHelper.create(),
+    baseUrl: AppConfig.instance.baseUrl,
+  ));
+  final userRemoteDataSource = UserRemoteDataSourceImpl(UserApi(
+    ApiHelper.create(),
+    baseUrl: AppConfig.instance.baseUrl,
+  ));
   final storage = ref.watch(secureStorageProvider);
 
   return UserMeStateNotifier(
-      authRepository: authRepository, repository: userMeRepository, storage: storage);
+      authRemoteDataSource: authRemoteDataSource,
+      userRemoteDataSource: userRemoteDataSource,
+      storage: storage);
 });
 
-class UserMeStateNotifier extends StateNotifier<UserModelBase> {
-  final AuthRepository authRepository;
-  final UserMeRepository repository;
+class UserMeStateNotifier extends StateNotifier<MemberModelBase> {
+  final AuthRemoteDataSource authRemoteDataSource;
+  final UserRemoteDataSource userRemoteDataSource;
   final FlutterSecureStorage storage;
   late SocialToken socialToken;
 
-  UserMeStateNotifier(
-      {required this.authRepository, required this.repository, required this.storage})
-      : super(UserModelLoading()) {
+  UserMeStateNotifier({
+    required this.authRemoteDataSource,
+    required this.userRemoteDataSource,
+    required this.storage,
+  }) : super(MemberModelLoading()) {
     getMe();
   }
 
@@ -42,21 +58,21 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
       final accessToken = await storage.read(key: accessTokenKey);
 
       if (refreshToken == null || accessToken == null) {
-        state = UserModelInit();
+        state = MemberModelInit();
         return;
       }
 
-      final resp = await repository.getMe();
+      final resp = await userRemoteDataSource.getMe(accessToken);
 
       state = resp;
     } catch (e) {
       logger.e(e);
-      state = UserModelError();
+      state = MemberModelInit();
     }
   }
 
   void googleLogin({required Function(String) onError}) async {
-    state = UserModelLoading();
+    state = MemberModelLoading();
     try {
       final googleSignIn = GoogleSignIn();
       final account = await googleSignIn.signIn();
@@ -64,7 +80,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
       final googleAccessToken = auth?.accessToken;
 
       if (googleAccessToken == null) {
-        state = UserModelInit();
+        state = MemberModelInit();
         onError('구글 로그인이 취소되었습니다.');
       } else {
         socialToken = SocialToken(googleAccessToken, SocialType.google);
@@ -74,13 +90,13 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
       }
     } catch (e) {
       logger.e(e);
-      state = UserModelError();
+      state = MemberModelError();
       onError('구글 로그인에 실패했습니다.');
     }
   }
 
   void appleLogin({required Function(String) onError}) async {
-    state = UserModelLoading();
+    state = MemberModelLoading();
     try {
       final credential = await SignInWithApple.getAppleIDCredential(
         scopes: [
@@ -104,26 +120,44 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
   }
 
   Future<void> login({required SocialToken socialToken}) async {
-    state = UserModelLoading();
+    state = MemberModelLoading();
 
     try {
-      final resp = await authRepository.fetchLogin(
-          accessToken: socialToken.token, socialType: socialToken.socialType);
+      final resp = await authRemoteDataSource.login(socialToken);
 
       await storage.write(key: refreshTokenKey, value: resp.refreshToken);
       await storage.write(key: accessTokenKey, value: resp.accessToken);
 
       getMe();
     } on DioError catch (e) {
-      logger.e(e);
+      logger.e(e.message);
       if (e.response?.statusCode == HttpStatus.notFound) {
-        state = UserModelSignUp();
+        final signToken = e.response?.data['signToken'];
+        await storage.write(key: signTokenKey, value: signToken);
+        state = MemberModelSignUp();
       } else {
-        state = UserModelError();
+        state = MemberModelError();
         return Future.error(e);
       }
     } catch (e) {
-      state = UserModelError();
+      state = MemberModelError();
+      return Future.error(e);
+    }
+  }
+
+  Future<void> signUp() async {
+    state = MemberModelLoading();
+
+    try {
+      final signToken = await storage.read(key: signTokenKey);
+      final resp = await authRemoteDataSource.signUp(signToken!);
+
+      await storage.write(key: refreshTokenKey, value: resp.refreshToken);
+      await storage.write(key: accessTokenKey, value: resp.accessToken);
+
+      getMe();
+    } catch (e) {
+      state = MemberModelError();
       return Future.error(e);
     }
   }
@@ -131,11 +165,11 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
   void logout() async {
     try {
       final accessToken = await storage.read(key: accessTokenKey);
-      authRepository.logout(accessToken!);
+      authRemoteDataSource.logout(accessToken!);
     } catch (e) {
       logger.e(e);
     } finally {
-      state = UserModelInit();
+      state = MemberModelInit();
       await Future.wait([
         storage.delete(key: refreshTokenKey),
         storage.delete(key: accessTokenKey),
@@ -143,11 +177,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase> {
     }
   }
 
-  Future<void> refreshToken() async {
-    await authRepository.refreshToken();
-  }
-
   void cancelSignUp() {
-    state = UserModelInit();
+    state = MemberModelInit();
   }
 }

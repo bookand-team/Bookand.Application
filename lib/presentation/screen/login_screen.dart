@@ -8,7 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
 import '../../core/layout/common_layout.dart';
-import '../../data/model/user_model.dart';
+import '../../data/model/member/member_model.dart';
 import '../component/custom_dialog.dart';
 import '../component/social_login_button.dart';
 import '../provider/user_me_provider.dart';
@@ -25,7 +25,7 @@ class LoginScreen extends ConsumerWidget with CustomDialog {
 
     return CommonLayout(
       backgroundColor: Colors.black,
-      ignoring: user is UserModelLoading,
+      ignoring: user is MemberModelLoading,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
       ),
