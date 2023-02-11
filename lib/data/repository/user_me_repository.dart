@@ -1,9 +1,9 @@
-import 'package:bookand/config/app_config.dart';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/http.dart';
 
-import '../../provider/dio_provider.dart';
+import '../../core/config/app_config.dart';
+import '../../presentation/provider/dio_provider.dart';
 import '../model/user_model.dart';
 
 part 'user_me_repository.g.dart';

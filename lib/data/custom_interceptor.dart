@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:bookand/provider/auth_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../common/const/storage_key.dart';
-import '../common/util/logger.dart';
+import '../core/const/storage_key.dart';
+import '../core/util/logger.dart';
+import '../presentation/provider/auth_provider.dart';
 
 class CustomInterceptor extends Interceptor {
   final FlutterSecureStorage storage;

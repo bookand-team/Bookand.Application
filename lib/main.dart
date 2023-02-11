@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:bookand/provider/router_provider.dart';
+import 'package:bookand/presentation/provider/router_provider.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,9 +9,9 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'common/theme/theme_data.dart';
-import 'config/app_init.dart';
-import 'config/firebase/firebase_init.dart';
+import 'core/config/app_init.dart';
+import 'core/config/firebase/firebase_init.dart';
+import 'core/theme/theme_data.dart';
 import 'generated/l10n.dart';
 
 void main() async {

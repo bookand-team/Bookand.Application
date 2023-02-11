@@ -1,4 +1,4 @@
-import '../../common/const/social_type.dart';
+import '../../core/const/social_type.dart';
 
 class SocialToken {
   final String token;

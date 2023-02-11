@@ -1,13 +1,11 @@
-import 'dart:async';
-
-import 'package:bookand/config/app_config.dart';
-import 'package:bookand/provider/dio_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../common/const/social_type.dart';
-import '../../common/const/storage_key.dart';
-import '../../provider/secure_storage_provider.dart';
+import '../../core/config/app_config.dart';
+import '../../core/const/social_type.dart';
+import '../../core/const/storage_key.dart';
+import '../../presentation/provider/dio_provider.dart';
+import '../../presentation/provider/secure_storage_provider.dart';
 import '../model/token.dart';
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
@@ -23,8 +21,7 @@ class AuthRepository {
 
   AuthRepository({required this.baseUrl, required this.dio, required this.ref});
 
-  Future<Token> fetchLogin(
-      {required String accessToken, required SocialType socialType}) async {
+  Future<Token> fetchLogin({required String accessToken, required SocialType socialType}) async {
     final resp = await dio.post('$baseUrl/api/v1/auth/login',
         data: {'accessToken': accessToken, 'socialType': socialType.type});
 
