@@ -7,6 +7,11 @@ import Flutter
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+#if DEBUG
+    let providerFactory = AppCheckDebugProviderFactory()
+    AppCheck.setAppCheckProviderFactory(providerFactory)
+#endif
+      
     GeneratedPluginRegistrant.register(with: self)
       
       let controller = window.rootViewController as! FlutterViewController

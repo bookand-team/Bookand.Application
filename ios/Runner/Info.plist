@@ -62,5 +62,11 @@
 	<string>UIStatusBarStyleLightContent</string>
 	<key>UIStatusBarHidden</key>
 	<false/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+    <key>NSBonjourServices</key>
+        <array>
+            <string>_dartobservatory._tcp</string>
+        </array>
 </dict>
 </plist>
