@@ -54,7 +54,7 @@ class ApiHelper {
         err.requestOptions.headers['Authorization'] = accessToken;
 
         final response = await dio.request(
-          err.requestOptions.path,
+          err.requestOptions.uri.toString(),
           data: err.requestOptions.data,
           queryParameters: err.requestOptions.queryParameters,
           options: Options(
