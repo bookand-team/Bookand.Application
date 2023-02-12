@@ -5,8 +5,7 @@ class CheckButton extends StatelessWidget {
   final bool value;
   final Function() onTap;
 
-  const CheckButton(
-      {super.key, required this.value, required this.onTap});
+  const CheckButton({super.key, required this.value, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +18,8 @@ class CheckButton extends StatelessWidget {
         height: 52,
         alignment: Alignment.center,
         child: SvgPicture.asset(
-            value
-                ? 'assets/images/ic_checked.svg'
-                : 'assets/images/ic_unchecked.svg',
-            fit: BoxFit.none),
+          value ? 'assets/images/ic_check_active.svg' : 'assets/images/ic_check_inactive.svg',
+        ),
       ),
     );
   }

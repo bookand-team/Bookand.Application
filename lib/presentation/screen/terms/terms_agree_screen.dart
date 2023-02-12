@@ -138,7 +138,7 @@ class TermsAgreeScreen extends ConsumerWidget with CustomDialog {
                     memberProvider.signUp().onError((e, _) {
                       showOneBtnDialog(
                           context: context,
-                          content: '${AppStrings.signInError}\nError: ${e.toString()}');
+                          content: '${AppStrings.signInError}\n에러: ${e.toString()}');
                     });
                   },
                   enabled: !termsAgreeProvider.containsValue(false),

@@ -45,7 +45,7 @@ class LoginUseCase {
         await storage.write(key: signTokenKey, value: signToken);
         onSignUp();
       } else {
-        throw Exception(e.message);
+        throw (e.message);
       }
     }
   }

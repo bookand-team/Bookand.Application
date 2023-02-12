@@ -13,6 +13,7 @@ class AppStrings {
   static const loggingInError = '로그인 중 문제가 발생하였습니다.';
 
   static const signInError = '회원가입 중 문제가 발생하였습니다.';
+  static const signTokenNotFound = '회원가입 토큰이 존재하지 않음.';
 
   static const termsAgreeDescription = '이용약관에\n동의해주세요';
   static const allAgree = '모두 동의';

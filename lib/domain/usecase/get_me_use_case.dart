@@ -29,7 +29,7 @@ class GetMeUseCase {
     final refreshToken = await storage.read(key: refreshTokenKey);
 
     if (refreshToken == null || accessToken == null) {
-      throw Exception('로그인 정보가 없음');
+      throw ('로그인 정보가 없음');
     }
 
     return await repository.getMe(accessToken);

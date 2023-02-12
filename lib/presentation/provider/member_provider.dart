@@ -53,7 +53,7 @@ class MemberStateNotifier extends _$MemberStateNotifier {
     } catch (e) {
       logger.e(e);
       state = MemberModelError();
-      onError('${AppStrings.loggingInError}\nError: ${e.toString()}');
+      onError('${AppStrings.loggingInError}\n에러: ${e.toString()}');
     }
   }
 
@@ -84,7 +84,7 @@ class MemberStateNotifier extends _$MemberStateNotifier {
     } catch (e) {
       logger.e(e);
       state = MemberModelError();
-      onError('${AppStrings.loggingInError}\nError: ${e.toString()}');
+      onError('${AppStrings.loggingInError}\n에러: ${e.toString()}');
     }
   }
 
