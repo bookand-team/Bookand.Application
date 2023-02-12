@@ -10,11 +10,13 @@ class CheckButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
       onTap: onTap,
       child: Container(
-        width: 20,
-        height: 20,
+        width: 60,
+        height: 52,
         alignment: Alignment.center,
         child: SvgPicture.asset(
             value

@@ -34,8 +34,7 @@ class ApiHelper {
   }
 
   static void _onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
-    logger.i(
-        '[RESP] [${response.requestOptions.method}] ${response.requestOptions.uri}\n[Status Code] ${response.statusCode}\n[Body] ${response.data}');
+    logger.i('[RESP] [${response.requestOptions.method}] ${response.requestOptions.uri}');
 
     return handler.next(response);
   }

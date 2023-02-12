@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/const/policy.dart';
 import '../../domain/model/member_model.dart';
 import '../screen/login_screen.dart';
 import '../screen/main/article_screen.dart';
@@ -48,9 +49,10 @@ class AuthProvider extends ChangeNotifier {
                   builder: (_, __) => const TermsAgreeScreen(),
                   routes: [
                     GoRoute(
-                        path: 'termsAgreeDetail/:id',
+                        path: 'termsAgreeDetail',
                         name: TermsAgreeDetailScreen.routeName,
-                        builder: (_, state) => TermsAgreeDetailScreen(id: state.params['id']!))
+                        builder: (_, state) =>
+                            TermsAgreeDetailScreen(policy: state.extra as Policy))
                   ])
             ]),
       ];

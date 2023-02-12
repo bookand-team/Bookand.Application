@@ -77,5 +77,3 @@ flutter:
           weight: 600
         - asset: assets/fonts/Pretendard/Pretendard-Bold.ttf
           weight: 700
-flutter_intl:
-  enabled: true

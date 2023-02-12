@@ -1,3 +1,4 @@
+import 'package:bookand/core/app_strings.dart';
 import 'package:bookand/core/theme/custom_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -202,7 +203,9 @@ class _ArticleScreenState extends ConsumerState<ArticleScreen> {
             thickness: 8,
           ),
           SizedBox(height: 32),
-          Padding(padding: EdgeInsets.only(left: 16, bottom: 24), child: Text('아티클 관련 서점')),
+          Padding(
+              padding: EdgeInsets.only(left: 16, bottom: 24),
+              child: Text(AppStrings.articleRelatedBookstore)),
         ],
       ),
     );

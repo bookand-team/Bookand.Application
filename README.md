@@ -3,8 +3,7 @@
 ## 목차
 1. [Build Runner](#1-build-runner)
 2. [Flutter flavor](#2-flutter-flavor)
-3. [국제화](#3-국제화)
-4. [JSON 직렬화 코드 생성](#4-json-직렬화-코드-생성)
+3. [JSON 직렬화 코드 생성](#3-json-직렬화-코드-생성)
 
 ## 1. Build Runner
 
@@ -52,28 +51,7 @@ flutter build ios --flavor [dev/product]
 flutter build ipa --flavor [dev/product]
 ```
 
-## 3. 국제화
-
-### 3-1. lib/l10n에 있는 arb파일에 언어별로 사용할 제목, 내용 등 입력
-```
-{
-    "test":"테스트"
-}
-```
-
-### 3-2. 사용할 페이지에서 아래를 import
-```dart
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-```
-
-### 3-3. 사용할 부분에서 아래와 같이 사용
-<pre>
-<code lang="dart">
-AppLocalizations.of(context)!.test
-</code>
-</pre>
-
-## 4. JSON 직렬화 코드 생성
+## 3. JSON 직렬화 코드 생성
 
 ### 모델 클래스에 아래 어노테이션 붙이기
 ```dart

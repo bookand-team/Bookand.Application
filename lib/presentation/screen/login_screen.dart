@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
 
+import '../../core/app_strings.dart';
 import '../../core/layout/common_layout.dart';
 import '../../domain/model/member_model.dart';
 import '../component/custom_dialog.dart';
@@ -45,7 +45,7 @@ class LoginScreen extends ConsumerWidget with CustomDialog {
                         });
                       },
                       image: SvgPicture.asset('assets/images/ic_apple.svg', width: 24),
-                      text: Text(Intl.message('appleSocial'),
+                      text: Text(AppStrings.appleSocial,
                           style: const TextStyle().appleLoginText()))
                   : const SizedBox(height: 56),
               const SizedBox(height: 16),
@@ -56,7 +56,7 @@ class LoginScreen extends ConsumerWidget with CustomDialog {
                     });
                   },
                   image: SvgPicture.asset('assets/images/ic_google.svg', width: 24),
-                  text: Text(Intl.message('googleSocial'),
+                  text: Text(AppStrings.googleSocial,
                       style: const TextStyle().googleLoginText()))
             ],
           ),

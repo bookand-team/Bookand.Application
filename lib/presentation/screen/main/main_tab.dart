@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
 
+import '../../../core/app_strings.dart';
 import '../../../core/layout/common_layout.dart';
 import 'bookmark_screen.dart';
 import 'home_screen.dart';
@@ -57,22 +57,22 @@ class _MainTabState extends State<MainTab> with SingleTickerProviderStateMixin {
             items: [
               BottomNavigationBarItem(
                 icon: SvgPicture.asset('assets/images/home/ic_24_bottom_home_inactive.svg'),
-                label: Intl.message('home'),
+                label: AppStrings.home,
                 activeIcon: SvgPicture.asset('assets/images/home/ic_24_bottom_home_active.svg'),
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset('assets/images/home/ic_24_bottom_map_inactive.svg'),
-                label: Intl.message('map'),
+                label: AppStrings.map,
                 activeIcon: SvgPicture.asset('assets/images/home/ic_24_bottom_map_active.svg'),
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset('assets/images/home/ic_24_bottom_bookmark_inactive.svg'),
-                label: Intl.message('bookmark'),
+                label: AppStrings.bookmark,
                 activeIcon: SvgPicture.asset('assets/images/home/ic_24_bottom_bookmark_active.svg'),
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset('assets/images/home/ic_24_bottom_mypage_inactive.svg'),
-                label: Intl.message('myPage'),
+                label: AppStrings.myPage,
                 activeIcon: SvgPicture.asset('assets/images/home/ic_24_bottom_mypage_active.svg'),
               ),
             ],

@@ -11,16 +11,23 @@ class CircleCheckButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
       child: Container(
-        width: 20,
-        height: 20,
-        decoration: BoxDecoration(
-            color: value ? lightColorFF222222 : lightColorFFF5F5F7, shape: BoxShape.circle),
-        child: SvgPicture.asset(
-            value ? 'assets/images/ic_check_white.svg' : 'assets/images/ic_unchecked.svg',
-            fit: BoxFit.none),
+        width: 60,
+        height: 52,
+        alignment: Alignment.center,
+        child: Container(
+          width: 20,
+          height: 20,
+          decoration: BoxDecoration(
+              color: value ? lightColorFF222222 : lightColorFFF5F5F7, shape: BoxShape.circle),
+          child: SvgPicture.asset(
+              value ? 'assets/images/ic_check_white.svg' : 'assets/images/ic_unchecked.svg',
+              fit: BoxFit.none),
+        ),
       ),
     );
   }

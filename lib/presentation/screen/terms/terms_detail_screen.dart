@@ -1,24 +1,33 @@
 import 'package:bookand/core/theme/custom_text_style.dart';
+import 'package:bookand/domain/model/policy_model.dart';
+import 'package:bookand/presentation/provider/policy_provider.dart';
+import 'package:bookand/presentation/provider/terms_agree_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 
+import '../../../core/app_strings.dart';
+import '../../../core/const/policy.dart';
 import '../../../core/layout/common_layout.dart';
 import '../../component/round_rect_button.dart';
 
-class TermsAgreeDetailScreen extends StatelessWidget {
+class TermsAgreeDetailScreen extends ConsumerWidget {
   static String get routeName => 'termsAgreeDetail';
-  final String id;
 
-  const TermsAgreeDetailScreen({super.key, required this.id});
+  final Policy policy;
+
+  const TermsAgreeDetailScreen({super.key, required this.policy});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final policyModel = ref.watch(policyStateNotifierProvider) as PolicyModel;
+
     return CommonLayout(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
         surfaceTintColor: Theme.of(context).colorScheme.background,
         automaticallyImplyLeading: false,
         leading: InkWell(
@@ -40,7 +49,7 @@ class TermsAgreeDetailScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'title',
+                policy.title,
                 style: const TextStyle().termsOfServiceContentsScreenTitle(),
               ),
               Expanded(
@@ -48,13 +57,16 @@ class TermsAgreeDetailScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 20, bottom: 14),
                       child: Markdown(
                           controller: ScrollController(),
-                          data: 'content',
+                          data: policyModel.content,
                           padding: const EdgeInsets.symmetric(vertical: 5)))),
               RoundRectButton(
-                  text: Intl.message('agree'),
+                  text: AppStrings.agree,
                   width: MediaQuery.of(context).size.width,
                   height: 56,
                   onPressed: () {
+                    ref
+                        .watch(termsAgreeStateNotifierProvider.notifier)
+                        .updateAgree(policy, isAgree: true);
                     context.pop();
                   })
             ],

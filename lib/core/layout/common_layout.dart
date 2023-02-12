@@ -74,7 +74,14 @@ class _CommonLayoutState extends State<CommonLayout> with CustomDialog {
               bottomNavigationBar: widget.bottomNavigationBar,
             ),
             Visibility(
-                visible: widget.isLoading, child: const Center(child: CircularProgressIndicator()))
+              visible: widget.isLoading,
+              child: Container(
+                color: Colors.black12,
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            )
           ],
         ),
       ),

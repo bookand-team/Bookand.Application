@@ -1,3 +1,4 @@
+import 'package:bookand/core/app_strings.dart';
 import 'package:bookand/domain/usecase/get_me_use_case.dart';
 import 'package:bookand/domain/usecase/login_use_case.dart';
 import 'package:bookand/domain/usecase/logout_use_case.dart';
@@ -36,7 +37,7 @@ class MemberStateNotifier extends _$MemberStateNotifier {
 
       if (googleAccessToken == null) {
         state = MemberModelInit();
-        onError('구글 로그인이 취소되었습니다.');
+        onError(AppStrings.googleLoginCancel);
         return;
       }
 
@@ -52,7 +53,7 @@ class MemberStateNotifier extends _$MemberStateNotifier {
     } catch (e) {
       logger.e(e);
       state = MemberModelError();
-      onError('로그인 중 문제가 발생하였습니다.\n에러: ${e.toString()}');
+      onError('${AppStrings.loggingInError}\nError: ${e.toString()}');
     }
   }
 
@@ -67,7 +68,7 @@ class MemberStateNotifier extends _$MemberStateNotifier {
       );
 
       if (credential.identityToken == null) {
-        onError('애플 로그인이 취소되었습니다.');
+        onError(AppStrings.appleLoginCancel);
         return;
       }
 
@@ -83,7 +84,7 @@ class MemberStateNotifier extends _$MemberStateNotifier {
     } catch (e) {
       logger.e(e);
       state = MemberModelError();
-      onError('로그인 중 문제가 발생하였습니다.\n에러: ${e.toString()}');
+      onError('${AppStrings.loggingInError}\nError: ${e.toString()}');
     }
   }
 
