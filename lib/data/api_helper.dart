@@ -27,7 +27,7 @@ class ApiHelper {
 
     if (options.headers.containsKey('Authorization')) {
       final authorization = options.headers['Authorization'];
-      options.headers['Authorization'] = 'BEARER $authorization';
+      options.headers['Authorization'] = 'Bearer $authorization';
     }
 
     return handler.next(options);

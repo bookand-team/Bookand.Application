@@ -29,5 +29,5 @@ abstract class AuthApi {
   Future<TokenResponse> reissue(@Body() ReissueRequest reissueRequest);
 
   @GET('/api/v1/auth/logout')
-  Future<BaseResponse<String>> logout(@Header("Authorization") String accessToken);
+  Future<BaseResponse<String>> logout(@Header('Authorization') String accessToken);
 }
