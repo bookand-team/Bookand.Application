@@ -62,35 +62,28 @@ class JwtAuthenticator extends Authenticator {
   @override
   FutureOr<Request?> authenticate(Request request, Response response,
       [Request? originalRequest]) async {
-    final isPathRefresh = request.uri.path == '/api/v1/auth/reissue';
+    if (response.statusCode == HttpStatus.unauthorized) {
+      const storage = FlutterSecureStorage();
 
-    if (response.statusCode == HttpStatus.unauthorized && !isPathRefresh) {
-      try {
-        const storage = FlutterSecureStorage();
+      final refreshToken = await storage.read(key: refreshTokenKey);
+      final reissueRequest = ReissueRequest(refreshToken!);
 
-        final refreshToken = await storage.read(key: refreshTokenKey);
-        final reissueRequest = ReissueRequest(refreshToken!);
+      final authService = AuthService.create(ApiHelper.client());
+      final resp = await authService.reissue(reissueRequest.toJson());
 
-        final authService = AuthService.create(ApiHelper.client());
-        final resp = await authService.reissue(reissueRequest.toJson());
-
-        if (resp.statusCode != HttpStatus.ok) {
-          throw ('토큰을 갱신할 수 없음.');
-        }
-
-        final token = TokenResponse.fromJson(jsonDecode(resp.bodyString));
-
-        await storage.write(key: accessTokenKey, value: token.accessToken);
-        await storage.write(key: refreshTokenKey, value: token.refreshToken);
-
-        final accessToken = await storage.read(key: accessTokenKey);
-        request.headers['Authorization'] = accessToken!;
-
-        return request;
-      } catch (e) {
-        logger.e(e);
+      if (resp.statusCode != HttpStatus.ok) {
         return null;
       }
+
+      final token = TokenResponse.fromJson(jsonDecode(resp.bodyString));
+
+      await storage.write(key: accessTokenKey, value: token.accessToken);
+      await storage.write(key: refreshTokenKey, value: token.refreshToken);
+
+      final accessToken = await storage.read(key: accessTokenKey);
+      request.headers['Authorization'] = accessToken!;
+
+      return request;
     }
 
     return null;
