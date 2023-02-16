@@ -62,7 +62,9 @@ class JwtAuthenticator extends Authenticator {
   @override
   FutureOr<Request?> authenticate(Request request, Response response,
       [Request? originalRequest]) async {
-    if (response.statusCode == HttpStatus.unauthorized) {
+    final isPathRefresh = request.uri.path == '/api/v1/auth/reissue';
+
+    if (response.statusCode == HttpStatus.unauthorized && !isPathRefresh) {
       const storage = FlutterSecureStorage();
 
       final refreshToken = await storage.read(key: refreshTokenKey);
@@ -72,7 +74,7 @@ class JwtAuthenticator extends Authenticator {
       final resp = await authService.reissue(reissueRequest.toJson());
 
       if (resp.statusCode != HttpStatus.ok) {
-        return null;
+        throw ('토큰 갱신 실패');
       }
 
       final token = TokenResponse.fromJson(jsonDecode(resp.bodyString));
