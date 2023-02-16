@@ -30,7 +30,7 @@ class _SystemHash {
 }
 
 String _$authRemoteDataSourceHash() =>
-    r'9807c73d768aa448a8abb0242275a4c9d86d427e';
+    r'b8c9c84433eab53474adb0aee0c719e6fa2b2605';
 
 /// See also [authRemoteDataSource].
 final authRemoteDataSourceProvider = AutoDisposeProvider<AuthRemoteDataSource>(

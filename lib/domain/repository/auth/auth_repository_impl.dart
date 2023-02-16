@@ -32,17 +32,8 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<String> logout(String accessToken) async {
-    return await authRemoteDataSource.logout(accessToken);
-  }
-
-  @override
-  Future<Token> reissue(String refreshToken) async {
-    final tokenResponse = await authRemoteDataSource.reissue(refreshToken);
-
-    return Token(
-      accessToken: tokenResponse.accessToken,
-      refreshToken: tokenResponse.refreshToken,
-    );
+    final baseResp = await authRemoteDataSource.logout(accessToken);
+    return baseResp.data;
   }
 
   @override

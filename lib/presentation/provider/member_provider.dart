@@ -19,8 +19,8 @@ class MemberStateNotifier extends _$MemberStateNotifier {
   MemberModelBase build() {
     ref.read(getMeUseCaseProvider).getMe().then((member) {
       state = member;
-    }).onError((e, _) {
-      logger.e(e);
+    }).onError((e, stack) {
+      logger.e('사용자 정보를 가져오는데 실패', e, stack);
       state = MemberModelInit();
     });
 
@@ -50,8 +50,8 @@ class MemberStateNotifier extends _$MemberStateNotifier {
           onSignUp: () {
             state = MemberModelSignUp();
           });
-    } catch (e) {
-      logger.e(e);
+    } catch (e, stack) {
+      logger.e('로그인 에러', e, stack);
       state = MemberModelError();
       onError('${AppStrings.loggingInError}\n에러: ${e.toString()}');
     }

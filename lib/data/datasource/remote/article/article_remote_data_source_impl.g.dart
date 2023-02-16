@@ -30,7 +30,7 @@ class _SystemHash {
 }
 
 String _$articleRemoteDataSourceHash() =>
-    r'4d5326ce22a7b6fdae2e1fa46e238cf425bf3af2';
+    r'33d3165d40abe787bee0342ae1b31bddeaf9b10b';
 
 /// See also [articleRemoteDataSource].
 final articleRemoteDataSourceProvider =

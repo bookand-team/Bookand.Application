@@ -30,7 +30,7 @@ class _SystemHash {
 }
 
 String _$MemberStateNotifierHash() =>
-    r'ae75c28f594641310d7b8d8717355501058d3f8a';
+    r'b816231ad6ddcec84e9b7308fad212971068e756';
 
 /// See also [MemberStateNotifier].
 final memberStateNotifierProvider =

@@ -1,85 +1,66 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:bookand/data/service/auth/auth_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/const/social_type.dart';
-import '../../../api/auth_api.dart';
-import '../../../entity/auth/reissue_request.dart';
 import '../../../entity/auth/sign_up_entity.dart';
-import '../../../entity/auth/social_token.dart';
+import '../../../entity/auth/login_request.dart';
 import '../../../entity/auth/token_reponse.dart';
+import '../../../entity/base_response.dart';
 import 'auth_remote_data_source.dart';
 
 part 'auth_remote_data_source_impl.g.dart';
 
 @riverpod
 AuthRemoteDataSource authRemoteDataSource(AuthRemoteDataSourceRef ref) {
-  final authApi = ref.read(authApiProvider);
+  final authService = ref.read(authServiceProvider);
 
-  return AuthRemoteDataSourceImpl(authApi);
+  return AuthRemoteDataSourceImpl(authService);
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  final AuthApi api;
+  final AuthService service;
 
-  AuthRemoteDataSourceImpl(this.api);
+  AuthRemoteDataSourceImpl(this.service);
 
   @override
   Future<TokenResponse> login(String accessToken, SocialType socialType) async {
-    final completer = Completer<TokenResponse>();
+    final loginRequest = LoginRequest(accessToken, socialType.type);
+    final resp = await service.login(loginRequest.toJson());
+    final data = TokenResponse.fromJson(jsonDecode(resp.bodyString));
 
-    try {
-      final socialToken = SocialToken(accessToken, socialType);
-      final resp = await api.login(socialToken);
-      completer.complete(resp);
-    } catch (e) {
-      completer.completeError(e);
+    if (resp.isSuccessful) {
+      return data;
+    } else {
+      throw resp;
     }
-
-    return completer.future;
   }
 
   @override
-  Future<String> logout(String accessToken) async {
-    final completer = Completer<String>();
+  Future<BaseResponse<String>> logout(String accessToken) async {
+    final resp = await service.logout(accessToken);
+    final data =
+        BaseResponse<String>.fromJson(jsonDecode(resp.bodyString), (json) => json.toString());
 
-    try {
-      final resp = await api.logout(accessToken);
-      completer.complete(resp.data);
-    } catch (e) {
-      completer.completeError(e);
+    if (resp.isSuccessful) {
+      return data;
+    } else {
+      throw resp;
     }
-
-    return completer.future;
-  }
-
-  @override
-  Future<TokenResponse> reissue(String refreshToken) async {
-    final completer = Completer<TokenResponse>();
-
-    try {
-      final reissueRequest = ReissueRequest(refreshToken);
-      final resp = await api.reissue(reissueRequest);
-      completer.complete(resp);
-    } catch (e) {
-      completer.completeError(e);
-    }
-
-    return completer.future;
   }
 
   @override
   Future<TokenResponse> signUp(String signToken) async {
-    final completer = Completer<TokenResponse>();
+    final signUpEntity = SignUpEntity(signToken);
+    final resp = await service.signUp(signUpEntity.toJson());
+    final data = TokenResponse.fromJson(jsonDecode(resp.bodyString));
 
-    try {
-      final signUpEntity = SignUpEntity(signToken);
-      final resp = await api.signUp(signUpEntity);
-      completer.complete(resp);
-    } catch (e) {
-      completer.completeError(e);
+    if (resp.isSuccessful) {
+      return data;
+    } else {
+      throw resp;
     }
-
-    return completer.future;
   }
 }

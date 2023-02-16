@@ -30,7 +30,7 @@ class _SystemHash {
 }
 
 String _$policyRemoteDataSourceHash() =>
-    r'6b4adcb0c7d91dba8b5aa71f2ca7bc8c0919ff74';
+    r'8b988e3271087b3900e7ff994c48c5822fa8cfab';
 
 /// See also [policyRemoteDataSource].
 final policyRemoteDataSourceProvider =

@@ -6,7 +6,5 @@ abstract class AuthRepository {
 
   Future<Token> signUp(String signToken);
 
-  Future<Token> reissue(String refreshToken);
-
   Future<String> logout(String accessToken);
 }

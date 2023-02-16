@@ -1,84 +1,98 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
-import 'package:dio/dio.dart';
+import 'package:bookand/data/entity/auth/token_reponse.dart';
+import 'package:bookand/data/service/auth/auth_service.dart';
+import 'package:chopper/chopper.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../core/config/app_config.dart';
 import '../core/const/storage_key.dart';
 import '../core/util/logger.dart';
-import 'api/auth_api.dart';
 import 'entity/auth/reissue_request.dart';
 
 class ApiHelper {
-  static Dio create() {
-    final dio = Dio();
+  static ChopperClient client({String? baseUrl}) {
+    final chopper = ChopperClient(
+        baseUrl: Uri.parse(baseUrl ?? AppConfig.instance.baseUrl),
+        interceptors: [
+          _onRequest,
+          _onResponse,
+        ],
+        authenticator: JwtAuthenticator(),
+        converter: const JsonConverter(),
+        errorConverter: const JsonConverter());
 
-    dio.interceptors.add(InterceptorsWrapper(
-      onRequest: _onRequest,
-      onResponse: _onResponse,
-      onError: (err, handler) => _onError(dio, err, handler),
-    ));
-
-    return dio;
+    return chopper;
   }
 
-  static void _onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    logger.i('[REQ] [${options.method}] ${options.uri}');
-
-    if (options.headers.containsKey('Authorization')) {
-      final authorization = options.headers['Authorization'];
-      options.headers['Authorization'] = 'Bearer $authorization';
+  static FutureOr<Request> _onRequest(Request request) async {
+    if (request.headers.containsKey('Authorization')) {
+      request.headers.update('Authorization', (authorization) => 'Bearer $authorization');
     }
 
-    return handler.next(options);
+    var logTxt = '[REQ] [${request.method}] ${request.url}';
+
+    if (kDebugMode) {
+      logTxt += '\n[Headers] ${request.headers}\n[Body] ${request.body}';
+    }
+
+    logger.i(logTxt);
+
+    return request;
   }
 
-  static void _onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
-    logger.i('[RESP] [${response.requestOptions.method}] ${response.requestOptions.uri}');
+  static FutureOr<Response> _onResponse(Response response) async {
+    var logTxt =
+        '[RESP] [${response.base.request?.method}] [${response.statusCode}] ${response.base.request?.url}';
 
-    return handler.next(response);
+    if (kDebugMode) {
+      logTxt += '\n[Body] ${response.body}';
+    }
+
+    logger.i(logTxt);
+
+    return response;
   }
+}
 
-  static void _onError(Dio dio, DioError err, ErrorInterceptorHandler handler) async {
-    logger.e(
-        '[ERR] [${err.requestOptions.method}] ${err.requestOptions.uri}\n[Status Code] ${err.response?.statusCode}\n[Body] ${err.response?.data}');
+class JwtAuthenticator extends Authenticator {
+  @override
+  FutureOr<Request?> authenticate(Request request, Response response,
+      [Request? originalRequest]) async {
+    final isPathRefresh = request.uri.path == '/api/v1/auth/reissue';
 
-    final isPathRefresh = err.requestOptions.uri.path == '/api/v1/auth/reissue';
-
-    if (err.response?.statusCode == HttpStatus.unauthorized && !isPathRefresh) {
+    if (response.statusCode == HttpStatus.unauthorized && !isPathRefresh) {
       try {
-        await _reissueToken(dio);
-
         const storage = FlutterSecureStorage();
+
+        final refreshToken = await storage.read(key: refreshTokenKey);
+        final reissueRequest = ReissueRequest(refreshToken!);
+
+        final authService = AuthService.create(ApiHelper.client());
+        final resp = await authService.reissue(reissueRequest.toJson());
+
+        if (resp.statusCode != HttpStatus.ok) {
+          throw ('토큰을 갱신할 수 없음.');
+        }
+
+        final token = TokenResponse.fromJson(jsonDecode(resp.bodyString));
+
+        await storage.write(key: accessTokenKey, value: token.accessToken);
+        await storage.write(key: refreshTokenKey, value: token.refreshToken);
+
         final accessToken = await storage.read(key: accessTokenKey);
-        err.requestOptions.headers['Authorization'] = accessToken;
+        request.headers['Authorization'] = accessToken!;
 
-        final response = await dio.request(
-          err.requestOptions.uri.toString(),
-          data: err.requestOptions.data,
-          queryParameters: err.requestOptions.queryParameters,
-          options: Options(
-            method: err.requestOptions.method,
-            headers: err.requestOptions.headers,
-          ),
-        );
-
-        return handler.resolve(response);
-      } on DioError catch (e) {
-        return handler.next(e);
+        return request;
+      } catch (e) {
+        logger.e(e);
+        return null;
       }
     }
 
-    return handler.next(err);
-  }
-
-  static Future<void> _reissueToken(Dio dio) async {
-    const storage = FlutterSecureStorage();
-    final refreshToken = await storage.read(key: refreshTokenKey);
-    final resp = await AuthApi(dio, baseUrl: AppConfig.instance.baseUrl)
-        .reissue(ReissueRequest(refreshToken!));
-
-    await storage.write(key: accessTokenKey, value: resp.accessToken);
-    await storage.write(key: refreshTokenKey, value: resp.refreshToken);
+    return null;
   }
 }

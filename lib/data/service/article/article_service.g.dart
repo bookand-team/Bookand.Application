@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'member_remote_data_source_impl.dart';
+part of 'article_service.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -29,17 +29,14 @@ class _SystemHash {
   }
 }
 
-String _$memberRemoteDataSourceHash() =>
-    r'9226875aa71d8e428f11464fdc076df0cc889316';
+String _$articleServiceHash() => r'1fe1437a9f26f087774c2c0a5a12b9a29c63fdf1';
 
-/// See also [memberRemoteDataSource].
-final memberRemoteDataSourceProvider =
-    AutoDisposeProvider<MemberRemoteDataSource>(
-  memberRemoteDataSource,
-  name: r'memberRemoteDataSourceProvider',
+/// See also [articleService].
+final articleServiceProvider = AutoDisposeProvider<ArticleService>(
+  articleService,
+  name: r'articleServiceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$memberRemoteDataSourceHash,
+      : _$articleServiceHash,
 );
-typedef MemberRemoteDataSourceRef
-    = AutoDisposeProviderRef<MemberRemoteDataSource>;
+typedef ArticleServiceRef = AutoDisposeProviderRef<ArticleService>;

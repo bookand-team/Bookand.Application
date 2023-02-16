@@ -1,9 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:bookand/data/entity/member/member_entity.dart';
+import 'package:bookand/data/service/member/member_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../api/member_api.dart';
 import '../../../entity/member/member_profile_update.dart';
 import '../../../entity/result_response.dart';
 import 'member_remote_data_source.dart';
@@ -12,56 +13,50 @@ part 'member_remote_data_source_impl.g.dart';
 
 @riverpod
 MemberRemoteDataSource memberRemoteDataSource(MemberRemoteDataSourceRef ref) {
-  final memberApi = ref.read(memberApiProvider);
+  final memberService = ref.read(memberServiceProvider);
 
-  return MemberRemoteDataSourceImpl(memberApi);
+  return MemberRemoteDataSourceImpl(memberService);
 }
 
 class MemberRemoteDataSourceImpl implements MemberRemoteDataSource {
-  final MemberApi api;
+  final MemberService service;
 
-  MemberRemoteDataSourceImpl(this.api);
+  MemberRemoteDataSourceImpl(this.service);
 
   @override
   Future<ResultResponse> checkNicknameDuplicate(String nickname) async {
-    final completer = Completer<ResultResponse>();
+    final resp = await service.checkNicknameDuplicate(nickname);
+    final data = ResultResponse.fromJson(jsonDecode(resp.bodyString));
 
-    try {
-      final resp = await api.checkNicknameDuplicate(nickname);
-      completer.complete(resp);
-    } catch (e) {
-      completer.completeError(e);
+    if (resp.isSuccessful) {
+      return data;
+    } else {
+      throw resp;
     }
-
-    return completer.future;
   }
 
   @override
   Future<ResultResponse> deleteMember(String accessToken) async {
-    final completer = Completer<ResultResponse>();
+    final resp = await service.deleteMember(accessToken);
+    final data = ResultResponse.fromJson(jsonDecode(resp.bodyString));
 
-    try {
-      final resp = await api.deleteMember(accessToken);
-      completer.complete(resp);
-    } catch (e) {
-      completer.completeError(e);
+    if (resp.isSuccessful) {
+      return data;
+    } else {
+      throw resp;
     }
-
-    return completer.future;
   }
 
   @override
   Future<MemberEntity> getMe(String accessToken) async {
-    final completer = Completer<MemberEntity>();
+    final resp = await service.getMe(accessToken);
+    final data = MemberEntity.fromJson(jsonDecode(resp.bodyString));
 
-    try {
-      final resp = await api.getMe(accessToken);
-      completer.complete(resp);
-    } catch (e) {
-      completer.completeError(e);
+    if (resp.isSuccessful) {
+      return data;
+    } else {
+      throw resp;
     }
-
-    return completer.future;
   }
 
   @override
@@ -69,16 +64,14 @@ class MemberRemoteDataSourceImpl implements MemberRemoteDataSource {
     String accessToken,
     String nickname,
   ) async {
-    final completer = Completer<MemberEntity>();
+    final memberProfileUpdate = MemberProfileUpdate(nickname);
+    final resp = await service.updateMemberProfile(accessToken, memberProfileUpdate.toJson());
+    final data = MemberEntity.fromJson(jsonDecode(resp.bodyString));
 
-    try {
-      final memberProfileUpdate = MemberProfileUpdate(nickname);
-      final resp = await api.updateMemberProfile(accessToken, memberProfileUpdate);
-      completer.complete(resp);
-    } catch (e) {
-      completer.completeError(e);
+    if (resp.isSuccessful) {
+      return data;
+    } else {
+      throw resp;
     }
-
-    return completer.future;
   }
 }

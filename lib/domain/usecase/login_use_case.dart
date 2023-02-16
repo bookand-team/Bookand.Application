@@ -1,14 +1,13 @@
-import 'dart:io';
+import 'dart:convert';
 
 import 'package:bookand/domain/repository/auth/auth_repository.dart';
 import 'package:bookand/domain/repository/auth/auth_repository_impl.dart';
-import 'package:dio/dio.dart';
+import 'package:chopper/chopper.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../core/const/social_type.dart';
 import '../../core/const/storage_key.dart';
-import '../../core/util/logger.dart';
 
 part 'login_use_case.g.dart';
 
@@ -38,14 +37,14 @@ class LoginUseCase {
       await storage.write(key: refreshTokenKey, value: token.refreshToken);
       await storage.write(key: accessTokenKey, value: token.accessToken);
       onSuccess();
-    } on DioError catch (e) {
-      logger.e(e);
-      if (e.response?.statusCode == HttpStatus.notFound) {
-        final signToken = e.response?.data['signToken'];
+    } catch (e) {
+      if (e is Response) {
+        final jsonData = jsonDecode(e.bodyString);
+        final signToken = jsonData['signToken'];
         await storage.write(key: signTokenKey, value: signToken);
         onSignUp();
       } else {
-        throw (e.message);
+        throw (e.toString());
       }
     }
   }

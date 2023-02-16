@@ -1,36 +1,34 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:bookand/data/datasource/remote/policy/policy_remote_data_source.dart';
 import 'package:bookand/data/entity/policy_entity.dart';
+import 'package:bookand/data/service/policy/policy_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import '../../../api/policy_api.dart';
 
 part 'policy_remote_data_source_impl.g.dart';
 
 @riverpod
 PolicyRemoteDataSource policyRemoteDataSource(PolicyRemoteDataSourceRef ref) {
-  final policyApi = ref.read(policyApiProvider);
+  final policyService = ref.read(policyServiceProvider);
 
-  return PolicyRemoteDataSourceImpl(policyApi);
+  return PolicyRemoteDataSourceImpl(policyService);
 }
 
 class PolicyRemoteDataSourceImpl implements PolicyRemoteDataSource {
-  final PolicyApi api;
+  final PolicyService service;
 
-  PolicyRemoteDataSourceImpl(this.api);
+  PolicyRemoteDataSourceImpl(this.service);
 
   @override
   Future<PolicyEntity> getPolicy(String terms) async {
-    final completer = Completer<PolicyEntity>();
+    final resp = await service.getPolicy(terms);
+    final data = PolicyEntity.fromJson(jsonDecode(resp.bodyString));
 
-    try {
-      final resp = await api.getPolicy(terms);
-      completer.complete(resp);
-    } catch (e) {
-      completer.completeError(e);
+    if (resp.isSuccessful) {
+      return data;
+    } else {
+      throw resp;
     }
-
-    return completer.future;
   }
 }
