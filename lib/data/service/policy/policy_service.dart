@@ -14,6 +14,6 @@ PolicyService policyService(PolicyServiceRef ref) => PolicyService.create(ApiHel
 abstract class PolicyService extends ChopperService {
   static PolicyService create([ChopperClient? client]) => _$PolicyService(client);
 
-  @Get(path: '/{terms}')
-  Future<Response> getPolicy(@Path('terms') String terms);
+  @Get(path: '/{policyName}')
+  Future<Response> getPolicy(@Path('policyName') String policyName);
 }

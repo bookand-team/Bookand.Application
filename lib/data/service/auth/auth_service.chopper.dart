@@ -36,7 +36,7 @@ class _$AuthService extends AuthService {
       'Authorization': accessToken,
     };
     final Request $request = Request(
-      'POST',
+      'GET',
       $url,
       client.baseUrl,
       headers: $headers,

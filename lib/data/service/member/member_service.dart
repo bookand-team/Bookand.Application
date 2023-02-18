@@ -20,12 +20,12 @@ abstract class MemberService extends ChopperService {
   @Get(path: '/me')
   Future<Response> getMe(@Header('Authorization') String accessToken);
 
-  @Post(path: '/remove')
+  @Put(path: '/profile')
   Future<Response> updateMemberProfile(
     @Header('Authorization') String accessToken,
     @Body() Map<String, dynamic> body,
   );
 
-  @Post(path: '/remove')
+  @Delete(path: '/remove')
   Future<Response> deleteMember(@Header('Authorization') String accessToken);
 }

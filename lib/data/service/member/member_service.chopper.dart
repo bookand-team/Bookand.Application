@@ -47,13 +47,13 @@ class _$MemberService extends MemberService {
     String accessToken,
     Map<String, dynamic> body,
   ) {
-    final Uri $url = Uri.parse('/api/v1/members/remove');
+    final Uri $url = Uri.parse('/api/v1/members/profile');
     final Map<String, String> $headers = {
       'Authorization': accessToken,
     };
     final $body = body;
     final Request $request = Request(
-      'POST',
+      'PUT',
       $url,
       client.baseUrl,
       body: $body,
@@ -69,7 +69,7 @@ class _$MemberService extends MemberService {
       'Authorization': accessToken,
     };
     final Request $request = Request(
-      'POST',
+      'DELETE',
       $url,
       client.baseUrl,
       headers: $headers,

@@ -19,8 +19,8 @@ class PolicyRepositoryImpl implements PolicyRepository {
   PolicyRepositoryImpl(this.policyRemoteDataSource);
 
   @override
-  Future<PolicyModel> getPolicy(String terms) async {
-    final policyEntity = await policyRemoteDataSource.getPolicy(terms);
+  Future<PolicyModel> getPolicy(String policyName) async {
+    final policyEntity = await policyRemoteDataSource.getPolicy(policyName);
 
     return PolicyModel(policyEntity.title, policyEntity.content);
   }

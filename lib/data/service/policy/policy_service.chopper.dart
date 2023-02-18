@@ -17,8 +17,8 @@ class _$PolicyService extends PolicyService {
   final definitionType = PolicyService;
 
   @override
-  Future<Response<dynamic>> getPolicy(String terms) {
-    final Uri $url = Uri.parse('/api/v1/policys/${terms}');
+  Future<Response<dynamic>> getPolicy(String policyName) {
+    final Uri $url = Uri.parse('/api/v1/policys/${policyName}');
     final Request $request = Request(
       'GET',
       $url,

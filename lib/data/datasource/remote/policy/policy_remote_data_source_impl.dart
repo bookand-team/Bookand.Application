@@ -21,8 +21,8 @@ class PolicyRemoteDataSourceImpl implements PolicyRemoteDataSource {
   PolicyRemoteDataSourceImpl(this.service);
 
   @override
-  Future<PolicyEntity> getPolicy(String terms) async {
-    final resp = await service.getPolicy(terms);
+  Future<PolicyEntity> getPolicy(String policyName) async {
+    final resp = await service.getPolicy(policyName);
     final data = PolicyEntity.fromJson(jsonDecode(resp.bodyString));
 
     if (resp.isSuccessful) {
