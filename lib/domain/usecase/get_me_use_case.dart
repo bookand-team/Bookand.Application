@@ -4,9 +4,9 @@ import 'package:bookand/core/const/storage_key.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../model/member_model.dart';
-import '../repository/member/member_repository.dart';
-import '../repository/member/member_repository_impl.dart';
+import '../model/member/member_model.dart';
+import '../repository/member_repository.dart';
+import '../../data/repository/member/member_repository_impl.dart';
 
 part 'get_me_use_case.g.dart';
 

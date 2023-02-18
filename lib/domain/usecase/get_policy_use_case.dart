@@ -1,5 +1,5 @@
-import 'package:bookand/domain/repository/policy/policy_repository.dart';
-import 'package:bookand/domain/repository/policy/policy_repository_impl.dart';
+import 'package:bookand/data/repository/policy/policy_repository_impl.dart';
+import 'package:bookand/domain/repository/policy_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../core/const/policy.dart';

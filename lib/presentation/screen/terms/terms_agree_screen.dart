@@ -1,4 +1,5 @@
 import 'package:bookand/core/theme/custom_text_style.dart';
+import 'package:bookand/domain/model/member/member_model.dart';
 import 'package:bookand/domain/model/policy_model.dart';
 import 'package:bookand/presentation/provider/member_provider.dart';
 import 'package:bookand/presentation/provider/terms_agree_provider.dart';
@@ -10,7 +11,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/app_strings.dart';
 import '../../../core/layout/common_layout.dart';
-import '../../../domain/model/member_model.dart';
 import '../../component/check_button.dart';
 import '../../component/circle_check_button.dart';
 import '../../component/custom_dialog.dart';

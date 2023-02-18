@@ -1,9 +1,9 @@
+import 'package:bookand/domain/model/member/member_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/const/policy.dart';
-import '../../domain/model/member_model.dart';
 import '../screen/login_screen.dart';
 import '../screen/main/article_screen.dart';
 import '../screen/main/main_tab.dart';

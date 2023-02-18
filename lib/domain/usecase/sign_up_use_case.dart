@@ -1,5 +1,5 @@
-import 'package:bookand/domain/repository/auth/auth_repository.dart';
-import 'package:bookand/domain/repository/auth/auth_repository_impl.dart';
+import 'package:bookand/domain/repository/auth_repository.dart';
+import 'package:bookand/data/repository/auth/auth_repository_impl.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bookand/core/theme/custom_text_style.dart';
+import 'package:bookand/domain/model/member/member_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,7 +9,6 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../core/app_strings.dart';
 import '../../core/layout/common_layout.dart';
-import '../../domain/model/member_model.dart';
 import '../component/custom_dialog.dart';
 import '../component/social_login_button.dart';
 import '../provider/member_provider.dart';

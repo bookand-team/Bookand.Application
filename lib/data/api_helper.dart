@@ -2,8 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:bookand/data/entity/auth/token_reponse.dart';
-import 'package:bookand/data/service/auth/auth_service.dart';
+import 'package:bookand/data/service/auth_service.dart';
+import 'package:bookand/domain/model/auth/reissue_request.dart';
+import 'package:bookand/domain/model/auth/token_reponse.dart';
 import 'package:chopper/chopper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -11,7 +12,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../core/config/app_config.dart';
 import '../core/const/storage_key.dart';
 import '../core/util/logger.dart';
-import 'entity/auth/reissue_request.dart';
 
 class ApiHelper {
   static ChopperClient client({String? baseUrl}) {

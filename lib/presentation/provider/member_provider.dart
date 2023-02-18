@@ -1,4 +1,5 @@
 import 'package:bookand/core/app_strings.dart';
+import 'package:bookand/domain/model/member/member_model.dart';
 import 'package:bookand/domain/usecase/get_me_use_case.dart';
 import 'package:bookand/domain/usecase/login_use_case.dart';
 import 'package:bookand/domain/usecase/logout_use_case.dart';
@@ -9,7 +10,6 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../core/const/social_type.dart';
 import '../../core/util/logger.dart';
-import '../../domain/model/member_model.dart';
 
 part 'member_provider.g.dart';
 

@@ -30,7 +30,7 @@ class _SystemHash {
 }
 
 String _$PolicyStateNotifierHash() =>
-    r'863db485c41b3a15b4d2f13b7ba6ea149223ca21';
+    r'9605b9d539b6b05303e2d827a3270d493bd5e535';
 
 /// See also [PolicyStateNotifier].
 final policyStateNotifierProvider =
