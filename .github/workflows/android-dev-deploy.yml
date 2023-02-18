@@ -2,7 +2,7 @@ name: Flutter Android Firebase App Distribution CI/CD - DEV
 on:
   push:
     tags:
-      - 'v*'
+      - 'dev-v*'
 
 jobs:
   build-and-deploy:
