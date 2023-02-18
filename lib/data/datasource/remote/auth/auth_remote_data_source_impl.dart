@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:bookand/core/error/user_not_found_exception.dart';
 import 'package:bookand/data/service/auth/auth_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -29,12 +31,20 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<TokenResponse> login(String accessToken, SocialType socialType) async {
     final loginRequest = LoginRequest(accessToken, socialType.type);
     final resp = await service.login(loginRequest.toJson());
-    final data = TokenResponse.fromJson(jsonDecode(resp.bodyString));
+    final jsonData = jsonDecode(resp.bodyString);
 
-    if (resp.isSuccessful) {
-      return data;
-    } else {
-      throw resp;
+    switch (resp.statusCode) {
+      case HttpStatus.ok:
+        final data = TokenResponse.fromJson(jsonData);
+        return data;
+      case HttpStatus.notFound:
+        final signToken = jsonData['signToken'];
+        throw UserNotFoundException(
+          signToken: signToken,
+          message: '존재하지 않는 사용자',
+        );
+      default:
+        throw resp;
     }
   }
 
