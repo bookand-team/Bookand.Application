@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'policy_model.g.dart';
@@ -20,15 +22,13 @@ class PolicyModel implements PolicyModelBase {
 
   Map<String, dynamic> toJson() => _$PolicyModelToJson(this);
 
-  PolicyModel copyWith({
-    int? policyId,
-    String? title,
-    String? content,
-  }) {
+  factory PolicyModel.convertUtf8({required PolicyModel model}) {
+    final content = const Utf8Decoder().convert(model.content.codeUnits);
+
     return PolicyModel(
-      policyId ?? this.policyId,
-      title ?? this.title,
-      content ?? this.content,
+      model.policyId,
+      model.title,
+      content,
     );
   }
 }

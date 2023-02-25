@@ -29,6 +29,7 @@ class TermsAgreeDetailScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.background,
         surfaceTintColor: Theme.of(context).colorScheme.background,
+        scrolledUnderElevation: 0,
         automaticallyImplyLeading: false,
         leading: InkWell(
           onTap: () {

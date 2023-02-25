@@ -17,8 +17,8 @@ class _$MemberService extends MemberService {
   final definitionType = MemberService;
 
   @override
-  Future<Response<dynamic>> checkNicknameDuplicate(String nickname) {
-    final Uri $url = Uri.parse('/api/v1/members/nickname/${nickname}/check');
+  Future<Response<dynamic>> getRandomNickname() {
+    final Uri $url = Uri.parse('/api/v1/members/nickname/random');
     final Request $request = Request(
       'GET',
       $url,

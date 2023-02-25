@@ -8,10 +8,10 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'core/app_strings.dart';
-import 'core/config/app_init.dart';
-import 'core/config/firebase/firebase_init.dart';
-import 'core/theme/theme_data.dart';
+import 'app_strings.dart';
+import 'config/app_init.dart';
+import 'config/firebase/firebase_init.dart';
+import 'theme/theme_data.dart';
 
 void main() async {
   runZonedGuarded<Future<void>>(() async {

@@ -24,11 +24,12 @@ class MemberRemoteDataSourceImpl implements MemberRemoteDataSource {
   MemberRemoteDataSourceImpl(this.service);
 
   @override
-  Future<ResultResponse> checkNicknameDuplicate(String nickname) async {
-    final resp = await service.checkNicknameDuplicate(nickname);
+  Future<String> getRandomNickname() async {
+    final resp = await service.getRandomNickname();
 
     if (resp.isSuccessful) {
-      return ResultResponse.fromJson(jsonDecode(resp.bodyString));
+      final jsonData = jsonDecode(resp.bodyString);
+      return jsonData['nickname'];
     } else {
       throw resp;
     }

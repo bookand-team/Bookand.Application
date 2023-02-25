@@ -11,6 +11,7 @@ MemberModel _$MemberModelFromJson(Map<String, dynamic> json) => MemberModel(
       email: json['email'] as String,
       nickname: json['nickname'] as String,
       providerEmail: json['providerEmail'] as String,
+      profileImage: json['profileImage'] as String?,
     );
 
 Map<String, dynamic> _$MemberModelToJson(MemberModel instance) =>
@@ -19,4 +20,5 @@ Map<String, dynamic> _$MemberModelToJson(MemberModel instance) =>
       'email': instance.email,
       'nickname': instance.nickname,
       'providerEmail': instance.providerEmail,
+      'profileImage': instance.profileImage,
     };

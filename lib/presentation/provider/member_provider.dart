@@ -47,8 +47,8 @@ class MemberStateNotifier extends _$MemberStateNotifier {
           onSuccess: () async {
             state = await ref.read(getMeUseCaseProvider).getMe();
           },
-          onSignUp: () {
-            state = MemberModelSignUp();
+          onSignUp: (signToken) {
+            state = MemberModelSignUp(signToken);
           });
     } catch (e, stack) {
       logger.e('로그인 에러', e, stack);
@@ -78,8 +78,8 @@ class MemberStateNotifier extends _$MemberStateNotifier {
           onSuccess: () async {
             state = await ref.read(getMeUseCaseProvider).getMe();
           },
-          onSignUp: () {
-            state = MemberModelSignUp();
+          onSignUp: (signToken) {
+            state = MemberModelSignUp(signToken);
           });
     } catch (e) {
       logger.e(e);
@@ -89,10 +89,12 @@ class MemberStateNotifier extends _$MemberStateNotifier {
   }
 
   Future<void> signUp() async {
+    final signToken = (state as MemberModelSignUp).signToken;
+
     state = MemberModelLoading();
 
     try {
-      await ref.read(signUpUseCaseProvider).signUp();
+      await ref.read(signUpUseCaseProvider).signUp(signToken);
       state = await ref.read(getMeUseCaseProvider).getMe();
     } catch (e) {
       logger.e(e);

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:bookand/data/repository/policy/policy_remote_data_source.dart';
 import 'package:bookand/data/repository/policy/policy_remote_data_source_impl.dart';
 import 'package:bookand/domain/model/policy_model.dart';
@@ -23,8 +21,7 @@ class PolicyRepositoryImpl implements PolicyRepository {
   @override
   Future<PolicyModel> getPolicy(String policyName) async {
     final policyModel = await policyRemoteDataSource.getPolicy(policyName);
-    final content = const Utf8Decoder().convert(policyModel.content.codeUnits);
 
-    return policyModel.copyWith(content: content);
+    return PolicyModel.convertUtf8(model: policyModel);
   }
 }

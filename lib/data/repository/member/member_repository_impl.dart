@@ -20,10 +20,8 @@ class MemberRepositoryImpl implements MemberRepository {
   MemberRepositoryImpl(this.memberRemoteDataSource);
 
   @override
-  Future<String> checkNicknameDuplicate(String nickname) async {
-    final resultResp = await memberRemoteDataSource.checkNicknameDuplicate(nickname);
-
-    return resultResp.result;
+  Future<String> getRandomNickname() async {
+    return await memberRemoteDataSource.getRandomNickname();
   }
 
   @override
@@ -35,7 +33,9 @@ class MemberRepositoryImpl implements MemberRepository {
 
   @override
   Future<MemberModel> getMe(String accessToken) async {
-    return await memberRemoteDataSource.getMe(accessToken);
+    final member =  await memberRemoteDataSource.getMe(accessToken);
+
+    return MemberModel.convertUtf8(model: member);
   }
 
   @override

@@ -28,7 +28,7 @@ class LoginUseCase {
     required String accessToken,
     required SocialType socialType,
     required Function() onSuccess,
-    required Function() onSignUp,
+    required Function(String signToken) onSignUp,
   }) async {
     try {
       final token = await authRepository.login(accessToken, socialType);
@@ -38,8 +38,7 @@ class LoginUseCase {
       onSuccess();
     } on UserNotFoundException catch (e) {
       logger.i(e.message);
-      await storage.write(key: signTokenKey, value: e.signToken);
-      onSignUp();
+      onSignUp(e.signToken);
     } catch (e) {
       throw (e.toString());
     }

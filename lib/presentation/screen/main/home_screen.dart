@@ -23,7 +23,7 @@ class HomeScreen extends ConsumerWidget {
               },
               child: ArticleCard(
                 image: Image.network(
-                  'https://image.bookshopmap.com/600,fit,q60/venue/3.jpg?ver=1627280017',
+                  'https://cdn.pixabay.com/photo/2016/01/06/17/34/library-1124718_1280.jpg',
                   fit: BoxFit.cover,
                 ),
                 isBookmark: false,

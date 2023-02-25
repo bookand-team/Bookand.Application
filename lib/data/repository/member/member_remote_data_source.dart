@@ -4,7 +4,7 @@ import 'package:bookand/domain/model/result_response.dart';
 abstract class MemberRemoteDataSource {
   Future<MemberModel> getMe(String accessToken);
 
-  Future<ResultResponse> checkNicknameDuplicate(String nickname);
+  Future<String> getRandomNickname();
 
   Future<MemberModel> updateMemberProfile(
     String accessToken,

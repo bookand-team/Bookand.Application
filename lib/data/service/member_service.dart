@@ -13,8 +13,8 @@ MemberService memberService(MemberServiceRef ref) => MemberService.create(ApiHel
 abstract class MemberService extends ChopperService {
   static MemberService create([ChopperClient? client]) => _$MemberService(client);
 
-  @Get(path: '/nickname/{nickname}/check')
-  Future<Response> checkNicknameDuplicate(@Path('nickname') String nickname);
+  @Get(path: '/nickname/random')
+  Future<Response> getRandomNickname();
 
   @Get(path: '/me')
   Future<Response> getMe(@Header('Authorization') String accessToken);

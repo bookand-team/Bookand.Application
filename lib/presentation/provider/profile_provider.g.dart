@@ -1,26 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'auth_remote_data_source_impl.dart';
+part of 'profile_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authRemoteDataSourceHash() =>
-    r'b8c9c84433eab53474adb0aee0c719e6fa2b2605';
+String _$profileStateNotifierHash() =>
+    r'd00810aab855ca1491a8dbb4c77b986fa199bd54';
 
-/// See also [authRemoteDataSource].
-@ProviderFor(authRemoteDataSource)
-final authRemoteDataSourceProvider =
-    AutoDisposeProvider<AuthRemoteDataSource>.internal(
-  authRemoteDataSource,
-  name: r'authRemoteDataSourceProvider',
+/// See also [ProfileStateNotifier].
+@ProviderFor(ProfileStateNotifier)
+final profileStateNotifierProvider = AutoDisposeNotifierProvider<
+    ProfileStateNotifier, ProfileCardState>.internal(
+  ProfileStateNotifier.new,
+  name: r'profileStateNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$authRemoteDataSourceHash,
+      : _$profileStateNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef AuthRemoteDataSourceRef = AutoDisposeProviderRef<AuthRemoteDataSource>;
+typedef _$ProfileStateNotifier = AutoDisposeNotifier<ProfileCardState>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
