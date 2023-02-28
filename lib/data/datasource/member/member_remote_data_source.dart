@@ -8,6 +8,7 @@ abstract class MemberRemoteDataSource {
 
   Future<MemberModel> updateMemberProfile(
     String accessToken,
+    String profileImage,
     String nickname,
   );
 

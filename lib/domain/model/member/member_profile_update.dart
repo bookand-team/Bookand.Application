@@ -4,9 +4,10 @@ part 'member_profile_update.g.dart';
 
 @JsonSerializable()
 class MemberProfileUpdate {
+  final String profileImage;
   final String nickname;
 
-  MemberProfileUpdate(this.nickname);
+  MemberProfileUpdate(this.profileImage, this.nickname);
 
   factory MemberProfileUpdate.fromJson(Map<String, dynamic> json) =>
       _$MemberProfileUpdateFromJson(json);

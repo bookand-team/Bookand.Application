@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:bookand/data/repository/member/member_repository_impl.dart';
+import 'package:bookand/data/repository/member_repository_impl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../repository/member_repository.dart';

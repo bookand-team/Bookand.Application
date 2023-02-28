@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:bookand/data/repository/policy/policy_remote_data_source.dart';
+import 'package:bookand/data/datasource/policy/policy_remote_data_source.dart';
 import 'package:bookand/domain/model/policy_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

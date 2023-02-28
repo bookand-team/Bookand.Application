@@ -5,7 +5,7 @@ abstract class MemberRepository {
 
   Future<String> getRandomNickname();
 
-  Future<MemberModel> updateMemberProfile(String accessToken, String nickname);
+  Future<MemberModel> updateMemberProfile(String accessToken, String profileImage, String nickname);
 
   Future<String> deleteMember(String accessToken);
 }

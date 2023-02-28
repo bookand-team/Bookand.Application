@@ -1,6 +1,8 @@
-import 'dart:typed_data';
+import 'dart:io';
 
 import 'package:bookand/domain/usecase/get_random_nickname_use_case.dart';
+import 'package:bookand/domain/usecase/update_member_profile_use_case.dart';
+import 'package:bookand/presentation/provider/member_provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -15,15 +17,19 @@ class ProfileStateNotifier extends _$ProfileStateNotifier {
     state = state.copyWith(editMode: !state.editMode);
   }
 
-  void onTapComplete() {
+  void onTapComplete() async {
+    final memberModel = await ref
+        .read(updateMemberProfileUseCaseProvider)
+        .updateMemberProfile(state.previewImageFile, state.previewNickname);
     state = ProfileCardState(editMode: false);
+    ref.read(memberStateNotifierProvider.notifier).state = memberModel;
   }
 
   void onTapImgUpdate() async {
     final picker = ImagePicker();
-    final imageFile = await picker.pickImage(source: ImageSource.gallery);
-    final imageByteArr = await imageFile?.readAsBytes();
-    state = state.copyWith(previewImageByteArr: imageByteArr);
+    final imageXFile = await picker.pickImage(source: ImageSource.gallery);
+    final imageFile = File(imageXFile!.path);
+    state = state.copyWith(previewImageFile: imageFile);
   }
 
   void onTapReset() {
@@ -40,25 +46,25 @@ class ProfileStateNotifier extends _$ProfileStateNotifier {
   }
 
   bool isImagePreviewMode() {
-    return state.editMode && state.previewImageByteArr != null;
+    return state.editMode && state.previewImageFile != null;
   }
 }
 
 class ProfileCardState {
   bool editMode;
   String? previewNickname;
-  Uint8List? previewImageByteArr;
+  File? previewImageFile;
 
-  ProfileCardState({required this.editMode, this.previewNickname, this.previewImageByteArr});
+  ProfileCardState({required this.editMode, this.previewNickname, this.previewImageFile});
 
   ProfileCardState copyWith({
     bool? editMode,
     String? previewNickname,
-    Uint8List? previewImageByteArr,
+    File? previewImageFile,
   }) {
     return ProfileCardState(
         editMode: editMode ?? this.editMode,
         previewNickname: previewNickname ?? this.previewNickname,
-        previewImageByteArr: previewImageByteArr ?? this.previewImageByteArr);
+        previewImageFile: previewImageFile ?? this.previewImageFile);
   }
 }

@@ -47,6 +47,7 @@ dependencies:
   package_info_plus: ^3.0.3
   image_picker: ^0.8.6+2
   cached_network_image: ^3.2.3
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:

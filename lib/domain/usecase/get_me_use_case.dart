@@ -6,7 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../model/member/member_model.dart';
 import '../repository/member_repository.dart';
-import '../../data/repository/member/member_repository_impl.dart';
+import '../../data/repository/member_repository_impl.dart';
 
 part 'get_me_use_case.g.dart';
 

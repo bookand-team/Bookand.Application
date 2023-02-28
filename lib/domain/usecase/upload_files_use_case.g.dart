@@ -1,26 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'profile_provider.dart';
+part of 'upload_files_use_case.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$profileStateNotifierHash() =>
-    r'14a162f16349dd47622ec70e2dec1aa57861b38a';
+String _$uploadFilesUseCaseHash() =>
+    r'7b3d27780556336637b5c5ad88354672f5fa255d';
 
-/// See also [ProfileStateNotifier].
-@ProviderFor(ProfileStateNotifier)
-final profileStateNotifierProvider = AutoDisposeNotifierProvider<
-    ProfileStateNotifier, ProfileCardState>.internal(
-  ProfileStateNotifier.new,
-  name: r'profileStateNotifierProvider',
+/// See also [uploadFilesUseCase].
+@ProviderFor(uploadFilesUseCase)
+final uploadFilesUseCaseProvider =
+    AutoDisposeProvider<UploadFilesUseCase>.internal(
+  uploadFilesUseCase,
+  name: r'uploadFilesUseCaseProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$profileStateNotifierHash,
+      : _$uploadFilesUseCaseHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$ProfileStateNotifier = AutoDisposeNotifier<ProfileCardState>;
+typedef UploadFilesUseCaseRef = AutoDisposeProviderRef<UploadFilesUseCase>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

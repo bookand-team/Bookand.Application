@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../core/const/storage_key.dart';
 import '../../core/util/logger.dart';
-import '../../data/repository/auth/auth_repository_impl.dart';
+import '../../data/repository/auth_repository_impl.dart';
 
 part 'logout_use_case.g.dart';
 

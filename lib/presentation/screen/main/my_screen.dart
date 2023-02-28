@@ -36,13 +36,10 @@ class MyScreen extends ConsumerWidget {
                   : member.nickname,
               email: member.providerEmail,
               image: profileProvider.isImagePreviewMode()
-                  ? Image.memory(profileCardState.previewImageByteArr!)
+                  ? Image.file(profileCardState.previewImageFile!)
                   : CachedNetworkImage(
                       imageUrl: member.profileImage ?? '',
-                      errorWidget: (_, url, error) {
-                        logger.e('[Image URL] $url\n[Error Message] $error');
-                        return Container(color: Colors.grey);
-                      },
+                      errorWidget: (_, __, ___) => Container(color: Colors.grey),
                     ),
               onTapEdit: profileProvider.editToggle,
               onTapReset: profileProvider.onTapReset,

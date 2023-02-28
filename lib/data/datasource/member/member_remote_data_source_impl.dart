@@ -60,9 +60,10 @@ class MemberRemoteDataSourceImpl implements MemberRemoteDataSource {
   @override
   Future<MemberModel> updateMemberProfile(
     String accessToken,
+    String profileImage,
     String nickname,
   ) async {
-    final memberProfileUpdate = MemberProfileUpdate(nickname);
+    final memberProfileUpdate = MemberProfileUpdate(profileImage, nickname);
     final resp = await service.updateMemberProfile(accessToken, memberProfileUpdate.toJson());
 
     if (resp.isSuccessful) {

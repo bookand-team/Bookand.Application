@@ -5,8 +5,8 @@ import 'package:bookand/domain/model/auth/token_reponse.dart';
 import 'package:bookand/domain/repository/auth_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'auth_remote_data_source.dart';
-import 'auth_remote_data_source_impl.dart';
+import '../datasource/auth/auth_remote_data_source.dart';
+import '../datasource/auth/auth_remote_data_source_impl.dart';
 
 part 'auth_repository_impl.g.dart';
 

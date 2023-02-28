@@ -14,7 +14,7 @@ import '../core/const/storage_key.dart';
 import '../core/util/logger.dart';
 
 class ApiHelper {
-  static ChopperClient client({String? baseUrl}) {
+  static ChopperClient client({String? baseUrl, Converter? converter}) {
     final chopper = ChopperClient(
         baseUrl: Uri.parse(baseUrl ?? AppConfig.instance.baseUrl),
         interceptors: [
@@ -22,7 +22,7 @@ class ApiHelper {
           _onResponse,
         ],
         authenticator: JwtAuthenticator(),
-        converter: const JsonConverter(),
+        converter: converter ?? const JsonConverter(),
         errorConverter: const JsonConverter());
 
     return chopper;
@@ -49,7 +49,7 @@ class ApiHelper {
         '[RESP] [${response.base.request?.method}] [${response.statusCode}] ${response.base.request?.url}';
 
     if (kDebugMode) {
-      logTxt += '\n[Body] ${response.body}';
+      logTxt += '\n[Body] ${const Utf8Decoder().convert(response.bodyString.codeUnits)}';
     }
 
     logger.i(logTxt);
