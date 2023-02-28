@@ -7,7 +7,7 @@ part of 's3_remote_data_source_impl.dart';
 // **************************************************************************
 
 String _$s3RemoteDataSourceHash() =>
-    r'dc67af66e9e611f6ffdaee74439be689c573d12e';
+    r'ee7a51a13d8f370f9329c883ef669ef812037763';
 
 /// See also [s3RemoteDataSource].
 @ProviderFor(s3RemoteDataSource)

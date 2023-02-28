@@ -19,11 +19,11 @@ Map<String, dynamic> _$S3ResponseToJson(S3Response instance) =>
 
 FileResponse _$FileResponseFromJson(Map<String, dynamic> json) => FileResponse(
       json['fileUrl'] as String,
-      json['fileName'] as String,
+      json['filename'] as String,
     );
 
 Map<String, dynamic> _$FileResponseToJson(FileResponse instance) =>
     <String, dynamic>{
       'fileUrl': instance.fileUrl,
-      'fileName': instance.fileName,
+      'filename': instance.filename,
     };

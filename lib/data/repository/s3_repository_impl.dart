@@ -21,7 +21,7 @@ class S3RepositoryImpl implements S3Repository {
   S3RepositoryImpl(this.s3remoteDataSource);
 
   @override
-  Future<S3Response> uploadFiles(List<File> files) async {
-    return await s3remoteDataSource.uploadFiles(files);
+  Future<S3Response> uploadFiles(String accessToken, List<File> files) async {
+    return await s3remoteDataSource.uploadFiles(accessToken, files);
   }
 }

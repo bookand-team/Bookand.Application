@@ -27,7 +27,8 @@ class UploadFilesUseCase {
 
   Future<List<FileResponse>> uploadFiles(List<File> files) async {
     try {
-      final s3Response = await s3Repository.uploadFiles(files);
+      final accessToken = await storage.read(key: accessTokenKey);
+      final s3Response = await s3Repository.uploadFiles(accessToken!, files);
       return s3Response.files;
     } catch (e, stack) {
       logger.e(e, e, stack);
