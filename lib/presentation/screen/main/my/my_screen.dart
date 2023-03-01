@@ -3,6 +3,7 @@ import 'package:bookand/presentation/component/profile_card.dart';
 import 'package:bookand/presentation/provider/package_info_provider.dart';
 import 'package:bookand/presentation/provider/member_provider.dart';
 import 'package:bookand/presentation/provider/profile_provider.dart';
+import 'package:bookand/presentation/screen/main/my/notice_screen.dart';
 import 'package:bookand/presentation/screen/main/my/notification_setting_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -85,7 +86,7 @@ class MyScreen extends ConsumerWidget {
               'assets/images/my/ic_notice.svg',
             ),
             title: '공지사항',
-            onTap: () {},
+            onTap: () => ref.context.pushNamed(NoticeScreen.routeName),
           ),
           MenuItem(
             leading: SvgPicture.asset(

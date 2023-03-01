@@ -1,4 +1,5 @@
 import 'package:bookand/domain/model/member/member_model.dart';
+import 'package:bookand/presentation/screen/main/my/notice_screen.dart';
 import 'package:bookand/presentation/screen/main/my/notification_setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -59,7 +60,11 @@ class AuthProvider extends ChangeNotifier {
         GoRoute(
             path: '/notificationSetting',
             name: NotificationSettingScreen.routeName,
-            builder: (_, __) => const NotificationSettingScreen())
+            builder: (_, __) => const NotificationSettingScreen()),
+        GoRoute(
+            path: '/noticeScreen',
+            name: NoticeScreen.routeName,
+            builder: (_, __) => const NoticeScreen()),
       ];
 
   String? redirectLogic(BuildContext context, GoRouterState state) {
