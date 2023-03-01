@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../core/app_strings.dart';
-import '../../../core/layout/common_layout.dart';
+import '../../../core/layout/default_layout.dart';
 import 'bookmark_screen.dart';
 import 'home_screen.dart';
 import 'map_screen.dart';
@@ -38,7 +38,7 @@ class _MainTabState extends State<MainTab> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return CommonLayout(
+    return DefaultLayout(
       appBar: AppBar(
         toolbarHeight: 0,
         surfaceTintColor: Colors.white,

@@ -8,7 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../core/app_strings.dart';
-import '../../core/layout/common_layout.dart';
+import '../../core/layout/default_layout.dart';
 import '../component/custom_dialog.dart';
 import '../component/social_login_button.dart';
 import '../provider/member_provider.dart';
@@ -23,7 +23,7 @@ class LoginScreen extends ConsumerWidget with CustomDialog {
     final user = ref.watch(memberStateNotifierProvider);
     final state = ref.watch(memberStateNotifierProvider.notifier);
 
-    return CommonLayout(
+    return DefaultLayout(
       backgroundColor: Colors.black,
       ignoring: user is MemberModelLoading,
       appBar: AppBar(

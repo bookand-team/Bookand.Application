@@ -10,7 +10,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/app_strings.dart';
-import '../../../core/layout/common_layout.dart';
+import '../../../core/layout/default_layout.dart';
 import '../../component/check_button.dart';
 import '../../component/circle_check_button.dart';
 import '../../component/custom_dialog.dart';
@@ -30,7 +30,7 @@ class TermsAgreeScreen extends ConsumerWidget with CustomDialog {
     final isLoading = ref.watch(memberStateNotifierProvider) is MemberModelLoading ||
         ref.watch(policyStateNotifierProvider) is PolicyModelLoading;
 
-    return CommonLayout(
+    return DefaultLayout(
         onWillPop: () async {
           memberProvider.cancelSignUp();
           return false;

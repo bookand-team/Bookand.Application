@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../core/layout/common_layout.dart';
+import '../../../core/layout/default_layout.dart';
 import '../../../core/util/logger.dart';
 import '../../component/menu_item.dart';
 
@@ -21,7 +21,7 @@ class MyScreen extends ConsumerWidget {
     final member = ref.watch(memberStateNotifierProvider) as MemberModel;
     final profileCardState = ref.watch(profileStateNotifierProvider);
 
-    return CommonLayout(
+    return DefaultLayout(
       appBar: AppBar(
         toolbarHeight: 0,
       ),
@@ -36,10 +36,14 @@ class MyScreen extends ConsumerWidget {
                   : member.nickname,
               email: member.providerEmail,
               image: profileProvider.isImagePreviewMode()
-                  ? Image.file(profileCardState.previewImageFile!)
+                  ? Image.file(
+                      profileCardState.previewImageFile!,
+                      fit: BoxFit.cover,
+                    )
                   : CachedNetworkImage(
                       imageUrl: member.profileImage ?? '',
                       errorWidget: (_, __, ___) => Container(color: Colors.grey),
+                      fit: BoxFit.cover,
                     ),
               onTapEdit: profileProvider.editToggle,
               onTapReset: profileProvider.onTapReset,

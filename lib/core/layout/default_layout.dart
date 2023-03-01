@@ -6,7 +6,7 @@ import '../config/app_config.dart';
 import '../const/app_mode.dart';
 import '../util/shake_log_sender.dart';
 
-class CommonLayout extends StatefulWidget {
+class DefaultLayout extends StatefulWidget {
   final Color? backgroundColor;
   final WillPopCallback? onWillPop;
   final bool ignoring;
@@ -15,7 +15,7 @@ class CommonLayout extends StatefulWidget {
   final bool isLoading;
   final Widget child;
 
-  const CommonLayout({
+  const DefaultLayout({
     Key? key,
     this.backgroundColor,
     this.onWillPop,
@@ -27,10 +27,10 @@ class CommonLayout extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CommonLayout> createState() => _CommonLayoutState();
+  State<DefaultLayout> createState() => _DefaultLayoutState();
 }
 
-class _CommonLayoutState extends State<CommonLayout> with CustomDialog {
+class _DefaultLayoutState extends State<DefaultLayout> with CustomDialog {
   ShakeDetector? detector;
 
   @override

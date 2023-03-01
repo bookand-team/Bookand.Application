@@ -1,6 +1,7 @@
 class AppStrings {
   static const appName = 'BOOKAND';
   static const info = '안내';
+  static const close = '닫기';
   static const ok = '확인';
   static const agree = '동의';
 
