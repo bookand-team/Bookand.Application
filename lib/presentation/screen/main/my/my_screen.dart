@@ -5,12 +5,14 @@ import 'package:bookand/presentation/provider/member_provider.dart';
 import 'package:bookand/presentation/provider/profile_provider.dart';
 import 'package:bookand/presentation/screen/main/my/notice_screen.dart';
 import 'package:bookand/presentation/screen/main/my/notification_setting_screen.dart';
+import 'package:bookand/presentation/screen/main/my/terms_and_policy_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/app_strings.dart';
 import '../../../../core/widget/base_layout.dart';
 import '../../../../core/util/logger.dart';
 import '../../../component/menu_item.dart';
@@ -71,28 +73,28 @@ class MyScreen extends ConsumerWidget {
             leading: SvgPicture.asset(
               'assets/images/my/ic_user.svg',
             ),
-            title: '계정관리',
+            title: AppStrings.accountManagement,
             onTap: () {},
           ),
           MenuItem(
             leading: SvgPicture.asset(
               'assets/images/my/ic_notification.svg',
             ),
-            title: '알림',
+            title: AppStrings.notification,
             onTap: () => ref.context.pushNamed(NotificationSettingScreen.routeName),
           ),
           MenuItem(
             leading: SvgPicture.asset(
               'assets/images/my/ic_notice.svg',
             ),
-            title: '공지사항',
+            title: AppStrings.notice,
             onTap: () => ref.context.pushNamed(NoticeScreen.routeName),
           ),
           MenuItem(
             leading: SvgPicture.asset(
               'assets/images/my/ic_info.svg',
             ),
-            title: '앱 버전정보',
+            title: AppStrings.appVersionInfo,
             trailing: ref.watch(packageInfoProvider).when(
                   data: (packageInfo) => Text(
                     packageInfo.version,
@@ -114,21 +116,21 @@ class MyScreen extends ConsumerWidget {
             leading: SvgPicture.asset(
               'assets/images/my/ic_policy.svg',
             ),
-            title: '약관 및 정책',
-            onTap: () {},
+            title: AppStrings.termsAndPolicy,
+            onTap: () => ref.context.pushNamed(TermsAndPolicyScreen.routeName),
           ),
           MenuItem(
             leading: SvgPicture.asset(
               'assets/images/my/ic_bookstore.svg',
             ),
-            title: '새로운 서점 제보',
+            title: AppStrings.newBookstoreReport,
             onTap: () {},
           ),
           MenuItem(
             leading: SvgPicture.asset(
               'assets/images/my/ic_feedback.svg',
             ),
-            title: '피드백',
+            title: AppStrings.feedback,
             onTap: () {},
           ),
         ],

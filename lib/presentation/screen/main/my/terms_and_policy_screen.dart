@@ -1,29 +1,28 @@
-import 'package:bookand/core/widget/base_app_bar.dart';
+import 'package:bookand/core/app_strings.dart';
 import 'package:bookand/core/widget/base_layout.dart';
-import 'package:bookand/presentation/component/drawer_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
 
-import '../../../../core/app_strings.dart';
+import '../../../../core/widget/base_app_bar.dart';
+import '../../../component/drawer_list_tile.dart';
 
-class NoticeScreen extends StatefulWidget {
-  static String get routeName => 'noticeScreen';
+class TermsAndPolicyScreen extends StatefulWidget {
+  static String get routeName => 'termsAndPolicyScreen';
 
-  const NoticeScreen({Key? key}) : super(key: key);
+  const TermsAndPolicyScreen({Key? key}) : super(key: key);
 
   @override
-  State<NoticeScreen> createState() => _NoticeScreenState();
+  State<TermsAndPolicyScreen> createState() => _TermsAndPolicyScreenState();
 }
 
-class _NoticeScreenState extends State<NoticeScreen> {
-  final tempList = [false, false, false, false, false, false, false, false, false, false];
+class _TermsAndPolicyScreenState extends State<TermsAndPolicyScreen> {
+  final tempList = [false, false, false, false];
 
   @override
   Widget build(BuildContext context) {
     return BaseLayout(
-      appBar: const BaseAppBar(title: AppStrings.notice),
+      appBar: const BaseAppBar(title: AppStrings.termsAndPolicy),
       child: Scrollbar(
         child: ListView.separated(
           itemBuilder: (context, index) {
@@ -35,22 +34,11 @@ class _NoticeScreenState extends State<NoticeScreen> {
                 });
               },
               title: const Text(
-                '가나다라마바사아자차카타파하가나다라마바사아자',
+                '가나다라마바사아자차카타파하',
                 style: TextStyle(
                   color: Color(0xFF222222),
                   fontWeight: FontWeight.w400,
-                  fontSize: 15,
-                  letterSpacing: -0.02,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              subTitle: Text(
-                DateFormat('yyyy-MM-dd').format(DateTime.now()),
-                style: const TextStyle(
-                  color: Color(0xFFACACAC),
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12,
+                  fontSize: 16,
                   letterSpacing: -0.02,
                 ),
               ),
@@ -61,6 +49,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
               ),
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
+              maxHeight: MediaQuery.of(context).size.height * 0.56,
               drawerBackground: const Color(0xFFF5F5F7),
               child: const Markdown(
                 data:

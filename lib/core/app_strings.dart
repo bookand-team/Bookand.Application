@@ -4,7 +4,6 @@ class AppStrings {
   static const close = '닫기';
   static const ok = '확인';
   static const agree = '동의';
-
   static const googleSocial = '구글로 로그인';
   static const appleSocial = 'Apple로 로그인';
   static const loginCancel = '로그인이 취소되었습니다.';
@@ -12,26 +11,25 @@ class AppStrings {
   static const appleLoginCancel = '애플 로그인이 취소되었습니다.';
   static const loginError = '로그인 에러';
   static const loggingInError = '로그인 중 문제가 발생하였습니다.';
-
   static const signInError = '회원가입 중 문제가 발생하였습니다.';
-
   static const termsAgreeDescription = '이용약관에\n동의해주세요';
   static const allAgree = '모두 동의';
   static const required = '(필수)';
   static const optional = '(선택)';
   static const termsLoadError = '약관을 불러오는 중 문제가 발생하였습니다.';
   static const start = '시작하기';
-
   static const home = '홈';
   static const articleRelatedBookstore = '아티클 관련 서점';
-
   static const map = '맵';
-
   static const bookmark = '북마크';
-
   static const myPage = '마이페이지';
+  static const accountManagement = '계정관리';
   static const notification = '알림';
   static const pushNotification = 'PUSH 알림';
   static const pushNotificationDescription = '새 아티클과 추천 아티클에 대한 알림을 받아보세요';
-
+  static const notice = '공지사항';
+  static const appVersionInfo = '앱 버전정보';
+  static const termsAndPolicy = '약관 및 정책';
+  static const newBookstoreReport = '새로운 서점 제보';
+  static const feedback = '피드백';
 }
