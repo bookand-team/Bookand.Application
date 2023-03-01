@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/layout/default_layout.dart';
+import '../../../core/widget/base_layout.dart';
 import '../../component/bookmark_button.dart';
 
 class ArticleScreen extends ConsumerStatefulWidget {
@@ -38,7 +38,7 @@ class _ArticleScreenState extends ConsumerState<ArticleScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultLayout(
+    return BaseLayout(
       child: CustomScrollView(
         controller: scrollController,
         slivers: [

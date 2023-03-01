@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../app_strings.dart';
 
-class DefaultDialogLayout extends StatelessWidget {
+class BaseDialog extends StatelessWidget {
   final bool isTwoBtn;
   final String negativeBtnText;
   final String positiveBtnText;
@@ -13,7 +13,7 @@ class DefaultDialogLayout extends StatelessWidget {
   final EdgeInsets? padding;
   final Widget content;
 
-  const DefaultDialogLayout({
+  const BaseDialog({
     Key? key,
     this.isTwoBtn = false,
     this.negativeBtnText = AppStrings.close,

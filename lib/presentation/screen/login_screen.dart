@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bookand/core/widget/base_dialog.dart';
 import 'package:bookand/core/theme/custom_text_style.dart';
 import 'package:bookand/domain/model/member/member_model.dart';
 import 'package:flutter/material.dart';
@@ -8,12 +9,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../core/app_strings.dart';
-import '../../core/layout/default_layout.dart';
-import '../component/custom_dialog.dart';
+import '../../core/widget/base_layout.dart';
 import '../component/social_login_button.dart';
 import '../provider/member_provider.dart';
 
-class LoginScreen extends ConsumerWidget with CustomDialog {
+class LoginScreen extends ConsumerWidget {
   static String get routeName => 'login';
 
   const LoginScreen({super.key});
@@ -23,7 +23,7 @@ class LoginScreen extends ConsumerWidget with CustomDialog {
     final user = ref.watch(memberStateNotifierProvider);
     final state = ref.watch(memberStateNotifierProvider.notifier);
 
-    return DefaultLayout(
+    return BaseLayout(
       backgroundColor: Colors.black,
       ignoring: user is MemberModelLoading,
       appBar: AppBar(
@@ -41,23 +41,31 @@ class LoginScreen extends ConsumerWidget with CustomDialog {
                   ? SocialLoginButton(
                       onTap: () {
                         state.appleLogin(onError: (errMsg) {
-                          showOneBtnDialog(context: context, content: errMsg);
+                          showDialog(
+                            context: context,
+                            builder: (_) => BaseDialog(
+                              content: Text(errMsg),
+                            ),
+                          );
                         });
                       },
                       image: SvgPicture.asset('assets/images/ic_apple.svg', width: 24),
-                      text: Text(AppStrings.appleSocial,
-                          style: const TextStyle().appleLoginText()))
+                      text: Text(AppStrings.appleSocial, style: const TextStyle().appleLoginText()))
                   : const SizedBox(height: 56),
               const SizedBox(height: 16),
               SocialLoginButton(
                   onTap: () {
                     state.googleLogin(onError: (errMsg) {
-                      showOneBtnDialog(context: context, content: errMsg);
+                      showDialog(
+                        context: context,
+                        builder: (_) => BaseDialog(
+                          content: Text(errMsg),
+                        ),
+                      );
                     });
                   },
                   image: SvgPicture.asset('assets/images/ic_google.svg', width: 24),
-                  text: Text(AppStrings.googleSocial,
-                      style: const TextStyle().googleLoginText()))
+                  text: Text(AppStrings.googleSocial, style: const TextStyle().googleLoginText()))
             ],
           ),
         ),

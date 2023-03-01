@@ -3,14 +3,16 @@ import 'package:bookand/presentation/component/profile_card.dart';
 import 'package:bookand/presentation/provider/package_info_provider.dart';
 import 'package:bookand/presentation/provider/member_provider.dart';
 import 'package:bookand/presentation/provider/profile_provider.dart';
+import 'package:bookand/presentation/screen/main/my/notification_setting_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../../core/layout/default_layout.dart';
-import '../../../core/util/logger.dart';
-import '../../component/menu_item.dart';
+import '../../../../core/widget/base_layout.dart';
+import '../../../../core/util/logger.dart';
+import '../../../component/menu_item.dart';
 
 class MyScreen extends ConsumerWidget {
   const MyScreen({super.key});
@@ -21,7 +23,7 @@ class MyScreen extends ConsumerWidget {
     final member = ref.watch(memberStateNotifierProvider) as MemberModel;
     final profileCardState = ref.watch(profileStateNotifierProvider);
 
-    return DefaultLayout(
+    return BaseLayout(
       appBar: AppBar(
         toolbarHeight: 0,
       ),
@@ -76,7 +78,7 @@ class MyScreen extends ConsumerWidget {
               'assets/images/my/ic_notification.svg',
             ),
             title: '알림',
-            onTap: () {},
+            onTap: () => ref.context.pushNamed(NotificationSettingScreen.routeName),
           ),
           MenuItem(
             leading: SvgPicture.asset(

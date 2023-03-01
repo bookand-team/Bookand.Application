@@ -1,4 +1,5 @@
 import 'package:bookand/domain/model/member/member_model.dart';
+import 'package:bookand/presentation/screen/main/my/notification_setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -55,6 +56,10 @@ class AuthProvider extends ChangeNotifier {
                             TermsAgreeDetailScreen(policy: state.extra as Policy))
                   ])
             ]),
+        GoRoute(
+            path: '/notificationSetting',
+            name: NotificationSettingScreen.routeName,
+            builder: (_, __) => const NotificationSettingScreen())
       ];
 
   String? redirectLogic(BuildContext context, GoRouterState state) {

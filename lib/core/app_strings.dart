@@ -23,9 +23,15 @@ class AppStrings {
   static const start = '시작하기';
 
   static const home = '홈';
-  static const map = '맵';
-  static const bookmark = '북마크';
-  static const myPage = '마이페이지';
-
   static const articleRelatedBookstore = '아티클 관련 서점';
+
+  static const map = '맵';
+
+  static const bookmark = '북마크';
+
+  static const myPage = '마이페이지';
+  static const notification = '알림';
+  static const pushNotification = 'PUSH 알림';
+  static const pushNotificationDescription = '새 아티클과 추천 아티클에 대한 알림을 받아보세요';
+
 }

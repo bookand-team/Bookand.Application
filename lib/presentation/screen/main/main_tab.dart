@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../core/app_strings.dart';
-import '../../../core/layout/default_layout.dart';
+import '../../../core/widget/base_layout.dart';
 import 'bookmark_screen.dart';
 import 'home_screen.dart';
 import 'map_screen.dart';
-import 'my_screen.dart';
+import 'my/my_screen.dart';
 
 class MainTab extends StatefulWidget {
   static String get routeName => 'main';
@@ -38,7 +38,7 @@ class _MainTabState extends State<MainTab> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultLayout(
+    return BaseLayout(
       appBar: AppBar(
         toolbarHeight: 0,
         surfaceTintColor: Colors.white,

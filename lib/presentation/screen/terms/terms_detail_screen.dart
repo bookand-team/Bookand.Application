@@ -11,7 +11,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/app_strings.dart';
 import '../../../core/const/policy.dart';
-import '../../../core/layout/default_layout.dart';
+import '../../../core/widget/base_layout.dart';
 import '../../component/round_rect_button.dart';
 
 class TermsAgreeDetailScreen extends ConsumerWidget {
@@ -25,7 +25,7 @@ class TermsAgreeDetailScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final policyModel = ref.watch(policyStateNotifierProvider) as PolicyModel;
 
-    return DefaultLayout(
+    return BaseLayout(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.background,
         surfaceTintColor: Theme.of(context).colorScheme.background,

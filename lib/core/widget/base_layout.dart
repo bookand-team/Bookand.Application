@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:shake/shake.dart';
 
-import '../../presentation/component/custom_dialog.dart';
 import '../config/app_config.dart';
 import '../const/app_mode.dart';
 import '../util/shake_log_sender.dart';
+import 'base_dialog.dart';
 
-class DefaultLayout extends StatefulWidget {
+class BaseLayout extends StatefulWidget {
   final Color? backgroundColor;
   final WillPopCallback? onWillPop;
   final bool ignoring;
@@ -15,7 +15,7 @@ class DefaultLayout extends StatefulWidget {
   final bool isLoading;
   final Widget child;
 
-  const DefaultLayout({
+  const BaseLayout({
     Key? key,
     this.backgroundColor,
     this.onWillPop,
@@ -27,10 +27,10 @@ class DefaultLayout extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<DefaultLayout> createState() => _DefaultLayoutState();
+  State<BaseLayout> createState() => _BaseLayoutState();
 }
 
-class _DefaultLayoutState extends State<DefaultLayout> with CustomDialog {
+class _BaseLayoutState extends State<BaseLayout> {
   ShakeDetector? detector;
 
   @override
@@ -39,10 +39,20 @@ class _DefaultLayoutState extends State<DefaultLayout> with CustomDialog {
     if (AppConfig.appMode == AppMode.dev) {
       ShakeLogSender.getShakeLogSender(
         onSuccess: () {
-          showOneBtnDialog(context: context, content: '로그 전송 성공');
+          showDialog(
+            context: context,
+            builder: (_) => const BaseDialog(
+              content: Text('로그 전송 성공'),
+            ),
+          );
         },
         onError: (msg) {
-          showOneBtnDialog(context: context, title: '로그 전송 실패', content: msg);
+          showDialog(
+            context: context,
+            builder: (_) => BaseDialog(
+              content: Text('로그 전송 실패\n$msg'),
+            ),
+          );
         },
       ).then((value) {
         detector = value;

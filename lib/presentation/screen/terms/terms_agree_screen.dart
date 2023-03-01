@@ -1,3 +1,4 @@
+import 'package:bookand/core/widget/base_dialog.dart';
 import 'package:bookand/core/theme/custom_text_style.dart';
 import 'package:bookand/domain/model/member/member_model.dart';
 import 'package:bookand/domain/model/policy_model.dart';
@@ -10,14 +11,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/app_strings.dart';
-import '../../../core/layout/default_layout.dart';
+import '../../../core/widget/base_layout.dart';
 import '../../component/check_button.dart';
 import '../../component/circle_check_button.dart';
-import '../../component/custom_dialog.dart';
 import '../../component/round_rect_button.dart';
 import '../../provider/policy_provider.dart';
 
-class TermsAgreeScreen extends ConsumerWidget with CustomDialog {
+class TermsAgreeScreen extends ConsumerWidget {
   static String get routeName => 'termsAgree';
 
   const TermsAgreeScreen({super.key});
@@ -30,7 +30,7 @@ class TermsAgreeScreen extends ConsumerWidget with CustomDialog {
     final isLoading = ref.watch(memberStateNotifierProvider) is MemberModelLoading ||
         ref.watch(policyStateNotifierProvider) is PolicyModelLoading;
 
-    return DefaultLayout(
+    return BaseLayout(
         onWillPop: () async {
           memberProvider.cancelSignUp();
           return false;
@@ -107,7 +107,9 @@ class TermsAgreeScreen extends ConsumerWidget with CustomDialog {
                                 context.goNamed(TermsAgreeDetailScreen.routeName, extra: key);
                               },
                               onError: (msg) {
-                                showOneBtnDialog(context: context, content: msg);
+                                showDialog(
+                                    context: context,
+                                    builder: (_) => BaseDialog(content: Text(msg)));
                               },
                             );
                           },
@@ -136,9 +138,10 @@ class TermsAgreeScreen extends ConsumerWidget with CustomDialog {
                   height: 56,
                   onPressed: () {
                     memberProvider.signUp().onError((e, _) {
-                      showOneBtnDialog(
+                      showDialog(
                           context: context,
-                          content: '${AppStrings.signInError}\n에러: ${e.toString()}');
+                          builder: (_) => BaseDialog(
+                              content: Text('${AppStrings.signInError}\n에러: ${e.toString()}')));
                     });
                   },
                   enabled: !termsAgreeProvider.containsValue(false),
