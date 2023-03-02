@@ -2,13 +2,14 @@ import 'dart:io';
 
 import 'package:bookand/core/widget/base_dialog.dart';
 import 'package:bookand/core/theme/custom_text_style.dart';
-import 'package:bookand/domain/model/member/member_model.dart';
+import 'package:bookand/presentation/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../core/app_strings.dart';
+import '../../core/const/auth_state.dart';
 import '../../core/widget/base_layout.dart';
 import '../component/social_login_button.dart';
 import '../provider/member_provider.dart';
@@ -20,12 +21,13 @@ class LoginScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(memberStateNotifierProvider);
-    final state = ref.watch(memberStateNotifierProvider.notifier);
+    final memberProvider = ref.watch(memberStateNotifierProvider.notifier);
+    final authState = ref.watch(authStateNotifierProvider);
 
     return BaseLayout(
       backgroundColor: Colors.black,
-      ignoring: user is MemberModelLoading,
+      ignoring: authState == AuthState.loading,
+      isLoading: authState == AuthState.loading,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
       ),
@@ -40,7 +42,7 @@ class LoginScreen extends ConsumerWidget {
               Platform.isIOS
                   ? SocialLoginButton(
                       onTap: () {
-                        state.appleLogin(onError: (errMsg) {
+                        memberProvider.appleLogin(onError: (errMsg) {
                           showDialog(
                             context: context,
                             builder: (_) => BaseDialog(
@@ -55,7 +57,7 @@ class LoginScreen extends ConsumerWidget {
               const SizedBox(height: 16),
               SocialLoginButton(
                   onTap: () {
-                    state.googleLogin(onError: (errMsg) {
+                    memberProvider.googleLogin(onError: (errMsg) {
                       showDialog(
                         context: context,
                         builder: (_) => BaseDialog(

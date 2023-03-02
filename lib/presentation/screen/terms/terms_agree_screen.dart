@@ -1,7 +1,6 @@
 import 'package:bookand/core/widget/base_dialog.dart';
 import 'package:bookand/core/theme/custom_text_style.dart';
-import 'package:bookand/domain/model/member/member_model.dart';
-import 'package:bookand/domain/model/policy_model.dart';
+import 'package:bookand/presentation/provider/auth_provider.dart';
 import 'package:bookand/presentation/provider/member_provider.dart';
 import 'package:bookand/presentation/provider/terms_agree_provider.dart';
 import 'package:bookand/presentation/screen/terms/terms_detail_screen.dart';
@@ -11,6 +10,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/app_strings.dart';
+import '../../../core/const/auth_state.dart';
 import '../../../core/widget/base_layout.dart';
 import '../../component/check_button.dart';
 import '../../component/circle_check_button.dart';
@@ -27,16 +27,15 @@ class TermsAgreeScreen extends ConsumerWidget {
     final termsAgreeProvider = ref.watch(termsAgreeStateNotifierProvider);
     final policyProvider = ref.watch(policyStateNotifierProvider.notifier);
     final memberProvider = ref.watch(memberStateNotifierProvider.notifier);
-    final isLoading = ref.watch(memberStateNotifierProvider) is MemberModelLoading ||
-        ref.watch(policyStateNotifierProvider) is PolicyModelLoading;
+    final authState = ref.watch(authStateNotifierProvider);
 
     return BaseLayout(
         onWillPop: () async {
           memberProvider.cancelSignUp();
           return false;
         },
-        ignoring: isLoading,
-        isLoading: isLoading,
+        ignoring: authState == AuthState.loading,
+        isLoading: authState == AuthState.loading,
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.background,
           automaticallyImplyLeading: false,

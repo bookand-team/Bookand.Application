@@ -6,18 +6,21 @@ part of 'router_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$routerHash() => r'c21403380ae9a05dc11baa90d6e93628a62124d1';
+String _$goRouterStateNotifierHash() =>
+    r'6df38ba4e39cfb47ea47c6709370955b7ceee3ce';
 
-/// See also [router].
-@ProviderFor(router)
-final routerProvider = AutoDisposeProvider<GoRouter>.internal(
-  router,
-  name: r'routerProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$routerHash,
+/// See also [GoRouterStateNotifier].
+@ProviderFor(GoRouterStateNotifier)
+final goRouterStateNotifierProvider =
+    NotifierProvider<GoRouterStateNotifier, GoRouter>.internal(
+  GoRouterStateNotifier.new,
+  name: r'goRouterStateNotifierProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$goRouterStateNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef RouterRef = AutoDisposeProviderRef<GoRouter>;
+typedef _$GoRouterStateNotifier = Notifier<GoRouter>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

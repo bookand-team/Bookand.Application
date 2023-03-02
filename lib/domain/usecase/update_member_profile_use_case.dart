@@ -43,7 +43,7 @@ class UpdateMemberProfileUseCase {
 
     member = await memberRepository.updateMemberProfile(
       accessToken,
-      imageUrl ?? (member.profileImage ?? ''),
+      imageUrl ?? (member.profileImage),
       nickname ?? member.nickname,
     );
 

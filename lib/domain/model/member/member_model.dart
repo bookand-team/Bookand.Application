@@ -4,38 +4,20 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'member_model.g.dart';
 
-abstract class MemberModelBase {}
-
-class MemberModelInit implements MemberModelBase {}
-
-class MemberModelSignUp implements MemberModelBase {
-  final String signToken;
-
-  MemberModelSignUp(this.signToken);
-}
-
-class MemberModelLoading implements MemberModelBase {}
-
-class MemberModelError implements MemberModelBase {
-  final String? message;
-
-  MemberModelError({this.message});
-}
-
 @JsonSerializable()
-class MemberModel implements MemberModelBase {
+class MemberModel {
   final int id;
   final String email;
   final String nickname;
   final String providerEmail;
-  final String? profileImage;
+  final String profileImage;
 
   MemberModel({
-    required this.id,
-    required this.email,
-    required this.nickname,
-    required this.providerEmail,
-    required this.profileImage,
+    this.id = 0,
+    this.email = '',
+    this.nickname = '',
+    this.providerEmail = '',
+    this.profileImage = '',
   });
 
   factory MemberModel.fromJson(Map<String, dynamic> json) => _$MemberModelFromJson(json);

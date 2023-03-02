@@ -1,8 +1,8 @@
-import 'package:bookand/domain/model/member/member_model.dart';
 import 'package:bookand/presentation/component/profile_card.dart';
 import 'package:bookand/presentation/provider/package_info_provider.dart';
 import 'package:bookand/presentation/provider/member_provider.dart';
 import 'package:bookand/presentation/provider/profile_provider.dart';
+import 'package:bookand/presentation/screen/main/my/account_management_screen.dart';
 import 'package:bookand/presentation/screen/main/my/notice_screen.dart';
 import 'package:bookand/presentation/screen/main/my/notification_setting_screen.dart';
 import 'package:bookand/presentation/screen/main/my/terms_and_policy_screen.dart';
@@ -23,7 +23,7 @@ class MyScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profileProvider = ref.watch(profileStateNotifierProvider.notifier);
-    final member = ref.watch(memberStateNotifierProvider) as MemberModel;
+    final member = ref.watch(memberStateNotifierProvider);
     final profileCardState = ref.watch(profileStateNotifierProvider);
 
     return BaseLayout(
@@ -46,7 +46,7 @@ class MyScreen extends ConsumerWidget {
                       fit: BoxFit.cover,
                     )
                   : CachedNetworkImage(
-                      imageUrl: member.profileImage ?? '',
+                      imageUrl: member.profileImage,
                       errorWidget: (_, __, ___) => Container(color: Colors.grey),
                       fit: BoxFit.cover,
                     ),
@@ -74,7 +74,7 @@ class MyScreen extends ConsumerWidget {
               'assets/images/my/ic_user.svg',
             ),
             title: AppStrings.accountManagement,
-            onTap: () {},
+            onTap: () => ref.context.pushNamed(AccountManagementScreen.routeName),
           ),
           MenuItem(
             leading: SvgPicture.asset(

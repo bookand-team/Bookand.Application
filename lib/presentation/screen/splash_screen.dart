@@ -23,7 +23,7 @@ class SplashScreen extends StatelessWidget {
             children: [
               SvgPicture.asset('assets/images/ic_logo_and_title.svg', width: 120.w),
               SizedBox(height: 110.h),
-              const CircularProgressIndicator(color: Colors.white)
+              const CircularProgressIndicator(),
             ],
           ),
         ),

@@ -7,9 +7,9 @@ part of 'policy_model.dart';
 // **************************************************************************
 
 PolicyModel _$PolicyModelFromJson(Map<String, dynamic> json) => PolicyModel(
-      json['policyId'] as int,
-      json['title'] as String,
-      json['content'] as String,
+      policyId: json['policyId'] as int? ?? 0,
+      title: json['title'] as String? ?? '',
+      content: json['content'] as String? ?? '',
     );
 
 Map<String, dynamic> _$PolicyModelToJson(PolicyModel instance) =>

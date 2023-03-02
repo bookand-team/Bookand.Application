@@ -1,5 +1,4 @@
 import 'package:bookand/core/theme/custom_text_style.dart';
-import 'package:bookand/domain/model/policy_model.dart';
 import 'package:bookand/presentation/provider/policy_provider.dart';
 import 'package:bookand/presentation/provider/terms_agree_provider.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +22,7 @@ class TermsAgreeDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final policyModel = ref.watch(policyStateNotifierProvider) as PolicyModel;
+    final policyModel = ref.watch(policyStateNotifierProvider);
 
     return BaseLayout(
       appBar: AppBar(

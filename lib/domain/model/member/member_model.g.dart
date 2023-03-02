@@ -7,11 +7,11 @@ part of 'member_model.dart';
 // **************************************************************************
 
 MemberModel _$MemberModelFromJson(Map<String, dynamic> json) => MemberModel(
-      id: json['id'] as int,
-      email: json['email'] as String,
-      nickname: json['nickname'] as String,
-      providerEmail: json['providerEmail'] as String,
-      profileImage: json['profileImage'] as String?,
+      id: json['id'] as int? ?? 0,
+      email: json['email'] as String? ?? '',
+      nickname: json['nickname'] as String? ?? '',
+      providerEmail: json['providerEmail'] as String? ?? '',
+      profileImage: json['profileImage'] as String? ?? '',
     );
 
 Map<String, dynamic> _$MemberModelToJson(MemberModel instance) =>
