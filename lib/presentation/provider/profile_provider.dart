@@ -28,7 +28,11 @@ class ProfileStateNotifier extends _$ProfileStateNotifier {
   void onTapImgUpdate() async {
     final picker = ImagePicker();
     final imageXFile = await picker.pickImage(source: ImageSource.gallery);
-    final imageFile = File(imageXFile!.path);
+    final imageFilePath = imageXFile?.path;
+
+    if (imageFilePath == null) return;
+
+    final imageFile = File(imageFilePath);
     state = state.copyWith(previewImageFile: imageFile);
   }
 

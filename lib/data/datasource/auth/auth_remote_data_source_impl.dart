@@ -28,7 +28,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<TokenResponse> login(String accessToken, SocialType socialType) async {
-    final loginRequest = LoginRequest(accessToken, socialType.type);
+    final loginRequest = LoginRequest(accessToken, socialType);
     final resp = await service.login(loginRequest.toJson());
     final jsonData = jsonDecode(resp.bodyString);
 

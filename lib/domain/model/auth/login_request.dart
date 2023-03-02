@@ -1,3 +1,4 @@
+import 'package:bookand/core/const/social_type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'login_request.g.dart';
@@ -5,7 +6,7 @@ part 'login_request.g.dart';
 @JsonSerializable()
 class LoginRequest {
   final String accessToken;
-  final String socialType;
+  final SocialType socialType;
 
   LoginRequest(this.accessToken, this.socialType);
 

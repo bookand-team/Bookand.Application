@@ -1,8 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 enum SocialType {
-  google('GOOGLE'),
-  apple('APPLE');
-
-  final String type;
-
-  const SocialType(this.type);
+  NONE, GOOGLE, APPLE;
 }

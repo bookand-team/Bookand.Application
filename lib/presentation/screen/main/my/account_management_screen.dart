@@ -57,7 +57,15 @@ class AccountManagementScreen extends ConsumerWidget {
                 letterSpacing: -0.02,
               ),
             ),
-            trailing: Text('N/A'),
+            trailing: Text(
+              member.providerType.name,
+              style: const TextStyle(
+                color: Color(0xFF222222),
+                fontWeight: FontWeight.w500,
+                fontSize: 15,
+                letterSpacing: -0.02,
+              ),
+            ),
           ),
           ListTile(
             title: const Text(

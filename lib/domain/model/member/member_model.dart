@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bookand/core/const/social_type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'member_model.g.dart';
@@ -11,6 +12,7 @@ class MemberModel {
   final String nickname;
   final String providerEmail;
   final String profileImage;
+  final SocialType providerType;
 
   MemberModel({
     this.id = 0,
@@ -18,6 +20,7 @@ class MemberModel {
     this.nickname = '',
     this.providerEmail = '',
     this.profileImage = '',
+    this.providerType = SocialType.NONE,
   });
 
   factory MemberModel.fromJson(Map<String, dynamic> json) => _$MemberModelFromJson(json);
@@ -33,6 +36,7 @@ class MemberModel {
       nickname: nickname,
       providerEmail: model.providerEmail,
       profileImage: model.profileImage,
+      providerType: model.providerType,
     );
   }
 }

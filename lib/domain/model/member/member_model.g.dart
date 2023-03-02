@@ -12,6 +12,9 @@ MemberModel _$MemberModelFromJson(Map<String, dynamic> json) => MemberModel(
       nickname: json['nickname'] as String? ?? '',
       providerEmail: json['providerEmail'] as String? ?? '',
       profileImage: json['profileImage'] as String? ?? '',
+      providerType:
+          $enumDecodeNullable(_$SocialTypeEnumMap, json['providerType']) ??
+              SocialType.NONE,
     );
 
 Map<String, dynamic> _$MemberModelToJson(MemberModel instance) =>
@@ -21,4 +24,11 @@ Map<String, dynamic> _$MemberModelToJson(MemberModel instance) =>
       'nickname': instance.nickname,
       'providerEmail': instance.providerEmail,
       'profileImage': instance.profileImage,
+      'providerType': _$SocialTypeEnumMap[instance.providerType]!,
     };
+
+const _$SocialTypeEnumMap = {
+  SocialType.NONE: 'NONE',
+  SocialType.GOOGLE: 'GOOGLE',
+  SocialType.APPLE: 'APPLE',
+};

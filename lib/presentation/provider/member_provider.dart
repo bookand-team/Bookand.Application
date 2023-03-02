@@ -54,7 +54,7 @@ class MemberStateNotifier extends _$MemberStateNotifier {
 
       await ref.read(loginUseCaseProvider).login(
           accessToken: googleAccessToken,
-          socialType: SocialType.google,
+          socialType: SocialType.GOOGLE,
           onSuccess: () async {
             state = await ref.read(getMeUseCaseProvider).getMe();
             authState.changeState(AuthState.signIn);
@@ -87,7 +87,7 @@ class MemberStateNotifier extends _$MemberStateNotifier {
 
       await ref.read(loginUseCaseProvider).login(
           accessToken: credential.identityToken!,
-          socialType: SocialType.apple,
+          socialType: SocialType.APPLE,
           onSuccess: () async {
             state = await ref.read(getMeUseCaseProvider).getMe();
             authState.changeState(AuthState.signIn);
@@ -111,6 +111,7 @@ class MemberStateNotifier extends _$MemberStateNotifier {
     try {
       await ref.read(signUpUseCaseProvider).signUp(signToken!);
       state = await ref.read(getMeUseCaseProvider).getMe();
+      authState.changeState(AuthState.signIn);
     } catch (e) {
       logger.e(e);
       authState.changeState(AuthState.signUp);

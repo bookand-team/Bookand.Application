@@ -40,16 +40,22 @@ class MyScreen extends ConsumerWidget {
                   ? profileCardState.previewNickname!
                   : member.nickname,
               email: member.providerEmail,
-              image: profileProvider.isImagePreviewMode()
-                  ? Image.file(
-                      profileCardState.previewImageFile!,
-                      fit: BoxFit.cover,
-                    )
-                  : CachedNetworkImage(
-                      imageUrl: member.profileImage,
-                      errorWidget: (_, __, ___) => Container(color: Colors.grey),
-                      fit: BoxFit.cover,
-                    ),
+              image: Builder(builder: (_) {
+                if (member.profileImage.isEmpty) {
+                  return Container(color: Colors.grey);
+                }
+
+                return profileProvider.isImagePreviewMode()
+                    ? Image.file(
+                        profileCardState.previewImageFile!,
+                        fit: BoxFit.cover,
+                      )
+                    : CachedNetworkImage(
+                        imageUrl: member.profileImage,
+                        errorWidget: (_, __, ___) => Container(color: Colors.grey),
+                        fit: BoxFit.cover,
+                      );
+              }),
               onTapEdit: profileProvider.editToggle,
               onTapReset: profileProvider.onTapReset,
               onTapComplete: profileProvider.onTapComplete,
