@@ -4,7 +4,7 @@ class AppStrings {
   static const close = '닫기';
   static const ok = '확인';
   static const agree = '동의';
-  static const googleSocial = '구글로 로그인';
+  static const googleSocial = 'Google로 로그인';
   static const appleSocial = 'Apple로 로그인';
   static const loginCancel = '로그인이 취소되었습니다.';
   static const googleLoginCancel = '구글 로그인이 취소되었습니다.';

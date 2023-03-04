@@ -7,7 +7,7 @@ part of 'member_provider.dart';
 // **************************************************************************
 
 String _$memberStateNotifierHash() =>
-    r'20967043dfa3cafb018428febaab40ef2183df05';
+    r'e5309a20e0750253c4097003c34ef00cbc30da8c';
 
 /// See also [MemberStateNotifier].
 @ProviderFor(MemberStateNotifier)

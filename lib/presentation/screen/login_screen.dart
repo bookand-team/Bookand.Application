@@ -10,6 +10,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../core/app_strings.dart';
 import '../../core/const/auth_state.dart';
+import '../../core/const/social_type.dart';
 import '../../core/widget/base_layout.dart';
 import '../component/social_login_button.dart';
 import '../provider/member_provider.dart';
@@ -42,14 +43,17 @@ class LoginScreen extends ConsumerWidget {
               Platform.isIOS
                   ? SocialLoginButton(
                       onTap: () {
-                        memberProvider.appleLogin(onError: (errMsg) {
-                          showDialog(
-                            context: context,
-                            builder: (_) => BaseDialog(
-                              content: Text(errMsg),
-                            ),
-                          );
-                        });
+                        memberProvider.socialLogin(
+                          socialType: SocialType.APPLE,
+                          onError: (errMsg) {
+                            showDialog(
+                              context: context,
+                              builder: (_) => BaseDialog(
+                                content: Text(errMsg),
+                              ),
+                            );
+                          },
+                        );
                       },
                       image: SvgPicture.asset('assets/images/ic_apple.svg', width: 24),
                       text: Text(AppStrings.appleSocial, style: const TextStyle().appleLoginText()))
@@ -57,14 +61,17 @@ class LoginScreen extends ConsumerWidget {
               const SizedBox(height: 16),
               SocialLoginButton(
                   onTap: () {
-                    memberProvider.googleLogin(onError: (errMsg) {
-                      showDialog(
-                        context: context,
-                        builder: (_) => BaseDialog(
-                          content: Text(errMsg),
-                        ),
-                      );
-                    });
+                    memberProvider.socialLogin(
+                      socialType: SocialType.GOOGLE,
+                      onError: (errMsg) {
+                        showDialog(
+                          context: context,
+                          builder: (_) => BaseDialog(
+                            content: Text(errMsg),
+                          ),
+                        );
+                      },
+                    );
                   },
                   image: SvgPicture.asset('assets/images/ic_google.svg', width: 24),
                   text: Text(AppStrings.googleSocial, style: const TextStyle().googleLoginText()))
