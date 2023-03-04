@@ -7,6 +7,7 @@ class RoundRectButton extends StatelessWidget {
   final String text;
   final double width;
   final double height;
+  final Color? backgroundColor;
   final Function() onPressed;
   final bool enabled;
 
@@ -15,6 +16,7 @@ class RoundRectButton extends StatelessWidget {
       required this.text,
       required this.width,
       required this.height,
+      this.backgroundColor,
       required this.onPressed,
       this.enabled = true});
 
@@ -24,7 +26,7 @@ class RoundRectButton extends StatelessWidget {
         onPressed: enabled ? onPressed : null,
         style: ElevatedButton.styleFrom(
             fixedSize: Size(width, height),
-            backgroundColor: lightColorFF222222,
+            backgroundColor: backgroundColor ?? lightColorFF222222,
             foregroundColor: enabled ? Colors.white10 : Colors.transparent,
             disabledBackgroundColor: lightColorFFDDDDDD,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0))),

@@ -1,4 +1,11 @@
 import 'package:bookand/presentation/provider/member_provider.dart';
+import 'package:bookand/presentation/screen/main/my/feedback_screen.dart';
+import 'package:bookand/presentation/screen/main/my/new_bookstore_report_screen.dart';
+import 'package:bookand/presentation/screen/main/my/withdrawal/account_authentication_screen.dart';
+import 'package:bookand/presentation/screen/main/my/withdrawal/account_authentication_success_screen.dart';
+import 'package:bookand/presentation/screen/main/my/withdrawal/withdrawal_check_screen.dart';
+import 'package:bookand/presentation/screen/main/my/withdrawal/withdrawal_reason_screen.dart';
+import 'package:bookand/presentation/screen/main/my/withdrawal/withdrawal_success_screen.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -23,13 +30,12 @@ part 'router_provider.g.dart';
 
 @Riverpod(keepAlive: true)
 class GoRouterStateNotifier extends _$GoRouterStateNotifier {
-  List<GoRoute> routes = [
-    GoRoute(path: '/', name: MainTab.routeName, builder: (_, __) => const MainTab(), routes: [
-      GoRoute(
-          path: 'article/:id',
-          name: ArticleScreen.routeName,
-          builder: (_, state) => ArticleScreen(name: state.params['id']!))
-    ]),
+  late List<GoRoute> routes = [
+    GoRoute(
+        path: '/',
+        name: MainTab.routeName,
+        builder: (_, __) => const MainTab(),
+        routes: mainTabRoutes),
     GoRoute(
         path: '/splash', name: SplashScreen.routeName, builder: (_, __) => const SplashScreen()),
     GoRoute(
@@ -46,22 +52,60 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
                     path: 'termsAgreeDetail',
                     name: TermsAgreeDetailScreen.routeName,
                     builder: (_, state) => TermsAgreeDetailScreen(policy: state.extra as Policy))
-              ])
+              ]),
         ]),
+  ];
+
+  late List<RouteBase> mainTabRoutes = [
     GoRoute(
-        path: '/notificationSetting',
+        path: 'article/:id',
+        name: ArticleScreen.routeName,
+        builder: (_, state) => ArticleScreen(name: state.params['id']!)),
+    GoRoute(
+        path: 'notificationSetting',
         name: NotificationSettingScreen.routeName,
         builder: (_, __) => const NotificationSettingScreen()),
+    GoRoute(path: 'notice', name: NoticeScreen.routeName, builder: (_, __) => const NoticeScreen()),
     GoRoute(
-        path: '/notice', name: NoticeScreen.routeName, builder: (_, __) => const NoticeScreen()),
-    GoRoute(
-        path: '/termsAndPolicy',
+        path: 'termsAndPolicy',
         name: TermsAndPolicyScreen.routeName,
         builder: (_, __) => const TermsAndPolicyScreen()),
     GoRoute(
-        path: '/accountManagement',
+        path: 'accountManagement',
         name: AccountManagementScreen.routeName,
-        builder: (_, __) => const AccountManagementScreen()),
+        builder: (_, __) => const AccountManagementScreen(),
+        routes: accountManagementRoutes),
+    GoRoute(
+        path: 'newBookstoreReport',
+        name: NewBookstoreReportScreen.routeName,
+        builder: (_, __) => const NewBookstoreReportScreen()),
+    GoRoute(
+        path: 'feedback',
+        name: FeedbackScreen.routeName,
+        builder: (_, __) => const FeedbackScreen()),
+  ];
+
+  List<RouteBase> accountManagementRoutes = [
+    GoRoute(
+        path: 'withdrawalCheck',
+        name: WithdrawalCheckScreen.routeName,
+        builder: (_, __) => const WithdrawalCheckScreen()),
+    GoRoute(
+        path: 'withdrawalReason',
+        name: WithdrawalReasonScreen.routeName,
+        builder: (_, __) => const WithdrawalReasonScreen()),
+    GoRoute(
+        path: 'accountAuthentication',
+        name: AccountAuthenticationScreen.routeName,
+        builder: (_, __) => const AccountAuthenticationScreen()),
+    GoRoute(
+        path: 'accountAuthenticationSuccess',
+        name: AccountAuthenticationSuccessScreen.routeName,
+        builder: (_, __) => const AccountAuthenticationSuccessScreen()),
+    GoRoute(
+        path: 'withdrawalSuccessScreen',
+        name: WithdrawalSuccessScreen.routeName,
+        builder: (_, __) => const WithdrawalSuccessScreen())
   ];
 
   @override

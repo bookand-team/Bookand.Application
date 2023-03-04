@@ -7,7 +7,7 @@ part of 'router_provider.dart';
 // **************************************************************************
 
 String _$goRouterStateNotifierHash() =>
-    r'6df38ba4e39cfb47ea47c6709370955b7ceee3ce';
+    r'1632dfea67ee9daf0f2db1eb5f73c50464cafe8a';
 
 /// See also [GoRouterStateNotifier].
 @ProviderFor(GoRouterStateNotifier)

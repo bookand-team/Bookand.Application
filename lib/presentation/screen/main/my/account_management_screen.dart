@@ -3,8 +3,10 @@ import 'package:bookand/core/widget/base_dialog.dart';
 import 'package:bookand/core/widget/base_layout.dart';
 import 'package:bookand/presentation/provider/auth_provider.dart';
 import 'package:bookand/presentation/provider/member_provider.dart';
+import 'package:bookand/presentation/screen/main/my/withdrawal/withdrawal_check_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/app_strings.dart';
 import '../../../../core/const/auth_state.dart';
@@ -29,7 +31,7 @@ class AccountManagementScreen extends ConsumerWidget {
         children: [
           ListTile(
             title: const Text(
-              '닉네임',
+              AppStrings.nickname,
               style: TextStyle(
                 color: Color(0xFF222222),
                 fontWeight: FontWeight.w400,
@@ -49,7 +51,7 @@ class AccountManagementScreen extends ConsumerWidget {
           ),
           ListTile(
             title: const Text(
-              '로그인 정보',
+              AppStrings.loginInfo,
               style: TextStyle(
                 color: Color(0xFF222222),
                 fontWeight: FontWeight.w400,
@@ -69,7 +71,7 @@ class AccountManagementScreen extends ConsumerWidget {
           ),
           ListTile(
             title: const Text(
-              '로그인 ID',
+              AppStrings.loginId,
               style: TextStyle(
                 color: Color(0xFF222222),
                 fontWeight: FontWeight.w400,
@@ -93,7 +95,7 @@ class AccountManagementScreen extends ConsumerWidget {
           ),
           ListTile(
             title: const Text(
-              '로그아웃',
+              AppStrings.logout,
               style: TextStyle(
                 color: Color(0xFF222222),
                 fontWeight: FontWeight.w400,
@@ -105,7 +107,7 @@ class AccountManagementScreen extends ConsumerWidget {
           ),
           ListTile(
             title: const Text(
-              '계정 삭제',
+              AppStrings.deleteAccount,
               style: TextStyle(
                 color: Color(0xFFACACAC),
                 fontWeight: FontWeight.w400,
@@ -113,7 +115,7 @@ class AccountManagementScreen extends ConsumerWidget {
                 letterSpacing: -0.02,
               ),
             ),
-            onTap: () {},
+            onTap: () => context.pushNamed(WithdrawalCheckScreen.routeName),
           ),
         ],
       ),
@@ -124,14 +126,14 @@ class AccountManagementScreen extends ConsumerWidget {
         context: ref.context,
         builder: (_) => BaseDialog(
           isTwoBtn: true,
-          negativeBtnText: '취소',
+          negativeBtnText: AppStrings.cancel,
           onTapPositiveBtn: () {
             ref.watch(memberStateNotifierProvider.notifier).logout();
           },
           content: Column(
             children: const [
               Text(
-                '로그아웃',
+                AppStrings.logout,
                 style: TextStyle(
                   color: Color(0xFF222222),
                   fontWeight: FontWeight.w600,
@@ -143,7 +145,7 @@ class AccountManagementScreen extends ConsumerWidget {
                 height: 15,
               ),
               Text(
-                '로그아웃 하시겠습니까?',
+                AppStrings.logoutQuestion,
                 style: TextStyle(
                   color: Color(0xFFACACAC),
                   fontWeight: FontWeight.w500,

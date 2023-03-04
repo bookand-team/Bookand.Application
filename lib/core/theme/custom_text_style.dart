@@ -8,7 +8,7 @@ extension CustomTextStyle on TextStyle {
       fontWeight: FontWeight.w500,
       fontSize: 15,
       letterSpacing: -0.04,
-      color: enabled ? Colors.white : lightColorFF222222);
+      color: enabled ? Colors.white : const Color(0xFFACACAC));
 
   TextStyle termsOfServicePageTitle() => const TextStyle(
       fontWeight: FontWeight.w600,

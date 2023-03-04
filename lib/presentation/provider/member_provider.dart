@@ -53,7 +53,7 @@ class MemberStateNotifier extends _$MemberStateNotifier {
             authState.changeState(AuthState.init);
             switch (socialType) {
               case SocialType.NONE:
-                onError('로그인이 취소되었습니다.');
+                onError(AppStrings.loginCancel);
                 break;
               case SocialType.GOOGLE:
                 onError(AppStrings.googleLoginCancel);

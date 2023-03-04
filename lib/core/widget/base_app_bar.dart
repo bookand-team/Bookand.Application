@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final String title;
+  final String? title;
   final TextStyle? titleStyle;
   final bool? automaticallyImplyLeading;
   final bool? centerTitle;
@@ -12,7 +12,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   const BaseAppBar(
       {Key? key,
-      required this.title,
+      this.title,
       this.titleStyle,
       this.automaticallyImplyLeading,
       this.centerTitle,
@@ -24,7 +24,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: Text(
-        title,
+        title ?? '',
         style: titleStyle ??
             const TextStyle(
               color: Color(0xFF222222),

@@ -3,6 +3,7 @@ import 'package:bookand/presentation/provider/package_info_provider.dart';
 import 'package:bookand/presentation/provider/member_provider.dart';
 import 'package:bookand/presentation/provider/profile_provider.dart';
 import 'package:bookand/presentation/screen/main/my/account_management_screen.dart';
+import 'package:bookand/presentation/screen/main/my/new_bookstore_report_screen.dart';
 import 'package:bookand/presentation/screen/main/my/notice_screen.dart';
 import 'package:bookand/presentation/screen/main/my/notification_setting_screen.dart';
 import 'package:bookand/presentation/screen/main/my/terms_and_policy_screen.dart';
@@ -16,6 +17,7 @@ import '../../../../core/app_strings.dart';
 import '../../../../core/widget/base_layout.dart';
 import '../../../../core/util/logger.dart';
 import '../../../component/menu_item.dart';
+import 'feedback_screen.dart';
 
 class MyScreen extends ConsumerWidget {
   const MyScreen({super.key});
@@ -112,7 +114,7 @@ class MyScreen extends ConsumerWidget {
                     ),
                   ),
                   error: (e, stack) {
-                    logger.e('버전 정보를 가져오는 실패', e, stack);
+                    logger.e('버전 정보를 가져오는데 실패', e, stack);
                     return const SizedBox();
                   },
                   loading: () => const SizedBox(),
@@ -130,14 +132,14 @@ class MyScreen extends ConsumerWidget {
               'assets/images/my/ic_bookstore.svg',
             ),
             title: AppStrings.newBookstoreReport,
-            onTap: () {},
+            onTap: () => ref.context.pushNamed(NewBookstoreReportScreen.routeName),
           ),
           MenuItem(
             leading: SvgPicture.asset(
               'assets/images/my/ic_feedback.svg',
             ),
             title: AppStrings.feedback,
-            onTap: () {},
+            onTap: () => ref.context.pushNamed(FeedbackScreen.routeName),
           ),
         ],
       );
