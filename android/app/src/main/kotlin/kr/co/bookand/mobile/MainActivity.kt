@@ -1,6 +1,5 @@
 package kr.co.bookand.mobile
 
-import io.flutter.BuildConfig
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
