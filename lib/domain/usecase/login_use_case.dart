@@ -68,13 +68,21 @@ class LoginUseCase {
         completer.complete(auth?.accessToken);
         break;
       case SocialType.APPLE:
-        final credential = await SignInWithApple.getAppleIDCredential(
-          scopes: [
-            AppleIDAuthorizationScopes.email,
-            AppleIDAuthorizationScopes.fullName,
-          ],
-        );
-        completer.complete(credential.identityToken);
+        try {
+          final credential = await SignInWithApple.getAppleIDCredential(
+            scopes: [
+              AppleIDAuthorizationScopes.email,
+              AppleIDAuthorizationScopes.fullName,
+            ],
+          );
+          completer.complete(credential.identityToken);
+        } on SignInWithAppleAuthorizationException catch (e) {
+          if (e.code == AuthorizationErrorCode.canceled) {
+            completer.complete(null);
+          } else {
+            completer.completeError(e);
+          }
+        }
         break;
     }
 

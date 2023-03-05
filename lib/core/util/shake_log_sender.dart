@@ -72,7 +72,11 @@ class ShakeLogSender {
   }
 
   static Future<void> _sendLogFile(String path) async {
-    userCredential ??= await FirebaseAuth.instance.signInAnonymously();
+    final firebaseAuth = FirebaseAuth.instance;
+
+    if (firebaseAuth.currentUser == null) {
+      await FirebaseAuth.instance.signInAnonymously();
+    }
 
     final logFile = File(path);
     final storageRef = FirebaseStorage.instance.ref();

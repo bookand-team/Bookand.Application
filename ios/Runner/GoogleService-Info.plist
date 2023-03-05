@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>336065052158-nl53g77amriv995fg0g1n3h700ob5cob.apps.googleusercontent.com</string>
+	<string>336065052158-vdk4gu5qdi7nuof531iivd8dg34njpos.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.336065052158-nl53g77amriv995fg0g1n3h700ob5cob</string>
+	<string>com.googleusercontent.apps.336065052158-vdk4gu5qdi7nuof531iivd8dg34njpos</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>336065052158-6sflva6fksuur0g2jf23u3u8gp2lgq9t.apps.googleusercontent.com</string>
+	<string>336065052158-dkqspd6bnqe8j3ronv43l31btgh72ngq.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDJIkjg_M_spdxEEnIAR8ip_oFHgGJYQT8</string>
+	<string>AIzaSyDW09mMxrVLNgRyrKh-iRZoABnGYghajSo</string>
 	<key>GCM_SENDER_ID</key>
 	<string>336065052158</string>
 	<key>PLIST_VERSION</key>
@@ -21,15 +21,15 @@
 	<key>STORAGE_BUCKET</key>
 	<string>bookand-154bf.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:336065052158:ios:e5cf28fd4289861fe314af</string>
 </dict>
