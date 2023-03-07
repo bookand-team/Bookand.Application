@@ -7,6 +7,7 @@ import '../util/shake_log_sender.dart';
 import 'base_dialog.dart';
 
 class BaseLayout extends StatefulWidget {
+  final bool? resizeToAvoidBottomInset;
   final Color? backgroundColor;
   final WillPopCallback? onWillPop;
   final bool ignoring;
@@ -17,6 +18,7 @@ class BaseLayout extends StatefulWidget {
 
   const BaseLayout({
     Key? key,
+    this.resizeToAvoidBottomInset,
     this.backgroundColor,
     this.onWillPop,
     this.ignoring = false,
@@ -78,6 +80,7 @@ class _BaseLayoutState extends State<BaseLayout> {
         child: Stack(
           children: [
             Scaffold(
+              resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
               backgroundColor: widget.backgroundColor ?? Theme.of(context).colorScheme.background,
               appBar: widget.appBar,
               body: widget.child,

@@ -1,5 +1,3 @@
-
-
 import 'package:bookand/core/const/social_type.dart';
 import 'package:bookand/domain/model/auth/token_reponse.dart';
 import 'package:bookand/domain/repository/auth_repository.dart';
