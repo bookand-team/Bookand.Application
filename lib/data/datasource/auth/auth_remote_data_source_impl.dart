@@ -30,13 +30,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<TokenResponse> login(String accessToken, SocialType socialType) async {
     final loginRequest = LoginRequest(accessToken, socialType);
     final resp = await service.login(loginRequest.toJson());
-    final jsonData = jsonDecode(resp.bodyString);
 
     switch (resp.statusCode) {
       case HttpStatus.ok:
-        final data = TokenResponse.fromJson(jsonData);
-        return data;
+        return TokenResponse.fromJson(jsonDecode(resp.bodyString));
       case HttpStatus.notFound:
+        final jsonData = jsonDecode(resp.bodyString);
         final signToken = jsonData['signToken'];
         throw UserNotFoundException(
           signToken: signToken,
@@ -50,11 +49,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<BaseResponse<String>> logout(String accessToken) async {
     final resp = await service.logout(accessToken);
-    final data =
-        BaseResponse<String>.fromJson(jsonDecode(resp.bodyString), (json) => json.toString());
 
     if (resp.isSuccessful) {
-      return data;
+      return BaseResponse<String>.fromJson(jsonDecode(resp.bodyString), (json) => json.toString());
     } else {
       throw resp;
     }
@@ -64,10 +61,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<TokenResponse> signUp(String signToken) async {
     final signUpEntity = SignUpEntity(signToken);
     final resp = await service.signUp(signUpEntity.toJson());
-    final data = TokenResponse.fromJson(jsonDecode(resp.bodyString));
 
     if (resp.isSuccessful) {
-      return data;
+      return TokenResponse.fromJson(jsonDecode(resp.bodyString));
     } else {
       throw resp;
     }

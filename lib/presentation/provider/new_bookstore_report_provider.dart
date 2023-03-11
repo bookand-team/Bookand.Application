@@ -1,4 +1,5 @@
 import 'package:bookand/domain/model/kakao/search_keyword_response.dart';
+import 'package:bookand/domain/usecase/bookstore_report_use_case.dart';
 import 'package:bookand/domain/usecase/get_kakao_search_keyword_use_case.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -30,23 +31,22 @@ class SearchKeywordState {
 class NewBookstoreReportStateNotifier extends _$NewBookstoreReportStateNotifier {
   SearchKeywordResponse? searchKeywordResp;
   int page = 0;
-  String query = '';
   String currentSearchKeyword = '';
   bool isLoading = false;
 
   @override
   SearchKeywordState build() => SearchKeywordState(searchList: [], selectedId: '');
 
-  void searchKeyword() async {
+  void searchKeyword(String searchText) async {
     try {
       resetSearchResult();
 
       isLoading = true;
 
-      if (query.isEmpty) return;
+      if (searchText.isEmpty) return;
 
-      searchKeywordResp = await ref.read(getKakaoSearchKeywordUseCaseProvider).getSearchList(query);
-      currentSearchKeyword = query;
+      searchKeywordResp = await ref.read(getKakaoSearchKeywordUseCaseProvider).getSearchList(searchText);
+      currentSearchKeyword = searchText;
 
       page = 1;
 
@@ -98,4 +98,11 @@ class NewBookstoreReportStateNotifier extends _$NewBookstoreReportStateNotifier 
   }
 
   bool isSelectedItem(String id) => state.selectedId == id;
+
+  Future<void> bookstoreReport({
+    required String name,
+    required String address,
+  }) async {
+    await ref.read(bookstoreReportUseCaseProvider).bookstoreReport(name: name, address: address);
+  }
 }

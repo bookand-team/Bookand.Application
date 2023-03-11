@@ -7,7 +7,7 @@ part of 'new_bookstore_report_provider.dart';
 // **************************************************************************
 
 String _$newBookstoreReportStateNotifierHash() =>
-    r'6136cc471ce76fc120a920c49f9413eac27b7e56';
+    r'9630e8ebb1d12eba244e5cd3af63dcd97c79d5f6';
 
 /// See also [NewBookstoreReportStateNotifier].
 @ProviderFor(NewBookstoreReportStateNotifier)

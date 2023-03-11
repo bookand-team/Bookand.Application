@@ -1,4 +1,6 @@
+import 'package:bookand/core/widget/base_dialog.dart';
 import 'package:bookand/domain/model/kakao/search_keyword_response.dart';
+import 'package:bookand/domain/usecase/bookstore_report_use_case.dart';
 import 'package:bookand/presentation/provider/new_bookstore_report_provider.dart';
 import 'package:bookand/presentation/screen/main/my/new_bookstore_report_success.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +24,7 @@ class NewBookstoreReportScreen extends ConsumerStatefulWidget {
 
 class _NewBookstoreReportScreenState extends ConsumerState<NewBookstoreReportScreen> {
   final scrollController = ScrollController();
+  final searchTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +64,7 @@ class _NewBookstoreReportScreenState extends ConsumerState<NewBookstoreReportScr
                 children: [
                   Expanded(
                     child: TextField(
+                      controller: searchTextController,
                       decoration: const InputDecoration(
                         hintText: AppStrings.bookstoreSearchHint,
                         hintStyle: TextStyle(
@@ -78,11 +82,8 @@ class _NewBookstoreReportScreenState extends ConsumerState<NewBookstoreReportScr
                         enabledBorder: InputBorder.none,
                         border: InputBorder.none,
                       ),
-                      onChanged: (value) {
-                        newBookstoreReportProvider.query = value;
-                      },
                       onSubmitted: (_) {
-                        newBookstoreReportProvider.searchKeyword();
+                        newBookstoreReportProvider.searchKeyword(searchTextController.text);
                         scrollController.jumpTo(0);
                       },
                     ),
@@ -92,7 +93,7 @@ class _NewBookstoreReportScreenState extends ConsumerState<NewBookstoreReportScr
                   ),
                   InkWell(
                     onTap: () {
-                      newBookstoreReportProvider.searchKeyword();
+                      newBookstoreReportProvider.searchKeyword(searchTextController.text);
                       scrollController.jumpTo(0);
                     },
                     child: SvgPicture.asset('assets/images/ic_search.svg'),
@@ -178,8 +179,24 @@ class _NewBookstoreReportScreenState extends ConsumerState<NewBookstoreReportScr
               width: MediaQuery.of(context).size.width,
               height: 56,
               enabled: newBookstoreReportState.selectedId.isNotEmpty,
-              onPressed: () {
-                context.goNamed(NewBookstoreReportSuccessScreen.routeName);
+              onPressed: () async {
+                final selectedItem = newBookstoreReportState.searchList
+                    .firstWhere((e) => e.id == newBookstoreReportState.selectedId);
+
+                await ref
+                    .read(bookstoreReportUseCaseProvider)
+                    .bookstoreReport(
+                        name: selectedItem.placeName, address: selectedItem.roadAddressName)
+                    .then((_) {
+                  context.goNamed(NewBookstoreReportSuccessScreen.routeName);
+                }, onError: (e) {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return BaseDialog(content: Text(e.toString()));
+                    },
+                  );
+                });
               },
             ),
           ],
