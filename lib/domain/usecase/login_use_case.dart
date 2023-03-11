@@ -1,12 +1,11 @@
 import 'dart:async';
 
 import 'package:bookand/core/error/user_not_found_exception.dart';
+import 'package:bookand/domain/usecase/get_social_login_use_case.dart';
 import 'package:bookand/domain/repository/auth_repository.dart';
 import 'package:bookand/data/repository/auth_repository_impl.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../core/const/social_type.dart';
 import '../../core/const/storage_key.dart';
@@ -17,16 +16,18 @@ part 'login_use_case.g.dart';
 @riverpod
 LoginUseCase loginUseCase(LoginUseCaseRef ref) {
   final authRepository = ref.read(authRepositoryProvider);
+  final getSocialAccessTokenUseCase = ref.read(getSocialAccessTokenUseCaseProvider);
   const storage = FlutterSecureStorage();
 
-  return LoginUseCase(authRepository, storage);
+  return LoginUseCase(authRepository, getSocialAccessTokenUseCase, storage);
 }
 
 class LoginUseCase {
   final AuthRepository authRepository;
+  final GetSocialAccessTokenUseCase getSocialAccessTokenUseCase;
   final FlutterSecureStorage storage;
 
-  LoginUseCase(this.authRepository, this.storage);
+  LoginUseCase(this.authRepository, this.getSocialAccessTokenUseCase, this.storage);
 
   Future<void> login({
     required SocialType socialType,
@@ -35,7 +36,7 @@ class LoginUseCase {
     required Function(String signToken) onSignUp,
   }) async {
     try {
-      final accessToken = await getSocialAccessToken(socialType);
+      final accessToken = await getSocialAccessTokenUseCase.getSocialAccessToken(socialType);
 
       if (accessToken == null) {
         return onCancel();
@@ -52,40 +53,5 @@ class LoginUseCase {
     } catch (e) {
       throw (e.toString());
     }
-  }
-
-  Future<String?> getSocialAccessToken(SocialType type) async {
-    final completer = Completer<String?>();
-
-    switch (type) {
-      case SocialType.NONE:
-        completer.complete(null);
-        break;
-      case SocialType.GOOGLE:
-        final googleSignIn = GoogleSignIn();
-        final account = await googleSignIn.signIn();
-        final auth = await account?.authentication;
-        completer.complete(auth?.accessToken);
-        break;
-      case SocialType.APPLE:
-        try {
-          final credential = await SignInWithApple.getAppleIDCredential(
-            scopes: [
-              AppleIDAuthorizationScopes.email,
-              AppleIDAuthorizationScopes.fullName,
-            ],
-          );
-          completer.complete(credential.identityToken);
-        } on SignInWithAppleAuthorizationException catch (e) {
-          if (e.code == AuthorizationErrorCode.canceled) {
-            completer.complete(null);
-          } else {
-            completer.completeError(e);
-          }
-        }
-        break;
-    }
-
-    return completer.future;
   }
 }

@@ -23,20 +23,26 @@ class KakaoDataSourceImpl implements KakaoDataSource {
       throw ('카카오 api key를 가져올 수 없음.');
     }
 
-    final requestUrl =
-        'https://dapi.kakao.com/v2/local/search/keyword.json?query=${request.query}&category_group_code=${request.categoryGroupCode ?? ''}&x=${request.x ?? ''}&y=${request.y ?? ''}&radius=${request.radius ?? ''}&rect=${request.rect ?? ''}&page=${request.page ?? 1}&size=${request.size ?? 15}&sort=${request.sort ?? ''}';
+    final requestUrl = _buildSearchKeywordRequestUrl(request);
+
+    logger.i('[REQ] [GET] $requestUrl');
+
     final resp = await http.get(
       Uri.parse(requestUrl),
       headers: {'Authorization': 'KakaoAK $kakaoApiKey'},
     );
 
+    logger.i('[RESP] [${resp.request?.method}] [${resp.statusCode}] ${resp.request?.url}');
+
     if (resp.statusCode == HttpStatus.ok) {
-      logger.i(
-          '카카오 키워드 검색 결과\n[URI] ${resp.request?.url}\n[Status Code] ${resp.statusCode}\n[Body] ${resp.body}');
       final jsonData = jsonDecode(resp.body);
       return SearchKeywordResponse.fromJson(jsonData);
     } else {
-      throw ('카카오 키워드 검색 에러\n[URI] ${resp.request?.url}\n[Status Code] ${resp.statusCode}\n[Body] ${resp.body}');
+      throw resp;
     }
+  }
+
+  String _buildSearchKeywordRequestUrl(SearchKeywordRequest request) {
+    return 'https://dapi.kakao.com/v2/local/search/keyword.json?query=${request.query}&category_group_code=${request.categoryGroupCode ?? ''}&x=${request.x ?? ''}&y=${request.y ?? ''}&radius=${request.radius ?? ''}&rect=${request.rect ?? ''}&page=${request.page ?? 1}&size=${request.size ?? 15}&sort=${request.sort ?? ''}';
   }
 }

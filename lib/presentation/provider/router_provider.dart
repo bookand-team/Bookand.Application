@@ -1,6 +1,7 @@
 import 'package:bookand/presentation/provider/member_provider.dart';
 import 'package:bookand/presentation/screen/main/my/feedback_screen.dart';
 import 'package:bookand/presentation/screen/main/my/new_bookstore_report_screen.dart';
+import 'package:bookand/presentation/screen/main/my/new_bookstore_report_success.dart';
 import 'package:bookand/presentation/screen/main/my/withdrawal/account_authentication_screen.dart';
 import 'package:bookand/presentation/screen/main/my/withdrawal/account_authentication_success_screen.dart';
 import 'package:bookand/presentation/screen/main/my/withdrawal/withdrawal_check_screen.dart';
@@ -79,6 +80,10 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
         path: 'newBookstoreReport',
         name: NewBookstoreReportScreen.routeName,
         builder: (_, __) => const NewBookstoreReportScreen()),
+    GoRoute(
+        path: 'newBookstoreReportSuccess',
+        name: NewBookstoreReportSuccessScreen.routeName,
+        builder: (_, __) => const NewBookstoreReportSuccessScreen()),
     GoRoute(
         path: 'feedback',
         name: FeedbackScreen.routeName,

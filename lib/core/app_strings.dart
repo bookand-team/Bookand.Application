@@ -66,4 +66,14 @@ class AppStrings {
   static const accountAuthenticationSuccessDescription = '계정 인증이 완료되었어요.\n아래 버튼을 누르면 계정이 삭제됩니다.';
   static const withdrawalSuccessTitle = '다시 만나는 그 때까지,\n즐거운 독서하세요!';
   static const withdrawalSuccessDescription = '계정이 삭제되었습니다.';
+  static const newBookstoreReportAppBarTitle = '새로운 서점 제보';
+  static const newBookstoreReportTitle = '어떤 서점의\n이야기가 궁금하신가요?';
+  static const bookstoreSearchHint = '궁금한 서점을 검색해 보세요';
+  static const searchResult = '검색결과';
+  static const reporting = '제보하기';
+  static const noBookstoreSearchResult = '검색 결과가 없어요.';
+  static const noBookstoreSearchResultDescription = '해당 서점이 아직 업체등록을 하지 않았어요.\n조금만 기다려주세요!';
+  static const newBookstoreReportSuccessTitle = '따끈따끈한 새로운 서점의\n이야기와 찾아올게요';
+  static const newBookstoreReportSuccessDescription = '새로운 서점 제보가 완료되었습니다.';
+  static const goHome = '홈으로';
 }
