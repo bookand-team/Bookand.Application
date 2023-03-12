@@ -6,7 +6,7 @@ part of 'policy_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$policyServiceHash() => r'cc0ab187129794b2c84f9222ae10e60263d2dc6a';
+String _$policyServiceHash() => r'17bbd3de12b3d7a2fee0591010a64a2ace323686';
 
 /// See also [policyService].
 @ProviderFor(policyService)

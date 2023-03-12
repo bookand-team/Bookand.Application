@@ -1,24 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'bookstore_service.dart';
+part of 'notification_repository_impl.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$bookstoreServiceHash() => r'895721e15155864bcd866bea71b894beac929327';
+String _$notificationRepositoryHash() =>
+    r'fff2df12fc915fae3352ba53fcb8855eb7110885';
 
-/// See also [bookstoreService].
-@ProviderFor(bookstoreService)
-final bookstoreServiceProvider = AutoDisposeProvider<BookstoreService>.internal(
-  bookstoreService,
-  name: r'bookstoreServiceProvider',
+/// See also [notificationRepository].
+@ProviderFor(notificationRepository)
+final notificationRepositoryProvider =
+    AutoDisposeProvider<NotificationRepository>.internal(
+  notificationRepository,
+  name: r'notificationRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$bookstoreServiceHash,
+      : _$notificationRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef BookstoreServiceRef = AutoDisposeProviderRef<BookstoreService>;
+typedef NotificationRepositoryRef
+    = AutoDisposeProviderRef<NotificationRepository>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

@@ -9,7 +9,7 @@ part 'bookstore_service.chopper.dart';
 
 @riverpod
 BookstoreService bookstoreService(BookstoreServiceRef ref) =>
-    BookstoreService.create(ApiHelper.client());
+    BookstoreService.create(ApiHelper.client(ref: ref));
 
 @ChopperApi(baseUrl: '/api/v1/bookstores')
 abstract class BookstoreService extends ChopperService {

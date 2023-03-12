@@ -1,24 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'bookstore_service.dart';
+part of 'notification_remote_data_source_impl.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$bookstoreServiceHash() => r'895721e15155864bcd866bea71b894beac929327';
+String _$notificationRemoteDataSourceHash() =>
+    r'676ce8b3603346b58b5a4a6b29fd126c126ed87b';
 
-/// See also [bookstoreService].
-@ProviderFor(bookstoreService)
-final bookstoreServiceProvider = AutoDisposeProvider<BookstoreService>.internal(
-  bookstoreService,
-  name: r'bookstoreServiceProvider',
+/// See also [notificationRemoteDataSource].
+@ProviderFor(notificationRemoteDataSource)
+final notificationRemoteDataSourceProvider =
+    AutoDisposeProvider<NotificationRemoteDataSource>.internal(
+  notificationRemoteDataSource,
+  name: r'notificationRemoteDataSourceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$bookstoreServiceHash,
+      : _$notificationRemoteDataSourceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef BookstoreServiceRef = AutoDisposeProviderRef<BookstoreService>;
+typedef NotificationRemoteDataSourceRef
+    = AutoDisposeProviderRef<NotificationRemoteDataSource>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

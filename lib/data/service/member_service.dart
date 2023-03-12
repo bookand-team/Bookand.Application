@@ -7,7 +7,7 @@ part 'member_service.g.dart';
 part 'member_service.chopper.dart';
 
 @riverpod
-MemberService memberService(MemberServiceRef ref) => MemberService.create(ApiHelper.client());
+MemberService memberService(MemberServiceRef ref) => MemberService.create(ApiHelper.client(ref: ref));
 
 @ChopperApi(baseUrl: '/api/v1/members')
 abstract class MemberService extends ChopperService {

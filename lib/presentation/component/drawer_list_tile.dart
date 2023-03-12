@@ -1,51 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
-class DrawerListTile extends StatelessWidget {
-  final bool value;
-  final Function(bool value) onChanged;
+class DrawerListTile extends StatefulWidget {
   final Widget title;
   final Widget? subTitle;
   final Widget? trailing;
   final Duration duration;
   final Curve curve;
   final double minHeight;
-  final double maxHeight;
+  final double? maxHeight;
   final Color? drawerBackground;
   final Widget child;
 
   const DrawerListTile(
       {Key? key,
-      required this.value,
-      required this.onChanged,
       required this.title,
       this.subTitle,
       this.trailing,
       required this.duration,
       this.curve = Curves.linear,
       this.minHeight = 0,
-      this.maxHeight = 400,
+      this.maxHeight,
       this.drawerBackground,
       required this.child})
       : super(key: key);
+
+  @override
+  State<DrawerListTile> createState() => _DrawerListTileState();
+}
+
+class _DrawerListTileState extends State<DrawerListTile> {
+  bool isOpen = false;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         InkWell(
-          onTap: () => onChanged(!value),
+          onTap: () {
+            setState(() {
+              isOpen = !isOpen;
+            });
+          },
           child: ListTile(
-            title: title,
-            subtitle: subTitle,
-            trailing: trailing,
+            title: widget.title,
+            subtitle: widget.subTitle,
+            trailing: widget.trailing ??
+                SvgPicture.asset(
+                  isOpen
+                      ? 'assets/images/my/ic_drawer_close.svg'
+                      : 'assets/images/my/ic_drawer_open.svg',
+                ),
           ),
         ),
         AnimatedContainer(
-          duration: duration,
+          duration: widget.duration,
           curve: Curves.easeInOut,
-          height: value ? maxHeight : minHeight,
-          color: drawerBackground,
-          child: child,
+          height: isOpen
+              ? widget.maxHeight ?? MediaQuery.of(context).size.height * 0.56
+              : widget.minHeight,
+          color: widget.drawerBackground,
+          child: widget.child,
         ),
       ],
     );
