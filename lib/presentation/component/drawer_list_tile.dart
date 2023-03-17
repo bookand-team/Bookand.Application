@@ -57,7 +57,7 @@ class _DrawerListTileState extends State<DrawerListTile> {
           duration: widget.duration,
           curve: Curves.easeInOut,
           height: isOpen
-              ? widget.maxHeight ?? MediaQuery.of(context).size.height * 0.56
+              ? widget.maxHeight
               : widget.minHeight,
           color: widget.drawerBackground,
           child: widget.child,

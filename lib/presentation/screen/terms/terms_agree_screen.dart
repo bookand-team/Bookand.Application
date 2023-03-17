@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tuple/tuple.dart';
 
 import '../../../core/app_strings.dart';
 import '../../../core/const/auth_state.dart';
@@ -15,7 +16,6 @@ import '../../../core/widget/base_layout.dart';
 import '../../component/check_button.dart';
 import '../../component/circle_check_button.dart';
 import '../../component/round_rect_button.dart';
-import '../../provider/policy_provider.dart';
 
 class TermsAgreeScreen extends ConsumerWidget {
   static String get routeName => 'termsAgree';
@@ -24,130 +24,144 @@ class TermsAgreeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final termsAgreeProvider = ref.watch(termsAgreeStateNotifierProvider);
-    final policyProvider = ref.watch(policyStateNotifierProvider.notifier);
+    final termsAgreeState = ref.watch(termsAgreeStateNotifierProvider);
+    final termsAgreeProvider = ref.watch(termsAgreeStateNotifierProvider.notifier);
     final memberProvider = ref.watch(memberStateNotifierProvider.notifier);
     final authState = ref.watch(authStateNotifierProvider);
 
     return BaseLayout(
-        onWillPop: () async {
-          memberProvider.cancelSignUp();
-          return false;
-        },
-        ignoring: authState == AuthState.loading,
-        isLoading: authState == AuthState.loading,
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.background,
-          automaticallyImplyLeading: false,
-          leading: InkWell(
-            onTap: () {
-              memberProvider.cancelSignUp();
-            },
-            radius: 20,
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            child: SvgPicture.asset(
-              'assets/images/ic_arrow_back.svg',
-              fit: BoxFit.none,
-            ),
+      onWillPop: () async {
+        memberProvider.cancelSignUp();
+        return false;
+      },
+      ignoring: authState == AuthState.loading,
+      isLoading: authState == AuthState.loading,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
+        automaticallyImplyLeading: false,
+        leading: InkWell(
+          onTap: () {
+            memberProvider.cancelSignUp();
+          },
+          radius: 20,
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          child: SvgPicture.asset(
+            'assets/images/ic_arrow_back.svg',
+            fit: BoxFit.none,
           ),
         ),
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20, bottom: 70),
-                child: Text(
-                  AppStrings.termsAgreeDescription,
-                  style: const TextStyle().termsOfServicePageTitle(),
-                ),
+      ),
+      child: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 70),
+              child: Text(
+                AppStrings.termsAgreeDescription,
+                style: const TextStyle().termsOfServicePageTitle(),
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 34),
-                child: Row(
-                  children: [
-                    CircleCheckButton(
-                      value: !termsAgreeProvider.containsValue(false),
-                      onTap: () {
-                        ref.watch(termsAgreeStateNotifierProvider.notifier).updateAllAgree();
-                      },
-                    ),
-                    Text(
-                      AppStrings.allAgree,
-                      style: const TextStyle().termsOfServiceAllAgreeText(),
-                    )
-                  ],
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 34),
+              child: Row(
+                children: [
+                  CircleCheckButton(
+                    value: !termsAgreeState.map((e) => e.isAgree).toList().contains(false),
+                    onTap: () {
+                      ref.watch(termsAgreeStateNotifierProvider.notifier).updateAllAgree();
+                    },
+                  ),
+                  Text(
+                    AppStrings.allAgree,
+                    style: const TextStyle().termsOfServiceAllAgreeText(),
+                  )
+                ],
               ),
-              ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: termsAgreeProvider.keys.length,
-                  itemBuilder: (context, index) {
-                    final key = termsAgreeProvider.keys.toList()[index];
+            ),
+            ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: termsAgreeState.length,
+                itemBuilder: (context, index) {
+                  final policyModel = termsAgreeState[index].policyModel;
 
+                  if (index == 0) {
                     return ListTile(
                       leading: CheckButton(
-                          value: termsAgreeProvider[key]!,
+                          value: termsAgreeState[index].isAgree,
                           onTap: () {
-                            ref.watch(termsAgreeStateNotifierProvider.notifier).updateAgree(key);
+                            termsAgreeProvider.updateAgree(index);
                           }),
-                      title: Text(
-                          '${key.title}${key.isConsentRequired ? AppStrings.required : AppStrings.optional}',
+                      title: Text(AppStrings.policy14yearsAgeOrOlder,
                           style: const TextStyle().termsOfServiceItemText()),
-                      trailing: Visibility(
-                        visible: key.hasDocs,
-                        child: InkWell(
-                          onTap: () {
-                            policyProvider.fetchPolicy(
-                              policy: key,
-                              onSuccess: () {
-                                context.goNamed(TermsAgreeDetailScreen.routeName, extra: key);
-                              },
-                              onError: (msg) {
-                                showDialog(
-                                    context: context,
-                                    builder: (_) => BaseDialog(content: Text(msg)));
-                              },
-                            );
-                          },
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          child: Container(
-                            width: 60,
-                            height: 52,
-                            alignment: Alignment.center,
-                            child: SvgPicture.asset('assets/images/ic_arrow_forward.svg',
-                                width: 20, height: 20),
-                          ),
-                        ),
-                      ),
                       contentPadding: EdgeInsets.zero,
                       horizontalTitleGap: 0,
                       minLeadingWidth: 0,
                     );
-                  }),
-              const Spacer(),
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20, bottom: 52),
-                child: RoundRectButton(
-                  text: AppStrings.start,
-                  width: MediaQuery.of(context).size.width,
-                  height: 56,
-                  onPressed: () {
-                    memberProvider.signUp().onError((e, _) {
-                      showDialog(
-                          context: context,
-                          builder: (_) => BaseDialog(
-                              content: Text('${AppStrings.signInError}\n에러: ${e.toString()}')));
-                    });
-                  },
-                  enabled: !termsAgreeProvider.containsValue(false),
-                ),
+                  }
+
+                  return ListTile(
+                    leading: CheckButton(
+                        value: termsAgreeState[index].isAgree,
+                        onTap: () {
+                          termsAgreeProvider.updateAgree(index);
+                        }),
+                    title: Text(
+                        '${policyModel?.title}${termsAgreeState[index].isRequired ? AppStrings.required : AppStrings.optional}',
+                        style: const TextStyle().termsOfServiceItemText()),
+                    trailing: InkWell(
+                      onTap: () {
+                        if (policyModel == null) {
+                          showDialog(
+                            context: context,
+                            builder: (_) => const BaseDialog(
+                              content: Text(AppStrings.termsLoadError),
+                            ),
+                          );
+                          return;
+                        }
+
+                        context.goNamed(TermsAgreeDetailScreen.routeName,
+                            extra: Tuple2(index, policyModel));
+                      },
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      child: Container(
+                        width: 60,
+                        height: 52,
+                        alignment: Alignment.center,
+                        child: SvgPicture.asset('assets/images/ic_arrow_forward.svg',
+                            width: 20, height: 20),
+                      ),
+                    ),
+                    contentPadding: EdgeInsets.zero,
+                    horizontalTitleGap: 0,
+                    minLeadingWidth: 0,
+                  );
+                }),
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 52),
+              child: RoundRectButton(
+                text: AppStrings.start,
+                width: MediaQuery.of(context).size.width,
+                height: 56,
+                onPressed: () {
+                  memberProvider.signUp().onError((e, _) {
+                    showDialog(
+                        context: context,
+                        builder: (_) => BaseDialog(
+                            content: Text('${AppStrings.signInError}\n에러: ${e.toString()}')));
+                  });
+                },
+                enabled: !termsAgreeState.map((e) => e.isAgree).toList().contains(false),
               ),
-            ],
-          ),
-        ));
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

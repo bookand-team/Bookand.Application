@@ -6,7 +6,7 @@ part of 'policy_repository_impl.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$policyRepositoryHash() => r'891a989c5bfc0c30975e612ee686d78d1e8feebd';
+String _$policyRepositoryHash() => r'd3bc6fd735828946d9350fa3a6e7611357d92daa';
 
 /// See also [policyRepository].
 @ProviderFor(policyRepository)

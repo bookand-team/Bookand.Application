@@ -1,5 +1,7 @@
+import '../../core/const/policy.dart';
 import '../model/policy_model.dart';
 
 abstract class PolicyRepository {
-  Future<PolicyModel> getPolicy(String terms);
+  Future<void> putPolicy(Policy policy, PolicyModel policyModel);
+  Future<PolicyModel> getPolicy(Policy policy);
 }

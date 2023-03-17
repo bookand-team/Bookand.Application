@@ -11,10 +11,11 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:tuple/tuple.dart';
 
 import '../../core/config/firebase/firebase_init.dart';
 import '../../core/const/auth_state.dart';
-import '../../core/const/policy.dart';
+import '../../domain/model/policy_model.dart';
 import '../screen/login_screen.dart';
 import '../screen/main/article_screen.dart';
 import '../screen/main/main_tab.dart';
@@ -52,7 +53,7 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
                 GoRoute(
                     path: 'termsAgreeDetail',
                     name: TermsAgreeDetailScreen.routeName,
-                    builder: (_, state) => TermsAgreeDetailScreen(policy: state.extra as Policy))
+                    builder: (_, state) => TermsAgreeDetailScreen(policy: state.extra as Tuple2<int, PolicyModel>))
               ]),
         ]),
   ];

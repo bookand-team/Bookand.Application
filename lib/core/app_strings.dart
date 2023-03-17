@@ -21,6 +21,7 @@ class AppStrings {
   static const allAgree = '모두 동의';
   static const required = '(필수)';
   static const optional = '(선택)';
+  static const policy14yearsAgeOrOlder = '만 14세 이상(필수)';
   static const termsLoadError = '약관을 불러오는 중 문제가 발생하였습니다.';
   static const start = '시작하기';
   static const home = '홈';
