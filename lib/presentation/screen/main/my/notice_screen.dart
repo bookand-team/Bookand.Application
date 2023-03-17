@@ -82,6 +82,8 @@ class _NoticeScreenState extends ConsumerState<NoticeScreen> {
                 curve: Curves.easeInOut,
                 drawerBackground: const Color(0xFFF5F5F7),
                 child: Markdown(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
                   data: noticeList[index].content,
                 ),
               );
