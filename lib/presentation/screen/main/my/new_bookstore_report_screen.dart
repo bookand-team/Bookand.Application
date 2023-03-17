@@ -27,6 +27,14 @@ class _NewBookstoreReportScreenState extends ConsumerState<NewBookstoreReportScr
   final searchTextController = TextEditingController();
 
   @override
+  void initState() {
+    searchTextController.addListener(() {
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final newBookstoreReportProvider = ref.watch(newBookstoreReportStateNotifierProvider.notifier);
     final newBookstoreReportState = ref.watch(newBookstoreReportStateNotifierProvider);
@@ -63,7 +71,7 @@ class _NewBookstoreReportScreenState extends ConsumerState<NewBookstoreReportScr
               child: Row(
                 children: [
                   Expanded(
-                    child: TextField(
+                    child: TextFormField(
                       controller: searchTextController,
                       decoration: const InputDecoration(
                         hintText: AppStrings.bookstoreSearchHint,
@@ -82,7 +90,8 @@ class _NewBookstoreReportScreenState extends ConsumerState<NewBookstoreReportScr
                         enabledBorder: InputBorder.none,
                         border: InputBorder.none,
                       ),
-                      onSubmitted: (_) {
+                      textInputAction: TextInputAction.search,
+                      onFieldSubmitted: (_) {
                         newBookstoreReportProvider.searchKeyword(searchTextController.text);
                         scrollController.jumpTo(0);
                       },
@@ -93,10 +102,15 @@ class _NewBookstoreReportScreenState extends ConsumerState<NewBookstoreReportScr
                   ),
                   InkWell(
                     onTap: () {
-                      newBookstoreReportProvider.searchKeyword(searchTextController.text);
-                      scrollController.jumpTo(0);
+                      if (searchTextController.text.isNotEmpty) {
+                        searchTextController.text = '';
+                      }
                     },
-                    child: SvgPicture.asset('assets/images/ic_search.svg'),
+                    child: SvgPicture.asset(
+                      searchTextController.text.isEmpty
+                          ? 'assets/images/ic_search.svg'
+                          : 'assets/images/ic_delete.svg',
+                    ),
                   )
                 ],
               ),
