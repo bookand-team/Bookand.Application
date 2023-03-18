@@ -80,7 +80,7 @@ class JwtAuthenticator extends Authenticator {
 
       if (resp.statusCode != HttpStatus.ok) {
         ref.read(goRouterStateNotifierProvider).goNamed(LoginScreen.routeName);
-        throw ('토큰 갱신 실패');
+        throw (Utf8Util.decode(resp.bodyBytes));
       }
 
       final token = TokenResponse.fromJson(Utf8Util.utf8JsonDecode(resp.bodyString));
