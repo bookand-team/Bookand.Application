@@ -1,10 +1,10 @@
-import 'dart:convert';
-
 import 'package:bookand/data/datasource/bookstore/bookstore_remote_data_source.dart';
 import 'package:bookand/data/service/bookstore_service.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_report_request.dart';
 import 'package:bookand/domain/model/result_response.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../../core/util/utf8_util.dart';
 
 part 'bookstore_remote_data_source_impl.g.dart';
 
@@ -28,7 +28,7 @@ class BookstoreRemoteDataStoreImpl implements BookstoreRemoteDataSource {
     final resp = await service.bookstoreReport(accessToken, bookstoreReportRequest.toJson());
 
     if (resp.isSuccessful) {
-      return ResultResponse.fromJson(jsonDecode(resp.bodyString));
+      return ResultResponse.fromJson(Utf8Util.utf8JsonDecode(resp.bodyString));
     } else {
       throw resp;
     }

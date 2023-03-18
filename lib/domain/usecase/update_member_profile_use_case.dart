@@ -41,12 +41,10 @@ class UpdateMemberProfileUseCase {
       imageUrl = files.first.fileUrl;
     }
 
-    member = await memberRepository.updateMemberProfile(
+    return await memberRepository.updateMemberProfile(
       accessToken,
       imageUrl ?? (member.profileImage),
       nickname ?? member.nickname,
     );
-
-    return MemberModel.convertUtf8(model: member);
   }
 }

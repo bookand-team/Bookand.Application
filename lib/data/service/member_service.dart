@@ -25,6 +25,6 @@ abstract class MemberService extends ChopperService {
     @Body() Map<String, dynamic> body,
   );
 
-  @Delete(path: '/remove')
-  Future<Response> deleteMember(@Header('Authorization') String accessToken);
+  @Delete(path: '/revoke')
+  Future<Response> revoke(@Header('Authorization') String accessToken, @Body() Map<String, dynamic> body);
 }

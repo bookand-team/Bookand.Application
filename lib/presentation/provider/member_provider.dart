@@ -1,8 +1,11 @@
 import 'package:bookand/core/app_strings.dart';
+import 'package:bookand/core/const/revoke_type.dart';
 import 'package:bookand/domain/usecase/get_me_use_case.dart';
+import 'package:bookand/domain/usecase/get_social_login_use_case.dart';
 import 'package:bookand/domain/usecase/login_use_case.dart';
 import 'package:bookand/domain/usecase/logout_use_case.dart';
 import 'package:bookand/domain/usecase/sign_up_use_case.dart';
+import 'package:bookand/domain/usecase/withdrawal_use_case.dart';
 import 'package:bookand/presentation/provider/auth_provider.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -18,7 +21,9 @@ part 'member_provider.g.dart';
 @Riverpod(keepAlive: true)
 class MemberStateNotifier extends _$MemberStateNotifier {
   late final authState = ref.read(authStateNotifierProvider.notifier);
+  late final getSocialAccessTokenUseCase = ref.read(getSocialAccessTokenUseCaseProvider);
   late final loginUseCase = ref.read(loginUseCaseProvider);
+  late final withdrawalUseCase = ref.read(withdrawalUseCaseProvider);
   late final storage = const FlutterSecureStorage();
 
   @override
@@ -103,5 +108,28 @@ class MemberStateNotifier extends _$MemberStateNotifier {
     authState.changeState(AuthState.init);
   }
 
-  void withdrawal() {}
+  Future<void> getSocialAccessToken({
+    required SocialType socialType,
+    required Function(String token) onSuccess,
+    required Function(String error) onError,
+  }) async {
+    try {
+      final socialToken = await getSocialAccessTokenUseCase.getSocialAccessToken(socialType);
+
+      if (socialToken == null) return onError('인증이 취소되었습니다.');
+
+      onSuccess(socialToken);
+    } catch (e) {
+      logger.e(e);
+      onError('인증 진행 중 문제가 발생하였습니다.');
+    }
+  }
+
+  Future<void> withdrawal(String socialAccessToken, RevokeType revokeType, String? reason) async {
+    await withdrawalUseCase.withdrawal(
+      socialAccessToken: socialAccessToken,
+      revokeType: revokeType,
+      reason: reason,
+    );
+  }
 }

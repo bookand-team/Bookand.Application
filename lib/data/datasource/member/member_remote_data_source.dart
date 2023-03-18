@@ -1,4 +1,5 @@
 import 'package:bookand/domain/model/member/member_model.dart';
+import 'package:bookand/domain/model/member/revoke_reason_request.dart';
 import 'package:bookand/domain/model/result_response.dart';
 
 abstract class MemberRemoteDataSource {
@@ -12,5 +13,5 @@ abstract class MemberRemoteDataSource {
     String nickname,
   );
 
-  Future<ResultResponse> deleteMember(String accessToken);
+  Future<ResultResponse> revoke(String accessToken, RevokeReasonRequest revokeReasonRequest);
 }

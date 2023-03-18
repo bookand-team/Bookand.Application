@@ -3,10 +3,13 @@ import 'package:bookand/data/datasource/policy/policy_local_data_source.dart';
 import 'package:bookand/data/datasource/policy/policy_local_data_source_impl.dart';
 import 'package:bookand/domain/model/policy_model.dart';
 import 'package:bookand/domain/repository/policy_repository.dart';
+import 'package:chopper/chopper.dart';
 import 'package:hive/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../core/util/logger.dart';
+import '../../core/util/utf8_util.dart';
+import '../../domain/model/error_response.dart';
 import '../datasource/policy/policy_remote_data_source.dart';
 import '../datasource/policy/policy_remote_data_source_impl.dart';
 
@@ -36,10 +39,11 @@ class PolicyRepositoryImpl implements PolicyRepository {
     try {
       return await policyLocalDataSource.getPolicy(policy);
     } on HiveError {
-      final data = await policyRemoteDataSource.getPolicy(policy.name);
-      final policyModel = PolicyModel.convertUtf8(model: data);
+      final policyModel = await policyRemoteDataSource.getPolicy(policy.name);
       policyLocalDataSource.putPolicy(policy, policyModel);
       return policyModel;
+    } on Response catch (e) {
+      throw ErrorResponse.fromJson(Utf8Util.utf8JsonDecode(e.bodyString));
     } catch (e) {
       logger.e(e.toString());
       rethrow;

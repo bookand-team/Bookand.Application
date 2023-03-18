@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:bookand/data/service/auth_service.dart';
@@ -15,6 +14,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../core/config/app_config.dart';
 import '../core/const/storage_key.dart';
 import '../core/util/logger.dart';
+import '../core/util/utf8_util.dart';
 
 class ApiHelper {
   static ChopperClient client({required Ref ref, String? baseUrl, Converter? converter}) {
@@ -52,7 +52,7 @@ class ApiHelper {
         '[RESP] [${response.base.request?.method}] [${response.statusCode}] ${response.base.request?.url}';
 
     if (kDebugMode) {
-      logTxt += '\n[Body] ${const Utf8Decoder().convert(response.bodyString.codeUnits)}';
+      logTxt += '\n[Body] ${Utf8Util.utf8JsonDecode(response.bodyString)}';
     }
 
     logger.i(logTxt);
@@ -79,12 +79,11 @@ class JwtAuthenticator extends Authenticator {
       final resp = await ref.read(authServiceProvider).reissue(reissueRequest.toJson());
 
       if (resp.statusCode != HttpStatus.ok) {
-        logger.e('토큰 갱신 실패');
         ref.read(goRouterStateNotifierProvider).goNamed(LoginScreen.routeName);
-        return null;
+        throw ('토큰 갱신 실패');
       }
 
-      final token = TokenResponse.fromJson(jsonDecode(resp.bodyString));
+      final token = TokenResponse.fromJson(Utf8Util.utf8JsonDecode(resp.bodyString));
 
       await storage.write(key: accessTokenKey, value: token.accessToken);
       await storage.write(key: refreshTokenKey, value: token.refreshToken);

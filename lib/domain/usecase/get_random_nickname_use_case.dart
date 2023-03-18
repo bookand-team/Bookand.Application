@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:bookand/data/repository/member_repository_impl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -20,7 +18,6 @@ class GetRandomNicknameUseCase {
   GetRandomNicknameUseCase(this.memberRepository);
 
   Future<String> getRandomNickname() async {
-    final nickname = await memberRepository.getRandomNickname();
-    return const Utf8Decoder().convert(nickname.codeUnits);
+    return await memberRepository.getRandomNickname();
   }
 }

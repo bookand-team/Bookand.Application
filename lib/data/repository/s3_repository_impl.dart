@@ -4,7 +4,11 @@ import 'package:bookand/data/datasource/s3/s3_remote_data_source.dart';
 import 'package:bookand/data/datasource/s3/s3_remote_data_source_impl.dart';
 import 'package:bookand/domain/model/s3_response.dart';
 import 'package:bookand/domain/repository/s3_repository.dart';
+import 'package:chopper/chopper.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../core/util/utf8_util.dart';
+import '../../domain/model/error_response.dart';
 
 part 's3_repository_impl.g.dart';
 
@@ -22,6 +26,12 @@ class S3RepositoryImpl implements S3Repository {
 
   @override
   Future<S3Response> uploadFiles(String accessToken, List<File> files) async {
-    return await s3remoteDataSource.uploadFiles(accessToken, files);
+    try {
+      return await s3remoteDataSource.uploadFiles(accessToken, files);
+    } on Response catch (e) {
+      throw ErrorResponse.fromJson(Utf8Util.utf8JsonDecode(e.bodyString));
+    } catch (_) {
+      rethrow;
+    }
   }
 }

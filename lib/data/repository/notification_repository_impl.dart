@@ -3,7 +3,11 @@ import 'package:bookand/data/datasource/notification/notification_remote_data_so
 import 'package:bookand/domain/model/notification/notification_detail_model.dart';
 import 'package:bookand/domain/model/notification/notification_model.dart';
 import 'package:bookand/domain/repository/notification_repository.dart';
+import 'package:chopper/chopper.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../core/util/utf8_util.dart';
+import '../../domain/model/error_response.dart';
 
 part 'notification_repository_impl.g.dart';
 
@@ -22,11 +26,23 @@ class NotificationRepositoryImpl implements NotificationRepository {
   @override
   Future<NotificationDetailModel> getNotificationDetail(
       String accessToken, int notificationId) async {
-    return await notificationRemoteDataSource.getNotificationDetail(accessToken, notificationId);
+    try {
+      return await notificationRemoteDataSource.getNotificationDetail(accessToken, notificationId);
+    } on Response catch (e) {
+      throw ErrorResponse.fromJson(Utf8Util.utf8JsonDecode(e.bodyString));
+    } catch (_) {
+      rethrow;
+    }
   }
 
   @override
   Future<NotificationModel> getNotificationList(String accessToken, int page) async {
-    return await notificationRemoteDataSource.getNotificationList(accessToken, page);
+    try {
+      return await notificationRemoteDataSource.getNotificationList(accessToken, page);
+    } on Response catch (e) {
+      throw ErrorResponse.fromJson(Utf8Util.utf8JsonDecode(e.bodyString));
+    } catch (_) {
+      rethrow;
+    }
   }
 }

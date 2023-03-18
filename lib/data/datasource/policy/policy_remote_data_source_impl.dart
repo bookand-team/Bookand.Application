@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:bookand/data/datasource/policy/policy_remote_data_source.dart';
 import 'package:bookand/domain/model/policy_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../core/util/utf8_util.dart';
 import '../../service/policy_service.dart';
 
 part 'policy_remote_data_source_impl.g.dart';
@@ -26,7 +26,7 @@ class PolicyRemoteDataSourceImpl implements PolicyRemoteDataSource {
     final resp = await service.getPolicy(policyName);
 
     if (resp.isSuccessful) {
-      return PolicyModel.fromJson(jsonDecode(resp.bodyString));
+      return PolicyModel.fromJson(Utf8Util.utf8JsonDecode(resp.bodyString));
     } else {
       throw resp;
     }

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -24,15 +22,4 @@ class PolicyModel {
   factory PolicyModel.fromJson(Map<String, dynamic> json) => _$PolicyModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$PolicyModelToJson(this);
-
-  factory PolicyModel.convertUtf8({required PolicyModel model}) {
-    final title = const Utf8Decoder().convert(model.title.codeUnits);
-    final content = const Utf8Decoder().convert(model.content.codeUnits);
-
-    return PolicyModel(
-      policyId: model.policyId,
-      title: title,
-      content: content,
-    );
-  }
 }

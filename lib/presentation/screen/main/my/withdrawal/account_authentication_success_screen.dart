@@ -1,18 +1,36 @@
+import 'package:bookand/core/widget/base_dialog.dart';
+import 'package:bookand/domain/model/error_response.dart';
 import 'package:bookand/presentation/screen/main/my/withdrawal/withdrawal_success_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/app_strings.dart';
 import '../../../../../core/theme/color_table.dart';
+import '../../../../../core/util/logger.dart';
 import '../../../../../core/widget/base_app_bar.dart';
 import '../../../../../core/widget/base_layout.dart';
 import '../../../../component/round_rect_button.dart';
+import '../../../../provider/member_provider.dart';
+import '../../../../provider/withdrawal_reason_provider.dart';
 
-class AccountAuthenticationSuccessScreen extends StatelessWidget {
+class AccountAuthenticationSuccessScreen extends ConsumerStatefulWidget {
   static String get routeName => 'accountAuthenticationSuccessScreen';
 
-  const AccountAuthenticationSuccessScreen({Key? key}) : super(key: key);
+  final String socialAccessToken;
 
+  const AccountAuthenticationSuccessScreen({
+    Key? key,
+    required this.socialAccessToken,
+  }) : super(key: key);
+
+  @override
+  ConsumerState<AccountAuthenticationSuccessScreen> createState() =>
+      _AccountAuthenticationSuccessScreenState();
+}
+
+class _AccountAuthenticationSuccessScreenState
+    extends ConsumerState<AccountAuthenticationSuccessScreen> {
   @override
   Widget build(BuildContext context) {
     return BaseLayout(
@@ -47,7 +65,36 @@ class AccountAuthenticationSuccessScreen extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               height: 56,
               backgroundColor: lightErrorColor,
-              onPressed: () => context.goNamed(WithdrawalSuccessScreen.routeName),
+              onPressed: () {
+                final revokeReason = ref.read(withdrawalReasonStateNotifierProvider);
+                ref
+                    .read(memberStateNotifierProvider.notifier)
+                    .withdrawal(
+                      widget.socialAccessToken,
+                      revokeReason.revokeType!,
+                      revokeReason.reason,
+                    )
+                    .then((_) {
+                  context.goNamed(WithdrawalSuccessScreen.routeName);
+                }, onError: (e) {
+                  if (e is ErrorResponse) {
+                    showDialog(
+                      context: context,
+                      builder: (_) => BaseDialog(
+                        content: Text(e.message.toString()),
+                      ),
+                    );
+                  } else {
+                    logger.e(e);
+                    showDialog(
+                      context: context,
+                      builder: (_) => BaseDialog(
+                        content: Text('탈퇴 진행 중 문제가 발생하였습니다.\n에러: $e'),
+                      ),
+                    );
+                  }
+                });
+              },
             ),
           ],
         ),

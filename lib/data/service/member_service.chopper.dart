@@ -63,15 +63,20 @@ class _$MemberService extends MemberService {
   }
 
   @override
-  Future<Response<dynamic>> deleteMember(String accessToken) {
-    final Uri $url = Uri.parse('/api/v1/members/remove');
+  Future<Response<dynamic>> revoke(
+    String accessToken,
+    Map<String, dynamic> body,
+  ) {
+    final Uri $url = Uri.parse('/api/v1/members/revoke');
     final Map<String, String> $headers = {
       'Authorization': accessToken,
     };
+    final $body = body;
     final Request $request = Request(
       'DELETE',
       $url,
       client.baseUrl,
+      body: $body,
       headers: $headers,
     );
     return client.send<dynamic, dynamic>($request);

@@ -1,6 +1,7 @@
 import 'package:bookand/core/const/social_type.dart';
 import 'package:bookand/core/theme/custom_text_style.dart';
 import 'package:bookand/core/widget/base_app_bar.dart';
+import 'package:bookand/core/widget/base_dialog.dart';
 import 'package:bookand/core/widget/base_layout.dart';
 import 'package:bookand/presentation/component/social_login_button.dart';
 import 'package:bookand/presentation/provider/member_provider.dart';
@@ -58,13 +59,15 @@ class AccountAuthenticationScreen extends ConsumerWidget {
   }
 
   Widget socialButton(WidgetRef ref) {
-    switch (ref.watch(memberStateNotifierProvider).providerType) {
+    final type = ref.watch(memberStateNotifierProvider).providerType;
+    switch (type) {
       case SocialType.NONE:
         return const SizedBox();
       case SocialType.GOOGLE:
         return SocialLoginButton(
-          // onTap: () {},
-          onTap: () => ref.context.pushNamed(AccountAuthenticationSuccessScreen.routeName), // TODO: 임시용
+          onTap: () {
+            socialLoginProcess(ref, type);
+          },
           image: SvgPicture.asset('assets/images/ic_google.svg', width: 24),
           text: Text(
             AppStrings.googleSocial,
@@ -73,8 +76,9 @@ class AccountAuthenticationScreen extends ConsumerWidget {
         );
       case SocialType.APPLE:
         return SocialLoginButton(
-          // onTap: () {},
-          onTap: () => ref.context.pushNamed(AccountAuthenticationSuccessScreen.routeName), // TODO: 임시용
+          onTap: () {
+            socialLoginProcess(ref, type);
+          },
           image: SvgPicture.asset('assets/images/ic_apple.svg', width: 24),
           text: Text(
             AppStrings.appleSocial,
@@ -82,5 +86,18 @@ class AccountAuthenticationScreen extends ConsumerWidget {
           ),
         );
     }
+  }
+
+  void socialLoginProcess(WidgetRef ref, SocialType socialType) async {
+    await ref.read(memberStateNotifierProvider.notifier).getSocialAccessToken(
+          socialType: socialType,
+          onSuccess: (token) {
+            ref.context.pushNamed(AccountAuthenticationSuccessScreen.routeName, extra: token);
+          },
+          onError: (e) {
+            showDialog(
+                context: ref.context, builder: (_) => BaseDialog(content: Text(e.toString())));
+          },
+        );
   }
 }

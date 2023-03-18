@@ -53,7 +53,8 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
                 GoRoute(
                     path: 'termsAgreeDetail',
                     name: TermsAgreeDetailScreen.routeName,
-                    builder: (_, state) => TermsAgreeDetailScreen(policy: state.extra as Tuple2<int, PolicyModel>))
+                    builder: (_, state) =>
+                        TermsAgreeDetailScreen(policy: state.extra as Tuple2<int, PolicyModel>))
               ]),
         ]),
   ];
@@ -107,7 +108,9 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
     GoRoute(
         path: 'accountAuthenticationSuccess',
         name: AccountAuthenticationSuccessScreen.routeName,
-        builder: (_, __) => const AccountAuthenticationSuccessScreen()),
+        builder: (_, state) => AccountAuthenticationSuccessScreen(
+              socialAccessToken: state.extra as String,
+            )),
     GoRoute(
         path: 'withdrawalSuccessScreen',
         name: WithdrawalSuccessScreen.routeName,

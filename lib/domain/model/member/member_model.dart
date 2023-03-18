@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:bookand/core/const/social_type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -26,17 +24,4 @@ class MemberModel {
   factory MemberModel.fromJson(Map<String, dynamic> json) => _$MemberModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$MemberModelToJson(this);
-
-  factory MemberModel.convertUtf8({required MemberModel model}) {
-    final nickname = const Utf8Decoder().convert(model.nickname.codeUnits);
-
-    return MemberModel(
-      id: model.id,
-      email: model.email,
-      nickname: nickname,
-      providerEmail: model.providerEmail,
-      profileImage: model.profileImage,
-      providerType: model.providerType,
-    );
-  }
 }

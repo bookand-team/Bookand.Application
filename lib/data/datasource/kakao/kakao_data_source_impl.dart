@@ -1,12 +1,12 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:bookand/domain/model/kakao/search_keyword_request.dart';
 import 'package:bookand/domain/model/kakao/search_keyword_response.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:http/http.dart' as http;
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../core/util/logger.dart';
+import '../../../core/util/utf8_util.dart';
 import 'kakao_data_source.dart';
 
 part 'kakao_data_source_impl.g.dart';
@@ -35,7 +35,7 @@ class KakaoDataSourceImpl implements KakaoDataSource {
     logger.i('[RESP] [${resp.request?.method}] [${resp.statusCode}] ${resp.request?.url}');
 
     if (resp.statusCode == HttpStatus.ok) {
-      final jsonData = jsonDecode(resp.body);
+      final jsonData = Utf8Util.utf8JsonDecode(resp.body);
       return SearchKeywordResponse.fromJson(jsonData);
     } else {
       throw resp;

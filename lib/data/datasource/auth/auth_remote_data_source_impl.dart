@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:bookand/core/const/social_type.dart';
@@ -9,6 +8,7 @@ import 'package:bookand/domain/model/auth/token_reponse.dart';
 import 'package:bookand/domain/model/base_response.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../core/util/utf8_util.dart';
 import '../../service/auth_service.dart';
 import 'auth_remote_data_source.dart';
 
@@ -33,9 +33,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     switch (resp.statusCode) {
       case HttpStatus.ok:
-        return TokenResponse.fromJson(jsonDecode(resp.bodyString));
+        return TokenResponse.fromJson(Utf8Util.utf8JsonDecode(resp.bodyString));
       case HttpStatus.notFound:
-        final jsonData = jsonDecode(resp.bodyString);
+        final jsonData = Utf8Util.utf8JsonDecode(resp.bodyString);
         final signToken = jsonData['signToken'];
         throw UserNotFoundException(
           signToken: signToken,
@@ -51,7 +51,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final resp = await service.logout(accessToken);
 
     if (resp.isSuccessful) {
-      return BaseResponse<String>.fromJson(jsonDecode(resp.bodyString), (json) => json.toString());
+      return BaseResponse<String>.fromJson(Utf8Util.utf8JsonDecode(resp.bodyString), (json) => json.toString());
     } else {
       throw resp;
     }
@@ -63,7 +63,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final resp = await service.signUp(signUpEntity.toJson());
 
     if (resp.isSuccessful) {
-      return TokenResponse.fromJson(jsonDecode(resp.bodyString));
+      return TokenResponse.fromJson(Utf8Util.utf8JsonDecode(resp.bodyString));
     } else {
       throw resp;
     }

@@ -1,10 +1,10 @@
-import 'dart:convert';
-
 import 'package:bookand/data/datasource/notification/notification_remote_data_source.dart';
 import 'package:bookand/data/service/notification_service.dart';
 import 'package:bookand/domain/model/notification/notification_detail_model.dart';
 import 'package:bookand/domain/model/notification/notification_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../../core/util/utf8_util.dart';
 
 part 'notification_remote_data_source_impl.g.dart';
 
@@ -26,7 +26,7 @@ class NotificationRemoteDataSourceImpl implements NotificationRemoteDataSource {
     final resp = await service.getNotificationDetail(accessToken, notificationId);
 
     if (resp.isSuccessful) {
-      return NotificationDetailModel.fromJson(jsonDecode(resp.bodyString));
+      return NotificationDetailModel.fromJson(Utf8Util.utf8JsonDecode(resp.bodyString));
     } else {
       throw resp;
     }
@@ -37,7 +37,7 @@ class NotificationRemoteDataSourceImpl implements NotificationRemoteDataSource {
     final resp = await service.getNotificationList(accessToken, page);
 
     if (resp.isSuccessful) {
-      return NotificationModel.fromJson(jsonDecode(const Utf8Decoder().convert(resp.bodyBytes)));
+      return NotificationModel.fromJson(Utf8Util.utf8JsonDecode(resp.bodyString));
     } else {
       throw resp;
     }

@@ -4,9 +4,10 @@ import 'dart:io';
 import 'package:bookand/core/config/app_config.dart';
 import 'package:bookand/data/datasource/s3/s3_remote_data_source.dart';
 import 'package:bookand/domain/model/s3_response.dart';
-import 'package:flutter/services.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:http/http.dart' as http;
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../../core/util/utf8_util.dart';
 
 part 's3_remote_data_source_impl.g.dart';
 
@@ -30,7 +31,7 @@ class S3RemoteDataSourceImpl implements S3RemoteDataSource {
 
     if (resp.statusCode == HttpStatus.ok) {
       final bodyBytes = await resp.stream.single;
-      final bodyString = const Utf8Decoder().convert(Uint8List.fromList(bodyBytes));
+      final bodyString = Utf8Util.decode(bodyBytes);
       return S3Response.fromJson(jsonDecode(bodyString));
     } else {
       throw resp;
