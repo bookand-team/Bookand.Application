@@ -1,4 +1,6 @@
 import 'package:bookand/data/datasource/bookstore/bookstore_remote_data_source_impl.dart';
+import 'package:bookand/data/datasource/token/token_local_data_source.dart';
+import 'package:bookand/data/datasource/token/token_local_data_source_impl.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_report_request.dart';
 import 'package:chopper/chopper.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -13,21 +15,26 @@ part 'bookstore_repository_impl.g.dart';
 @riverpod
 BookstoreRepository bookstoreRepository(BookstoreRepositoryRef ref) {
   final bookstoreRemoteDataSource = ref.read(bookstoreRemoteDataSourceProvider);
+  final tokenLocalDataSource = ref.read(tokenLocalDataSourceProvider);
 
-  return BookstoreRepositoryImpl(bookstoreRemoteDataSource);
+  return BookstoreRepositoryImpl(bookstoreRemoteDataSource, tokenLocalDataSource);
 }
 
 class BookstoreRepositoryImpl implements BookstoreRepository {
   final BookstoreRemoteDataSource bookstoreRemoteDataSource;
+  final TokenLocalDataSource tokenLocalDataSource;
 
-  BookstoreRepositoryImpl(this.bookstoreRemoteDataSource);
+  BookstoreRepositoryImpl(this.bookstoreRemoteDataSource, this.tokenLocalDataSource);
 
   @override
-  Future<String> bookstoreReport(String accessToken, String name, String address) async {
+  Future<String> bookstoreReport(String name, String address) async {
     try {
       final bookstoreReportRequest = BookstoreReportRequest(address, name);
-      final data =
-          await bookstoreRemoteDataSource.bookstoreReport(accessToken, bookstoreReportRequest);
+      final accessToken = await tokenLocalDataSource.getAccessToken();
+      final data = await bookstoreRemoteDataSource.bookstoreReport(
+        accessToken,
+        bookstoreReportRequest,
+      );
       return data.result;
     } on Response catch (e) {
       throw ErrorResponse.fromJson(Utf8Util.utf8JsonDecode(e.bodyString));

@@ -53,6 +53,7 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   tuple: ^2.0.1
+  stack_trace: ^1.11.0
 
 dev_dependencies:
   flutter_test:

@@ -1,19 +1,17 @@
 import 'package:bookand/core/app_strings.dart';
 import 'package:bookand/core/const/revoke_type.dart';
-import 'package:bookand/domain/usecase/get_me_use_case.dart';
 import 'package:bookand/domain/usecase/get_social_login_use_case.dart';
 import 'package:bookand/domain/usecase/login_use_case.dart';
 import 'package:bookand/domain/usecase/logout_use_case.dart';
 import 'package:bookand/domain/usecase/sign_up_use_case.dart';
 import 'package:bookand/domain/usecase/withdrawal_use_case.dart';
 import 'package:bookand/presentation/provider/auth_provider.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../core/const/auth_state.dart';
 import '../../core/const/social_type.dart';
-import '../../core/const/storage_key.dart';
 import '../../core/util/logger.dart';
+import '../../data/repository/member_repository_impl.dart';
 import '../../domain/model/member/member_model.dart';
 
 part 'member_provider.g.dart';
@@ -24,22 +22,18 @@ class MemberStateNotifier extends _$MemberStateNotifier {
   late final getSocialAccessTokenUseCase = ref.read(getSocialAccessTokenUseCaseProvider);
   late final loginUseCase = ref.read(loginUseCaseProvider);
   late final withdrawalUseCase = ref.read(withdrawalUseCaseProvider);
-  late final storage = const FlutterSecureStorage();
 
   @override
-  MemberModel build() {
-    fetchMemberInfo();
-    return MemberModel();
-  }
+  MemberModel build() => MemberModel();
 
-  void fetchMemberInfo() {
-    ref.read(getMeUseCaseProvider).getMe().then((member) {
-      state = member;
+  void fetchMemberInfo() async {
+    try {
+      state = await ref.read(memberRepositoryProvider).getMe();
       authState.changeState(AuthState.signIn);
-    }, onError: (e, stack) {
+    } catch (e, stack) {
       logger.e('사용자 정보를 가져오는데 실패', e, stack);
       authState.changeState(AuthState.init);
-    });
+    }
   }
 
   void socialLogin({
@@ -51,7 +45,7 @@ class MemberStateNotifier extends _$MemberStateNotifier {
       await loginUseCase.login(
           socialType: socialType,
           onSuccess: () async {
-            state = await ref.read(getMeUseCaseProvider).getMe();
+            state = await ref.read(memberRepositoryProvider).getMe();
             authState.changeState(AuthState.signIn);
           },
           onCancel: () {
@@ -68,9 +62,8 @@ class MemberStateNotifier extends _$MemberStateNotifier {
                 break;
             }
           },
-          onSignUp: (signToken) async {
+          onSignUp: () {
             authState.changeState(AuthState.signUp);
-            await storage.write(key: signTokenKey, value: signToken);
           });
     } catch (e, stack) {
       logger.e('로그인 에러', e, stack);
@@ -81,21 +74,16 @@ class MemberStateNotifier extends _$MemberStateNotifier {
 
   void logout() async {
     authState.changeState(AuthState.loading);
-
-    await ref.read(logoutUseCaseProvider).logout(onFinish: () {
-      authState.changeState(AuthState.init);
-      state = MemberModel();
-    });
+    await ref.read(logoutUseCaseProvider).logout();
+    authState.changeState(AuthState.init);
+    state = MemberModel();
   }
 
   Future<void> signUp() async {
-    final signToken = await storage.read(key: signTokenKey);
-
     authState.changeState(AuthState.loading);
 
     try {
-      await ref.read(signUpUseCaseProvider).signUp(signToken!);
-      state = await ref.read(getMeUseCaseProvider).getMe();
+      state = await ref.read(signUpUseCaseProvider).signUp();
       authState.changeState(AuthState.signIn);
     } catch (e) {
       logger.e(e);

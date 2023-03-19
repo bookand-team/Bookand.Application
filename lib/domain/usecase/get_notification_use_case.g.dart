@@ -7,7 +7,7 @@ part of 'get_notification_use_case.dart';
 // **************************************************************************
 
 String _$getNotificationUseCaseHash() =>
-    r'099c8e0a5b4c9511f04e63a3be45188dfec55560';
+    r'eb693ffc66dc4e3c842227196cbcf0373b3fa0e4';
 
 /// See also [getNotificationUseCase].
 @ProviderFor(getNotificationUseCase)

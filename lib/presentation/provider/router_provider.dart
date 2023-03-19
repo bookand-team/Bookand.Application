@@ -16,6 +16,7 @@ import 'package:tuple/tuple.dart';
 import '../../core/config/firebase/firebase_init.dart';
 import '../../core/const/auth_state.dart';
 import '../../domain/model/policy_model.dart';
+import '../../domain/usecase/get_policy_use_case.dart';
 import '../screen/login_screen.dart';
 import '../screen/main/article_screen.dart';
 import '../screen/main/main_tab.dart';
@@ -120,6 +121,7 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
   @override
   GoRouter build() {
     ref.read(memberStateNotifierProvider.notifier).fetchMemberInfo();
+    ref.read(getPolicyUseCaseProvider).fetchAllPolicy();
 
     return GoRouter(
         routes: routes,

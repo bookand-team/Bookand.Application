@@ -7,7 +7,7 @@ part of 'upload_files_use_case.dart';
 // **************************************************************************
 
 String _$uploadFilesUseCaseHash() =>
-    r'7b3d27780556336637b5c5ad88354672f5fa255d';
+    r'a7051b7390e9dc06473b392cac8446ca0df752ad';
 
 /// See also [uploadFilesUseCase].
 @ProviderFor(uploadFilesUseCase)

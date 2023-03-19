@@ -7,7 +7,7 @@ part of 'update_member_profile_use_case.dart';
 // **************************************************************************
 
 String _$updateMemberProfileUseCaseHash() =>
-    r'f3ffd7bdfa2d9ed420e346bad5aa0360a0abf468';
+    r'922a90234ffee05adb0004ea788c31f14c50d049';
 
 /// See also [updateMemberProfileUseCase].
 @ProviderFor(updateMemberProfileUseCase)

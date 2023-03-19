@@ -7,7 +7,7 @@ part of 'bookstore_report_use_case.dart';
 // **************************************************************************
 
 String _$bookstoreReportUseCaseHash() =>
-    r'51337ed87273b6ceb9e2ad74c66f9896ce42d715';
+    r'd1fb2c57af8ff815ed39e7b2f5220c94ef216e68';
 
 /// See also [bookstoreReportUseCase].
 @ProviderFor(bookstoreReportUseCase)

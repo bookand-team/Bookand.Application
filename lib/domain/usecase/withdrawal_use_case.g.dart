@@ -6,7 +6,7 @@ part of 'withdrawal_use_case.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$withdrawalUseCaseHash() => r'1828e4800fe431480864195f782b1b901aaa7136';
+String _$withdrawalUseCaseHash() => r'bb773cf6bddeff9b531a3ad2db464ce2b99592e1';
 
 /// See also [withdrawalUseCase].
 @ProviderFor(withdrawalUseCase)

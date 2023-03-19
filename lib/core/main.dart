@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:stack_trace/stack_trace.dart';
 
 import 'app_strings.dart';
 import 'config/app_init.dart';
@@ -19,6 +20,11 @@ void main() async {
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
     await initApplication();
     await initFirebase();
+    FlutterError.demangleStackTrace = (StackTrace stack) {
+      if (stack is Trace) return stack.vmTrace;
+      if (stack is Chain) return stack.toTrace().vmTrace;
+      return stack;
+    };
     FlutterNativeSplash.remove();
     runApp(const ProviderScope(child: App()));
   }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack, fatal: true));
