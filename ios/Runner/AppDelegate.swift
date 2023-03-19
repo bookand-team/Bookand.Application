@@ -22,7 +22,7 @@ import Flutter
         dartDefinesDictionary[values[0]] = values[1]
     }
 
-    GMSServices.provideAPIKey(dartDefinesDictionary["GOOGLE_MAP_API_KEY"]!)
+    GMSServices.provideAPIKey(dartDefinesDictionary["IOS_GOOGLE_MAP_API_KEY"]!)
       
       let controller = window.rootViewController as! FlutterViewController
       

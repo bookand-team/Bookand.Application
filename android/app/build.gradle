@@ -31,7 +31,7 @@ if (project.hasProperty('dart-defines')) {
             }
 }
 
-def googleMapApiKey = dartEnvironmentVariables.GOOGLE_MAP_API_KEY
+def googleMapApiKey = dartEnvironmentVariables.ANDROID_GOOGLE_MAP_API_KEY
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
