@@ -54,6 +54,7 @@ dependencies:
   hive_flutter: ^1.1.0
   tuple: ^2.0.1
   stack_trace: ^1.11.0
+  google_maps_flutter: ^2.2.5
 
 dev_dependencies:
   flutter_test:

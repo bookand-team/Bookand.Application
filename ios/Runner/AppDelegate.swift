@@ -11,8 +11,18 @@ import Flutter
     let providerFactory = AppCheckDebugProviderFactory()
     AppCheck.setAppCheckProviderFactory(providerFactory)
 #endif
-      
+
     GeneratedPluginRegistrant.register(with: self)
+
+    let dartDefinesString = Bundle.main.infoDictionary!["DART_DEFINES"] as! String
+    var dartDefinesDictionary = [String:String]()
+    for definedValue in dartDefinesString.components(separatedBy: ",") {
+        let decoded = String(data: Data(base64Encoded: definedValue)!, encoding: .utf8)!
+        let values = decoded.components(separatedBy: "=")
+        dartDefinesDictionary[values[0]] = values[1]
+    }
+
+    GMSServices.provideAPIKey(dartDefinesDictionary["GOOGLE_MAP_API_KEY"]!)
       
       let controller = window.rootViewController as! FlutterViewController
       

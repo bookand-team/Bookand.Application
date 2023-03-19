@@ -4,6 +4,8 @@
 <dict>
 	<key>APP_FLAVOR</key>
 	<string>${APP_FLAVOR}</string>
+	<key>DART_DEFINES</key>
+    <string>$(DART_DEFINES)</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
