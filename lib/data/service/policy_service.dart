@@ -7,8 +7,7 @@ part 'policy_service.g.dart';
 part 'policy_service.chopper.dart';
 
 @riverpod
-PolicyService policyService(PolicyServiceRef ref) =>
-    PolicyService.create(ApiHelper.client(ref: ref));
+PolicyService policyService(PolicyServiceRef ref) => PolicyService.create(ApiHelper.client());
 
 @ChopperApi(baseUrl: '/api/v1/policys')
 abstract class PolicyService extends ChopperService {

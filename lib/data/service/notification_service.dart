@@ -11,7 +11,7 @@ part 'notification_service.chopper.dart';
 
 @riverpod
 NotificationService notificationService(NotificationServiceRef ref) =>
-    NotificationService.create(ApiHelper.client(ref: ref));
+    NotificationService.create(ApiHelper.client());
 
 @ChopperApi(baseUrl: '/api/v1/notifications')
 abstract class NotificationService extends ChopperService {

@@ -7,7 +7,7 @@ part 'auth_service.g.dart';
 part 'auth_service.chopper.dart';
 
 @riverpod
-AuthService authService(AuthServiceRef ref) => AuthService.create(ApiHelper.client(ref: ref));
+AuthService authService(AuthServiceRef ref) => AuthService.create(ApiHelper.client());
 
 @ChopperApi(baseUrl: '/api/v1/auth')
 abstract class AuthService extends ChopperService {

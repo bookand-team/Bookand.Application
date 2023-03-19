@@ -30,8 +30,8 @@ class MemberStateNotifier extends _$MemberStateNotifier {
     try {
       state = await ref.read(memberRepositoryProvider).getMe();
       authState.changeState(AuthState.signIn);
-    } catch (e, stack) {
-      logger.e('사용자 정보를 가져오는데 실패', e, stack);
+    } catch (e) {
+      logger.e('사용자 정보를 가져오는데 실패', e);
       authState.changeState(AuthState.init);
     }
   }
