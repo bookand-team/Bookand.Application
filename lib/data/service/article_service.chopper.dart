@@ -17,15 +17,9 @@ class _$ArticleService extends ArticleService {
   final definitionType = ArticleService;
 
   @override
-  Future<Response<dynamic>> getArticleList(
-    int page,
-    int row,
-  ) {
-    final Uri $url = Uri.parse('/api/v1/article');
-    final Map<String, dynamic> $params = <String, dynamic>{
-      'page': page,
-      'row': row,
-    };
+  Future<Response<dynamic>> getArticleList(int page) {
+    final Uri $url = Uri.parse('/api/v1/articles');
+    final Map<String, dynamic> $params = <String, dynamic>{'page': page};
     final Request $request = Request(
       'GET',
       $url,
@@ -36,8 +30,8 @@ class _$ArticleService extends ArticleService {
   }
 
   @override
-  Future<Response<dynamic>> getArticleDetail(int articleId) {
-    final Uri $url = Uri.parse('/api/v1/article/${articleId}');
+  Future<Response<dynamic>> getArticleDetail(int id) {
+    final Uri $url = Uri.parse('/api/v1/articles/${id}');
     final Request $request = Request(
       'GET',
       $url,

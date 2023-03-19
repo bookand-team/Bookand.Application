@@ -9,16 +9,15 @@ part 'article_service.chopper.dart';
 @riverpod
 ArticleService articleService(ArticleServiceRef ref) => ArticleService.create(ApiHelper.client(ref: ref));
 
-@ChopperApi(baseUrl: '/api/v1/article')
+@ChopperApi(baseUrl: '/api/v1/articles')
 abstract class ArticleService extends ChopperService {
   static ArticleService create([ChopperClient? client]) => _$ArticleService(client);
 
   @Get()
   Future<Response> getArticleList(
     @Query('page') int page,
-    @Query('row') int row,
   );
 
-  @Get(path: '/{articleId}')
-  Future<Response> getArticleDetail(@Path('articleId') int articleId);
+  @Get(path: '/{id}')
+  Future<Response> getArticleDetail(@Path('id') int id);
 }
