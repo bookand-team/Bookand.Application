@@ -9,13 +9,6 @@ class WithdrawalReasonState {
   String? reason;
 
   WithdrawalReasonState({this.revokeType, this.reason});
-
-  WithdrawalReasonState copyWith({RevokeType? revokeType, String? reason}) {
-    return WithdrawalReasonState(
-      revokeType: revokeType ?? this.revokeType,
-      reason: reason ?? this.reason,
-    );
-  }
 }
 
 @riverpod
@@ -23,11 +16,7 @@ class WithdrawalReasonStateNotifier extends _$WithdrawalReasonStateNotifier {
   @override
   WithdrawalReasonState build() => WithdrawalReasonState();
 
-  void changeWithdrawalReason({RevokeType? revokeType, String? reason}) {
-    if (revokeType == RevokeType.etc) {
-      state = state.copyWith(revokeType: revokeType, reason: reason);
-    } else {
-      state = state.copyWith(revokeType: revokeType, reason: null);
-    }
+  void changeRevokeType(RevokeType? revokeType) {
+    state = WithdrawalReasonState(revokeType: revokeType);
   }
 }

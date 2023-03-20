@@ -209,6 +209,7 @@ class _WithdrawalReasonScreenState extends ConsumerState<WithdrawalReasonScreen>
             child: TextField(
               controller: reasonTextController,
               onChanged: (value) {
+                ref.read(withdrawalReasonStateNotifierProvider).reason = value;
                 setState(() {
                   buttonEnabled = value.isNotEmpty;
                 });
@@ -296,10 +297,7 @@ class _WithdrawalReasonScreenState extends ConsumerState<WithdrawalReasonScreen>
         ),
         items: addDividerAfterItems(),
         onChanged: (value) {
-          ref.watch(withdrawalReasonStateNotifierProvider.notifier).changeWithdrawalReason(
-                revokeType: value,
-                reason: reasonTextController.text,
-              );
+          ref.watch(withdrawalReasonStateNotifierProvider.notifier).changeRevokeType(value);
         },
         onMenuStateChange: (value) {
           setState(() {
