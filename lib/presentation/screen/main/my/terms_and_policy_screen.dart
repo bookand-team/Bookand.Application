@@ -1,26 +1,35 @@
 import 'package:bookand/core/app_strings.dart';
 import 'package:bookand/core/widget/base_layout.dart';
 import 'package:bookand/presentation/provider/terms_and_policy_provider.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/widget/base_app_bar.dart';
+import '../../../component/drawer_list_tile.dart';
 
-class TermsAndPolicyScreen extends ConsumerWidget {
+class TermsAndPolicyScreen extends ConsumerStatefulWidget {
   static String get routeName => 'termsAndPolicyScreen';
 
   const TermsAndPolicyScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final policyList = ref.watch(termsAndPolicyProvider);
+  ConsumerState<TermsAndPolicyScreen> createState() => _TermsAndPolicyScreenState();
+}
 
+class _TermsAndPolicyScreenState extends ConsumerState<TermsAndPolicyScreen> {
+  late final policyList = ref.watch(termsAndPolicyProvider);
+  late List<bool> isOpenList = List.generate(policyList.length, (_) => false);
+
+  @override
+  Widget build(BuildContext context) {
     return BaseLayout(
       appBar: const BaseAppBar(title: AppStrings.termsAndPolicy),
       child: Scrollbar(
         child: ListView.separated(
           itemBuilder: (context, index) {
-            return ListTile(
+            return DrawerListTile(
               title: Text(
                 policyList[index].title,
                 style: const TextStyle(
@@ -30,9 +39,21 @@ class TermsAndPolicyScreen extends ConsumerWidget {
                   letterSpacing: -0.02,
                 ),
               ),
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+              drawerBackground: const Color(0xFFF5F5F7),
+              maxHeight: MediaQuery.of(context).size.height * 0.56,
               onTap: () {
-
+                setState(() {
+                  isOpenList = isOpenList
+                      .mapIndexed((i, e) => i == index ? !isOpenList[index] : false)
+                      .toList();
+                });
               },
+              isOpen: isOpenList[index],
+              child: Markdown(
+                data: policyList[index].content,
+              ),
             );
           },
           separatorBuilder: (_, __) => const Divider(

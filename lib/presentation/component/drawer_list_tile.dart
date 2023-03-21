@@ -11,6 +11,8 @@ class DrawerListTile extends StatefulWidget {
   final double? maxHeight;
   final Color? drawerBackground;
   final Widget child;
+  final Function()? onTap;
+  final bool? isOpen;
 
   const DrawerListTile(
       {Key? key,
@@ -22,7 +24,9 @@ class DrawerListTile extends StatefulWidget {
       this.minHeight = 0,
       this.maxHeight,
       this.drawerBackground,
-      required this.child})
+      required this.child,
+      this.onTap,
+      this.isOpen})
       : super(key: key);
 
   @override
@@ -37,17 +41,18 @@ class _DrawerListTileState extends State<DrawerListTile> {
     return Column(
       children: [
         InkWell(
-          onTap: () {
-            setState(() {
-              isOpen = !isOpen;
-            });
-          },
+          onTap: widget.onTap ??
+              () {
+                setState(() {
+                  isOpen = !isOpen;
+                });
+              },
           child: ListTile(
             title: widget.title,
             subtitle: widget.subTitle,
             trailing: widget.trailing ??
                 SvgPicture.asset(
-                  isOpen
+                  widget.isOpen ?? isOpen
                       ? 'assets/images/my/ic_drawer_close.svg'
                       : 'assets/images/my/ic_drawer_open.svg',
                 ),
@@ -56,9 +61,7 @@ class _DrawerListTileState extends State<DrawerListTile> {
         AnimatedContainer(
           duration: widget.duration,
           curve: Curves.easeInOut,
-          height: isOpen
-              ? widget.maxHeight
-              : widget.minHeight,
+          height: widget.isOpen ?? isOpen ? widget.maxHeight : widget.minHeight,
           color: widget.drawerBackground,
           child: widget.child,
         ),
