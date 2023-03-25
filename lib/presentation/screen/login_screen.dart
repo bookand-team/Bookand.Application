@@ -27,10 +27,10 @@ class LoginScreen extends ConsumerStatefulWidget {
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
-  void didChangeDependencies() {
+  void initState() {
     ref.read(memberStateNotifierProvider.notifier).fetchMemberInfo();
     ref.read(getPolicyUseCaseProvider).fetchAllPolicy();
-    super.didChangeDependencies();
+    super.initState();
   }
 
   @override
