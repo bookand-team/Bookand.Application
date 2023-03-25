@@ -6,6 +6,7 @@ import 'package:bookand/domain/usecase/logout_use_case.dart';
 import 'package:bookand/domain/usecase/sign_up_use_case.dart';
 import 'package:bookand/domain/usecase/withdrawal_use_case.dart';
 import 'package:bookand/presentation/provider/auth_provider.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../core/const/auth_state.dart';
@@ -22,17 +23,20 @@ class MemberStateNotifier extends _$MemberStateNotifier {
   late final getSocialAccessTokenUseCase = ref.read(getSocialAccessTokenUseCaseProvider);
   late final loginUseCase = ref.read(loginUseCaseProvider);
   late final withdrawalUseCase = ref.read(withdrawalUseCaseProvider);
+  late final memberRepository = ref.read(memberRepositoryProvider);
 
   @override
   MemberModel build() => MemberModel();
 
   void fetchMemberInfo() async {
     try {
-      state = await ref.read(memberRepositoryProvider).getMe();
+      state = await memberRepository.getMe();
       authState.changeState(AuthState.signIn);
     } catch (e) {
       logger.e('사용자 정보를 가져오는데 실패', e);
       authState.changeState(AuthState.init);
+    } finally {
+      FlutterNativeSplash.remove();
     }
   }
 
@@ -45,7 +49,7 @@ class MemberStateNotifier extends _$MemberStateNotifier {
       await loginUseCase.login(
           socialType: socialType,
           onSuccess: () async {
-            state = await ref.read(memberRepositoryProvider).getMe();
+            state = await memberRepository.getMe();
             authState.changeState(AuthState.signIn);
           },
           onCancel: () {

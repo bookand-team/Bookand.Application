@@ -1,4 +1,3 @@
-import 'package:bookand/presentation/provider/member_provider.dart';
 import 'package:bookand/presentation/screen/main/my/feedback_screen.dart';
 import 'package:bookand/presentation/screen/main/my/new_bookstore_report_screen.dart';
 import 'package:bookand/presentation/screen/main/my/new_bookstore_report_success.dart';
@@ -16,7 +15,6 @@ import 'package:tuple/tuple.dart';
 import '../../core/config/firebase/firebase_init.dart';
 import '../../core/const/auth_state.dart';
 import '../../domain/model/policy_model.dart';
-import '../../domain/usecase/get_policy_use_case.dart';
 import '../screen/login_screen.dart';
 import '../screen/main/article_screen.dart';
 import '../screen/main/main_tab.dart';
@@ -24,7 +22,6 @@ import '../screen/main/my/account_management_screen.dart';
 import '../screen/main/my/notice_screen.dart';
 import '../screen/main/my/notification_setting_screen.dart';
 import '../screen/main/my/terms_and_policy_screen.dart';
-import '../screen/splash_screen.dart';
 import '../screen/terms/terms_agree_screen.dart';
 import '../screen/terms/terms_detail_screen.dart';
 import 'auth_provider.dart';
@@ -39,8 +36,6 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
         name: MainTab.routeName,
         builder: (_, __) => const MainTab(),
         routes: mainTabRoutes),
-    GoRoute(
-        path: '/splash', name: SplashScreen.routeName, builder: (_, __) => const SplashScreen()),
     GoRoute(
         path: '/login',
         name: LoginScreen.routeName,
@@ -119,17 +114,12 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
   ];
 
   @override
-  GoRouter build() {
-    ref.read(memberStateNotifierProvider.notifier).fetchMemberInfo();
-    ref.read(getPolicyUseCaseProvider).fetchAllPolicy();
-
-    return GoRouter(
-        routes: routes,
-        initialLocation: '/splash',
-        redirect: redirectLogic,
-        refreshListenable: ref.watch(authStateNotifierProvider.notifier),
-        observers: [FirebaseAnalyticsObserver(analytics: analytics)]);
-  }
+  GoRouter build() => GoRouter(
+      routes: routes,
+      initialLocation: '/login',
+      redirect: redirectLogic,
+      refreshListenable: ref.watch(authStateNotifierProvider.notifier),
+      observers: [FirebaseAnalyticsObserver(analytics: analytics)]);
 
   String? redirectLogic(BuildContext context, GoRouterState goRouterState) {
     final authState = ref.read(authStateNotifierProvider);
@@ -147,9 +137,7 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
     }
 
     if (authState == AuthState.signIn) {
-      return goRouterState.location.startsWith('/login') || goRouterState.location == '/splash'
-          ? '/'
-          : null;
+      return goRouterState.location.startsWith('/login') ? '/' : null;
     }
 
     return null;

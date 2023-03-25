@@ -12,16 +12,29 @@ import '../../core/app_strings.dart';
 import '../../core/const/auth_state.dart';
 import '../../core/const/social_type.dart';
 import '../../core/widget/base_layout.dart';
+import '../../domain/usecase/get_policy_use_case.dart';
 import '../component/social_login_button.dart';
 import '../provider/member_provider.dart';
 
-class LoginScreen extends ConsumerWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   static String get routeName => 'login';
 
   const LoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends ConsumerState<LoginScreen> {
+  @override
+  void didChangeDependencies() {
+    ref.read(memberStateNotifierProvider.notifier).fetchMemberInfo();
+    ref.read(getPolicyUseCaseProvider).fetchAllPolicy();
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final memberProvider = ref.watch(memberStateNotifierProvider.notifier);
     final authState = ref.watch(authStateNotifierProvider);
 

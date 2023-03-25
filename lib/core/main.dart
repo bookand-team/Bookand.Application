@@ -25,7 +25,6 @@ void main() async {
       if (stack is Chain) return stack.toTrace().vmTrace;
       return stack;
     };
-    FlutterNativeSplash.remove();
     runApp(const ProviderScope(child: App()));
   }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack, fatal: true));
 }
