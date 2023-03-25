@@ -14,8 +14,11 @@ class HomeScreen extends ConsumerStatefulWidget {
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> with AutomaticKeepAliveClientMixin {
   final scrollController = ScrollController();
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -41,8 +44,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     final homeProvider = ref.watch(homeStateNotifierProvider.notifier);
     final articleList = ref.watch(homeStateNotifierProvider);
+
+    if (articleList.isEmpty && homeProvider.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
     return ListView.builder(
         controller: scrollController,
