@@ -15,9 +15,13 @@ abstract class ArticleService extends ChopperService {
 
   @Get()
   Future<Response> getArticleList(
+    @Header('Authorization') String accessToken,
     @Query('page') int page,
   );
 
   @Get(path: '/{id}')
-  Future<Response> getArticleDetail(@Path('id') int id);
+  Future<Response> getArticleDetail(
+    @Header('Authorization') String accessToken,
+    @Path('id') int id,
+  );
 }
