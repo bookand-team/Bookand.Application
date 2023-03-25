@@ -21,7 +21,7 @@ class _MainTabState extends State<MainTab> with SingleTickerProviderStateMixin {
   late final tabController = TabController(length: screens.length, vsync: this);
   final screens = [
     const HomeScreen(),
-    const MapScreen(),
+    MapScreen(),
     const BookmarkScreen(),
     const MyScreen(),
   ];
@@ -47,7 +47,9 @@ class _MainTabState extends State<MainTab> with SingleTickerProviderStateMixin {
       ),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
-            border: Border(top: BorderSide(color: Color.fromRGBO(0, 0, 0, 0.05), width: 2))),
+            border: Border(
+                top: BorderSide(
+                    color: Color.fromRGBO(0, 0, 0, 0.05), width: 2))),
         child: Theme(
           data: ThemeData(
             splashColor: Colors.transparent,
@@ -56,24 +58,32 @@ class _MainTabState extends State<MainTab> with SingleTickerProviderStateMixin {
           child: BottomNavigationBar(
             items: [
               BottomNavigationBarItem(
-                icon: SvgPicture.asset('assets/images/home/ic_24_bottom_home_inactive.svg'),
+                icon: SvgPicture.asset(
+                    'assets/images/home/ic_24_bottom_home_inactive.svg'),
                 label: AppStrings.home,
-                activeIcon: SvgPicture.asset('assets/images/home/ic_24_bottom_home_active.svg'),
+                activeIcon: SvgPicture.asset(
+                    'assets/images/home/ic_24_bottom_home_active.svg'),
               ),
               BottomNavigationBarItem(
-                icon: SvgPicture.asset('assets/images/home/ic_24_bottom_map_inactive.svg'),
+                icon: SvgPicture.asset(
+                    'assets/images/home/ic_24_bottom_map_inactive.svg'),
                 label: AppStrings.map,
-                activeIcon: SvgPicture.asset('assets/images/home/ic_24_bottom_map_active.svg'),
+                activeIcon: SvgPicture.asset(
+                    'assets/images/home/ic_24_bottom_map_active.svg'),
               ),
               BottomNavigationBarItem(
-                icon: SvgPicture.asset('assets/images/home/ic_24_bottom_bookmark_inactive.svg'),
+                icon: SvgPicture.asset(
+                    'assets/images/home/ic_24_bottom_bookmark_inactive.svg'),
                 label: AppStrings.bookmark,
-                activeIcon: SvgPicture.asset('assets/images/home/ic_24_bottom_bookmark_active.svg'),
+                activeIcon: SvgPicture.asset(
+                    'assets/images/home/ic_24_bottom_bookmark_active.svg'),
               ),
               BottomNavigationBarItem(
-                icon: SvgPicture.asset('assets/images/home/ic_24_bottom_mypage_inactive.svg'),
+                icon: SvgPicture.asset(
+                    'assets/images/home/ic_24_bottom_mypage_inactive.svg'),
                 label: AppStrings.myPage,
-                activeIcon: SvgPicture.asset('assets/images/home/ic_24_bottom_mypage_active.svg'),
+                activeIcon: SvgPicture.asset(
+                    'assets/images/home/ic_24_bottom_mypage_active.svg'),
               ),
             ],
             backgroundColor: Colors.white,

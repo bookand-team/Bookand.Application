@@ -3,22 +3,23 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../core/widget/base_layout.dart';
 
-class MapScreen extends StatefulWidget {
-  const MapScreen({Key? key}) : super(key: key);
+import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:bookand/presentation/provider/map_state_proivders.dart';
 
+class MapScreen extends ConsumerWidget {
   @override
-  State<MapScreen> createState() => _MapScreenState();
-}
-
-class _MapScreenState extends State<MapScreen> {
-
-  @override
-  Widget build(BuildContext context) {
-    return const BaseLayout(
-      child: GoogleMap(
-        initialCameraPosition: CameraPosition(
-          target: LatLng(37.541, 126.986),
-          zoom: 13,
+  Widget build(BuildContext context, WidgetRef ref) {
+    final listToggle = ref.watch(listToggleProvider);
+    final gpsToggle = ref.watch(gpsToggleProvider);
+    return BaseLayout(
+      child: SlidingUpPanel(
+        panel: listToggle ? SizedBox() : SizedBox(),
+        body: const GoogleMap(
+          initialCameraPosition: CameraPosition(
+            target: LatLng(37.541, 126.986),
+            zoom: 13,
+          ),
         ),
       ),
     );
