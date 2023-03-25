@@ -49,3 +49,6 @@ app.*.map.json
 # generate file
 *.g.dart
 *.chopper.dart
+
+# vscode build
+.vscode/

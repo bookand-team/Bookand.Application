@@ -1,7 +1,7 @@
 name: bookand
 description: Bookand Mobile Application
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 0.2.1+1
 
@@ -55,6 +55,7 @@ dependencies:
   tuple: ^2.0.1
   stack_trace: ^1.11.0
   google_maps_flutter: ^2.2.5
+  sliding_up_panel: ^2.0.0+1
 
 dev_dependencies:
   flutter_test:
@@ -68,7 +69,6 @@ dev_dependencies:
   hive_generator: ^2.0.0
 
 flutter:
-
   uses-material-design: true
 
   assets:
