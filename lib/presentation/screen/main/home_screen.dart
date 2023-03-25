@@ -20,13 +20,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with AutomaticKeepAlive
   @override
   bool get wantKeepAlive => true;
 
+  void _loadMore() {
+    if (scrollController.position.maxScrollExtent == scrollController.offset) {
+      ref.read(homeStateNotifierProvider.notifier).fetchNextArticleList();
+    }
+  }
+
   @override
   void initState() {
-    scrollController.addListener(() {
-      if (scrollController.position.maxScrollExtent == scrollController.offset) {
-        ref.read(homeStateNotifierProvider.notifier).fetchNextArticleList();
-      }
-    });
+    ref.read(homeStateNotifierProvider.notifier).fetchArticleList();
+    scrollController.addListener(_loadMore);
     super.initState();
   }
 
@@ -34,12 +37,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with AutomaticKeepAlive
   void dispose() {
     scrollController.dispose();
     super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() {
-    ref.read(homeStateNotifierProvider.notifier).fetchArticleList();
-    super.didChangeDependencies();
   }
 
   @override
