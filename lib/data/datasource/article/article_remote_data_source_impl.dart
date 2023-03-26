@@ -22,9 +22,14 @@ class ArticleRemoteDataSourceImpl implements ArticleRemoteDataSource {
   ArticleRemoteDataSourceImpl(this.service);
 
   @override
-  Future<ArticleDetail> getArticleDetail(String accessToken, int id) {
-    // TODO: implement getArticleDetail
-    throw UnimplementedError();
+  Future<ArticleDetail> getArticleDetail(String accessToken, int id) async {
+    final resp = await service.getArticleDetail(accessToken, id);
+
+    if (resp.isSuccessful) {
+      return ArticleDetail.fromJson(Utf8Util.utf8JsonDecode(resp.bodyString));
+    } else {
+      throw resp;
+    }
   }
 
   @override

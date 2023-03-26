@@ -15,7 +15,7 @@ BookmarkService bookmarkService(BookmarkServiceRef ref) =>
 abstract class BookmarkService extends ChopperService {
   static BookmarkService create([ChopperClient? client]) => _$BookmarkService(client);
 
-  @Post(path: '/articles/{articleId}')
+  @Post(path: '/articles/{articleId}', optionalBody: true)
   Future<Response> addArticleBookmark(
     @Header('Authorization') String accessToken,
     @Path('articleId') int articleId,

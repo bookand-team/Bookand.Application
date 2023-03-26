@@ -28,9 +28,15 @@ class ArticleRepositoryImpl implements ArticleRepository {
   ArticleRepositoryImpl(this.articleRemoteDataSource, this.tokenLocalDataSource);
 
   @override
-  Future<ArticleDetail> getArticleDetail(int id) {
-    // TODO: implement getArticleDetail
-    throw UnimplementedError();
+  Future<ArticleDetail> getArticleDetail(int id) async {
+    try {
+      final accessToken = await tokenLocalDataSource.getAccessToken();
+      return await articleRemoteDataSource.getArticleDetail(accessToken, id);
+    } on Response catch (e) {
+      throw ErrorResponse.fromJson(Utf8Util.utf8JsonDecode(e.bodyString));
+    } catch (_) {
+      rethrow;
+    }
   }
 
   @override

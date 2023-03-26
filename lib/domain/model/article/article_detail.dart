@@ -6,34 +6,34 @@ part 'article_detail.g.dart';
 
 @JsonSerializable()
 class ArticleDetail {
-  final List<String> articleTagList;
-  @JsonValue('bookStoreList')
-  final List<BookstoreContent> bookstoreList;
-  final bool bookmark;
-  final int bookmarkCount;
-  final String category;
-  final String content;
-  final String createdDate;
-  final String displayData;
-  final ArticleFilter filter;
-  final int id;
-  final String mainImage;
-  final String modifiedDate;
-  final String status;
-  final String title;
-  final int view;
-  final bool visibility;
-  final String writer;
+  final List<String>? articleTagList;
+  @JsonKey(name: 'bookStoreList')
+  final List<BookstoreContent>? bookstoreList;
+  final bool? bookmark;
+  final int? bookmarkCount;
+  final String? category;
+  final String? content;
+  final String? createdDate;
+  final String? displayDate;
+  final ArticleFilter? filter;
+  final int? id;
+  final String? mainImage;
+  final String? modifiedDate;
+  final String? status;
+  final String? title;
+  final int? view;
+  final bool? visibility;
+  final String? writer;
 
   ArticleDetail(
-      this.articleTagList,
+      {this.articleTagList,
       this.bookstoreList,
       this.bookmark,
       this.bookmarkCount,
       this.category,
       this.content,
       this.createdDate,
-      this.displayData,
+      this.displayDate,
       this.filter,
       this.id,
       this.mainImage,
@@ -42,7 +42,7 @@ class ArticleDetail {
       this.title,
       this.view,
       this.visibility,
-      this.writer);
+      this.writer});
 
   factory ArticleDetail.fromJson(Map<String, dynamic> json) => _$ArticleDetailFromJson(json);
 
