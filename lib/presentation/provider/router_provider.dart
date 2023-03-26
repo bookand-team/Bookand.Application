@@ -16,7 +16,7 @@ import '../../core/config/firebase/firebase_init.dart';
 import '../../core/const/auth_state.dart';
 import '../../domain/model/policy_model.dart';
 import '../screen/login_screen.dart';
-import '../screen/main/article_screen.dart';
+import '../screen/main/article/article_screen.dart';
 import '../screen/main/main_tab.dart';
 import '../screen/main/my/account_management_screen.dart';
 import '../screen/main/my/notice_screen.dart';

@@ -44,6 +44,46 @@ class ArticleDetail {
       this.visibility,
       this.writer});
 
+  ArticleDetail copyWith({
+    List<String>? articleTagList,
+    List<BookstoreContent>? bookstoreList,
+    bool? bookmark,
+    int? bookmarkCount,
+    String? category,
+    String? content,
+    String? createdDate,
+    String? displayDate,
+    ArticleFilter? filter,
+    int? id,
+    String? mainImage,
+    String? modifiedDate,
+    String? status,
+    String? title,
+    int? view,
+    bool? visibility,
+    String? writer,
+  }) {
+    return ArticleDetail(
+      articleTagList: articleTagList ?? this.articleTagList,
+      bookstoreList: bookstoreList ?? this.bookstoreList,
+      bookmark: bookmark ?? this.bookmark,
+      bookmarkCount: bookmarkCount ?? this.bookmarkCount,
+      category: category ?? this.category,
+      content: content ?? this.content,
+      createdDate: createdDate ?? this.createdDate,
+      displayDate: displayDate ?? this.displayDate,
+      filter: filter ?? this.filter,
+      id: id ?? this.id,
+      mainImage: mainImage ?? this.mainImage,
+      modifiedDate: modifiedDate ?? this.modifiedDate,
+      status: status ?? this.status,
+      title: title ?? this.title,
+      view: view ?? this.view,
+      visibility: visibility ?? this.visibility,
+      writer: writer ?? this.writer,
+    );
+  }
+
   factory ArticleDetail.fromJson(Map<String, dynamic> json) => _$ArticleDetailFromJson(json);
 
   Map<String, dynamic> toJson() => _$ArticleDetailToJson(this);

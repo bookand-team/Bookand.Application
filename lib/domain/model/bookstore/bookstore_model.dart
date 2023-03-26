@@ -20,7 +20,7 @@ class BookstoreModel {
 class BookstoreContent {
   final int id;
   final String introduction;
-  final bool isBookmark;
+  bool isBookmark;
   final String mainImage;
   final String name;
   final List<String> themeList;
