@@ -1,6 +1,7 @@
 import 'package:bookand/data/datasource/bookstore/bookstore_remote_data_source_impl.dart';
 import 'package:bookand/data/datasource/token/token_local_data_source.dart';
 import 'package:bookand/data/datasource/token/token_local_data_source_impl.dart';
+import 'package:bookand/domain/model/bookstore/bookstore_detail.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_report_request.dart';
 import 'package:chopper/chopper.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -36,6 +37,18 @@ class BookstoreRepositoryImpl implements BookstoreRepository {
         bookstoreReportRequest,
       );
       return data.result;
+    } on Response catch (e) {
+      throw ErrorResponse.fromJson(Utf8Util.utf8JsonDecode(e.bodyString));
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<BookstoreDetail> getBookstoreDetail(int id) async {
+    try {
+      final accessToken = await tokenLocalDataSource.getAccessToken();
+      return await bookstoreRemoteDataSource.getBookstoreDetail(accessToken, id);
     } on Response catch (e) {
       throw ErrorResponse.fromJson(Utf8Util.utf8JsonDecode(e.bodyString));
     } catch (_) {
