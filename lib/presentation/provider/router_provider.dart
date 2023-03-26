@@ -59,7 +59,7 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
     GoRoute(
         path: 'article/:id',
         name: ArticleScreen.routeName,
-        builder: (_, state) => ArticleScreen(name: state.params['id']!)),
+        builder: (_, state) => ArticleScreen(id: state.params['id']!)),
     GoRoute(
         path: 'notificationSetting',
         name: NotificationSettingScreen.routeName,

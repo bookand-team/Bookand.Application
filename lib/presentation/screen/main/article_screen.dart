@@ -12,9 +12,9 @@ import '../../component/bookmark_button.dart';
 
 class ArticleScreen extends ConsumerStatefulWidget {
   static String get routeName => 'article';
-  final String name;
+  final String id;
 
-  const ArticleScreen({super.key, required this.name});
+  const ArticleScreen({super.key, required this.id});
 
   @override
   ConsumerState<ArticleScreen> createState() => _ArticleScreenState();
