@@ -5,7 +5,7 @@ import '../../../core/app_strings.dart';
 import '../../../core/widget/base_layout.dart';
 import 'bookmark_screen.dart';
 import 'home_screen.dart';
-import 'map_screen.dart';
+import 'map/map_screen.dart';
 import 'my/my_screen.dart';
 
 class MainTab extends StatefulWidget {
@@ -21,7 +21,7 @@ class _MainTabState extends State<MainTab> with SingleTickerProviderStateMixin {
   late final tabController = TabController(length: screens.length, vsync: this);
   final screens = [
     const HomeScreen(),
-    MapScreen(),
+    const MapScreen(),
     const BookmarkScreen(),
     const MyScreen(),
   ];

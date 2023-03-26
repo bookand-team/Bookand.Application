@@ -21,3 +21,14 @@ class GpsToggleNotifier extends StateNotifier<bool> {
 
 final gpsToggleProvider = StateNotifierProvider<GpsToggleNotifier, bool>(
     (ref) => GpsToggleNotifier());
+
+class HeightNotifier extends StateNotifier<double> {
+  HeightNotifier() : super(0);
+
+  void updateHeight(double height) {
+    state = height;
+  }
+}
+
+final heightProvider =
+    StateNotifierProvider<HeightNotifier, double>((ref) => HeightNotifier());
