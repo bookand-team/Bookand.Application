@@ -7,6 +7,7 @@ import 'package:bookand/presentation/screen/main/map/components/search_screen_co
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -16,7 +17,7 @@ class MapSearchScreen extends ConsumerWidget {
   final double slideBraidus = 24;
 
   List<Widget> getBody(bool condition, Widget body) {
-    return condition
+    return !condition
         ? [
             const Spacer(),
             const NoSearchText(),
@@ -51,7 +52,7 @@ class MapSearchScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final saerch = ref.watch(searchProvider);
+    final search = ref.watch(searchProvider);
     final searchCon = ref.read(searchProvider.notifier);
     final MyMap myMap = ref.read(myMapProvider);
 
@@ -59,6 +60,15 @@ class MapSearchScreen extends ConsumerWidget {
         const SystemUiOverlayStyle(statusBarColor: Colors.white));
     return SafeArea(
       child: BaseLayout(
+        onWillPop: () async {
+          if (search) {
+            searchCon.toggle();
+            return Future(() => false);
+          } else {
+            // ref.context.pop();
+            return true;
+          }
+        },
         child: Container(
           color: Colors.white,
           width: MediaQuery.of(context).size.width,
@@ -71,7 +81,7 @@ class MapSearchScreen extends ConsumerWidget {
                 },
                 child: Text('test')),
             ...getBody(
-                saerch,
+                search,
                 // GoogleMap(
                 //   initialCameraPosition: CameraPosition(
                 //       target: myMap.latLng, zoom: MyMapNotifier.zoom),
