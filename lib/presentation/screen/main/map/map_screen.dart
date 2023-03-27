@@ -1,7 +1,7 @@
+import 'package:bookand/presentation/provider/map_provider.dart';
 import 'package:bookand/presentation/screen/main/map/components/gps_button.dart';
 import 'package:bookand/presentation/screen/main/map/components/list_button.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../core/widget/base_layout.dart';
 
@@ -24,14 +24,18 @@ class MapScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool listToggle = ref.watch(listToggleProvider);
-    final bool gpsToggle = ref.watch(gpsToggleProvider);
-    final double buttonHeight = ref.watch(heightProvider);
-    final height = ref.read(heightProvider.notifier);
+    final state = ref.watch(mapStateProvider);
+    final bool listToggle = state.list;
+    final bool gpsToggle = state.gps;
+    final double buttonHeight = state.height;
+    final stateController = ref.read(mapStateProvider.notifier);
+    final myMap = ref.read(myMapProvider);
     double buttonHeightFix = 0;
     if (!listToggle) {
-      height.updateHeight(0);
+      // slide panel이 없을 경우
+      stateController.updateHeight(0);
     } else {
+      // slide panel이 있으면
       buttonHeightFix = slideMinHeight;
     }
     return BaseLayout(
@@ -49,30 +53,29 @@ class MapScreen extends ConsumerWidget {
             maxHeight: slideMaxHeight,
             minHeight: slideMinHeight,
             onPanelOpened: () {
-              height.updateHeight(slideMaxHeight - slideMinHeight);
+              //패널 위로
+              stateController.updateHeight(slideMaxHeight - slideMinHeight);
             },
             onPanelSlide: (position) {
+              //패널이 움직이는 동안 높이 계산하여 변환
               double updateHeight =
                   position * (slideMaxHeight - slideMinHeight);
-              height.updateHeight(updateHeight);
+              stateController.updateHeight(updateHeight);
             },
             onPanelClosed: () {
-              height.updateHeight(0);
+              //패널 닫힐 경우
+              stateController.updateHeight(0);
             },
             panel: listToggle
                 ? Container(
                     padding: const EdgeInsets.all(10),
                     child: Column(
-                      children: [const Text('test')],
+                      children: const [Text('test')],
                     ),
                   )
                 : const SizedBox(),
-            body: const GoogleMap(
-              initialCameraPosition: CameraPosition(
-                target: LatLng(37.541, 126.986),
-                zoom: 13,
-              ),
-            ),
+
+            body: myMap.googleMap,
           ),
         ),
         //top bar

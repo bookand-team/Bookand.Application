@@ -8,21 +8,22 @@ class GpsButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final toggle = ref.watch(gpsToggleProvider);
-    final toggleNoti = ref.read(gpsToggleProvider.notifier);
+    final state = ref.watch(mapStateProvider);
+    final bool gps = state.gps;
+    final toggleNoti = ref.read(mapStateProvider.notifier);
     return GestureDetector(
       onTap: () {
-        toggleNoti.toggle();
+        toggleNoti.toggleGps();
       },
       child: Container(
         height: size,
         width: size,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             color: Colors.white,
-            borderRadius: const BorderRadius.all(Radius.circular(1000))),
+            borderRadius: BorderRadius.all(Radius.circular(1000))),
         child: Icon(
           Icons.gps_not_fixed,
-          color: toggle ? Colors.amber : Colors.black,
+          color: gps ? Colors.amber : Colors.black,
         ),
       ),
     );

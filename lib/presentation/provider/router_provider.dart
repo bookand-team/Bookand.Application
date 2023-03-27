@@ -1,4 +1,5 @@
 import 'package:bookand/presentation/provider/member_provider.dart';
+import 'package:bookand/presentation/screen/main/map/components/map_search_screen.dart';
 import 'package:bookand/presentation/screen/main/my/feedback_screen.dart';
 import 'package:bookand/presentation/screen/main/my/new_bookstore_report_screen.dart';
 import 'package:bookand/presentation/screen/main/my/new_bookstore_report_success.dart';
@@ -40,7 +41,9 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
         builder: (_, __) => const MainTab(),
         routes: mainTabRoutes),
     GoRoute(
-        path: '/splash', name: SplashScreen.routeName, builder: (_, __) => const SplashScreen()),
+        path: '/splash',
+        name: SplashScreen.routeName,
+        builder: (_, __) => const SplashScreen()),
     GoRoute(
         path: '/login',
         name: LoginScreen.routeName,
@@ -54,10 +57,15 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
                 GoRoute(
                     path: 'termsAgreeDetail',
                     name: TermsAgreeDetailScreen.routeName,
-                    builder: (_, state) =>
-                        TermsAgreeDetailScreen(policy: state.extra as Tuple2<int, PolicyModel>))
+                    builder: (_, state) => TermsAgreeDetailScreen(
+                        policy: state.extra as Tuple2<int, PolicyModel>))
               ]),
         ]),
+    GoRoute(
+      path: '/mapSearch',
+      name: MapSearchScreen.routeName,
+      builder: (_, __) => const MapSearchScreen(),
+    )
   ];
 
   late List<RouteBase> mainTabRoutes = [
@@ -69,7 +77,10 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
         path: 'notificationSetting',
         name: NotificationSettingScreen.routeName,
         builder: (_, __) => const NotificationSettingScreen()),
-    GoRoute(path: 'notice', name: NoticeScreen.routeName, builder: (_, __) => const NoticeScreen()),
+    GoRoute(
+        path: 'notice',
+        name: NoticeScreen.routeName,
+        builder: (_, __) => const NoticeScreen()),
     GoRoute(
         path: 'termsAndPolicy',
         name: TermsAndPolicyScreen.routeName,
@@ -139,7 +150,8 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
     }
 
     if (authState == AuthState.signUp) {
-      if (goRouterState.location.startsWith('/login/termsAgree/termsAgreeDetail')) {
+      if (goRouterState.location
+          .startsWith('/login/termsAgree/termsAgreeDetail')) {
         return null;
       } else {
         return '/login/termsAgree';
@@ -147,7 +159,8 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
     }
 
     if (authState == AuthState.signIn) {
-      return goRouterState.location.startsWith('/login') || goRouterState.location == '/splash'
+      return goRouterState.location.startsWith('/login') ||
+              goRouterState.location == '/splash'
           ? '/'
           : null;
     }

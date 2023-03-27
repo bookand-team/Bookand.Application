@@ -8,11 +8,12 @@ class ListButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final toggle = ref.watch(listToggleProvider);
-    final toggleNoti = ref.read(listToggleProvider.notifier);
+    final state = ref.watch(mapStateProvider);
+    final toggleNoti = ref.read(mapStateProvider.notifier);
+    final list = state.list;
     return GestureDetector(
       onTap: () {
-        toggleNoti.toggle();
+        toggleNoti.toggleList();
       },
       child: Container(
         height: size,
@@ -22,7 +23,7 @@ class ListButton extends ConsumerWidget {
             borderRadius: BorderRadius.all(Radius.circular(1000))),
         child: Icon(
           Icons.list,
-          color: toggle ? Colors.amber : Colors.black,
+          color: list ? Colors.amber : Colors.black,
         ),
       ),
     );
