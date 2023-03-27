@@ -8,12 +8,11 @@ class ListButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(mapStateProvider);
-    final toggleNoti = ref.read(mapStateProvider.notifier);
-    final list = state.list;
+    final list = ref.watch(listToggleProvider);
+    final listCon = ref.read(listToggleProvider.notifier);
     return GestureDetector(
       onTap: () {
-        toggleNoti.toggleList();
+        listCon.toggle();
       },
       child: Container(
         height: size,

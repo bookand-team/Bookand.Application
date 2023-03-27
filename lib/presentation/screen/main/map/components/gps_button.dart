@@ -8,12 +8,11 @@ class GpsButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(mapStateProvider);
-    final bool gps = state.gps;
-    final toggleNoti = ref.read(mapStateProvider.notifier);
+    final gps = ref.watch(gpsToggleProvider);
+    final gpsCon = ref.read(gpsToggleProvider.notifier);
     return GestureDetector(
       onTap: () {
-        toggleNoti.toggleGps();
+        gpsCon.toggle();
       },
       child: Container(
         height: size,

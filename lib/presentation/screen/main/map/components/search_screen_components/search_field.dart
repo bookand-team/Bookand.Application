@@ -1,4 +1,4 @@
-import 'package:bookand/presentation/provider/map_provider.dart';
+import 'package:bookand/presentation/provider/map_state_proivders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -13,7 +13,8 @@ class SearchField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final myMapCon = ref.read(myMapProvider.notifier);
+    final search = ref.read(searchProvider);
+    final searchCon = ref.read(searchProvider.notifier);
     return Container(
       padding: EdgeInsets.all(padding),
       decoration: BoxDecoration(
@@ -25,8 +26,11 @@ class SearchField extends ConsumerWidget {
         children: [
           GestureDetector(
             onTap: () {
-              myMapCon.syncPosition();
-              ref.context.pop();
+              if (search) {
+                searchCon.toggle();
+              } else {
+                ref.context.pop();
+              }
             },
             child: const Icon(
               Icons.arrow_back_ios_rounded,

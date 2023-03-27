@@ -24,16 +24,16 @@ class MapScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(mapStateProvider);
-    final bool listToggle = state.list;
-    final bool gpsToggle = state.gps;
-    final double buttonHeight = state.height;
-    final stateController = ref.read(mapStateProvider.notifier);
+    final double height = ref.watch(heightProvider);
+    final heightCon = ref.read(heightProvider.notifier);
+    final bool list = ref.watch(listToggleProvider);
+    final mapCon = ref.read(myMapProvider.notifier);
+
     final myMap = ref.read(myMapProvider);
     double buttonHeightFix = 0;
-    if (!listToggle) {
+    if (!list) {
       // slide panel이 없을 경우
-      stateController.updateHeight(0);
+      heightCon.updateHeight(0);
     } else {
       // slide panel이 있으면
       buttonHeightFix = slideMinHeight;
@@ -45,7 +45,7 @@ class MapScreen extends ConsumerWidget {
           alignment: Alignment.bottomCenter,
           child: SlidingUpPanel(
             //리스트 버튼 토글 되면 출력
-            renderPanelSheet: listToggle,
+            renderPanelSheet: list,
             boxShadow: const [],
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(slideBraidus),
@@ -54,23 +54,30 @@ class MapScreen extends ConsumerWidget {
             minHeight: slideMinHeight,
             onPanelOpened: () {
               //패널 위로
-              stateController.updateHeight(slideMaxHeight - slideMinHeight);
+              heightCon.updateHeight(slideMaxHeight - slideMinHeight);
             },
             onPanelSlide: (position) {
               //패널이 움직이는 동안 높이 계산하여 변환
               double updateHeight =
                   position * (slideMaxHeight - slideMinHeight);
-              stateController.updateHeight(updateHeight);
+              heightCon.updateHeight(updateHeight);
             },
             onPanelClosed: () {
               //패널 닫힐 경우
-              stateController.updateHeight(0);
+              heightCon.updateHeight(0);
             },
-            panel: listToggle
+            panel: list
                 ? Container(
                     padding: const EdgeInsets.all(10),
                     child: Column(
-                      children: const [Text('test')],
+                      children: [
+                        Text('test'),
+                        TextButton(
+                            onPressed: () {
+                              mapCon.moveMap();
+                            },
+                            child: Text('test'))
+                      ],
                     ),
                   )
                 : const SizedBox(),
@@ -86,11 +93,11 @@ class MapScreen extends ConsumerWidget {
         //buttons
         Positioned(
             right: buttonPading,
-            bottom: buttonHeight + buttonHeightFix + buttonSpace + buttonPading,
+            bottom: height + buttonHeightFix + buttonSpace + buttonPading,
             child: const ListButton()),
         Positioned(
             right: buttonPading,
-            bottom: buttonHeight + buttonHeightFix + buttonPading,
+            bottom: height + buttonHeightFix + buttonPading,
             child: const GpsButton()),
       ],
     ));

@@ -51,9 +51,8 @@ class MapSearchScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(mapStateProvider);
-    final searched = state.search;
-    final controller = ref.read(mapStateProvider.notifier);
+    final saerch = ref.watch(searchProvider);
+    final searchCon = ref.read(searchProvider.notifier);
     final MyMap myMap = ref.read(myMapProvider);
 
     SystemChrome.setSystemUIOverlayStyle(
@@ -68,19 +67,21 @@ class MapSearchScreen extends ConsumerWidget {
             const SearchField(),
             TextButton(
                 onPressed: () {
-                  controller.toggleSearch();
+                  searchCon.toggle();
                 },
                 child: Text('test')),
             ...getBody(
-                searched,
-                GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                      target: myMap.latLng, zoom: MyMapNotifier.zoom),
-                  onCameraMove: (position) {
-                    //map tab에 있는 구글 맵과 위치 동기화를 위해 위치 기록
-                    myMap.latLng = position.target;
-                  },
-                ))
+                saerch,
+                // GoogleMap(
+                //   initialCameraPosition: CameraPosition(
+                //       target: myMap.latLng, zoom: MyMapNotifier.zoom),
+                //   onCameraMove: (position) {
+                //     //map tab에 있는 구글 맵과 위치 동기화를 위해 위치 기록
+                //     myMap.latLng = position.target;
+                //   },
+
+                // )
+                myMap.googleMap)
           ]),
         ),
       ),

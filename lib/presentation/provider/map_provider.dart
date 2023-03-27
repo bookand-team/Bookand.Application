@@ -17,24 +17,34 @@ class MyMapNotifier extends StateNotifier<MyMap> {
   void syncPosition() {
     state.controller.moveCamera(CameraUpdate.newLatLng(state.latLng));
   }
+
+  void moveMap() {
+    state.controller.moveCamera(CameraUpdate.newLatLng(initPosition));
+  }
 }
 
 class MyMap {
   late GoogleMapController controller;
+  // 검색 페이지에서 새로 생길 구글 맵에 할당하는 컨트롤러
+  late GoogleMapController secondMapController;
   late GoogleMap googleMap;
   late LatLng latLng;
-  bool inited = false;
+  bool mainMapinited = false;
   MyMap({required CameraPosition cameraPosition}) {
     latLng = cameraPosition.target;
     googleMap = GoogleMap(
       initialCameraPosition: cameraPosition,
       onMapCreated: (newController) {
-        controller = newController;
+        if (mainMapinited) {
+          secondMapController = newController;
+        } else {
+          controller = newController;
+        }
+        mainMapinited = true;
       },
       onCameraMove: (position) {
         latLng = position.target;
       },
     );
-    inited = true;
   }
 }
