@@ -13,11 +13,6 @@ class MyMapNotifier extends StateNotifier<MyMap> {
   static const initPosition = LatLng(37.5665, 126.9780);
   static const double zoom = 13;
 
-// search page에서 돌아올 때 map tab에 있는 google map과 위치 동기화
-  void syncPosition() {
-    state.controller.moveCamera(CameraUpdate.newLatLng(state.latLng));
-  }
-
   void moveMap() {
     state.controller.moveCamera(CameraUpdate.newLatLng(initPosition));
   }
@@ -33,6 +28,7 @@ class MyMap {
   MyMap({required CameraPosition cameraPosition}) {
     latLng = cameraPosition.target;
     googleMap = GoogleMap(
+      zoomControlsEnabled: false,
       initialCameraPosition: cameraPosition,
       onMapCreated: (newController) {
         if (mainMapinited) {

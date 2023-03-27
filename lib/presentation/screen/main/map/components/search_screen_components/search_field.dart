@@ -15,6 +15,7 @@ class SearchField extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final search = ref.read(searchProvider);
     final searchCon = ref.read(searchProvider.notifier);
+
     return Container(
       padding: EdgeInsets.all(padding),
       decoration: BoxDecoration(

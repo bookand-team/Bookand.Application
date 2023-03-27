@@ -21,7 +21,7 @@ class _MainTabState extends State<MainTab> with SingleTickerProviderStateMixin {
   late final tabController = TabController(length: screens.length, vsync: this);
   final screens = [
     const HomeScreen(),
-    const MapScreen(),
+    MapScreen(),
     const BookmarkScreen(),
     const MyScreen(),
   ];
