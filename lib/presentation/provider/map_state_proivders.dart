@@ -2,18 +2,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ListToggleNotifier extends StateNotifier<bool> {
   StateNotifierProviderRef ref;
-  late HeightNotifier heightCon;
+  late ButtonHeightNotifier buttonHeightCon;
   late PanelHeightNotifier panelHeightNotifier;
   ListToggleNotifier(this.ref) : super(false) {
-    heightCon = ref.read(heightProvider.notifier);
+    buttonHeightCon = ref.read(buttonHeightProvider.notifier);
     panelHeightNotifier = ref.read(panelHeightProvider.notifier);
   }
 
   void toggle() {
     if (state) {
-      heightCon.updateHeight(0);
+      buttonHeightCon.updateHeight(0);
     } else {
-      heightCon.initHeight();
+      buttonHeightCon.initHeight();
       panelHeightNotifier.init();
     }
     state = !state;

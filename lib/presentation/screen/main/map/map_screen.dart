@@ -77,9 +77,9 @@ class MapScreen extends ConsumerWidget {
                 ScrollDirection scrollDirection =
                     sc.position.userScrollDirection;
                 if (scrollDirection == ScrollDirection.forward) {
-                  searchBarShowCon.notShow();
-                } else {
                   searchBarShowCon.show();
+                } else {
+                  searchBarShowCon.notShow();
                 }
               }
             });

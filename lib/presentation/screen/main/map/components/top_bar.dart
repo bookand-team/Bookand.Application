@@ -25,7 +25,7 @@ class TopBar extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          searchBarShow ? const SizedBox() : const SearchField(),
+          searchBarShow ? const SearchField() : const SizedBox(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
