@@ -5,7 +5,7 @@ import 'components/search_field.dart';
 
 //components
 import 'components/hide_book_store_button.dart';
-import 'components/mark_button.dart';
+import 'components/book_mark_button.dart';
 import 'components/theme_button.dart';
 
 class TopBar extends ConsumerWidget {
@@ -33,7 +33,7 @@ class TopBar extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              const MarkButton(),
+              const BookMarkButton(),
               const ThemeButton(),
               const Spacer(),
               Container(

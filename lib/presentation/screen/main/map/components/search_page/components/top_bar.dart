@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class SearchField extends ConsumerWidget {
-  const SearchField({Key? key}) : super(key: key);
+class TopBar extends ConsumerWidget {
+  const TopBar({Key? key}) : super(key: key);
 
   final double bRadius = 8;
   final double padding = 10;
   final Color greyColor = const Color(0xffacacac);
   final Color thinGreyColor = const Color(0xfff5f5f5);
+
+  final Size size = const Size(320, 50);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -21,8 +23,8 @@ class SearchField extends ConsumerWidget {
       decoration: BoxDecoration(
         border: Border(bottom: BorderSide(color: thinGreyColor)),
       ),
-      width: 320,
-      height: 50,
+      width: size.width,
+      height: size.height,
       child: Row(
         children: [
           GestureDetector(

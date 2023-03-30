@@ -1,27 +1,76 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ListToggleNotifier extends StateNotifier<bool> {
+// 패널을 보일지 말지 결정, 껏다 키며 버튼 높이 조절
+class ShowPanelNotifier extends StateNotifier<bool> {
   StateNotifierProviderRef ref;
   late ButtonHeightNotifier buttonHeightCon;
-  late PanelHeightNotifier panelHeightNotifier;
-  ListToggleNotifier(this.ref) : super(false) {
+  late PanelHeightNotifier panelHeightCon;
+  ShowPanelNotifier(this.ref) : super(false) {
     buttonHeightCon = ref.read(buttonHeightProvider.notifier);
-    panelHeightNotifier = ref.read(panelHeightProvider.notifier);
+    panelHeightCon = ref.read(panelHeightProvider.notifier);
   }
 
   void toggle() {
+    state = !state;
+    // 켰을 때
     if (state) {
-      buttonHeightCon.updateHeight(0);
-    } else {
       buttonHeightCon.initHeight();
-      panelHeightNotifier.init();
+      panelHeightCon.init();
     }
+    // 켰을 때
+    else {
+      buttonHeightCon.updateHeight(0);
+    }
+  }
+}
+
+final showPanelProvider = StateNotifierProvider<ShowPanelNotifier, bool>(
+    (ref) => ShowPanelNotifier(ref));
+
+enum ListType { list, showHide, theme, none }
+
+//작동 방식 show state 변경 -> show panel toggle
+class ListTypeNotifier extends StateNotifier<ListType> {
+  StateNotifierProviderRef ref;
+  late ShowPanelNotifier showPanelCon;
+
+  ListTypeNotifier(this.ref) : super(ListType.none) {
+    showPanelCon = ref.read(showPanelProvider.notifier);
+  }
+  void toggle(ListType type) {
+    state = (state == type) ? ListType.none : type;
+  }
+
+  toggleTheme() {
+    toggle(ListType.theme);
+    showPanelCon.toggle();
+  }
+
+  toggleShowHide() {
+    toggle(ListType.showHide);
+    showPanelCon.toggle();
+  }
+
+  toggleList() {
+    toggle(ListType.list);
+    showPanelCon.toggle();
+  }
+}
+
+final listTypeProvider = StateNotifierProvider<ListTypeNotifier, ListType>(
+    (ref) => ListTypeNotifier(ref));
+
+class BookMarkToggleNotifier extends StateNotifier<bool> {
+  BookMarkToggleNotifier() : super(false);
+
+  void toggle() {
     state = !state;
   }
 }
 
-final listToggleProvider = StateNotifierProvider<ListToggleNotifier, bool>(
-    (ref) => ListToggleNotifier(ref));
+final bookMarkToggleProvider =
+    StateNotifierProvider<BookMarkToggleNotifier, bool>(
+        (ref) => BookMarkToggleNotifier());
 
 class GpsToggleNotifier extends StateNotifier<bool> {
   GpsToggleNotifier() : super(false);
@@ -34,11 +83,17 @@ class GpsToggleNotifier extends StateNotifier<bool> {
 final gpsToggleProvider = StateNotifierProvider<GpsToggleNotifier, bool>(
     (ref) => GpsToggleNotifier());
 
+//패널 위의 버튼 조절
 class ButtonHeightNotifier extends StateNotifier<double> {
   ButtonHeightNotifier() : super(0);
   static const double initheight = 200;
 
-//리스트 버튼 눌러야
+  //패널 꺼졌을 때
+  void initZero() {
+    state = 0;
+  }
+
+  //패널 처음 높이로 조절
   void initHeight() {
     state = initheight;
   }
@@ -70,6 +125,7 @@ class SearchNotifier extends StateNotifier<bool> {
 final searchProvider =
     StateNotifierProvider<SearchNotifier, bool>((ref) => SearchNotifier());
 
+//패널 height 조절
 class PanelHeightNotifier extends StateNotifier<double> {
   PanelHeightNotifier() : super(200);
   static const double initHeight = 200;

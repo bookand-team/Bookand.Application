@@ -8,13 +8,14 @@ class ListButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final list = ref.watch(listToggleProvider);
-    final listCon = ref.read(listToggleProvider.notifier);
-    final heightCon = ref.read(buttonHeightProvider.notifier);
+    //패널열렸는지는 show panel 에서
+    final selected = ref.watch(showPanelProvider);
+    // 다시 누르면 list type은 List(기본)로
+    final con = ref.read(listTypeProvider.notifier);
+
     return GestureDetector(
       onTap: () {
-        heightCon.initHeight();
-        listCon.toggle();
+        con.toggleList();
       },
       child: Container(
         height: size,
@@ -24,7 +25,7 @@ class ListButton extends ConsumerWidget {
             borderRadius: BorderRadius.all(Radius.circular(1000))),
         child: Icon(
           Icons.list,
-          color: list ? Colors.amber : Colors.black,
+          color: selected ? Colors.amber : Colors.black,
         ),
       ),
     );

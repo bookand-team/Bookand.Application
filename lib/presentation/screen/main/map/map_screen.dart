@@ -1,9 +1,12 @@
 import 'dart:async';
 
+import 'package:bookand/core/widget/slide_icon.dart';
 import 'package:bookand/presentation/provider/map_provider.dart';
 import 'package:bookand/presentation/screen/main/map/components/book_store_tile.dart';
 import 'package:bookand/presentation/screen/main/map/components/gps_button.dart';
 import 'package:bookand/presentation/screen/main/map/components/list_button.dart';
+import 'package:bookand/presentation/screen/main/map/components/refresh_button.dart';
+import 'package:bookand/presentation/screen/main/map/components/theme_dialog/theme_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -27,10 +30,10 @@ class MapScreen extends ConsumerWidget {
   final double slideMinHeightFactor = 0.4;
   final double slideMinHeight = ButtonHeightNotifier.initheight;
 
-  //slide icon
-  final Size slideIconSize = const Size(60, 4);
-  final Color slideIconColor = const Color(0xffd9d9d9);
-  final EdgeInsets sideIconMargin = const EdgeInsets.all(7);
+  //textstyles
+  final TextStyle hideTitle = const TextStyle(
+      fontSize: 18, fontWeight: FontWeight.w700, color: Color(0xff222222));
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // 패널
@@ -41,21 +44,61 @@ class MapScreen extends ConsumerWidget {
     // providers
     final double buttonHeight = ref.watch(buttonHeightProvider);
     final heightCon = ref.read(buttonHeightProvider.notifier);
+    //
     final panelState = ref.read(panelStateProvider);
     final panelStateCon = ref.read(panelStateProvider.notifier);
-    final bool listShow = ref.watch(listToggleProvider);
-    final listShowCon = ref.read(listToggleProvider.notifier);
+    //
+    final bool showPanel = ref.watch(showPanelProvider);
+    final showPanelCon = ref.read(showPanelProvider.notifier);
+    //
     final searchBarShowCon = ref.read(searchBarShowProvider.notifier);
-
+    //
+    final ListType listType = ref.watch(listTypeProvider);
+    //
     final myMap = ref.read(myMapProvider);
 
-    Widget getSlideIcon() {
-      return Container(
-        margin: sideIconMargin,
-        width: slideIconSize.width,
-        height: slideIconSize.height,
-        color: slideIconColor,
+    Widget getHideStoreContent() {
+      return Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('당신을 위한 보석같은 서점 추천', style: hideTitle),
+              const RefreshButton()
+            ],
+          ),
+          const BookStoreTile()
+        ],
       );
+    }
+
+    Widget getListContent() {
+      return Column(children: const [
+        BookStoreTile(),
+        BookStoreTile(),
+        BookStoreTile(),
+        BookStoreTile(),
+      ]);
+    }
+
+    Widget getPanelContent() {
+      late Widget widget;
+      switch (listType) {
+        case ListType.list:
+          widget = getListContent();
+          break;
+        case ListType.showHide:
+          widget = getHideStoreContent();
+          break;
+        case ListType.theme:
+          widget = const SizedBox();
+          break;
+        case ListType.none:
+          widget = const SizedBox();
+          break;
+      }
+
+      return widget;
     }
 
     return BaseLayout(
@@ -64,7 +107,7 @@ class MapScreen extends ConsumerWidget {
         SlidingUpPanel(
           controller: panelController,
           //리스트 버튼 토글 되면 출력
-          renderPanelSheet: listShow,
+          renderPanelSheet: showPanel,
           boxShadow: const [],
           //오픈되면 radius 삭제
           borderRadius: (panelState == CustomPanelState.opend)
@@ -82,7 +125,7 @@ class MapScreen extends ConsumerWidget {
             //패널이 움직이는 동안 높이 계산하여 변환
             double updateHeight =
                 slideMinHeight + position * (slideMaxHeight - slideMinHeight);
-            if (listShow) heightCon.updateHeight(updateHeight);
+            if (showPanel) heightCon.updateHeight(updateHeight);
           },
           onPanelClosed: () {
             panelStateCon.updateState(CustomPanelState.closed);
@@ -100,30 +143,23 @@ class MapScreen extends ConsumerWidget {
                 }
               }
             });
-            return listShow
+            return showPanel
                 ? GestureDetector(
                     //close일 때 아래 슬라이드 감지
                     onPanUpdate: (details) {
                       if (details.delta.dy > 0) {
-                        listShowCon.toggle();
+                        showPanelCon.toggle();
                       }
                     },
                     child: Container(
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(15),
                       child: Column(
                         children: [
-                          getSlideIcon(),
+                          slideIcon,
                           Expanded(
                             child: SingleChildScrollView(
                               controller: sc,
-                              child: Column(
-                                children: const [
-                                  BookStoreTile(),
-                                  BookStoreTile(),
-                                  BookStoreTile(),
-                                  BookStoreTile(),
-                                ],
-                              ),
+                              child: getPanelContent(),
                             ),
                           ),
                         ],

@@ -8,8 +8,7 @@ class BookStoreTile extends StatelessWidget {
     // required this.model
   }) : super(key: key);
 
-  final EdgeInsets padding =
-      const EdgeInsets.symmetric(horizontal: 7, vertical: 15);
+  final EdgeInsets padding = const EdgeInsets.symmetric(vertical: 15);
   final Color borderColor = const Color(0xfff5f5f5);
 
   // tag 태그
@@ -53,9 +52,9 @@ class BookStoreTile extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(imageBRaidus)),
             child: Image(
+              // height: imageSize.height,
+              // fit: BoxFit.fitWidth,
               image: const AssetImage('assets/images/map/book_tile_test.png'),
-              width: imageSize.width,
-              height: imageSize.height,
             ),
           ),
           Row(
@@ -64,7 +63,7 @@ class BookStoreTile extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -88,7 +87,7 @@ class BookStoreTile extends StatelessWidget {
                       // bookmark button 북마크 버튼
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
 

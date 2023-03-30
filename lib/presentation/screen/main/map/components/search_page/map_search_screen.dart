@@ -9,7 +9,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 //components
 import 'components/no_search_text.dart';
 import 'components/recommendation_button.dart';
-import 'components/search_field.dart';
+import 'components/top_bar.dart';
 
 class MapSearchScreen extends ConsumerWidget {
   static String get routeName => 'mapSearch';
@@ -91,7 +91,7 @@ class MapSearchScreen extends ConsumerWidget {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Column(children: [
-              const SearchField(),
+              const TopBar(),
               TextButton(
                   onPressed: () {
                     searchCon.toggle();
