@@ -8,14 +8,24 @@ class BookStoreTile extends StatelessWidget {
     // required this.model
   }) : super(key: key);
 
-  final EdgeInsets padding = const EdgeInsets.all(5);
+  final EdgeInsets padding =
+      const EdgeInsets.symmetric(horizontal: 7, vertical: 15);
   final Color borderColor = const Color(0xfff5f5f5);
 
-// sub styles
+  // tag 태그
   final double tagBraidus = 2;
   final Color tagBorderColor = const Color(0xffdddddd);
-  final Color bookMarkColor = const Color(0xfff5f5f7);
+  final EdgeInsets tagMargin = const EdgeInsets.symmetric(horizontal: 7);
+  //장소 아이콘
+  final Size locaitonIconSize = const Size(10, 14);
 
+//book mark 북마크
+  final Color bookMarkColor = const Color(0xfff5f5f7);
+  final Size bookMarkSize = const Size(40, 40);
+  final Size bookMarkInnerSize = const Size(15, 21.5);
+
+  //image
+  final double imageBRaidus = 8;
   final Size imageSize = const Size(328, 170);
 
 //texts tyles
@@ -27,6 +37,7 @@ class BookStoreTile extends StatelessWidget {
       fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xff565656));
   final TextStyle distanceStyle = const TextStyle(
       fontSize: 10, fontWeight: FontWeight.w400, color: Color(0xffff4f4f));
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,60 +45,103 @@ class BookStoreTile extends StatelessWidget {
           BoxDecoration(border: Border(bottom: BorderSide(color: borderColor))),
       padding: padding,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          //image
-          Image(
-            image: const AssetImage('assets/images/map/book_tile_test.png'),
-            width: imageSize.width,
-            height: imageSize.height,
+          //image, 이미지
+          Container(
+            clipBehavior: Clip.hardEdge,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(imageBRaidus)),
+            child: Image(
+              image: const AssetImage('assets/images/map/book_tile_test.png'),
+              width: imageSize.width,
+              height: imageSize.height,
+            ),
           ),
           Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // 제목
-              Text(
-                '제목 테스트',
-                style: titleStyle,
+              Column(
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      // 제목
+                      Text(
+                        '사적인 서점',
+                        style: titleStyle,
+                      ),
+                      //tag container 태그
+                      Container(
+                        margin: tagMargin,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: tagBorderColor),
+                            borderRadius: BorderRadius.circular(tagBraidus)),
+                        child: Text(
+                          '#음악',
+                          style: tagStyle,
+                        ),
+                      ),
+                      // bookmark button 북마크 버튼
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+
+                  // 위치 표시
+                  Row(
+                    children: [
+                      //아이콘
+                      Image(
+                          width: locaitonIconSize.width,
+                          height: locaitonIconSize.height,
+                          image: const AssetImage(
+                              'assets/images/map/location_icon_test.png')),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      Text(
+                        '서울 마포구',
+                        style: locationStyle,
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        '300 m',
+                        style: distanceStyle,
+                      )
+                    ],
+                  )
+                ],
               ),
-              //tag container
-              Container(
-                decoration: BoxDecoration(
-                    border: Border.all(color: tagBorderColor),
-                    borderRadius: BorderRadius.circular(tagBraidus)),
-                child: Text(
-                  'tag테스트',
-                  style: tagStyle,
-                ),
-              ),
-              // bookmark button 북마크 버튼
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: bookMarkColor,
-                      borderRadius: BorderRadius.circular(1000)),
-                  child: const Image(
-                      image:
-                          AssetImage('assets/images/map/book_mark_test.png')),
-                ),
+              // book mark 북마크 버튼
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      width: bookMarkSize.width,
+                      height: bookMarkSize.height,
+                      decoration: BoxDecoration(
+                          color: bookMarkColor,
+                          borderRadius: BorderRadius.circular(1000)),
+                      child: Image(
+                          fit: BoxFit.scaleDown,
+                          width: bookMarkInnerSize.width,
+                          height: bookMarkInnerSize.height,
+                          image: const AssetImage(
+                              'assets/images/map/book_mark_test.png')),
+                    ),
+                  )
+                ],
               )
             ],
           ),
-          // 위치 표시
-          Row(
-            children: [
-              const Image(
-                  image:
-                      AssetImage('assets/images/map/location_icon_test.png')),
-              Text(
-                '거리 테스트',
-                style: locationStyle,
-              ),
-              Text(
-                '거리 m',
-                style: distanceStyle,
-              )
-            ],
-          )
         ],
       ),
     );

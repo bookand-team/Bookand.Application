@@ -1,6 +1,7 @@
 import 'package:bookand/core/widget/base_layout.dart';
 import 'package:bookand/presentation/provider/map_provider.dart';
 import 'package:bookand/presentation/provider/map_state_proivders.dart';
+import 'package:bookand/presentation/screen/main/map/components/search_page/components/book_store_searched_tile.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,13 +34,30 @@ class MapSearchScreen extends ConsumerWidget {
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(slideBraidus),
                     topRight: Radius.circular(slideBraidus)),
-                panel: Column(
+                panelBuilder: (sc) => Column(
                   children: [
                     Container(
-                      margin: EdgeInsets.all(10),
+                      margin: const EdgeInsets.all(10),
                       width: 60,
                       height: 2,
                       color: Colors.grey,
+                    ),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        controller: sc,
+                        child: Column(
+                          children: const [
+                            BookStoreSearchedTile(),
+                            BookStoreSearchedTile(),
+                            BookStoreSearchedTile(),
+                            BookStoreSearchedTile(),
+                            BookStoreSearchedTile(),
+                            BookStoreSearchedTile(),
+                            BookStoreSearchedTile(),
+                            BookStoreSearchedTile(),
+                          ],
+                        ),
+                      ),
                     )
                   ],
                 ),
@@ -78,19 +96,9 @@ class MapSearchScreen extends ConsumerWidget {
                   onPressed: () {
                     searchCon.toggle();
                   },
-                  child: Text('test')),
-              ...getBody(
-                  search,
-                  // GoogleMap(
-                  //   initialCameraPosition: CameraPosition(
-                  //       target: myMap.latLng, zoom: MyMapNotifier.zoom),
-                  //   onCameraMove: (position) {
-                  //     //map tab에 있는 구글 맵과 위치 동기화를 위해 위치 기록
-                  //     myMap.latLng = position.target;
-                  //   },
-
-                  // )
-                  myMap.googleMap)
+                  child: const Text('test')),
+              const BookStoreSearchedTile(),
+              ...getBody(search, myMap.googleMap)
             ]),
           ),
         ),

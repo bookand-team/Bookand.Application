@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bookand/presentation/provider/map_provider.dart';
+import 'package:bookand/presentation/screen/main/map/components/book_store_tile.dart';
 import 'package:bookand/presentation/screen/main/map/components/gps_button.dart';
 import 'package:bookand/presentation/screen/main/map/components/list_button.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class MapScreen extends ConsumerWidget {
   final double buttonPading = 15;
   //버튼 사이의 간격
   final double buttonSpace = 40;
+  //sidle panel 슬라이딩 패널
   final double slideBraidus = 24;
   final double slideMaxHeightFactor = 1;
   final double slideMinHeightFactor = 0.4;
@@ -31,10 +33,12 @@ class MapScreen extends ConsumerWidget {
   final EdgeInsets sideIconMargin = const EdgeInsets.all(7);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // 패널
     final PanelController panelController = PanelController();
     final double slideMaxHeight =
         MediaQuery.of(context).size.height * slideMaxHeightFactor;
 
+    // providers
     final double buttonHeight = ref.watch(buttonHeightProvider);
     final heightCon = ref.read(buttonHeightProvider.notifier);
     final panelState = ref.read(panelStateProvider);
@@ -109,16 +113,19 @@ class MapScreen extends ConsumerWidget {
                       child: Column(
                         children: [
                           getSlideIcon(),
-                          ListView.builder(
-                            physics: (panelState == CustomPanelState.closed)
-                                ? const NeverScrollableScrollPhysics()
-                                : null,
-                            controller: sc,
-                            itemCount: 100,
-                            itemBuilder: (context, index) {
-                              return Text('$index test');
-                            },
-                          )
+                          Expanded(
+                            child: SingleChildScrollView(
+                              controller: sc,
+                              child: Column(
+                                children: const [
+                                  BookStoreTile(),
+                                  BookStoreTile(),
+                                  BookStoreTile(),
+                                  BookStoreTile(),
+                                ],
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -133,7 +140,8 @@ class MapScreen extends ConsumerWidget {
           alignment: Alignment.topCenter,
           child: TopBar(),
         ),
-        //buttons, open 상태일 때는 출력안함
+
+        // buttons, open 상태일 때는 출력안함
         ...(panelState == CustomPanelState.opend)
             ? [const SizedBox()]
             : [
