@@ -1,4 +1,4 @@
-import 'package:bookand/presentation/screen/main/map/components/map_search_screen.dart';
+import 'package:bookand/presentation/screen/main/map/components/search_page/map_search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

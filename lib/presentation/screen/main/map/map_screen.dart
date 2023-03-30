@@ -11,7 +11,7 @@ import '../../../../core/widget/base_layout.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bookand/presentation/provider/map_state_proivders.dart';
-import 'components/top_bar.dart';
+import 'components/top_bar/top_bar.dart';
 
 class MapScreen extends ConsumerWidget {
   const MapScreen({super.key});
@@ -25,6 +25,10 @@ class MapScreen extends ConsumerWidget {
   final double slideMinHeightFactor = 0.4;
   final double slideMinHeight = ButtonHeightNotifier.initheight;
 
+  //slide icon
+  final Size slideIconSize = const Size(60, 4);
+  final Color slideIconColor = const Color(0xffd9d9d9);
+  final EdgeInsets sideIconMargin = const EdgeInsets.all(7);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final PanelController panelController = PanelController();
@@ -40,6 +44,15 @@ class MapScreen extends ConsumerWidget {
     final searchBarShowCon = ref.read(searchBarShowProvider.notifier);
 
     final myMap = ref.read(myMapProvider);
+
+    Widget getSlideIcon() {
+      return Container(
+        margin: sideIconMargin,
+        width: slideIconSize.width,
+        height: slideIconSize.height,
+        color: slideIconColor,
+      );
+    }
 
     return BaseLayout(
         child: Stack(
@@ -93,15 +106,20 @@ class MapScreen extends ConsumerWidget {
                     },
                     child: Container(
                       padding: const EdgeInsets.all(10),
-                      child: ListView.builder(
-                        physics: (panelState == CustomPanelState.closed)
-                            ? const NeverScrollableScrollPhysics()
-                            : null,
-                        controller: sc,
-                        itemCount: 100,
-                        itemBuilder: (context, index) {
-                          return Text('$index test');
-                        },
+                      child: Column(
+                        children: [
+                          getSlideIcon(),
+                          ListView.builder(
+                            physics: (panelState == CustomPanelState.closed)
+                                ? const NeverScrollableScrollPhysics()
+                                : null,
+                            controller: sc,
+                            itemCount: 100,
+                            itemBuilder: (context, index) {
+                              return Text('$index test');
+                            },
+                          )
+                        ],
                       ),
                     ),
                   )

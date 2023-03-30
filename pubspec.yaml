@@ -63,7 +63,6 @@ dev_dependencies:
 
   flutter_lints: ^2.0.0
   build_runner: ^2.3.0
-  json_serializable: ^6.5.1
   riverpod_generator: ^1.2.0
   chopper_generator: ^6.0.0
   hive_generator: ^2.0.0
@@ -75,6 +74,7 @@ flutter:
     - assets/images/
     - assets/images/home/
     - assets/images/my/
+    - assets/images/map/
 
   fonts:
     - family: Pretendard

@@ -1,8 +1,12 @@
 import 'package:bookand/presentation/provider/map_state_proivders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'search_field.dart';
-import 'search_buttons/search_buttons.dart';
+import 'components/search_field.dart';
+
+//components
+import 'components/hide_book_store_button.dart';
+import 'components/mark_button.dart';
+import 'components/theme_button.dart';
 
 class TopBar extends ConsumerWidget {
   const TopBar({Key? key}) : super(key: key);
