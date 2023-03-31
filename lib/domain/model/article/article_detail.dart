@@ -21,6 +21,7 @@ class ArticleDetail {
   final String? modifiedDate;
   final String? status;
   final String? title;
+  final String? subTitle;
   final int? view;
   final bool? visibility;
   final String? writer;
@@ -40,6 +41,7 @@ class ArticleDetail {
       this.modifiedDate,
       this.status,
       this.title,
+      this.subTitle,
       this.view,
       this.visibility,
       this.writer});

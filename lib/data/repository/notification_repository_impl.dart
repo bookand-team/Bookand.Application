@@ -40,10 +40,10 @@ class NotificationRepositoryImpl implements NotificationRepository {
   }
 
   @override
-  Future<NotificationModel> getNotificationList(int page) async {
+  Future<NotificationModel> getNotificationList(int cursorId) async {
     try {
       final accessToken = await tokenLocalDataSource.getAccessToken();
-      return await notificationRemoteDataSource.getNotificationList(accessToken, page);
+      return await notificationRemoteDataSource.getNotificationList(accessToken, cursorId);
     } on Response catch (e) {
       throw ErrorResponse.fromJson(Utf8Util.utf8JsonDecode(e.bodyString));
     } catch (_) {

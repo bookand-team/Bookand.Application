@@ -41,9 +41,7 @@ class ArticleAppBar extends StatefulWidget {
       changeHeight: changeHeight,
       duration: duration,
       title: articleDetail.title ?? '',
-      // TODO: api 변경되면 수정
-      // subTitle: articleDetail.subTitle ?? '',
-      subTitle: '부제목',
+      subTitle: articleDetail.subTitle ?? '',
       imageUrl: articleDetail.mainImage ?? '',
       isBookmark: articleDetail.bookmark ?? false,
       onTapBookmark: onTapBookmark,

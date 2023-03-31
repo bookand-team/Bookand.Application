@@ -16,7 +16,7 @@ abstract class ArticleService extends ChopperService {
   @Get()
   Future<Response> getArticleList(
     @Header('Authorization') String accessToken,
-    @Query('page') int page,
+    @Query('cursorId') int cursorId,
   );
 
   @Get(path: '/{id}')

@@ -12,7 +12,7 @@ part 'home_provider.g.dart';
 class HomeStateNotifier extends _$HomeStateNotifier {
   bool isLoading = false;
   bool isEnd = false;
-  int page = 0;
+  int cursorId = 0;
 
   @override
   List<ArticleContent> build() => [];
@@ -34,8 +34,9 @@ class HomeStateNotifier extends _$HomeStateNotifier {
   void fetchArticleList() async {
     try {
       isLoading = true;
-      page = 0;
-      final article = await ref.read(articleRepositoryProvider).getArticleList(page);
+      cursorId = 0;
+      final article = await ref.read(articleRepositoryProvider).getArticleList(cursorId);
+      cursorId = article.content.last.id;
       isEnd = article.last;
       state = article.content;
     } catch (e) {
@@ -47,10 +48,10 @@ class HomeStateNotifier extends _$HomeStateNotifier {
 
   void fetchNextArticleList() async {
     try {
-      if (isEnd) return;
+      if (!isLoading && isEnd) return;
 
       isLoading = true;
-      final article = await ref.read(articleRepositoryProvider).getArticleList(++page);
+      final article = await ref.read(articleRepositoryProvider).getArticleList(cursorId);
       isEnd = article.last;
       state = [
         ...state,
