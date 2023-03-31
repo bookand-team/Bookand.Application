@@ -1,21 +1,22 @@
-import 'dart:async';
-
 import 'package:bookand/core/widget/slide_icon.dart';
-import 'package:bookand/presentation/provider/map_provider.dart';
-import 'package:bookand/presentation/screen/main/map/components/book_store_tile.dart';
-import 'package:bookand/presentation/screen/main/map/components/gps_button.dart';
-import 'package:bookand/presentation/screen/main/map/components/list_button.dart';
-import 'package:bookand/presentation/screen/main/map/components/refresh_button.dart';
-import 'package:bookand/presentation/screen/main/map/components/theme_dialog/theme_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../../core/widget/base_layout.dart';
-
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bookand/presentation/provider/map_state_proivders.dart';
+
+//components
 import 'components/top_bar/top_bar.dart';
+import 'components/book_store_tile.dart';
+import 'components/gps_button.dart';
+import 'components/list_button.dart';
+import 'components/refresh_button.dart';
+
+//providers
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:bookand/presentation/provider/map/map_state_proivders.dart';
+import 'package:bookand/presentation/provider/map/map_controller_provider.dart';
+import 'package:bookand/presentation/provider/map/map_marker_provider.dart';
 
 class MapScreen extends ConsumerWidget {
   const MapScreen({super.key});
@@ -29,6 +30,10 @@ class MapScreen extends ConsumerWidget {
   final double slideMaxHeightFactor = 1;
   final double slideMinHeightFactor = 0.4;
   final double slideMinHeight = ButtonHeightNotifier.initheight;
+
+  // init camera
+  static const initCamera =
+      CameraPosition(target: LatLng(37.5665, 126.9780), zoom: 13);
 
   //textstyles
   final TextStyle hideTitle = const TextStyle(
@@ -55,7 +60,11 @@ class MapScreen extends ConsumerWidget {
     //
     final ListType listType = ref.watch(listTypeProvider);
     //
-    final myMap = ref.read(myMapProvider);
+    final Set<Marker> markers = ref.watch(mapMarkerNotiferProvider);
+    // final markerCon = ref.watch(mapMarkerNotiferProvider.notifier);
+    //
+    final mapControllerCon = ref.read(mapControllerNotiferProvider.notifier);
+    //
 
     Widget getHideStoreContent() {
       return Column(
@@ -169,7 +178,12 @@ class MapScreen extends ConsumerWidget {
                 : const SizedBox();
           },
 
-          body: myMap.googleMap,
+          // body: myMap.googleMap,
+          body: GoogleMap(
+              onMapCreated: (controller) =>
+                  mapControllerCon.initController(controller),
+              markers: markers,
+              initialCameraPosition: initCamera),
         ),
 
         const Align(

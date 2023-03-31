@@ -1,7 +1,9 @@
 import 'package:bookand/core/util/logger.dart';
-import 'package:bookand/presentation/provider/geolocator_permission_provider.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// devpendency
+import 'package:bookand/presentation/provider/map/geolocator_permission_provider.dart';
 
 part 'geolocator_position_provider.g.dart';
 
@@ -23,43 +25,39 @@ class GelolocatorPostionNotifier extends _$GelolocatorPostionNotifier {
         speedAccuracy: 0);
   }
 
-  Future<Position> getPosition() async {
+  Future<dynamic> getPosition() async {
     bool serviceEnabled;
     LocationPermission permission;
 
-    // Test if location services are enabled.
+    // 기기의 gps 기능 체크
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      // Location services are not enabled don't continue
-      // accessing the position and request users of the
-      // App to enable the location services.
       logger.e('Location services are disabled.');
       return Future.error('Location services are disabled.');
     }
 
+    //기기에 대한 gps 권한 체크
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
+      //기기에 대한 gps 권한 요청
       permission = await Geolocator.requestPermission();
+      //기기에 대한 gps 권한 요청 -> 거부
       if (permission == LocationPermission.denied) {
-        // Permissions are denied, next time you could try
-        // requesting permissions again (this is also where
-        // Android's shouldShowRequestPermissionRationale
-        // returned true. According to Android guidelines
-        // your App should show an explanatory UI now.
         return Future.error('Location permissions are denied');
       }
     }
 
+    //기기에 대한 gps 권한 요청 -> 절대거부 -> 기기에선 다시 접근 불가, 유저가 직접 조정해야함
     if (permission == LocationPermission.deniedForever) {
       permissionCon.updatePermission(permission);
-      // Permissions are denied forever, handle appropriately.
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
+    //기기에 대한 gps 권한 요청 -> LocationPermission.always  or LocationPermission.whileInUse
     permissionCon.updatePermission(permission);
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition();
+    state = await Geolocator.getCurrentPosition();
+    logger.d('사용자 위치 정보 얻기 성공' + state.toString());
+    return state;
   }
 }

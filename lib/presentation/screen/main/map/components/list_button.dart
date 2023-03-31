@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+//providers
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bookand/presentation/provider/map_state_proivders.dart';
+import 'package:bookand/presentation/provider/map/map_state_proivders.dart';
 
 class ListButton extends ConsumerWidget {
   const ListButton({super.key});

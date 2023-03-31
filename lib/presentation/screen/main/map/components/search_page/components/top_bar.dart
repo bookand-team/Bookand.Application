@@ -1,7 +1,8 @@
-import 'package:bookand/presentation/provider/map_state_proivders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+//provider
+import 'package:bookand/presentation/provider/map/map_state_proivders.dart';
 
 class TopBar extends ConsumerWidget {
   const TopBar({Key? key}) : super(key: key);

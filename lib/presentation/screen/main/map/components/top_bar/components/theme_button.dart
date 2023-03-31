@@ -1,6 +1,8 @@
-import 'package:bookand/presentation/provider/map_state_proivders.dart';
-import 'package:bookand/presentation/screen/main/map/components/theme_dialog/theme_dialog.dart';
 import 'package:flutter/material.dart';
+//components
+import 'package:bookand/presentation/screen/main/map/components/theme_dialog/theme_dialog.dart';
+//providers
+import 'package:bookand/presentation/provider/map/map_state_proivders.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ThemeButton extends ConsumerWidget {
