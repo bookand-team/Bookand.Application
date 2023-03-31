@@ -1,3 +1,4 @@
+import 'package:bookand/presentation/screen/main/article/bookstore_screen.dart';
 import 'package:bookand/presentation/screen/main/my/feedback_screen.dart';
 import 'package:bookand/presentation/screen/main/my/new_bookstore_report_screen.dart';
 import 'package:bookand/presentation/screen/main/my/new_bookstore_report_success.dart';
@@ -60,6 +61,10 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
         path: 'article/:id',
         name: ArticleScreen.routeName,
         builder: (_, state) => ArticleScreen(id: state.params['id']!)),
+    GoRoute(
+        path: 'bookstore/:id',
+        name: BookstoreScreen.routeName,
+        builder: (_, state) => BookstoreScreen(id: state.params['id']!)),
     GoRoute(
         path: 'notificationSetting',
         name: NotificationSettingScreen.routeName,

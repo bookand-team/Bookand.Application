@@ -75,6 +75,7 @@ flutter:
     - assets/images/
     - assets/images/home/
     - assets/images/my/
+    - assets/images/bookstore/
 
   fonts:
     - family: Pretendard

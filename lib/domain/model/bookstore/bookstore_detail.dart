@@ -5,24 +5,24 @@ part 'bookstore_detail.g.dart';
 
 @JsonSerializable()
 class BookstoreDetail {
-  final List<ArticleContent> articleResponse;
-  final String createdDate;
-  final String displayDate;
-  final int id;
-  final BookstoreInfo info;
-  final String introduction;
-  bool isBookmark;
-  final String mainImage;
-  final String modifiedDate;
-  final String name;
-  final String status;
-  final List<BookstoreSubImage> subImage;
-  final List<String> themeList;
-  final int view;
-  final bool visibility;
+  final List<ArticleContent>? articleResponse;
+  final String? createdDate;
+  final String? displayDate;
+  final int? id;
+  final BookstoreInfo? info;
+  final String? introduction;
+  bool? isBookmark;
+  final String? mainImage;
+  final String? modifiedDate;
+  final String? name;
+  final String? status;
+  final List<BookstoreSubImage>? subImage;
+  final List<String>? themeList;
+  final int? view;
+  final bool? visibility;
 
   BookstoreDetail(
-      this.articleResponse,
+      {this.articleResponse,
       this.createdDate,
       this.displayDate,
       this.id,
@@ -36,7 +36,43 @@ class BookstoreDetail {
       this.subImage,
       this.themeList,
       this.view,
-      this.visibility);
+      this.visibility});
+
+  BookstoreDetail copyWith({
+    List<ArticleContent>? articleResponse,
+    String? createdDate,
+    String? displayDate,
+    int? id,
+    BookstoreInfo? info,
+    String? introduction,
+    bool? isBookmark,
+    String? mainImage,
+    String? modifiedDate,
+    String? name,
+    String? status,
+    List<BookstoreSubImage>? subImage,
+    List<String>? themeList,
+    int? view,
+    bool? visibility,
+  }) {
+    return BookstoreDetail(
+      articleResponse: articleResponse ?? this.articleResponse,
+      createdDate: createdDate ?? this.createdDate,
+      displayDate: displayDate ?? this.displayDate,
+      id: id ?? this.id,
+      info: info ?? this.info,
+      introduction: introduction ?? this.introduction,
+      isBookmark: isBookmark ?? this.isBookmark,
+      mainImage: mainImage ?? this.mainImage,
+      modifiedDate: modifiedDate ?? this.modifiedDate,
+      name: name ?? this.name,
+      status: status ?? this.status,
+      subImage: subImage ?? this.subImage,
+      themeList: themeList ?? this.themeList,
+      view: view ?? this.view,
+      visibility: visibility ?? this.visibility,
+    );
+  }
 
   factory BookstoreDetail.fromJson(Map<String, dynamic> json) => _$BookstoreDetailFromJson(json);
 

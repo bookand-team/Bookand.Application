@@ -5,9 +5,11 @@ import 'package:bookand/presentation/screen/main/article/component/bookstore_car
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/widget/base_layout.dart';
 import '../../../../domain/model/bookstore/bookstore_model.dart';
+import 'bookstore_screen.dart';
 
 class ArticleScreen extends ConsumerStatefulWidget {
   static String get routeName => 'article';
@@ -47,9 +49,9 @@ class _ArticleScreenState extends ConsumerState<ArticleScreen> {
             onTapBookmark: (index) => articleProvider.updateBookstoreBookmark(index),
             onTapBookstoreCard: (index) {
               final bookstoreId = articleDetail.bookstoreList?[index].id;
-              if (bookstoreId != null) {
-                // TODO: 서점 상세
-              }
+              if (bookstoreId == null) return;
+
+              context.pushNamed(BookstoreScreen.routeName, params: {'id': bookstoreId.toString()});
             },
           ),
         ],
@@ -80,6 +82,8 @@ class _ArticleScreenState extends ConsumerState<ArticleScreen> {
           children: [
             const Divider(
               thickness: 8,
+              height: 0,
+              color: Color(0xFFF5F5F5),
             ),
             const SizedBox(height: 32),
             const Padding(
