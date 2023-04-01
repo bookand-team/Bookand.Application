@@ -10,6 +10,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../core/widget/base_layout.dart';
 import '../../../component/bookmark_button.dart';
+import '../main_tab.dart';
 import 'article_screen.dart';
 
 class BookstoreScreen extends ConsumerStatefulWidget {
@@ -28,9 +29,9 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
   Duration duration = const Duration(milliseconds: 200);
 
   @override
-  void initState() {
+  void didChangeDependencies() {
     ref.read(bookstoreStateNotifierProvider.notifier).fetchBookstoreDetail(int.parse(widget.id));
-    super.initState();
+    super.didChangeDependencies();
   }
 
   @override
@@ -78,6 +79,19 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
               ),
               const SizedBox(
                 width: 16,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 12),
+                child: InkWell(
+                  onTap: () {
+                    context.goNamed(MainTab.routeName);
+                  },
+                  child: SvgPicture.asset(
+                    topHeight <= changeHeight
+                        ? 'assets/images/home/ic_24_close_black.svg'
+                        : 'assets/images/home/ic_24_close_white.svg',
+                  ),
+                ),
               ),
             ],
             flexibleSpace: LayoutBuilder(
@@ -153,7 +167,9 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
                       ),
                       BookmarkButton(
                         isBookmark: bookstoreDetail.isBookmark ?? false,
-                        onTapBookmark: () {},
+                        onTapBookmark: () {
+                          bookstoreProvider.updateBookstoreBookmark();
+                        },
                         backgroundColor: const Color(0xFFF5F5F5),
                         radius: 20,
                       ),
@@ -378,8 +394,10 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
                                     final articleId = bookstoreDetail.articleResponse?[index].id;
                                     if (articleId == null) return;
 
-                                    context.pushNamed(ArticleScreen.routeName,
-                                        params: {'id': articleId.toString()});
+                                    context.pushNamed(ArticleScreen.routeName, params: {
+                                      'id': articleId.toString(),
+                                      'isFirstScreen': 'false',
+                                    });
                                   },
                                   child: Stack(
                                     children: [
@@ -415,7 +433,9 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
                                           isBookmark:
                                               bookstoreDetail.articleResponse?[index].isBookmark ??
                                                   false,
-                                          onTapBookmark: () {},
+                                          onTapBookmark: () {
+                                            bookstoreProvider.updateArticleBookmark(index);
+                                          },
                                           backgroundColor: const Color(0xFFF5F5F5),
                                           radius: 12,
                                         ),

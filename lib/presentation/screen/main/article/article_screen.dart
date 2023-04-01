@@ -14,8 +14,13 @@ import 'bookstore_screen.dart';
 class ArticleScreen extends ConsumerStatefulWidget {
   static String get routeName => 'article';
   final String id;
+  final String isFirstScreen;
 
-  const ArticleScreen({super.key, required this.id});
+  const ArticleScreen({
+    super.key,
+    required this.id,
+    required this.isFirstScreen,
+  });
 
   @override
   ConsumerState<ArticleScreen> createState() => _ArticleScreenState();
@@ -23,9 +28,9 @@ class ArticleScreen extends ConsumerStatefulWidget {
 
 class _ArticleScreenState extends ConsumerState<ArticleScreen> {
   @override
-  void initState() {
+  void didChangeDependencies() {
     ref.read(articleStateNotifierProvider.notifier).fetchArticleDetail(int.parse(widget.id));
-    super.initState();
+    super.didChangeDependencies();
   }
 
   @override
@@ -42,6 +47,7 @@ class _ArticleScreenState extends ConsumerState<ArticleScreen> {
             duration: const Duration(milliseconds: 200),
             onTapBookmark: () => articleProvider.updateArticleBookmark(),
             onTapShare: () => articleProvider.onTapArticleShare(),
+            showCloseBtn: widget.isFirstScreen != 'true',
           ),
           _articleBody(articleDetail.content ?? ''),
           _articleFooter(

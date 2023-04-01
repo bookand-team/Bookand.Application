@@ -1,4 +1,5 @@
 import 'package:bookand/core/theme/custom_text_style.dart';
+import 'package:bookand/presentation/screen/main/main_tab.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +18,7 @@ class ArticleAppBar extends StatefulWidget {
   final bool isBookmark;
   final Function() onTapBookmark;
   final Function() onTapShare;
+  final bool showCloseBtn;
 
   const ArticleAppBar({
     Key? key,
@@ -28,6 +30,7 @@ class ArticleAppBar extends StatefulWidget {
     required this.isBookmark,
     required this.onTapBookmark,
     required this.onTapShare,
+    required this.showCloseBtn,
   }) : super(key: key);
 
   factory ArticleAppBar.fromModel({
@@ -36,6 +39,7 @@ class ArticleAppBar extends StatefulWidget {
     required Duration duration,
     required Function() onTapBookmark,
     required Function() onTapShare,
+    required bool showCloseBtn,
   }) {
     return ArticleAppBar(
       changeHeight: changeHeight,
@@ -46,6 +50,7 @@ class ArticleAppBar extends StatefulWidget {
       isBookmark: articleDetail.bookmark ?? false,
       onTapBookmark: onTapBookmark,
       onTapShare: onTapShare,
+      showCloseBtn: showCloseBtn,
     );
   }
 
@@ -94,6 +99,22 @@ class _ArticleAppBarState extends State<ArticleAppBar> {
         ),
         const SizedBox(
           width: 16,
+        ),
+        Visibility(
+          visible: widget.showCloseBtn,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: InkWell(
+              onTap: () {
+                context.goNamed(MainTab.routeName);
+              },
+              child: SvgPicture.asset(
+                topHeight <= widget.changeHeight
+                    ? 'assets/images/home/ic_24_close_black.svg'
+                    : 'assets/images/home/ic_24_close_white.svg',
+              ),
+            ),
+          ),
         ),
       ],
       title: AnimatedOpacity(

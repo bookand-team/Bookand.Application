@@ -61,8 +61,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with AutomaticKeepAlive
               padding: EdgeInsets.only(bottom: index == 19 ? 48 : 20),
               child: GestureDetector(
                 onTap: () {
-                  context.pushNamed(ArticleScreen.routeName,
-                      params: {'id': articleList[index].id.toString()});
+                  context.pushNamed(ArticleScreen.routeName, params: {
+                    'id': articleList[index].id.toString(),
+                    'isFirstScreen': 'true',
+                  });
                 },
                 child: ArticleCard(
                   image: CachedNetworkImage(

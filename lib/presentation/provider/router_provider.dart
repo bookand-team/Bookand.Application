@@ -58,9 +58,12 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
 
   late List<RouteBase> mainTabRoutes = [
     GoRoute(
-        path: 'article/:id',
+        path: 'article/:id/:isFirstScreen',
         name: ArticleScreen.routeName,
-        builder: (_, state) => ArticleScreen(id: state.params['id']!)),
+        builder: (_, state) => ArticleScreen(
+              id: state.params['id']!,
+              isFirstScreen: state.params['isFirstScreen']!,
+            )),
     GoRoute(
         path: 'bookstore/:id',
         name: BookstoreScreen.routeName,
