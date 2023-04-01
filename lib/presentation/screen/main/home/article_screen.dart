@@ -1,7 +1,7 @@
 import 'package:bookand/core/app_strings.dart';
 import 'package:bookand/presentation/provider/article_provider.dart';
-import 'package:bookand/presentation/screen/main/article/component/article_app_bar.dart';
-import 'package:bookand/presentation/screen/main/article/component/bookstore_card.dart';
+import 'package:bookand/presentation/screen/main/home/component/article_app_bar.dart';
+import 'package:bookand/presentation/screen/main/home/component/bookstore_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

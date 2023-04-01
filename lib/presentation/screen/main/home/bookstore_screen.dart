@@ -14,6 +14,7 @@ import '../../../../core/widget/base_layout.dart';
 import '../../../component/bookmark_button.dart';
 import '../main_tab.dart';
 import 'article_screen.dart';
+import 'bookstore_map_screen.dart';
 
 class BookstoreScreen extends ConsumerStatefulWidget {
   static String get routeName => 'bookstore';
@@ -337,23 +338,29 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  InkWell(
-                    onTap: () {},
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: 160,
-                        child: GoogleMap(
-                          initialCameraPosition: CameraPosition(
-                            target: LatLng(
-                              double.parse(bookstoreDetail.info?.latitude ?? '37.541'),
-                              double.parse(bookstoreDetail.info?.longitude ?? '126.986'),
-                            ),
-                            zoom: 13,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 160,
+                      child: GoogleMap(
+                        onTap: (latLon) {
+                          context.pushNamed(BookstoreMapScreen.routeName, params: {
+                            'latitude': latLon.latitude.toString(),
+                            'longitude': latLon.longitude.toString(),
+                          });
+                        },
+                        initialCameraPosition: CameraPosition(
+                          target: LatLng(
+                            double.parse(bookstoreDetail.info?.latitude ?? '37.541'),
+                            double.parse(bookstoreDetail.info?.longitude ?? '126.986'),
                           ),
-                          zoomControlsEnabled: false,
+                          zoom: 16,
                         ),
+                        rotateGesturesEnabled: false,
+                        scrollGesturesEnabled: false,
+                        zoomControlsEnabled: false,
+                        zoomGesturesEnabled: false,
                       ),
                     ),
                   ),
