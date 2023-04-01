@@ -204,7 +204,11 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
                       ),
                       const SizedBox(width: 8),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          final address = bookstoreDetail.info?.address;
+                          if (address == null) return;
+                          Clipboard.setData(ClipboardData(text: address));
+                        },
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
