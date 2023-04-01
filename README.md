@@ -36,24 +36,24 @@ flutter build apk -t lib/core/main.dart --flavor [dev/product] `
 ### App Bundle
 #### Shell
 ```shell
-flutter build -t lib/core/main.dart appbundle --flavor [dev/product] \
+flutter build -t appbundle lib/core/main.dart --flavor [dev/product] \
 --dart-define ANDROID_GOOGLE_MAP_API_KEY=[안드로이드 구글맵 API Key]
 ```
 
 #### PowerShell
 ```shell
-flutter build -t lib/core/main.dart appbundle --flavor [dev/product] `
+flutter build -t appbundle lib/core/main.dart --flavor [dev/product] `
 --dart-define ANDROID_GOOGLE_MAP_API_KEY=[안드로이드 구글맵 API Key]
 ```
 
 ### iOS
 ```shell
-flutter build -t lib/core/main.dart ios --flavor [dev/product] \
+flutter build ios -t lib/core/main.dart --flavor [dev/product] \
 --dart-define IOS_GOOGLE_MAP_API_KEY=[iOS 구글맵 API Key]
 ```
 
 ### ipa
 ```shell
-flutter build -t lib/core/main.dart ipa --flavor [dev/product] \
+flutter build ipa -t lib/core/main.dart --flavor [dev/product] \
 --dart-define IOS_GOOGLE_MAP_API_KEY=[iOS 구글맵 API Key]
 ```
