@@ -7,6 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maps_launcher/maps_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/widget/base_layout.dart';
 import '../../../component/bookmark_button.dart';
@@ -289,7 +291,12 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
                       ),
                       const SizedBox(width: 4),
                       InkWell(
-                        onTap: () {},
+                        onTap: () async {
+                          final uri = Uri.parse(bookstoreDetail.info?.sns ?? '');
+                          if (await canLaunchUrl(uri)) {
+                            await launchUrl(uri, mode: LaunchMode.externalApplication);
+                          }
+                        },
                         child: Text(
                           bookstoreDetail.info?.sns ?? '',
                           style: const TextStyle(
@@ -302,49 +309,59 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 6),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        'assets/images/bookstore/ic_label_12.svg',
-                      ),
-                      const SizedBox(width: 4),
-                      ...List.generate(
-                        bookstoreDetail.themeList?.length ?? 0,
-                        (index) => Text(
-                          '#${bookstoreDetail.themeList?[index]} ',
-                          style: const TextStyle(
-                            color: lightColorFF222222,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12,
-                            letterSpacing: -0.02,
+                  Visibility(
+                    visible: bookstoreDetail.themeList?.isNotEmpty ?? false,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 6),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/images/bookstore/ic_label_12.svg',
                           ),
-                        ),
+                          const SizedBox(width: 4),
+                          ...List.generate(
+                            bookstoreDetail.themeList?.length ?? 0,
+                            (index) => Text(
+                              '#${bookstoreDetail.themeList?[index]} ',
+                              style: const TextStyle(
+                                color: lightColorFF222222,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 12,
+                                letterSpacing: -0.02,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                   const SizedBox(height: 16),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: 160,
-                      child: GoogleMap(
-                        initialCameraPosition: CameraPosition(
-                          target: LatLng(
-                            double.parse(bookstoreDetail.info?.latitude ?? '37.541'),
-                            double.parse(bookstoreDetail.info?.longitude ?? '126.986'),
+                  InkWell(
+                    onTap: () {},
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: 160,
+                        child: GoogleMap(
+                          initialCameraPosition: CameraPosition(
+                            target: LatLng(
+                              double.parse(bookstoreDetail.info?.latitude ?? '37.541'),
+                              double.parse(bookstoreDetail.info?.longitude ?? '126.986'),
+                            ),
+                            zoom: 13,
                           ),
-                          zoom: 13,
+                          zoomControlsEnabled: false,
                         ),
-                        zoomControlsEnabled: false,
                       ),
                     ),
                   ),
                   const SizedBox(height: 16),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      MapsLauncher.launchQuery(bookstoreDetail.info?.address ?? '');
+                    },
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
                       backgroundColor: Colors.white,

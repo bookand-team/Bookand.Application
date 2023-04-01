@@ -55,6 +55,8 @@ dependencies:
   tuple: ^2.0.1
   stack_trace: ^1.11.0
   google_maps_flutter: ^2.2.5
+  url_launcher: ^6.1.10
+  maps_launcher: ^2.2.0
 
 dev_dependencies:
   flutter_test:
