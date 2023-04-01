@@ -1,3 +1,4 @@
+import 'package:bookand/presentation/screen/main/home/bookstore_map_screen.dart';
 import 'package:bookand/presentation/screen/main/my/feedback_screen.dart';
 import 'package:bookand/presentation/screen/main/my/new_bookstore_report_screen.dart';
 import 'package:bookand/presentation/screen/main/my/new_bookstore_report_success.dart';
@@ -16,7 +17,8 @@ import '../../core/config/firebase/firebase_init.dart';
 import '../../core/const/auth_state.dart';
 import '../../domain/model/policy_model.dart';
 import '../screen/login_screen.dart';
-import '../screen/main/article_screen.dart';
+import '../screen/main/home/article_screen.dart';
+import '../screen/main/home/bookstore_screen.dart';
 import '../screen/main/main_tab.dart';
 import '../screen/main/my/account_management_screen.dart';
 import '../screen/main/my/notice_screen.dart';
@@ -57,9 +59,23 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
 
   late List<RouteBase> mainTabRoutes = [
     GoRoute(
-        path: 'article/:id',
+        path: 'article/:id/:isFirstScreen',
         name: ArticleScreen.routeName,
-        builder: (_, state) => ArticleScreen(id: state.params['id']!)),
+        builder: (_, state) => ArticleScreen(
+              id: state.params['id']!,
+              isFirstScreen: state.params['isFirstScreen']!,
+            )),
+    GoRoute(
+        path: 'bookstore/:id',
+        name: BookstoreScreen.routeName,
+        builder: (_, state) => BookstoreScreen(id: state.params['id']!)),
+    GoRoute(
+        path: 'bookstoreMap/:latitude/:longitude',
+        name: BookstoreMapScreen.routeName,
+        builder: (_, state) => BookstoreMapScreen(
+              latitude: state.params['latitude']!,
+              longitude: state.params['longitude']!,
+            )),
     GoRoute(
         path: 'notificationSetting',
         name: NotificationSettingScreen.routeName,

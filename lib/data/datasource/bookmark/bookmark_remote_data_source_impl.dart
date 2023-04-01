@@ -31,6 +31,17 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
   }
 
   @override
+  Future<ResultResponse> addBookstoreBookmark(String accessToken, int bookstoreId) async {
+    final resp = await service.addBookstoreBookmark(accessToken, bookstoreId);
+
+    if (resp.isSuccessful) {
+      return ResultResponse.fromJson(Utf8Util.utf8JsonDecode(resp.bodyString));
+    } else {
+      throw resp;
+    }
+  }
+
+  @override
   Future<ResultResponse> deleteBookmark(
     String accessToken,
     BookmarkCollectionDeleteRequest bookmarkCollectionDeleteRequest,

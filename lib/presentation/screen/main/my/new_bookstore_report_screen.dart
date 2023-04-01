@@ -145,6 +145,7 @@ class _NewBookstoreReportScreenState extends ConsumerState<NewBookstoreReportScr
                         ? searchResultNotFoundWidget()
                         : Scrollbar(
                             child: ListView.separated(
+                              physics: const ClampingScrollPhysics(),
                               controller: scrollController,
                               itemBuilder: (context, index) {
                                 if (index < newBookstoreReportState.searchList.length) {

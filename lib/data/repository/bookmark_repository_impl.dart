@@ -42,6 +42,19 @@ class BookmarkRepositoryImpl implements BookmarkRepository {
   }
 
   @override
+  Future<void> addBookstoreBookmark(int bookstoreId) async {
+    try {
+      final accessToken = await tokenLocalDataSource.getAccessToken();
+      await bookmarkRemoteDataSource.addBookstoreBookmark(accessToken, bookstoreId);
+    } on Response catch (e) {
+      final errorResp = ErrorResponse.fromJson(Utf8Util.utf8JsonDecode(e.bodyString));
+      logger.e(errorResp.toJson());
+    } catch (e) {
+      logger.e('서점 북마크 추가 실패', e);
+    }
+  }
+
+  @override
   Future<void> deleteBookmark(BookmarkType bookmarkType, List<int> contentIdList) async {
     try {
       final accessToken = await tokenLocalDataSource.getAccessToken();

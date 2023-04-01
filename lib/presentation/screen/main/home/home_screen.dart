@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../component/article_card.dart';
+import '../../../component/article_card.dart';
 import 'article_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -51,6 +51,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with AutomaticKeepAlive
     }
 
     return ListView.builder(
+        physics: const ClampingScrollPhysics(),
         controller: scrollController,
         padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
         shrinkWrap: true,
@@ -61,8 +62,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with AutomaticKeepAlive
               padding: EdgeInsets.only(bottom: index == 19 ? 48 : 20),
               child: GestureDetector(
                 onTap: () {
-                  context.pushNamed(ArticleScreen.routeName,
-                      params: {'id': articleList[index].id.toString()});
+                  context.pushNamed(ArticleScreen.routeName, params: {
+                    'id': articleList[index].id.toString(),
+                    'isFirstScreen': 'true',
+                  });
                 },
                 child: ArticleCard(
                   image: CachedNetworkImage(

@@ -20,4 +20,10 @@ abstract class BookstoreService extends ChopperService {
     @Header('Authorization') String accessToken,
     @Body() Map<String, dynamic> body,
   );
+
+  @Get(path: '/{id}')
+  Future<Response> getBookstoreDetail(
+    @Header('Authorization') String accessToken,
+    @Path('id') int id,
+  );
 }

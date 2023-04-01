@@ -54,6 +54,7 @@ class _NoticeScreenState extends ConsumerState<NoticeScreen> {
       appBar: const BaseAppBar(title: AppStrings.notice),
       child: Scrollbar(
         child: ListView.separated(
+          physics: const ClampingScrollPhysics(),
           controller: scrollController,
           itemBuilder: (context, index) {
             if (index < noticeList.length) {
