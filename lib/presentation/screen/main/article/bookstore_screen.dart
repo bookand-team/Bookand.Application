@@ -314,9 +314,12 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       height: 160,
-                      child: const GoogleMap(
+                      child: GoogleMap(
                         initialCameraPosition: CameraPosition(
-                          target: LatLng(37.541, 126.986),
+                          target: LatLng(
+                            double.parse(bookstoreDetail.info?.latitude ?? '37.541'),
+                            double.parse(bookstoreDetail.info?.longitude ?? '126.986'),
+                          ),
                           zoom: 13,
                         ),
                         zoomControlsEnabled: false,

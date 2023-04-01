@@ -86,8 +86,11 @@ class BookstoreInfo {
   final String contact;
   final String facility;
   final String sns;
+  final String latitude;
+  final String longitude;
 
-  BookstoreInfo(this.address, this.businessHours, this.contact, this.facility, this.sns);
+  BookstoreInfo(this.address, this.businessHours, this.contact, this.facility, this.sns,
+      this.latitude, this.longitude);
 
   factory BookstoreInfo.fromJson(Map<String, dynamic> json) => _$BookstoreInfoFromJson(json);
 
