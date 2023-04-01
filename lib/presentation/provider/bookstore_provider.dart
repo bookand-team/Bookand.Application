@@ -22,10 +22,6 @@ class BookstoreStateNotifier extends _$BookstoreStateNotifier {
     }
   }
 
-  void onTapBookstoreShare() {
-    // TODO: 공유하기
-  }
-
   void updateBookstoreBookmark() async {
     final isBookmark = state.isBookmark ?? false;
 

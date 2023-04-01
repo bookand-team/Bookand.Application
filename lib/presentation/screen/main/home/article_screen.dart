@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../../core/widget/base_layout.dart';
 import '../../../../domain/model/bookstore/bookstore_model.dart';
@@ -40,13 +41,17 @@ class _ArticleScreenState extends ConsumerState<ArticleScreen> {
 
     return BaseLayout(
       child: CustomScrollView(
+        physics: const ClampingScrollPhysics(),
         slivers: [
           ArticleAppBar.fromModel(
             articleDetail: articleDetail,
             changeHeight: 170,
             duration: const Duration(milliseconds: 200),
             onTapBookmark: () => articleProvider.updateArticleBookmark(),
-            onTapShare: () => articleProvider.onTapArticleShare(),
+            onTapShare: () {
+              // TODO: 임시
+              Share.share('공유하기 테스트');
+            },
             showCloseBtn: widget.isFirstScreen != 'true',
           ),
           _articleBody(articleDetail.content ?? ''),

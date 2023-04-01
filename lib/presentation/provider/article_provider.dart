@@ -22,10 +22,6 @@ class ArticleStateNotifier extends _$ArticleStateNotifier {
     }
   }
 
-  void onTapArticleShare() {
-    // TODO: 공유하기
-  }
-
   void updateArticleBookmark() async {
     final isBookmark = state.bookmark ?? false;
 

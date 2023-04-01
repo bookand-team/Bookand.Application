@@ -51,6 +51,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with AutomaticKeepAlive
     }
 
     return ListView.builder(
+        physics: const ClampingScrollPhysics(),
         controller: scrollController,
         padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
         shrinkWrap: true,
