@@ -24,6 +24,7 @@ class BookstoreMapScreen extends StatelessWidget {
           zoom: 16,
         ),
         zoomControlsEnabled: false,
+        myLocationButtonEnabled: false,
       ),
     );
   }

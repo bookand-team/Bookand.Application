@@ -40,10 +40,10 @@ class ArticleRepositoryImpl implements ArticleRepository {
   }
 
   @override
-  Future<ArticleModel> getArticleList(int cursorId) async {
+  Future<ArticleModel> getArticleList(int cursorId, int size) async {
     try {
       final accessToken = await tokenLocalDataSource.getAccessToken();
-      final resp = await articleRemoteDataSource.getArticleList(accessToken, cursorId);
+      final resp = await articleRemoteDataSource.getArticleList(accessToken, cursorId, size);
       return resp.data;
     } on Response catch (e) {
       throw ErrorResponse.fromJson(Utf8Util.utf8JsonDecode(e.bodyString));

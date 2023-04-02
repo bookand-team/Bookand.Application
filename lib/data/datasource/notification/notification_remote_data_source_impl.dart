@@ -33,8 +33,8 @@ class NotificationRemoteDataSourceImpl implements NotificationRemoteDataSource {
   }
 
   @override
-  Future<NotificationModel> getNotificationList(String accessToken, int cursorId) async {
-    final resp = await service.getNotificationList(accessToken, cursorId);
+  Future<NotificationModel> getNotificationList(String accessToken, int cursorId, int size) async {
+    final resp = await service.getNotificationList(accessToken, cursorId, size);
 
     if (resp.isSuccessful) {
       return NotificationModel.fromJson(Utf8Util.utf8JsonDecode(resp.bodyString));

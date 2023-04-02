@@ -21,6 +21,7 @@ abstract class NotificationService extends ChopperService {
   Future<Response> getNotificationList(
     @Header('Authorization') String accessToken,
     @Query('cursorId') int cursorId,
+    @Query('size') int size,
   );
 
   @Get(path: '/{notificationId}')
