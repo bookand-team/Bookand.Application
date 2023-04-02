@@ -1,10 +1,10 @@
 import 'package:bookand/core/widget/base_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 //providers
-import 'package:bookand/presentation/provider/map/map_state_proivders.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
 
 //components
 import 'components/no_search_text.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 //providers
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bookand/presentation/provider/map/map_state_proivders.dart';
+import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
 
 class BookMarkButton extends ConsumerWidget {
   const BookMarkButton({Key? key}) : super(key: key);

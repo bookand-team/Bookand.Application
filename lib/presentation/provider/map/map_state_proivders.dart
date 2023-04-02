@@ -1,44 +1,18 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'map_bools_providers.dart';
 
-// 패널을 보일지 말지 결정, 껏다 키며 버튼 높이 조절
-class ShowPanelNotifier extends StateNotifier<bool> {
-  StateNotifierProviderRef ref;
-  late ButtonHeightNotifier buttonHeightCon;
-  late PanelHeightNotifier panelHeightCon;
-  ShowPanelNotifier(this.ref) : super(false) {
-    buttonHeightCon = ref.read(buttonHeightProvider.notifier);
-    panelHeightCon = ref.read(panelHeightProvider.notifier);
-  }
-
-  void toggle() {
-    state = !state;
-    // 켰을 때
-    if (state) {
-      buttonHeightCon.initHeight();
-      panelHeightCon.init();
-    }
-    // 켰을 때
-    else {
-      buttonHeightCon.updateHeight(0);
-    }
-  }
-}
-
-final showPanelProvider = StateNotifierProvider<ShowPanelNotifier, bool>(
-    (ref) => ShowPanelNotifier(ref));
-
-enum ListType { list, showHide, theme, none }
+enum ListType { list, showHide, theme }
 
 //작동 방식 show state 변경 -> show panel toggle
 class ListTypeNotifier extends StateNotifier<ListType> {
   StateNotifierProviderRef ref;
-  late ShowPanelNotifier showPanelCon;
+  late PanelVisibleNotifier showPanelCon;
 
-  ListTypeNotifier(this.ref) : super(ListType.none) {
-    showPanelCon = ref.read(showPanelProvider.notifier);
+  ListTypeNotifier(this.ref) : super(ListType.list) {
+    showPanelCon = ref.read(panelVisibleProvider.notifier);
   }
   void toggle(ListType type) {
-    state = (state == type) ? ListType.none : type;
+    state = (state == type) ? ListType.list : type;
   }
 
   toggleTheme() {
@@ -60,29 +34,6 @@ class ListTypeNotifier extends StateNotifier<ListType> {
 final listTypeProvider = StateNotifierProvider<ListTypeNotifier, ListType>(
     (ref) => ListTypeNotifier(ref));
 
-class BookMarkToggleNotifier extends StateNotifier<bool> {
-  BookMarkToggleNotifier() : super(false);
-
-  void toggle() {
-    state = !state;
-  }
-}
-
-final bookMarkToggleProvider =
-    StateNotifierProvider<BookMarkToggleNotifier, bool>(
-        (ref) => BookMarkToggleNotifier());
-
-class GpsToggleNotifier extends StateNotifier<bool> {
-  GpsToggleNotifier() : super(false);
-
-  void toggle() {
-    state = !state;
-  }
-}
-
-final gpsToggleProvider = StateNotifierProvider<GpsToggleNotifier, bool>(
-    (ref) => GpsToggleNotifier());
-
 //패널 위의 버튼 조절
 class ButtonHeightNotifier extends StateNotifier<double> {
   ButtonHeightNotifier() : super(0);
@@ -90,6 +41,14 @@ class ButtonHeightNotifier extends StateNotifier<double> {
 
   //패널 꺼졌을 때
   void initZero() {
+    state = 0;
+  }
+
+  void toPanel() {
+    state = initheight;
+  }
+
+  void toBottom() {
     state = 0;
   }
 
@@ -115,60 +74,15 @@ final buttonHeightProvider =
     StateNotifierProvider<ButtonHeightNotifier, double>(
         (ref) => ButtonHeightNotifier());
 
-class SearchNotifier extends StateNotifier<bool> {
-  SearchNotifier() : super(false);
-  void toggle() {
-    state = !state;
-  }
-}
-
-final searchProvider =
-    StateNotifierProvider<SearchNotifier, bool>((ref) => SearchNotifier());
-
-//패널 height 조절
-class PanelHeightNotifier extends StateNotifier<double> {
-  PanelHeightNotifier() : super(200);
-  static const double initHeight = 200;
-  void updateHeight(double value) {
-    state = value;
-  }
-
-  void updateHeightDelta(double value) {
-    if (state + value > 0) {
-      state += value;
-    }
-  }
-
-  void init() {
-    state = initHeight;
-  }
-}
-
-final panelHeightProvider = StateNotifierProvider<PanelHeightNotifier, double>(
-    (ref) => PanelHeightNotifier());
-
-class SearchBarShow extends StateNotifier<bool> {
-  SearchBarShow() : super(true);
-
-  void show() {
-    state = true;
-  }
-
-  void notShow() {
-    state = false;
-  }
-}
-
-final searchBarShowProvider =
-    StateNotifierProvider<SearchBarShow, bool>((ref) => SearchBarShow());
-
-enum CustomPanelState { opend, scroll, closed }
+enum CustomPanelState { opend, scrolling, closed }
 
 class PanelStateNotifier extends StateNotifier<CustomPanelState> {
   PanelStateNotifier() : super(CustomPanelState.closed);
   updateState(CustomPanelState newState) {
+    print(state);
     if (state != newState) {
       state = newState;
+      print('panel state change = ' + state.toString());
     }
   }
 }

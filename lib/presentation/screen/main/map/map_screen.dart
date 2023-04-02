@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bookand/core/widget/slide_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -14,13 +16,21 @@ import 'components/refresh_button.dart';
 
 //providers
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
 import 'package:bookand/presentation/provider/map/map_state_proivders.dart';
 import 'package:bookand/presentation/provider/map/map_controller_provider.dart';
 import 'package:bookand/presentation/provider/map/map_marker_provider.dart';
 
-class MapScreen extends ConsumerWidget {
-  const MapScreen({super.key});
+class MapScreen extends ConsumerStatefulWidget {
+  const MapScreen({Key? key}) : super(key: key);
 
+  @override
+  _MapScreenState createState() => _MapScreenState();
+}
+
+enum CustomPanelState { opend, closed }
+
+class _MapScreenState extends ConsumerState<MapScreen> {
   // 버튼 하단, 오른쪽  패딩
   final double buttonPading = 15;
   //버튼 사이의 간격
@@ -39,32 +49,114 @@ class MapScreen extends ConsumerWidget {
   final TextStyle hideTitle = const TextStyle(
       fontSize: 18, fontWeight: FontWeight.w700, color: Color(0xff222222));
 
+  //varibable
+  CustomPanelState panelState = CustomPanelState.closed;
+  bool panelVisible = false;
+  double buttonHeight = 0;
+  double initHeihgt = 200;
+  bool panelScrolling = false;
+
+  void updatePanelState(CustomPanelState state) {
+    if (panelState != state) {
+      setState(() {
+        panelState = state;
+      });
+    }
+  }
+
+  void panelClosed() {
+    updatePanelState(CustomPanelState.closed);
+  }
+
+  void panelOpend() {
+    updatePanelState(CustomPanelState.opend);
+  }
+
+  void isPanelScrolling() {
+    if (panelScrolling == false) {
+      setState(() {
+        panelScrolling = true;
+      });
+    }
+  }
+
+  void isNotPanelScrolling() {
+    if (panelScrolling == true) {
+      setState(() {
+        panelScrolling = false;
+      });
+    }
+  }
+
+  void updateButtonHeight(double height) {
+    setState(() {
+      buttonHeight = height;
+    });
+  }
+
+  void button2Panel() {
+    setState(() {
+      buttonHeight = initHeihgt;
+    });
+  }
+
+  void button2Bottom() {
+    setState(() {
+      buttonHeight = 0;
+    });
+  }
+
+  void showPanel() {
+    button2Panel();
+    setState(() {
+      panelVisible = true;
+    });
+  }
+
+  void hidePanel() {
+    button2Bottom();
+    setState(() {
+      panelVisible = false;
+    });
+  }
+
+  void togglePanelVisible() {
+    //끌 때
+    if (panelVisible) {
+      hidePanel();
+    }
+    //끌 때
+    else {
+      showPanel();
+    }
+  }
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // 패널
-    final PanelController panelController = PanelController();
+  Widget build(BuildContext context) {
     final double slideMaxHeight =
         MediaQuery.of(context).size.height * slideMaxHeightFactor;
-
-    // providers
-    final double buttonHeight = ref.watch(buttonHeightProvider);
-    final heightCon = ref.read(buttonHeightProvider.notifier);
-    //
-    final panelState = ref.read(panelStateProvider);
-    final panelStateCon = ref.read(panelStateProvider.notifier);
-    //
-    final bool showPanel = ref.watch(showPanelProvider);
-    final showPanelCon = ref.read(showPanelProvider.notifier);
-    //
-    final searchBarShowCon = ref.read(searchBarShowProvider.notifier);
-    //
-    final ListType listType = ref.watch(listTypeProvider);
     //
     final Set<Marker> markers = ref.watch(mapMarkerNotiferProvider);
-    // final markerCon = ref.watch(mapMarkerNotiferProvider.notifier);
     //
     final mapControllerCon = ref.read(mapControllerNotiferProvider.notifier);
     //
+    final searchBarVisibleCon = ref.read(searchBarShowProvider.notifier);
+    //
+    final listType = ref.watch(listTypeProvider);
+    //
+    // final bool panelVisible = ref.watch(panelVisibleProvider);
+    // final panelVisibleCon = ref.read(panelVisibleProvider.notifier);
+    //
+    // final double buttonHeight = ref.watch(buttonHeightProvider);
+    // final buttonHeightCon = ref.read(buttonHeightProvider.notifier);
+
+    void showSearhBar() {
+      searchBarVisibleCon.show();
+    }
+
+    void hideSearhBar() {
+      searchBarVisibleCon.hide();
+    }
 
     Widget getHideStoreContent() {
       return Column(
@@ -92,6 +184,7 @@ class MapScreen extends ConsumerWidget {
 
     Widget getPanelContent() {
       late Widget widget;
+
       switch (listType) {
         case ListType.list:
           widget = getListContent();
@@ -100,9 +193,6 @@ class MapScreen extends ConsumerWidget {
           widget = getHideStoreContent();
           break;
         case ListType.theme:
-          widget = const SizedBox();
-          break;
-        case ListType.none:
           widget = const SizedBox();
           break;
       }
@@ -114,9 +204,6 @@ class MapScreen extends ConsumerWidget {
         child: Stack(
       children: [
         SlidingUpPanel(
-          controller: panelController,
-          //리스트 버튼 토글 되면 출력
-          renderPanelSheet: showPanel,
           boxShadow: const [],
           //오픈되면 radius 삭제
           borderRadius: (panelState == CustomPanelState.opend)
@@ -125,19 +212,30 @@ class MapScreen extends ConsumerWidget {
                   topLeft: Radius.circular(slideBraidus),
                   topRight: Radius.circular(slideBraidus)),
           maxHeight: slideMaxHeight,
-          minHeight: slideMinHeight,
+          minHeight: panelVisible ? slideMinHeight : 0,
           onPanelOpened: () {
-            panelStateCon.updateState(CustomPanelState.opend);
+            panelOpend();
+            isNotPanelScrolling();
           },
           onPanelSlide: (position) {
-            // panelStateCon.updateState(CustomPanelState.scroll);
+            if (0.1 < position && position < 0.85) {
+              print('is scrolling');
+
+              print(panelScrolling);
+              isPanelScrolling();
+            } else {
+              isNotPanelScrolling();
+            }
             //패널이 움직이는 동안 높이 계산하여 변환
             double updateHeight =
                 slideMinHeight + position * (slideMaxHeight - slideMinHeight);
-            if (showPanel) heightCon.updateHeight(updateHeight);
+            if (panelVisible) {
+              updateButtonHeight(updateHeight);
+            }
           },
           onPanelClosed: () {
-            panelStateCon.updateState(CustomPanelState.closed);
+            panelClosed();
+            isNotPanelScrolling();
           },
           panelBuilder: (sc) {
             //펼친 상태에서 스크롤 방향에 따라 검색 바 출력할지 판단
@@ -146,39 +244,44 @@ class MapScreen extends ConsumerWidget {
                 ScrollDirection scrollDirection =
                     sc.position.userScrollDirection;
                 if (scrollDirection == ScrollDirection.forward) {
-                  searchBarShowCon.show();
+                  showSearhBar();
                 } else {
-                  searchBarShowCon.notShow();
+                  hideSearhBar();
                 }
               }
             });
-            return showPanel
-                ? GestureDetector(
-                    //close일 때 아래 슬라이드 감지
-                    onPanUpdate: (details) {
-                      if (details.delta.dy > 0) {
-                        showPanelCon.toggle();
-                      }
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(15),
-                      child: Column(
-                        children: [
-                          slideIcon,
-                          Expanded(
-                            child: SingleChildScrollView(
-                              controller: sc,
-                              child: getPanelContent(),
-                            ),
-                          ),
-                        ],
+            return GestureDetector(
+              //close일 때 + panel show 일 때 아래 슬라이딩 감지 후 닫기
+              onPanUpdate: (details) {
+                if (details.delta.dy > 0 &&
+                    panelState == CustomPanelState.closed &&
+                    panelVisible &&
+                    !panelScrolling) {
+                  hidePanel();
+                }
+              },
+              child: Container(
+                padding: const EdgeInsets.all(15),
+                child: Column(
+                  children: [
+                    slideIcon,
+                    Expanded(
+                      child: SingleChildScrollView(
+                        controller: sc,
+                        // close일 때는 scroll 감지 안되게
+                        physics: (panelState == CustomPanelState.opend)
+                            ? null
+                            : const NeverScrollableScrollPhysics(),
+
+                        child: getPanelContent(),
                       ),
                     ),
-                  )
-                : const SizedBox();
+                  ],
+                ),
+              ),
+            );
           },
 
-          // body: myMap.googleMap,
           body: GoogleMap(
               onMapCreated: (controller) =>
                   mapControllerCon.initController(controller),
@@ -198,7 +301,10 @@ class MapScreen extends ConsumerWidget {
                 Positioned(
                     right: buttonPading,
                     bottom: buttonHeight + buttonSpace + buttonPading,
-                    child: const ListButton()),
+                    child: ListButton(
+                      onTap: () => togglePanelVisible(),
+                      selected: panelVisible,
+                    )),
                 Positioned(
                     right: buttonPading,
                     bottom: buttonHeight + buttonPading,

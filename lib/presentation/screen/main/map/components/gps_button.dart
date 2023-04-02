@@ -1,11 +1,11 @@
 // import 'package:bookand/presentation/provider/geolocator_permission_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 
 //providers
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
 import 'package:bookand/presentation/provider/map/geolocator_position_provider.dart';
-import 'package:bookand/presentation/provider/map/map_state_proivders.dart';
 import 'package:bookand/presentation/provider/map/map_controller_provider.dart';
 import 'package:bookand/presentation/provider/map/map_marker_provider.dart';
 
