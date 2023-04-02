@@ -52,61 +52,64 @@ class _NoticeScreenState extends ConsumerState<NoticeScreen> {
 
     return BaseLayout(
       appBar: const BaseAppBar(title: AppStrings.notice),
-      child: Scrollbar(
-        child: ListView.separated(
-          physics: const ClampingScrollPhysics(),
+      child: SafeArea(
+        child: Scrollbar(
           controller: scrollController,
-          itemBuilder: (context, index) {
-            if (index < noticeList.length) {
-              return DrawerListTile(
-                title: Text(
-                  noticeList[index].title,
-                  style: const TextStyle(
-                    color: Color(0xFF222222),
-                    fontWeight: FontWeight.w400,
-                    fontSize: 15,
-                    letterSpacing: -0.02,
+          child: ListView.separated(
+            physics: const ClampingScrollPhysics(),
+            controller: scrollController,
+            itemBuilder: (context, index) {
+              if (index < noticeList.length) {
+                return DrawerListTile(
+                  title: Text(
+                    noticeList[index].title,
+                    style: const TextStyle(
+                      color: Color(0xFF222222),
+                      fontWeight: FontWeight.w400,
+                      fontSize: 15,
+                      letterSpacing: -0.02,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                subTitle: Text(
-                  DateFormat('yyyy-MM-dd').format(DateTime.parse(noticeList[index].createdAt)),
-                  style: const TextStyle(
-                    color: Color(0xFFACACAC),
-                    fontWeight: FontWeight.w400,
-                    fontSize: 12,
-                    letterSpacing: -0.02,
+                  subTitle: Text(
+                    DateFormat('yyyy-MM-dd').format(DateTime.parse(noticeList[index].createdAt)),
+                    style: const TextStyle(
+                      color: Color(0xFFACACAC),
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12,
+                      letterSpacing: -0.02,
+                    ),
                   ),
-                ),
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeInOut,
-                drawerBackground: const Color(0xFFF5F5F7),
-                child: Markdown(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  data: noticeList[index].content,
-                ),
-              );
-            }
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                  drawerBackground: const Color(0xFFF5F5F7),
+                  child: Markdown(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    data: noticeList[index].content,
+                  ),
+                );
+              }
 
-            if (!noticeProvider.isLoading && noticeProvider.isEnd) {
-              return const SizedBox();
-            } else {
-              return const Padding(
-                padding: EdgeInsets.symmetric(vertical: 20),
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            }
-          },
-          separatorBuilder: (_, __) => const Divider(
-            height: 0,
-            thickness: 2,
-            color: Color(0xFFF5F5F7),
+              if (!noticeProvider.isLoading && noticeProvider.isEnd) {
+                return const SizedBox();
+              } else {
+                return const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+            },
+            separatorBuilder: (_, __) => const Divider(
+              height: 0,
+              thickness: 2,
+              color: Color(0xFFF5F5F7),
+            ),
+            itemCount: noticeList.length + 1,
           ),
-          itemCount: noticeList.length + 1,
         ),
       ),
     );

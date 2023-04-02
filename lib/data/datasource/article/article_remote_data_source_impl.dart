@@ -33,8 +33,8 @@ class ArticleRemoteDataSourceImpl implements ArticleRemoteDataSource {
   }
 
   @override
-  Future<BaseResponse<ArticleModel>> getArticleList(String accessToken, int cursorId) async {
-    final resp = await service.getArticleList(accessToken, cursorId);
+  Future<BaseResponse<ArticleModel>> getArticleList(String accessToken, int cursorId, int size) async {
+    final resp = await service.getArticleList(accessToken, cursorId, size);
 
     if (resp.isSuccessful) {
       return BaseResponse<ArticleModel>.fromJson(

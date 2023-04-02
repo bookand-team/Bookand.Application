@@ -13,6 +13,7 @@ class HomeStateNotifier extends _$HomeStateNotifier {
   bool isLoading = false;
   bool isEnd = false;
   int cursorId = 0;
+  int size = 15;
 
   @override
   List<ArticleContent> build() => [];
@@ -35,7 +36,7 @@ class HomeStateNotifier extends _$HomeStateNotifier {
     try {
       isLoading = true;
       cursorId = 0;
-      final article = await ref.read(articleRepositoryProvider).getArticleList(cursorId);
+      final article = await ref.read(articleRepositoryProvider).getArticleList(cursorId, size);
       cursorId = article.content.last.id;
       isEnd = article.last;
       state = article.content;
@@ -51,7 +52,7 @@ class HomeStateNotifier extends _$HomeStateNotifier {
       if (!isLoading && isEnd) return;
 
       isLoading = true;
-      final article = await ref.read(articleRepositoryProvider).getArticleList(cursorId);
+      final article = await ref.read(articleRepositoryProvider).getArticleList(cursorId, size);
       isEnd = article.last;
       state = [
         ...state,

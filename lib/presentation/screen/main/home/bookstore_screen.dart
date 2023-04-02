@@ -319,6 +319,7 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
                 scrollGesturesEnabled: false,
                 zoomControlsEnabled: false,
                 zoomGesturesEnabled: false,
+                myLocationButtonEnabled: false,
               ),
             ),
           ),
