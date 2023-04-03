@@ -1,20 +1,23 @@
 import 'package:bookand/core/widget/slide_icon.dart';
+import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
+import 'package:bookand/presentation/provider/map/map_theme_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:chips_choice/chips_choice.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-class ThemeDialog extends StatefulWidget {
+class ThemeDialog extends ConsumerStatefulWidget {
   const ThemeDialog({Key? key}) : super(key: key);
 
   @override
   _ThemeDialogState createState() => _ThemeDialogState();
 }
 
-class _ThemeDialogState extends State<ThemeDialog> {
+class _ThemeDialogState extends ConsumerState<ThemeDialog> {
   final EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 15);
   final Radius bRaidus = const Radius.circular(24);
   final Radius chipBRaidus = const Radius.circular(4);
 
-  //장비에 따라 달라질 수 있음. 디자이너나 기획자한테 말해서 동적인건지 정적인건지 알아내야함
+  //고정
   final double wrapSpacing = 15;
   final double wrapVerticalSpacing = 10;
 
@@ -36,21 +39,52 @@ class _ThemeDialogState extends State<ThemeDialog> {
 
   final buttonRaidus = const Radius.circular(8);
 
-  final List<String> options = const [
-    '여행',
-    '음악',
-    '그림',
-    '애완동물',
-    '영화',
-    '추리',
-    '역사'
-  ];
-  List<int> selected = [];
+  List<String> options = MapThemeNotifier.options;
+  List<String> selectedList = [];
+  //
+  late ThemeToggleNotifier buttonSelectCon;
+  late MapThemeNotifier themeCon;
+
+  @override
+  void initState() {
+    buttonSelectCon = ref.read(themeToggleProvider.notifier);
+    selectedList = ref.read(mapThemeNotifierProvider);
+    themeCon = ref.read(mapThemeNotifierProvider.notifier);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    //위젯이 사라질 때 button selection은 deactivate, theme 선택한 게 있으면 그걸로 활성화 여부 판별
+    Future.delayed(
+        const Duration(milliseconds: 200), () => buttonSelectCon.deactivate());
+
+    super.dispose();
+  }
+
+  void toggleTheme(String value) {
+    //안전성 점검
+    if (options.contains(value)) {
+      //있으면 제거
+      if (selectedList.contains(value)) {
+        setState(() {
+          selectedList.remove(value);
+        });
+      }
+      //없으면 추가
+      else {
+        setState(() {
+          selectedList.add(value);
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    bool isSelected = selected.isNotEmpty;
+    bool themeSelected = selectedList.isNotEmpty;
     Size screenSize = MediaQuery.of(context).size;
+
     return Dialog(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -99,40 +133,34 @@ class _ThemeDialogState extends State<ThemeDialog> {
               child: Wrap(
                 spacing: wrapSpacing,
                 runSpacing: wrapVerticalSpacing,
-                children: List.generate(
-                    options.length,
-                    (index) => SizedBox(
-                          // margin: EdgeInsets.only(
-                          // right: ((index + 1) % 4 == 0) ? 0 : 5),
-                          width: chipSize.width,
-                          height: chipSize.height,
-                          child: FilterChip(
-                            showCheckmark: false,
-                            padding: EdgeInsets.zero,
-                            backgroundColor: chipColor,
-                            side: BorderSide.none,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(chipBRaidus)),
-                            selectedColor: selectedColor,
-                            selected: selected.contains(index),
-                            labelStyle: chipStyle.copyWith(
-                                color: selected.contains(index)
-                                    ? Colors.white
-                                    : null),
-                            label: Center(
-                              child: Text(
-                                options[index],
-                              ),
-                            ),
-                            onSelected: (value) {
-                              setState(() {
-                                value
-                                    ? selected.add(index)
-                                    : selected.remove(index);
-                              });
-                            },
-                          ),
-                        )),
+                children: List.generate(options.length, (index) {
+                  String value = options[index];
+                  bool chipSelected = selectedList.contains(value);
+                  return SizedBox(
+                    width: chipSize.width,
+                    height: chipSize.height,
+                    child: FilterChip(
+                      showCheckmark: false,
+                      padding: EdgeInsets.zero,
+                      backgroundColor: chipColor,
+                      side: BorderSide.none,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(chipBRaidus)),
+                      selectedColor: selectedColor,
+                      selected: chipSelected,
+                      labelStyle: chipStyle.copyWith(
+                          color: chipSelected ? Colors.white : null),
+                      label: Center(
+                        child: Text(
+                          options[index],
+                        ),
+                      ),
+                      onSelected: (_) {
+                        toggleTheme(value);
+                      },
+                    ),
+                  );
+                }),
               ),
             ),
             const SizedBox(
@@ -140,18 +168,21 @@ class _ThemeDialogState extends State<ThemeDialog> {
             ),
             //적용 버튼
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                themeCon.addThemes(selectedList);
+                context.pop();
+              },
               child: Container(
                 width: buttonSize.width,
                 height: buttonSize.height,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(buttonRaidus),
-                    color: isSelected ? selectedColor : buttonColor),
+                    color: themeSelected ? selectedColor : buttonColor),
                 child: Center(
                     child: Text(
                   '적용',
                   style: buttonStyle.copyWith(
-                      color: isSelected ? Colors.white : null),
+                      color: themeSelected ? Colors.white : null),
                 )),
               ),
             ),

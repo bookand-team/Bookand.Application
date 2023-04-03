@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bookand/core/widget/slide_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -8,16 +6,18 @@ import '../../../../core/widget/base_layout.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 //components
-import 'components/top_bar/top_bar.dart';
-import 'components/book_store_tile.dart';
-import 'components/gps_button.dart';
-import 'components/list_button.dart';
-import 'components/refresh_button.dart';
+import '../../../component/map/top_bar/top_bar.dart';
+import 'package:bookand/presentation/component/map/book_store_tile.dart';
+import 'package:bookand/presentation/component/map/gps_button.dart';
+import 'package:bookand/presentation/component/map/list_button.dart';
+import 'package:bookand/presentation/component/map/refresh_button.dart';
 
 //providers
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:bookand/presentation/provider/map/map_button_height_provider.dart';
+import 'package:bookand/presentation/provider/map/map_panel_content_type_provider.dart';
+import 'package:bookand/presentation/provider/map/map_panel_visible_provider.dart';
 import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
-import 'package:bookand/presentation/provider/map/map_state_proivders.dart';
 import 'package:bookand/presentation/provider/map/map_controller_provider.dart';
 import 'package:bookand/presentation/provider/map/map_marker_provider.dart';
 
@@ -37,9 +37,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   final double buttonSpace = 40;
   //sidle panel 슬라이딩 패널
   final double slideBraidus = 24;
-  final double slideMaxHeightFactor = 1;
-  final double slideMinHeightFactor = 0.4;
-  final double slideMinHeight = ButtonHeightNotifier.initheight;
+  // slide max height는 기기 최대 크기
+  final double slideMinHeight = MapButtonHeightNotifier.panelHeight;
 
   // init camera
   static const initCamera =
@@ -51,9 +50,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
   //varibable
   CustomPanelState panelState = CustomPanelState.closed;
-  bool panelVisible = false;
-  double buttonHeight = 0;
-  double initHeihgt = 200;
+  // panel state에서 관리하려고 하면 open -> scrolling으로 갈 때 오류가 나서 분리
   bool panelScrolling = false;
 
   void updatePanelState(CustomPanelState state) {
@@ -88,53 +85,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     }
   }
 
-  void updateButtonHeight(double height) {
-    setState(() {
-      buttonHeight = height;
-    });
-  }
-
-  void button2Panel() {
-    setState(() {
-      buttonHeight = initHeihgt;
-    });
-  }
-
-  void button2Bottom() {
-    setState(() {
-      buttonHeight = 0;
-    });
-  }
-
-  void showPanel() {
-    button2Panel();
-    setState(() {
-      panelVisible = true;
-    });
-  }
-
-  void hidePanel() {
-    button2Bottom();
-    setState(() {
-      panelVisible = false;
-    });
-  }
-
-  void togglePanelVisible() {
-    //끌 때
-    if (panelVisible) {
-      hidePanel();
-    }
-    //끌 때
-    else {
-      showPanel();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final double slideMaxHeight =
-        MediaQuery.of(context).size.height * slideMaxHeightFactor;
+    final double slideMaxHeight = MediaQuery.of(context).size.height;
     //
     final Set<Marker> markers = ref.watch(mapMarkerNotiferProvider);
     //
@@ -142,20 +95,34 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     //
     final searchBarVisibleCon = ref.read(searchBarShowProvider.notifier);
     //
-    final listType = ref.watch(listTypeProvider);
+    final ContentType listType = ref.watch(mapPanelContentTypeNotifierProvider);
     //
-    // final bool panelVisible = ref.watch(panelVisibleProvider);
-    // final panelVisibleCon = ref.read(panelVisibleProvider.notifier);
+    final double buttonHeight = ref.watch(mapButtonHeightNotifierProvider);
+    final buttonHeightCon = ref.read(mapButtonHeightNotifierProvider.notifier);
     //
-    // final double buttonHeight = ref.watch(buttonHeightProvider);
-    // final buttonHeightCon = ref.read(buttonHeightProvider.notifier);
+    final bool panelVisible = ref.watch(mapPanelVisibleNotifierProvider);
+    final panelVisibleCon = ref.read(mapPanelVisibleNotifierProvider.notifier);
+    //
+    final bool hideStoreVisible = ref.watch(hideStoreToggleProvider);
 
+    /// bottom sheet에서 제스처에 따라 search bar 활성화 때 호출
     void showSearhBar() {
       searchBarVisibleCon.show();
     }
 
+    /// bottom sheet에서 제스처에 따라 search bar 비활성화 때 호출
     void hideSearhBar() {
       searchBarVisibleCon.hide();
+    }
+
+    /// bottom sheet에서 슬라이딩 때 button 높이 조절
+    void updateButtonHeight(double height) {
+      buttonHeightCon.updateHeight(height);
+    }
+
+    /// bottom sheet에서 제스처에 따라 panel 비활성화할 때 호출
+    void hidePanel() {
+      panelVisibleCon.hidePanel();
     }
 
     Widget getHideStoreContent() {
@@ -183,21 +150,11 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     }
 
     Widget getPanelContent() {
-      late Widget widget;
-
-      switch (listType) {
-        case ListType.list:
-          widget = getListContent();
-          break;
-        case ListType.showHide:
-          widget = getHideStoreContent();
-          break;
-        case ListType.theme:
-          widget = const SizedBox();
-          break;
+      if (hideStoreVisible) {
+        return getHideStoreContent();
+      } else {
+        return getListContent();
       }
-
-      return widget;
     }
 
     return BaseLayout(
@@ -215,13 +172,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           minHeight: panelVisible ? slideMinHeight : 0,
           onPanelOpened: () {
             panelOpend();
-            isNotPanelScrolling();
           },
           onPanelSlide: (position) {
-            if (0.1 < position && position < 0.85) {
-              print('is scrolling');
-
-              print(panelScrolling);
+            if (0.05 < position && position < 0.7) {
               isPanelScrolling();
             } else {
               isNotPanelScrolling();
@@ -230,12 +183,12 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             double updateHeight =
                 slideMinHeight + position * (slideMaxHeight - slideMinHeight);
             if (panelVisible) {
+              print(updateHeight);
               updateButtonHeight(updateHeight);
             }
           },
           onPanelClosed: () {
             panelClosed();
-            isNotPanelScrolling();
           },
           panelBuilder: (sc) {
             //펼친 상태에서 스크롤 방향에 따라 검색 바 출력할지 판단
@@ -283,6 +236,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           },
 
           body: GoogleMap(
+              zoomControlsEnabled: false,
               onMapCreated: (controller) =>
                   mapControllerCon.initController(controller),
               markers: markers,
@@ -295,21 +249,18 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         ),
 
         // buttons, open 상태일 때는 출력안함
-        ...(panelState == CustomPanelState.opend)
-            ? [const SizedBox()]
-            : [
+        ...(panelState == CustomPanelState.closed || panelScrolling)
+            ? [
                 Positioned(
                     right: buttonPading,
                     bottom: buttonHeight + buttonSpace + buttonPading,
-                    child: ListButton(
-                      onTap: () => togglePanelVisible(),
-                      selected: panelVisible,
-                    )),
+                    child: const ListButton()),
                 Positioned(
                     right: buttonPading,
                     bottom: buttonHeight + buttonPading,
                     child: const GpsButton()),
               ]
+            : [const SizedBox()]
       ],
     ));
   }

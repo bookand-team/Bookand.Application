@@ -56,7 +56,6 @@ dependencies:
   stack_trace: ^1.11.0
   google_maps_flutter: ^2.2.5
   sliding_up_panel: ^2.0.0+1
-  chips_choice: ^3.0.0
   geolocator: ^9.0.2
 
 dev_dependencies:

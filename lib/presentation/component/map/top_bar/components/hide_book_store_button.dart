@@ -1,7 +1,7 @@
+import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
 import 'package:flutter/material.dart';
 //providers
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bookand/presentation/provider/map/map_state_proivders.dart';
 
 class HideBookStoreButton extends ConsumerWidget {
   const HideBookStoreButton({Key? key}) : super(key: key);
@@ -16,11 +16,10 @@ class HideBookStoreButton extends ConsumerWidget {
   final double iconSize = 6;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ListType listType = ref.watch(listTypeProvider);
-    final con = ref.read(listTypeProvider.notifier);
-    final bool selected = listType == ListType.showHide;
+    final bool selected = ref.watch(hideStoreToggleProvider);
+    final con = ref.read(hideStoreToggleProvider.notifier);
     return GestureDetector(
-        onTap: () => con.toggleShowHide(),
+        onTap: () => con.toggle(),
         child: Container(
           margin: EdgeInsets.all(margin),
           width: size.width,

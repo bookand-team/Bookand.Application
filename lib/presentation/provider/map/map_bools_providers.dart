@@ -1,30 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'map_state_proivders.dart';
 
-// 패널을 보일지 말지 결정, 껏다 키며 버튼 높이 조절
-class PanelVisibleNotifier extends StateNotifier<bool> {
-  StateNotifierProviderRef ref;
-  late ButtonHeightNotifier buttonHeightCon;
-  PanelVisibleNotifier(this.ref) : super(false) {
-    buttonHeightCon = ref.read(buttonHeightProvider.notifier);
-  }
+const bool show = true;
+const bool hide = false;
 
-  void toggle() {
-    // 켰을 때
-    if (!state) {
-      buttonHeightCon.toPanel();
-    }
-    // 껐을 때
-    else {
-      buttonHeightCon.toBottom();
-    }
-    state = !state;
-  }
-}
-
-final panelVisibleProvider = StateNotifierProvider<PanelVisibleNotifier, bool>(
-    (ref) => PanelVisibleNotifier(ref));
-
+//북마크 버튼에 따라 토글되는 state
 class BookMarkToggleNotifier extends StateNotifier<bool> {
   BookMarkToggleNotifier() : super(false);
 
@@ -37,6 +16,7 @@ final bookMarkToggleProvider =
     StateNotifierProvider<BookMarkToggleNotifier, bool>(
         (ref) => BookMarkToggleNotifier());
 
+//gps 버튼에 따라 토글되는 state
 class GpsToggleNotifier extends StateNotifier<bool> {
   GpsToggleNotifier() : super(false);
 
@@ -48,6 +28,7 @@ class GpsToggleNotifier extends StateNotifier<bool> {
 final gpsToggleProvider = StateNotifierProvider<GpsToggleNotifier, bool>(
     (ref) => GpsToggleNotifier());
 
+//search page에서 사용할 test state
 class SearchNotifier extends StateNotifier<bool> {
   SearchNotifier() : super(false);
   void toggle() {
@@ -58,8 +39,9 @@ class SearchNotifier extends StateNotifier<bool> {
 final searchProvider =
     StateNotifierProvider<SearchNotifier, bool>((ref) => SearchNotifier());
 
-class SearchBarShow extends StateNotifier<bool> {
-  SearchBarShow() : super(true);
+///map bottom sheet gesture에 따라 변경되는 search bar visible state
+class SearchBarVisibleNotifier extends StateNotifier<bool> {
+  SearchBarVisibleNotifier() : super(true);
 
   void show() {
     state = true;
@@ -71,4 +53,38 @@ class SearchBarShow extends StateNotifier<bool> {
 }
 
 final searchBarShowProvider =
-    StateNotifierProvider<SearchBarShow, bool>((ref) => SearchBarShow());
+    StateNotifierProvider<SearchBarVisibleNotifier, bool>(
+        (ref) => SearchBarVisibleNotifier());
+
+///숨은 서점 버튼에 따라 토글되는 hide store visible state
+class HideStoreToggleNotifier extends StateNotifier<bool> {
+  HideStoreToggleNotifier() : super(false);
+
+  void toggle() {
+    state = !state;
+  }
+}
+
+final hideStoreToggleProvider =
+    StateNotifierProvider<HideStoreToggleNotifier, bool>(
+        (ref) => HideStoreToggleNotifier());
+
+///theme 버튼 열고 있을 때 활성화 용
+class ThemeToggleNotifier extends StateNotifier<bool> {
+  ThemeToggleNotifier() : super(false);
+
+  void toggle() {
+    state = !state;
+  }
+
+  void activate() {
+    state = true;
+  }
+
+  void deactivate() {
+    state = false;
+  }
+}
+
+final themeToggleProvider = StateNotifierProvider<ThemeToggleNotifier, bool>(
+    (ref) => ThemeToggleNotifier());

@@ -1,8 +1,9 @@
+import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
+import 'package:bookand/presentation/provider/map/map_theme_provider.dart';
 import 'package:flutter/material.dart';
 //components
-import 'package:bookand/presentation/screen/main/map/components/theme_dialog/theme_dialog.dart';
+import 'package:bookand/presentation/component/map/theme_dialog/theme_dialog.dart';
 //providers
-import 'package:bookand/presentation/provider/map/map_state_proivders.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ThemeButton extends ConsumerWidget {
@@ -23,19 +24,39 @@ class ThemeButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ListType listType = ref.watch(listTypeProvider);
-    final con = ref.read(listTypeProvider.notifier);
-    final bool selected = listType == ListType.theme;
+    final List<String> selectedOptions = ref.watch(mapThemeNotifierProvider);
+    final bool buttonSelected = ref.watch(themeToggleProvider);
+    final buttonSelectCon = ref.watch(themeToggleProvider.notifier);
+    final bool themeSelected = selectedOptions.isNotEmpty;
+    final bool selected = buttonSelected || themeSelected;
+    String getContent() {
+      String data = '테마';
+      //체크한 테마가 하나이상이면
+      if (themeSelected) {
+        int len = selectedOptions.length;
+        //선택한 게 하나면
+        if (len == 1) {
+          data = selectedOptions.first;
+        }
+        //둘 이상이면
+        else {
+          data += ' $len';
+        }
+      }
+      return data;
+    }
+
     return GestureDetector(
         onTap: () {
+          buttonSelectCon.activate();
           showDialog(
             context: context,
-            builder: (context) => ThemeDialog(),
+            builder: (context) => const ThemeDialog(),
           );
         },
         child: Container(
           margin: EdgeInsets.all(margin),
-          width: size.width,
+          // width: size.width,
           height: size.height,
           padding: EdgeInsets.symmetric(
               vertical: vertPadding, horizontal: horiPadding),
@@ -46,7 +67,7 @@ class ThemeButton extends ConsumerWidget {
           child: Row(
             children: [
               Text(
-                '테마',
+                getContent(),
                 style:
                     textStyle.copyWith(color: selected ? selectedColor : null),
               ),

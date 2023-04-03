@@ -7,10 +7,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
 
 //components
-import 'components/no_search_text.dart';
-import 'components/recommendation_button.dart';
-import 'components/top_bar.dart';
-import 'package:bookand/presentation/screen/main/map/components/search_page/components/book_store_searched_tile.dart';
+import 'package:bookand/presentation/component/map/search_page/book_store_searched_tile.dart';
+import 'package:bookand/presentation/component/map/search_page/no_search_text.dart';
+import 'package:bookand/presentation/component/map/search_page/recommendation_button.dart';
+import 'package:bookand/presentation/component/map/search_page/top_bar.dart';
 
 class MapSearchScreen extends ConsumerWidget {
   static String get routeName => 'mapSearch';

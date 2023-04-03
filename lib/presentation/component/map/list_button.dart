@@ -1,24 +1,23 @@
+import 'package:bookand/presentation/provider/map/map_panel_visible_provider.dart';
 import 'package:flutter/material.dart';
 //providers
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
 
 class ListButton extends ConsumerWidget {
-  final bool selected;
-  final void Function() onTap;
-  const ListButton({super.key, required this.onTap, required this.selected});
+  const ListButton({super.key});
   final double size = 32;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //패널열렸는지는 show panel 에서
-    // final selected = ref.watch(panelVisibleProvider);
+    // 패널열렸는지는 show panel 에서
+    final selected = ref.watch(mapPanelVisibleNotifierProvider);
     // 다시 누르면 list type은 List(기본)로
-    // final con = ref.read(listTypeProvider.notifier);
+    final con = ref.read(mapPanelVisibleNotifierProvider.notifier);
 
     return GestureDetector(
       onTap: () {
-        onTap();
+        con.toggle();
       },
       child: Container(
         height: size,
