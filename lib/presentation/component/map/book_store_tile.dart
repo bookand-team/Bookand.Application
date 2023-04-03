@@ -1,4 +1,5 @@
-import 'package:bookand/domain/model/bookstore/bookstore_model.dart';
+import 'package:bookand/core/const/asset_path.dart';
+import 'package:bookand/presentation/component/map/book_mark_button.dart';
 import 'package:flutter/material.dart';
 
 class BookStoreTile extends StatelessWidget {
@@ -52,8 +53,6 @@ class BookStoreTile extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(imageBRaidus)),
             child: Image(
-              // height: imageSize.height,
-              // fit: BoxFit.fitWidth,
               image: const AssetImage('assets/images/map/book_tile_test.png'),
             ),
           ),
@@ -98,8 +97,7 @@ class BookStoreTile extends StatelessWidget {
                       Image(
                           width: locaitonIconSize.width,
                           height: locaitonIconSize.height,
-                          image: const AssetImage(
-                              'assets/images/map/location_icon_test.png')),
+                          image: const AssetImage(locationIconPath)),
                       const SizedBox(
                         width: 6,
                       ),
@@ -119,25 +117,17 @@ class BookStoreTile extends StatelessWidget {
                 ],
               ),
               // book mark 북마크 버튼
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      width: bookMarkSize.width,
-                      height: bookMarkSize.height,
-                      decoration: BoxDecoration(
-                          color: bookMarkColor,
-                          borderRadius: BorderRadius.circular(1000)),
-                      child: Image(
-                          fit: BoxFit.scaleDown,
-                          width: bookMarkInnerSize.width,
-                          height: bookMarkInnerSize.height,
-                          image: const AssetImage(
-                              'assets/images/map/book_mark_test.png')),
-                    ),
-                  )
-                ],
+
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  width: bookMarkSize.width,
+                  height: bookMarkSize.height,
+                  decoration: BoxDecoration(
+                      color: bookMarkColor,
+                      borderRadius: BorderRadius.circular(1000)),
+                  child: BookMarkButton(),
+                ),
               )
             ],
           ),

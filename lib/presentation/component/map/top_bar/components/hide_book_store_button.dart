@@ -13,7 +13,6 @@ class HideBookStoreButton extends ConsumerWidget {
   final double vertPadding = 5;
   final Color grey = const Color(0xffdddddd);
   final TextStyle textStyle = const TextStyle(fontSize: 12);
-  final double iconSize = 6;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bool selected = ref.watch(hideStoreToggleProvider);
@@ -22,7 +21,6 @@ class HideBookStoreButton extends ConsumerWidget {
         onTap: () => con.toggle(),
         child: Container(
           margin: EdgeInsets.all(margin),
-          width: size.width,
           height: size.height,
           padding: EdgeInsets.symmetric(
               vertical: vertPadding, horizontal: horiPadding),
@@ -32,12 +30,8 @@ class HideBookStoreButton extends ConsumerWidget {
               borderRadius: BorderRadius.all(Radius.circular(bRauius))),
           child: Row(
             children: [
-              Icon(
-                Icons.abc,
-                size: iconSize,
-              ),
               Text(
-                '숨은 서점',
+                '✨ 숨은 서점',
                 style: textStyle,
               ),
             ],

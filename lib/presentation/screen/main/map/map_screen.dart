@@ -19,7 +19,7 @@ import 'package:bookand/presentation/provider/map/map_panel_content_type_provide
 import 'package:bookand/presentation/provider/map/map_panel_visible_provider.dart';
 import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
 import 'package:bookand/presentation/provider/map/map_controller_provider.dart';
-import 'package:bookand/presentation/provider/map/map_marker_provider.dart';
+import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
 
 class MapScreen extends ConsumerStatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -89,8 +89,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   Widget build(BuildContext context) {
     final double slideMaxHeight = MediaQuery.of(context).size.height;
     //
-    final Set<Marker> markers = ref.watch(mapMarkerNotiferProvider);
-    //
     final mapControllerCon = ref.read(mapControllerNotiferProvider.notifier);
     //
     final searchBarVisibleCon = ref.read(searchBarShowProvider.notifier);
@@ -104,6 +102,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     final panelVisibleCon = ref.read(mapPanelVisibleNotifierProvider.notifier);
     //
     final bool hideStoreVisible = ref.watch(hideStoreToggleProvider);
+    //
+    final Set<Marker> markers = ref.watch(widgetMarkerNotiferProvider);
 
     /// bottom sheet에서 제스처에 따라 search bar 활성화 때 호출
     void showSearhBar() {
@@ -235,12 +235,29 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             );
           },
 
-          body: GoogleMap(
-              zoomControlsEnabled: false,
-              onMapCreated: (controller) =>
-                  mapControllerCon.initController(controller),
-              markers: markers,
-              initialCameraPosition: initCamera),
+          body:
+              // GoogleMap(
+              //     zoomControlsEnabled: false,
+              //     onMapCreated: (controller) =>
+              //         mapControllerCon.initController(controller),
+              //     markers: markers,
+              //     initialCameraPosition: initCamera),
+              //test
+
+              GoogleMap(
+                  zoomControlsEnabled: false,
+                  onMapCreated: (controller) =>
+                      mapControllerCon.initController(controller),
+                  markers: markers,
+                  initialCameraPosition: initCamera),
+          //test
+          // WidgetMarkerGoogleMap(
+          //     zoomControlsEnabled: false,
+          //     onMapCreated: (controller) =>
+          //         mapControllerCon.initController(controller),
+          //     widgetMarkers: widgetMarkers,
+          //     // markers: markers,
+          //     initialCameraPosition: initCamera),
         ),
 
         const Align(

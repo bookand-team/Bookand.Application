@@ -17,18 +17,6 @@ class MapThemeNotifier extends _$MapThemeNotifier {
     '역사'
   ];
 
-  /// option이 state에 있으면 제거 없으면 추가
-  // void toggleTheme(String theme) {
-  //   //안전성 점검
-  //   if (options.contains(theme)) {
-  //     if (state.contains(theme)) {
-  //       state = List.from(state..remove(theme));
-  //     } else {
-  //       state = List.from(state..add(theme));
-  //     }
-  //   }
-  // }
-
   void addThemes(List<String> selectedThemes) {
     state = selectedThemes;
   }

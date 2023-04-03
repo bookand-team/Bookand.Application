@@ -52,3 +52,5 @@ app.*.map.json
 
 # vscode build
 .vscode/
+#custom
+계획.txt

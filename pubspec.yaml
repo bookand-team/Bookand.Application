@@ -57,6 +57,7 @@ dependencies:
   google_maps_flutter: ^2.2.5
   sliding_up_panel: ^2.0.0+1
   geolocator: ^9.0.2
+  widget_to_marker: ^1.0.3
 
 dev_dependencies:
   flutter_test:
