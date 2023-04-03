@@ -57,7 +57,7 @@ class _ThemeDialogState extends ConsumerState<ThemeDialog> {
   void dispose() {
     //위젯이 사라질 때 button selection은 deactivate, theme 선택한 게 있으면 그걸로 활성화 여부 판별
     Future.delayed(
-        const Duration(milliseconds: 200), () => buttonSelectCon.deactivate());
+        const Duration(milliseconds: 100), () => buttonSelectCon.deactivate());
 
     super.dispose();
   }
@@ -78,6 +78,32 @@ class _ThemeDialogState extends ConsumerState<ThemeDialog> {
         });
       }
     }
+  }
+
+  void initThemes() {
+    themeCon.initThemes();
+    setState(() {
+      selectedList = [];
+    });
+  }
+
+  Widget getInitButton() {
+    return GestureDetector(
+      onTap: initThemes,
+      child: Row(
+        children: [
+          Icon(
+            Icons.refresh,
+            color: refreshColor,
+            size: iconSize,
+          ),
+          Text(
+            '초기화',
+            style: refreshStyle,
+          )
+        ],
+      ),
+    );
   }
 
   @override
@@ -108,19 +134,7 @@ class _ThemeDialogState extends ConsumerState<ThemeDialog> {
                   '테마',
                   style: titleStyle,
                 ),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.refresh,
-                      color: refreshColor,
-                      size: iconSize,
-                    ),
-                    Text(
-                      '초기화',
-                      style: refreshStyle,
-                    )
-                  ],
-                )
+                getInitButton()
               ],
             ),
 

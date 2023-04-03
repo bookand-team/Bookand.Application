@@ -32,4 +32,8 @@ class MapThemeNotifier extends _$MapThemeNotifier {
   void addThemes(List<String> selectedThemes) {
     state = selectedThemes;
   }
+
+  void initThemes() {
+    state = [];
+  }
 }

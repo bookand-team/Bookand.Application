@@ -24,19 +24,20 @@ class ThemeButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<String> selectedOptions = ref.watch(mapThemeNotifierProvider);
+    final List<String> selectedThemes = ref.watch(mapThemeNotifierProvider);
+    final themeCon = ref.read(mapThemeNotifierProvider.notifier);
     final bool buttonSelected = ref.watch(themeToggleProvider);
     final buttonSelectCon = ref.watch(themeToggleProvider.notifier);
-    final bool themeSelected = selectedOptions.isNotEmpty;
+    final bool themeSelected = selectedThemes.isNotEmpty;
     final bool selected = buttonSelected || themeSelected;
     String getContent() {
       String data = '테마';
       //체크한 테마가 하나이상이면
       if (themeSelected) {
-        int len = selectedOptions.length;
+        int len = selectedThemes.length;
         //선택한 게 하나면
         if (len == 1) {
-          data = selectedOptions.first;
+          data = selectedThemes.first;
         }
         //둘 이상이면
         else {
@@ -72,10 +73,15 @@ class ThemeButton extends ConsumerWidget {
                     textStyle.copyWith(color: selected ? selectedColor : null),
               ),
               selected
-                  ? Icon(
-                      Icons.close,
-                      color: selectedColor,
-                      size: iconSize,
+                  ? GestureDetector(
+                      onTap: () => themeCon.initThemes(),
+                      child: Container(
+                        child: Icon(
+                          Icons.close,
+                          color: selectedColor,
+                          size: iconSize,
+                        ),
+                      ),
                     )
                   : Icon(
                       Icons.keyboard_arrow_down,
