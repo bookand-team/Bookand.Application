@@ -13,10 +13,10 @@ packages:
     dependency: transitive
     description:
       name: _flutterfire_internals
-      sha256: "6215ac7d00ed98300b72f45ed2b38c2ca841f9f4e6965fab33cbd591e45e4473"
+      sha256: f175bc1414e4edf8c5b83372c98eeabecf8353f39c9da423c2cfdf1f1f508788
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.13"
+    version: "1.1.0"
   analyzer:
     dependency: transitive
     description:
@@ -413,26 +413,26 @@ packages:
     dependency: "direct main"
     description:
       name: firebase_core
-      sha256: fe30ac230f12f8836bb97e6e09197340d3c584526825b1746ea362a82e1e43f7
+      sha256: ed611fb8e67e43ecc7956f242cecca383d87cf71aace27287aa5dd4bdba4ac07
       url: "https://pub.dev"
     source: hosted
-    version: "2.7.0"
+    version: "2.9.0"
   firebase_core_platform_interface:
     dependency: "direct main"
     description:
       name: firebase_core_platform_interface
-      sha256: "5615b30c36f55b2777d0533771deda7e5730e769e5d3cb7fda79e9bed86cfa55"
+      sha256: "0df0a064ab0cad7f8836291ca6f3272edd7b83ad5b3540478ee46a0849d8022b"
       url: "https://pub.dev"
     source: hosted
-    version: "4.5.3"
+    version: "4.6.0"
   firebase_core_web:
     dependency: transitive
     description:
       name: firebase_core_web
-      sha256: "291fbcace608aca6c860652e1358ef89752be8cc3ef227f8bbcd1e62775b833a"
+      sha256: "347351a8f0518f3343d79a9a0690fa67ad232fc32e2ea270677791949eac792b"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.1"
+    version: "2.3.0"
   firebase_crashlytics:
     dependency: "direct main"
     description:
@@ -473,6 +473,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.1+19"
+  firebase_remote_config:
+    dependency: "direct main"
+    description:
+      name: firebase_remote_config
+      sha256: "1f998632bdbf453101116bf41f020762aada0af8c8be14d5c74fc7863bc4f204"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.0"
+  firebase_remote_config_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_remote_config_platform_interface
+      sha256: "008f0830065e9d6532c575e0f464225c6e5d851136c795430ea2a37b97728f6e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
+  firebase_remote_config_web:
+    dependency: transitive
+    description:
+      name: firebase_remote_config_web
+      sha256: b01d23a111f1b33bc30b7c6b15db260a2000e1f9c336141556cf144d37a54396
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   firebase_storage:
     dependency: "direct main"
     description:

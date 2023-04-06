@@ -26,6 +26,7 @@ import '../screen/main/my/notification_setting_screen.dart';
 import '../screen/main/my/terms_and_policy_screen.dart';
 import '../screen/terms/terms_agree_screen.dart';
 import '../screen/terms/terms_detail_screen.dart';
+import '../screen/update_guide_screen.dart';
 import 'auth_provider.dart';
 
 part 'router_provider.g.dart';
@@ -33,6 +34,10 @@ part 'router_provider.g.dart';
 @Riverpod(keepAlive: true)
 class GoRouterStateNotifier extends _$GoRouterStateNotifier {
   late List<GoRoute> routes = [
+    GoRoute(
+        path: '/update',
+        name: UpdateGuideScreen.routeName,
+        builder: (_, __) => const UpdateGuideScreen()),
     GoRoute(
         path: '/',
         name: MainTab.routeName,
@@ -139,6 +144,10 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
 
   String? redirectLogic(BuildContext context, GoRouterState goRouterState) {
     final authState = ref.read(authStateNotifierProvider);
+
+    if (authState == AuthState.update) {
+      return '/update';
+    }
 
     if (authState == AuthState.init) {
       return '/login';
