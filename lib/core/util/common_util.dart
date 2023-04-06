@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'logger.dart';
+
 class CommonUtil {
   static double getDistance({
     required double lat1,
@@ -25,5 +27,32 @@ class CommonUtil {
 
   static double radToDeg(double radian) {
     return radian * 180 / pi;
+  }
+
+  static bool checkRequiredUpdate(String appVersion, String serverVersion) {
+    final splitAppVersion = appVersion.trim().split('.');
+    final splitServerVersion = serverVersion.trim().split('.');
+
+    if (splitAppVersion.length != 3 || splitServerVersion.length != 3) {
+      return false;
+    }
+
+    try {
+      for (var i = 0; i < 3; i++) {
+        final app = int.parse(splitAppVersion[i]);
+        final server = int.parse(splitServerVersion[i]);
+
+        if (app < server) {
+          return true;
+        } else if (app > server) {
+          return false;
+        }
+      }
+
+      return false;
+    } catch (e) {
+      logger.e(e);
+      return false;
+    }
   }
 }

@@ -34,6 +34,25 @@ void main() {
     
     expect(in1KmLocationList.map((e) => e.name).toList(), ['회현역', '충정로역', '숭례문']);
   });
+
+  test('버전 체크 테스트', () {
+    expect(CommonUtil.checkRequiredUpdate('1.0.0', '0.0.1'), false);
+    expect(CommonUtil.checkRequiredUpdate('1.0.0', '1.0.1'), true);
+    expect(CommonUtil.checkRequiredUpdate('1.0.0', '1.1.1'), true);
+    expect(CommonUtil.checkRequiredUpdate('1.0.0', '1.10.1'), true);
+    expect(CommonUtil.checkRequiredUpdate('1.0.0', '0.0.10'), false);
+    expect(CommonUtil.checkRequiredUpdate('1.0.0', '0.10.1'), false);
+    expect(CommonUtil.checkRequiredUpdate('1.0.0', '0.10.0'), false);
+    expect(CommonUtil.checkRequiredUpdate('1.0.0', '3.0.0'), true);
+    expect(CommonUtil.checkRequiredUpdate('1.0.0', '1.0.0'), false);
+    expect(CommonUtil.checkRequiredUpdate('1.0.0', '1.0.10'), true);
+    expect(CommonUtil.checkRequiredUpdate('1.0.0', ''), false);
+    expect(CommonUtil.checkRequiredUpdate('1.0.0', 'test'), false);
+    expect(CommonUtil.checkRequiredUpdate('1.0.0', '    '), false);
+    expect(CommonUtil.checkRequiredUpdate('1.0.0', '12.32.14.43'), false);
+    expect(CommonUtil.checkRequiredUpdate('1.0.0', '1.0.10    '), true);
+    expect(CommonUtil.checkRequiredUpdate('1.0.0', '    1.0.10'), true);
+  });
 }
 
 class Location {

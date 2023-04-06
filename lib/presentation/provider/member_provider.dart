@@ -6,11 +6,15 @@ import 'package:bookand/domain/usecase/logout_use_case.dart';
 import 'package:bookand/domain/usecase/sign_up_use_case.dart';
 import 'package:bookand/domain/usecase/withdrawal_use_case.dart';
 import 'package:bookand/presentation/provider/auth_provider.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../core/const/auth_state.dart';
+import '../../core/const/remote_config_key.dart';
 import '../../core/const/social_type.dart';
+import '../../core/util/common_util.dart';
 import '../../core/util/logger.dart';
 import '../../data/repository/member_repository_impl.dart';
 import '../../domain/model/member/member_model.dart';
@@ -30,6 +34,15 @@ class MemberStateNotifier extends _$MemberStateNotifier {
 
   void fetchMemberInfo() async {
     try {
+      final packageInfo = await PackageInfo.fromPlatform();
+      final serverVersion = FirebaseRemoteConfig.instance.getString(RemoteConfigKey.serverVersion);
+
+      logger.i('앱 버전: ${packageInfo.version}\n서버 버전: $serverVersion');
+      if (CommonUtil.checkRequiredUpdate(packageInfo.version, serverVersion)) {
+        authState.changeState(AuthState.update);
+        return;
+      }
+
       state = await memberRepository.getMe();
       authState.changeState(AuthState.signIn);
     } catch (e) {
