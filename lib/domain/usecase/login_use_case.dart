@@ -42,8 +42,8 @@ class LoginUseCase {
     } on UserNotFoundException catch (e) {
       logger.i(e.message);
       onSignUp();
-    } catch (e) {
-      throw (e.toString());
+    } catch (_) {
+      rethrow;
     }
   }
 }

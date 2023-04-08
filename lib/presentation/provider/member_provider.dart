@@ -1,5 +1,6 @@
 import 'package:bookand/core/app_strings.dart';
 import 'package:bookand/core/const/revoke_type.dart';
+import 'package:bookand/domain/usecase/fcm_use_case.dart';
 import 'package:bookand/domain/usecase/get_social_login_use_case.dart';
 import 'package:bookand/domain/usecase/login_use_case.dart';
 import 'package:bookand/domain/usecase/logout_use_case.dart';
@@ -45,6 +46,7 @@ class MemberStateNotifier extends _$MemberStateNotifier {
 
       state = await memberRepository.getMe();
       authState.changeState(AuthState.signIn);
+      ref.read(fcmUseCaseProvider).refreshFCMToken();
     } catch (e) {
       logger.e('사용자 정보를 가져오는데 실패', e);
       authState.changeState(AuthState.init);
