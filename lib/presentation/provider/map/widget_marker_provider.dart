@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -72,5 +73,17 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
 
   void initMarkers() {
     state = {};
+  }
+
+  Set<Marker> getMarkersInScreen(LatLngBounds? bounds) {
+    return bounds == null
+        ? {}
+        : state.where((element) => bounds.contains(element.position)).toSet();
+  }
+
+  // meter로 point와 marker 간의 거리 계산
+  Future<double> getDistanceOfMarker(LatLng pointPos, LatLng markerPos) async {
+    return await Geolocator.distanceBetween(pointPos.latitude,
+        pointPos.longitude, markerPos.latitude, markerPos.longitude);
   }
 }

@@ -15,7 +15,6 @@ import 'package:bookand/presentation/component/map/refresh_button.dart';
 //providers
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bookand/presentation/provider/map/map_button_height_provider.dart';
-import 'package:bookand/presentation/provider/map/map_panel_content_type_provider.dart';
 import 'package:bookand/presentation/provider/map/map_panel_visible_provider.dart';
 import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
 import 'package:bookand/presentation/provider/map/map_controller_provider.dart';
@@ -91,9 +90,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     //
     final mapControllerCon = ref.read(mapControllerNotiferProvider.notifier);
     //
-    final searchBarVisibleCon = ref.read(searchBarShowProvider.notifier);
-    //
-    final ContentType listType = ref.watch(mapPanelContentTypeNotifierProvider);
+    final searchBarVisibleCon = ref.read(searchBarToggleProvider.notifier);
     //
     final double buttonHeight = ref.watch(mapButtonHeightNotifierProvider);
     final buttonHeightCon = ref.read(mapButtonHeightNotifierProvider.notifier);
@@ -107,12 +104,12 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
     /// bottom sheet에서 제스처에 따라 search bar 활성화 때 호출
     void showSearhBar() {
-      searchBarVisibleCon.show();
+      searchBarVisibleCon.activate();
     }
 
     /// bottom sheet에서 제스처에 따라 search bar 비활성화 때 호출
     void hideSearhBar() {
-      searchBarVisibleCon.hide();
+      searchBarVisibleCon.deactivate();
     }
 
     /// bottom sheet에서 슬라이딩 때 button 높이 조절
@@ -122,7 +119,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
     /// bottom sheet에서 제스처에 따라 panel 비활성화할 때 호출
     void hidePanel() {
-      panelVisibleCon.hidePanel();
+      panelVisibleCon.deactivate();
     }
 
     Widget getHideStoreContent() {
@@ -183,7 +180,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             double updateHeight =
                 slideMinHeight + position * (slideMaxHeight - slideMinHeight);
             if (panelVisible) {
-              print(updateHeight);
               updateButtonHeight(updateHeight);
             }
           },
@@ -235,29 +231,12 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             );
           },
 
-          body:
-              // GoogleMap(
-              //     zoomControlsEnabled: false,
-              //     onMapCreated: (controller) =>
-              //         mapControllerCon.initController(controller),
-              //     markers: markers,
-              //     initialCameraPosition: initCamera),
-              //test
-
-              GoogleMap(
-                  zoomControlsEnabled: false,
-                  onMapCreated: (controller) =>
-                      mapControllerCon.initController(controller),
-                  markers: markers,
-                  initialCameraPosition: initCamera),
-          //test
-          // WidgetMarkerGoogleMap(
-          //     zoomControlsEnabled: false,
-          //     onMapCreated: (controller) =>
-          //         mapControllerCon.initController(controller),
-          //     widgetMarkers: widgetMarkers,
-          //     // markers: markers,
-          //     initialCameraPosition: initCamera),
+          body: GoogleMap(
+              zoomControlsEnabled: false,
+              onMapCreated: (controller) =>
+                  mapControllerCon.initController(controller),
+              markers: markers,
+              initialCameraPosition: initCamera),
         ),
 
         const Align(
@@ -275,7 +254,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                 Positioned(
                     right: buttonPading,
                     bottom: buttonHeight + buttonPading,
-                    child: const GpsButton()),
+                    child: GpsButton()),
               ]
             : [const SizedBox()]
       ],

@@ -14,7 +14,7 @@ class TopBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final searchBarShow = ref.watch(searchBarShowProvider);
+    final searchBarShow = ref.watch(searchBarToggleProvider);
     return Container(
       decoration: BoxDecoration(
           color: Colors.white,

@@ -18,4 +18,8 @@ class MapControllerNotifer extends _$MapControllerNotifer {
   void moveCamera({required double lat, required lng}) {
     state?.moveCamera(CameraUpdate.newLatLng(LatLng(lat, lng)));
   }
+
+  Future<LatLngBounds?> getScreenLatLngBounds() async {
+    return state?.getVisibleRegion();
+  }
 }

@@ -16,8 +16,8 @@ class TopBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final search = ref.read(searchProvider);
-    final searchCon = ref.read(searchProvider.notifier);
+    final search = ref.read(searchToggleProvider);
+    final searchCon = ref.read(searchToggleProvider.notifier);
 
     return Container(
       padding: EdgeInsets.all(padding),

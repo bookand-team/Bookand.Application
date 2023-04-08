@@ -74,8 +74,8 @@ class MapSearchScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final search = ref.watch(searchProvider);
-    final searchCon = ref.read(searchProvider.notifier);
+    final search = ref.watch(searchToggleProvider);
+    final searchCon = ref.read(searchToggleProvider.notifier);
 
     return Container(
       color: Colors.white,
