@@ -1,3 +1,4 @@
+import 'package:bookand/presentation/utils/local_notification.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -8,6 +9,7 @@ import 'app_config.dart';
 Future<void> initApplication() async {
   await _initFlavor();
   await _initHive();
+  LocalNotification.initialize();
 }
 
 Future<void> _initFlavor() async {
