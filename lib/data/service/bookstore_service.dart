@@ -26,4 +26,11 @@ abstract class BookstoreService extends ChopperService {
     @Header('Authorization') String accessToken,
     @Path('id') int id,
   );
+
+  //test 전부 다 받을 때 가정, 아직 server쪽이 완성 안됨
+  @Get(path: '/{userToken}')
+  Future<Response> getBookstoreTest(
+    @Header('Authorization') String accessToken,
+    @Path('userToken') String userToken,
+  );
 }
