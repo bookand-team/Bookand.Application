@@ -21,4 +21,5 @@ Future<void> _initHive() async {
   await Hive.initFlutter();
   Hive.registerAdapter(PolicyModelAdapter());
   await Hive.openBox(HiveKey.policyBoxKey);
+  await Hive.openBox(HiveKey.enabledPushNotificationBoxKey);
 }

@@ -22,7 +22,7 @@ class LocalNotification {
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
-  static Future<void> showNotification({
+  static void showNotification({
     int id = NotificationConstant.defaultId,
     required String title,
     required String body,

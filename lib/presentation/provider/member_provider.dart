@@ -1,12 +1,12 @@
 import 'package:bookand/core/app_strings.dart';
 import 'package:bookand/core/const/revoke_type.dart';
+import 'package:bookand/domain/usecase/fcm_use_case.dart';
 import 'package:bookand/domain/usecase/get_social_login_use_case.dart';
 import 'package:bookand/domain/usecase/login_use_case.dart';
 import 'package:bookand/domain/usecase/logout_use_case.dart';
 import 'package:bookand/domain/usecase/sign_up_use_case.dart';
 import 'package:bookand/domain/usecase/withdrawal_use_case.dart';
 import 'package:bookand/presentation/provider/auth_provider.dart';
-import 'package:bookand/presentation/utils/fcm_service.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -35,9 +35,6 @@ class MemberStateNotifier extends _$MemberStateNotifier {
 
   void fetchMemberInfo() async {
     try {
-      FcmService.requestPermission();
-      FcmService.getToken();
-
       final packageInfo = await PackageInfo.fromPlatform();
       final serverVersion = FirebaseRemoteConfig.instance.getString(RemoteConfigKey.serverVersion);
 
@@ -49,6 +46,7 @@ class MemberStateNotifier extends _$MemberStateNotifier {
 
       state = await memberRepository.getMe();
       authState.changeState(AuthState.signIn);
+      ref.read(fcmUseCaseProvider).refreshFCMToken();
     } catch (e) {
       logger.e('사용자 정보를 가져오는데 실패', e);
       authState.changeState(AuthState.init);

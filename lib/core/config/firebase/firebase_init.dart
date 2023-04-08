@@ -1,6 +1,5 @@
 import 'dart:isolate';
 
-import 'package:bookand/core/const/notification_constant.dart';
 import 'package:bookand/presentation/utils/local_notification.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
@@ -10,15 +9,13 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../util/logger.dart';
+import '../../const/notification_constant.dart';
 import 'firebase_options.dart';
 
 FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
 Future<void> initFirebase() async {
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await initFirebaseMessaging();
   await initFirebaseCrashlytics();
   await initFirebaseAppCheck();
@@ -27,9 +24,16 @@ Future<void> initFirebase() async {
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  showPushNotification(message);
+}
+
+Future<void> initFirebaseMessaging() async {
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.onMessage.listen(showPushNotification);
+}
+
+void showPushNotification(RemoteMessage message) async {
   if (message.notification != null) {
     LocalNotification.showNotification(
       id: NotificationConstant.fcmId,
@@ -39,23 +43,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
       androidChannelName: NotificationConstant.fcmChannelName,
     );
   }
-  logger.d("Handling a background message: ${message.messageId}");
-}
-
-Future<void> initFirebaseMessaging() async {
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    if (message.notification != null) {
-      LocalNotification.showNotification(
-        id: NotificationConstant.fcmId,
-        title: message.notification?.title ?? '',
-        body: message.notification?.body ?? '',
-        androidChannelId: NotificationConstant.fcmChannelId,
-        androidChannelName: NotificationConstant.fcmChannelName,
-      );
-    }
-    logger.d(message.messageId);
-  });
 }
 
 Future<void> initFirebaseAppCheck() async {

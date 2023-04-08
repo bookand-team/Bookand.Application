@@ -11,6 +11,17 @@ class CustomSwitch extends StatefulWidget {
 }
 
 class _CustomSwitchState extends State<CustomSwitch> {
+  var milliseconds = 0;
+
+  @override
+  void initState() {
+    /// 자연스러운 애니메이션을 위해 100ms 이후에 작동
+    Future.delayed(const Duration(milliseconds: 100), () {
+      milliseconds = 300;
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -20,7 +31,7 @@ class _CustomSwitchState extends State<CustomSwitch> {
         widget.onChanged(!widget.value);
       },
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
+        duration: Duration(milliseconds: milliseconds),
         curve: Curves.easeInOut,
         padding: const EdgeInsets.all(2),
         width: 44,
