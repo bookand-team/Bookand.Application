@@ -1,5 +1,6 @@
 import 'package:bookand/presentation/provider/member_provider.dart';
 import 'package:bookand/presentation/screen/main/map/map_search_screen.dart';
+import 'package:bookand/presentation/screen/main/home/bookstore_map_screen.dart';
 import 'package:bookand/presentation/screen/main/my/feedback_screen.dart';
 import 'package:bookand/presentation/screen/main/my/new_bookstore_report_screen.dart';
 import 'package:bookand/presentation/screen/main/my/new_bookstore_report_success.dart';
@@ -17,17 +18,17 @@ import 'package:tuple/tuple.dart';
 import '../../core/config/firebase/firebase_init.dart';
 import '../../core/const/auth_state.dart';
 import '../../domain/model/policy_model.dart';
-import '../../domain/usecase/get_policy_use_case.dart';
 import '../screen/login_screen.dart';
-import '../screen/main/article_screen.dart';
+import '../screen/main/home/article_screen.dart';
+import '../screen/main/home/bookstore_screen.dart';
 import '../screen/main/main_tab.dart';
 import '../screen/main/my/account_management_screen.dart';
 import '../screen/main/my/notice_screen.dart';
 import '../screen/main/my/notification_setting_screen.dart';
 import '../screen/main/my/terms_and_policy_screen.dart';
-import '../screen/splash_screen.dart';
 import '../screen/terms/terms_agree_screen.dart';
 import '../screen/terms/terms_detail_screen.dart';
+import '../screen/update_guide_screen.dart';
 import 'auth_provider.dart';
 
 part 'router_provider.g.dart';
@@ -36,14 +37,16 @@ part 'router_provider.g.dart';
 class GoRouterStateNotifier extends _$GoRouterStateNotifier {
   late List<GoRoute> routes = [
     GoRoute(
+        path: '/update',
+        name: UpdateGuideScreen.routeName,
+        builder: (_, __) => const UpdateGuideScreen()),
+    GoRoute(
         path: '/',
         name: MainTab.routeName,
         builder: (_, __) => const MainTab(),
         routes: mainTabRoutes),
     GoRoute(
-        path: '/splash',
-        name: SplashScreen.routeName,
-        builder: (_, __) => const SplashScreen()),
+        path: '/splash', name: SplashScreen.routeName, builder: (_, __) => const SplashScreen()),
     GoRoute(
         path: '/login',
         name: LoginScreen.routeName,
@@ -70,9 +73,23 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
 
   late List<RouteBase> mainTabRoutes = [
     GoRoute(
-        path: 'article/:id',
+        path: 'article/:id/:isFirstScreen',
         name: ArticleScreen.routeName,
-        builder: (_, state) => ArticleScreen(name: state.params['id']!)),
+        builder: (_, state) => ArticleScreen(
+              id: state.params['id']!,
+              isFirstScreen: state.params['isFirstScreen']!,
+            )),
+    GoRoute(
+        path: 'bookstore/:id',
+        name: BookstoreScreen.routeName,
+        builder: (_, state) => BookstoreScreen(id: state.params['id']!)),
+    GoRoute(
+        path: 'bookstoreMap/:latitude/:longitude',
+        name: BookstoreMapScreen.routeName,
+        builder: (_, state) => BookstoreMapScreen(
+              latitude: state.params['latitude']!,
+              longitude: state.params['longitude']!,
+            )),
     GoRoute(
         path: 'notificationSetting',
         name: NotificationSettingScreen.routeName,
@@ -130,20 +147,19 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
   ];
 
   @override
-  GoRouter build() {
-    ref.read(memberStateNotifierProvider.notifier).fetchMemberInfo();
-    ref.read(getPolicyUseCaseProvider).fetchAllPolicy();
-
-    return GoRouter(
-        routes: routes,
-        initialLocation: '/splash',
-        redirect: redirectLogic,
-        refreshListenable: ref.watch(authStateNotifierProvider.notifier),
-        observers: [FirebaseAnalyticsObserver(analytics: analytics)]);
-  }
+  GoRouter build() => GoRouter(
+      routes: routes,
+      initialLocation: '/login',
+      redirect: redirectLogic,
+      refreshListenable: ref.watch(authStateNotifierProvider.notifier),
+      observers: [FirebaseAnalyticsObserver(analytics: analytics)]);
 
   String? redirectLogic(BuildContext context, GoRouterState goRouterState) {
     final authState = ref.read(authStateNotifierProvider);
+
+    if (authState == AuthState.update) {
+      return '/update';
+    }
 
     if (authState == AuthState.init) {
       return '/login';
@@ -163,6 +179,8 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
               goRouterState.location == '/splash'
           ? '/'
           : null;
+          
+      // return goRouterState.location.startsWith('/login') ? '/' : null;
     }
 
     return null;

@@ -11,7 +11,6 @@ class ArticleCard extends StatelessWidget {
   final List<String> hashtagList;
   final String title;
   final String content;
-  final String heroKey;
 
   const ArticleCard({
     super.key,
@@ -21,7 +20,6 @@ class ArticleCard extends StatelessWidget {
     required this.hashtagList,
     required this.title,
     required this.content,
-    required this.heroKey,
   });
 
   @override

@@ -2,22 +2,34 @@ import 'package:bookand/core/app_strings.dart';
 import 'package:bookand/core/widget/base_app_bar.dart';
 import 'package:bookand/core/widget/base_layout.dart';
 import 'package:bookand/presentation/component/custom_switch.dart';
+import 'package:bookand/presentation/provider/push_notification_settings_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class NotificationSettingScreen extends StatefulWidget {
+class NotificationSettingScreen extends ConsumerStatefulWidget {
   static String get routeName => 'notificationSetting';
 
   const NotificationSettingScreen({Key? key}) : super(key: key);
 
   @override
-  State<NotificationSettingScreen> createState() => _NotificationSettingScreenState();
+  ConsumerState<NotificationSettingScreen> createState() => _NotificationSettingScreenState();
 }
 
-class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
-  bool checked = false;
+class _NotificationSettingScreenState extends ConsumerState<NotificationSettingScreen> {
+  @override
+  void initState() {
+    ref
+        .read(pushNotificationSettingsStateNotifierProvider.notifier)
+        .fetchPushNotificationSettings();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final isEnabled = ref.watch(pushNotificationSettingsStateNotifierProvider);
+    final pushNotificationSettingsProvider =
+        ref.watch(pushNotificationSettingsStateNotifierProvider.notifier);
+
     return BaseLayout(
       appBar: const BaseAppBar(
         title: AppStrings.notification,
@@ -45,11 +57,9 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
               ),
             ),
             trailing: CustomSwitch(
-              value: checked,
+              value: isEnabled,
               onChanged: (value) {
-                setState(() {
-                  checked = value;
-                });
+                pushNotificationSettingsProvider.setEnabledPushNotification(value);
               },
             ),
           )

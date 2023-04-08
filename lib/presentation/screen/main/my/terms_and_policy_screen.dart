@@ -28,6 +28,7 @@ class _TermsAndPolicyScreenState extends ConsumerState<TermsAndPolicyScreen> {
       appBar: const BaseAppBar(title: AppStrings.termsAndPolicy),
       child: Scrollbar(
         child: ListView.separated(
+          physics: const ClampingScrollPhysics(),
           itemBuilder: (context, index) {
             return DrawerListTile(
               title: Text(

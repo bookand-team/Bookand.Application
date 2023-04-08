@@ -1,3 +1,3 @@
 enum AuthState {
-  init, loading, signUp, signIn
+  init, loading, signUp, signIn, update
 }

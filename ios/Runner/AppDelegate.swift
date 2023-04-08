@@ -13,6 +13,10 @@ import GoogleMaps
     AppCheck.setAppCheckProviderFactory(providerFactory)
 #endif
 
+    if #available(iOS 10.0, *) {
+      UNUserNotificationCenter.current().delegate = self as UNUserNotificationCenterDelegate
+    }
+      
     GeneratedPluginRegistrant.register(with: self)
 
     let dartDefinesString = Bundle.main.infoDictionary!["DART_DEFINES"] as! String

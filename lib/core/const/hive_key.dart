@@ -1,3 +1,4 @@
 class HiveKey {
-  static const String policyBoxKey = 'policyBoxKey';
+  static const policyBoxKey = 'policyBoxKey';
+  static const enabledPushNotificationBoxKey = 'enabledPushNotificationBoxKey';
 }

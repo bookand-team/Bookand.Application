@@ -43,18 +43,21 @@ class MyScreen extends ConsumerWidget {
                   : member.nickname,
               email: member.providerEmail,
               image: Builder(builder: (_) {
-                if (member.profileImage.isEmpty) {
-                  return Container(color: Colors.grey);
+                if (profileProvider.isImagePreviewMode()) {
+                  return Image.file(
+                    profileCardState.previewImageFile!,
+                    fit: BoxFit.cover,
+                  );
                 }
 
-                return profileProvider.isImagePreviewMode()
-                    ? Image.file(
-                        profileCardState.previewImageFile!,
-                        fit: BoxFit.cover,
-                      )
-                    : CachedNetworkImage(
+                return member.profileImage.isNotEmpty
+                    ? CachedNetworkImage(
                         imageUrl: member.profileImage,
                         errorWidget: (_, __, ___) => Container(color: Colors.grey),
+                        fit: BoxFit.cover,
+                      )
+                    : Image.file(
+                        profileCardState.previewImageFile!,
                         fit: BoxFit.cover,
                       );
               }),

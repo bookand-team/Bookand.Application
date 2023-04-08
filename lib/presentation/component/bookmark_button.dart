@@ -4,11 +4,15 @@ import 'package:flutter_svg/svg.dart';
 class BookmarkButton extends StatefulWidget {
   final bool isBookmark;
   final Function() onTapBookmark;
+  final Color? backgroundColor;
+  final double? radius;
 
   const BookmarkButton({
     super.key,
     required this.isBookmark,
     required this.onTapBookmark,
+    this.backgroundColor,
+    this.radius,
   });
 
   @override
@@ -39,7 +43,8 @@ class _BookmarkButtonState extends State<BookmarkButton> with SingleTickerProvid
       },
       child: CircleAvatar(
           foregroundColor: Colors.transparent,
-          backgroundColor: const Color.fromRGBO(255, 255, 255, 0.8),
+          backgroundColor: widget.backgroundColor ?? const Color.fromRGBO(255, 255, 255, 0.8),
+          radius: widget.radius,
           child: ScaleTransition(
             scale: _animation,
             child: SvgPicture.asset(
@@ -47,8 +52,7 @@ class _BookmarkButtonState extends State<BookmarkButton> with SingleTickerProvid
                   ? 'assets/images/home/ic_40_bookmark_active.svg'
                   : 'assets/images/home/ic_40_bookmark_inactive.svg',
             ),
-          )
-      ),
+          )),
     );
   }
 }

@@ -21,13 +21,14 @@ class ArticleContent {
   final List<String> articleTagList;
   final String category;
   final String content;
-  final String createdData;
+  final String createdDate;
   final int id;
-  final bool isBookmark;
+  bool isBookmark;
   final String mainImage;
   final String modifiedDate;
   final String status;
   final String title;
+  final String subTitle;
   final int view;
   final bool visibility;
   final String writer;
@@ -36,13 +37,14 @@ class ArticleContent {
       this.articleTagList,
       this.category,
       this.content,
-      this.createdData,
+      this.createdDate,
       this.id,
       this.isBookmark,
       this.mainImage,
       this.modifiedDate,
       this.status,
       this.title,
+      this.subTitle,
       this.view,
       this.visibility,
       this.writer);

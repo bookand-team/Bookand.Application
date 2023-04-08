@@ -1,6 +1,6 @@
+import 'package:bookand/data/repository/kakao_repository_impl.dart';
 import 'package:bookand/domain/model/kakao/search_keyword_response.dart';
 import 'package:bookand/domain/usecase/bookstore_report_use_case.dart';
-import 'package:bookand/domain/usecase/get_kakao_search_keyword_use_case.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../core/util/logger.dart';
@@ -29,8 +29,10 @@ class SearchKeywordState {
 
 @riverpod
 class NewBookstoreReportStateNotifier extends _$NewBookstoreReportStateNotifier {
+  late final kakaoRepository = ref.read(kakaoRepositoryProvider);
   SearchKeywordResponse? searchKeywordResp;
-  int page = 0;
+  int page = 1;
+  int size = 15;
   String currentSearchKeyword = '';
   bool isLoading = false;
 
@@ -45,10 +47,9 @@ class NewBookstoreReportStateNotifier extends _$NewBookstoreReportStateNotifier 
 
       if (searchText.isEmpty) return;
 
-      searchKeywordResp = await ref.read(getKakaoSearchKeywordUseCaseProvider).getSearchList(searchText);
-      currentSearchKeyword = searchText;
-
       page = 1;
+      searchKeywordResp = await kakaoRepository.searchKeyword(searchText, page, size);
+      currentSearchKeyword = searchText;
 
       state = state.copyWith(searchList: searchKeywordResp?.documents);
     } catch (e, stack) {
@@ -60,9 +61,7 @@ class NewBookstoreReportStateNotifier extends _$NewBookstoreReportStateNotifier 
 
   void nextSearchKeyword() async {
     try {
-      searchKeywordResp = await ref
-          .read(getKakaoSearchKeywordUseCaseProvider)
-          .getSearchList(currentSearchKeyword, page: ++page);
+      searchKeywordResp = await kakaoRepository.searchKeyword(currentSearchKeyword, ++page, size);
 
       state = state.copyWith(searchList: [
         ...state.searchList,
