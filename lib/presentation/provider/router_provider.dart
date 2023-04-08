@@ -45,8 +45,8 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
         name: MainTab.routeName,
         builder: (_, __) => const MainTab(),
         routes: mainTabRoutes),
-    GoRoute(
-        path: '/splash', name: SplashScreen.routeName, builder: (_, __) => const SplashScreen()),
+    // GoRoute(
+    //     path: '/splash', name: SplashScreen.routeName, builder: (_, __) => const SplashScreen()),
     GoRoute(
         path: '/login',
         name: LoginScreen.routeName,
@@ -179,7 +179,7 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
               goRouterState.location == '/splash'
           ? '/'
           : null;
-          
+
       // return goRouterState.location.startsWith('/login') ? '/' : null;
     }
 
