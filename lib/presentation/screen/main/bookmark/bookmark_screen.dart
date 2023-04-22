@@ -24,7 +24,7 @@ class _BookmarkScreenState extends ConsumerState<BookmarkScreen> {
       children: [
         BookmarkTop(isBookmark: isBookmark),
         BookmarkFolders(),
-        BookmarkContents()
+        BookmarkContents(dataList: [],)
       ],
       
     )
