@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BookmarkScreen extends ConsumerStatefulWidget {
-  const BookmarkScreen({ Key? key }) : super(key: key);
+  const BookmarkScreen({Key? key}) : super(key: key);
 
   @override
   _BookmarkScreenState createState() => _BookmarkScreenState();
@@ -15,19 +15,18 @@ class BookmarkScreen extends ConsumerStatefulWidget {
 class _BookmarkScreenState extends ConsumerState<BookmarkScreen> {
   //서점과 아티클 구별, false일 경우 아티클 화면
   bool isBookmark = true;
-  
+
   @override
   Widget build(BuildContext context) {
-    return 
-    BaseLayout(child: 
-    Column(
+    return BaseLayout(
+        child: Column(
       children: [
         BookmarkTop(isBookmark: isBookmark),
-        BookmarkFolders(),
-        BookmarkContents(dataList: [],)
+        const BookmarkFolders(dataList: []),
+        const BookmarkContents(
+          dataList: [],
+        )
       ],
-      
-    )
-    );
+    ));
   }
 }

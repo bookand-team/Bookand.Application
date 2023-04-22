@@ -1,7 +1,7 @@
 import 'package:bookand/domain/model/article/article_detail.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_detail.dart';
-import 'package:bookand/presentation/screen/main/bookmark/components/folder_components/article_con.dart';
-import 'package:bookand/presentation/screen/main/bookmark/components/folder_components/bookstore_con.dart';
+import 'package:bookand/presentation/screen/main/bookmark/components/content_components/article_con.dart';
+import 'package:bookand/presentation/screen/main/bookmark/components/content_components/bookstore_con.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
