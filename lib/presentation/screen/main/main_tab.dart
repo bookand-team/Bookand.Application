@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../core/app_strings.dart';
 import '../../../core/widget/base_layout.dart';
-import 'bookmark_screen.dart';
+import 'bookmark/bookmark_screen.dart';
 import 'home/home_screen.dart';
 import 'map/map_screen.dart';
 import 'my/my_screen.dart';
