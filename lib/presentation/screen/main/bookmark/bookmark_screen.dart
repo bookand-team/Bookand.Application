@@ -1,3 +1,4 @@
+import 'package:bookand/core/widget/base_layout.dart';
 import 'package:bookand/presentation/screen/main/bookmark/components/bookmark_contents.dart';
 import 'package:bookand/presentation/screen/main/bookmark/components/bookmark_folders.dart';
 import 'package:bookand/presentation/screen/main/bookmark/components/bookmark_top.dart';
@@ -17,13 +18,16 @@ class _BookmarkScreenState extends ConsumerState<BookmarkScreen> {
   
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return 
+    BaseLayout(child: 
+    Column(
       children: [
         BookmarkTop(isBookmark: isBookmark),
         BookmarkFolders(),
         BookmarkContents()
       ],
       
+    )
     );
   }
 }
