@@ -1,3 +1,4 @@
+import 'package:bookand/presentation/screen/main/bookmark/components/folder_components/add_folder_dialog.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -13,39 +14,53 @@ class AddFolder extends StatelessWidget {
   final Size addIconSize = const Size(32, 32);
 
   final TextStyle addFolderStyel = const TextStyle(fontSize: 10);
+  final Color greyThine = const Color(0xffdddddd);
   final Color grey = const Color(0xff999999);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AddFolderDialog();
+          },
+        );
+      },
       child: SizedBox(
         width: folderSize.width,
         height: folderSize.height,
         child: DottedBorder(
-          color: grey,
+          color: greyThine,
           strokeWidth: strokeWidth,
           radius: br,
           dashPattern: const [3, 1],
-          child: Column(
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Spacer(
-                flex: 2,
+              Column(
+                children: [
+                  const Spacer(
+                    flex: 2,
+                  ),
+                  SvgPicture.asset(
+                    'assets/images/bookstore/ic_add_folder_icon.svg',
+                    width: addIconSize.width,
+                    height: addIconSize.height,
+                  ),
+                  const Spacer(
+                    flex: 1,
+                  ),
+                  Text(
+                    '새폴더 추가',
+                    style: addFolderStyel.copyWith(color: grey),
+                  ),
+                  const Spacer(
+                    flex: 1,
+                  )
+                ],
               ),
-              SvgPicture.asset(
-                'assets/images/bookstore/ic_add_folder.svg',
-                width: addIconSize.width,
-                height: addIconSize.height,
-              ),
-              const Spacer(
-                flex: 1,
-              ),
-              Text(
-                '새폴더 추가',
-                style: addFolderStyel.copyWith(color: grey),
-              ),
-              const Spacer(
-                flex: 1,
-              )
             ],
           ),
         ),

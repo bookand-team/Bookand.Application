@@ -1,5 +1,6 @@
 import 'package:bookand/domain/model/article/article_detail.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_detail.dart';
+import 'package:bookand/presentation/screen/main/bookmark/bookmark_style.dart';
 import 'package:bookand/presentation/screen/main/bookmark/components/content_components/article_con.dart';
 import 'package:bookand/presentation/screen/main/bookmark/components/content_components/bookstore_con.dart';
 import 'package:flutter/material.dart';
@@ -18,9 +19,9 @@ class BookmarkContents extends ConsumerWidget {
     fontSize: 14,
   );
 
-  final Color grey = const Color(0xffdddddd);
+  final Color grey = const Color(0xffacacac);
 
-  final double noContentHeight = 140;
+  final double noContentHeight = 180;
   final Size settingSize = const Size(56, 24);
   final double settingIconSize = 12;
 
@@ -30,79 +31,95 @@ class BookmarkContents extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     bool isEmpty = dataList.isEmpty;
+    //테스트
+    // bool isEmpty = false;
     return isEmpty
         ? SizedBox(
             height: noContentHeight,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const Spacer(
+                  flex: 3,
+                ),
                 Image.asset(
                   warningPath,
                   width: warningSize.width,
                   height: warningSize.height,
                 ),
                 const Spacer(
-                  flex: 2,
+                  flex: 1,
                 ),
                 Text(
                   '북마크한 서점이 없어요',
                   style: titleStyle,
+                  textAlign: TextAlign.center,
                 ),
                 const Spacer(
                   flex: 1,
                 ),
                 Text(
                   '북마크 기능을 이용해\n나만의 리스트를 만들어보세요!',
+                  textAlign: TextAlign.center,
                   style: noContentDes.copyWith(color: grey),
                 ),
               ],
             ),
           )
-        : Column(
-            children: [
-              Row(
+        : Expanded(
+            child: Padding(
+              padding: pagePadding,
+              child: Column(
                 children: [
-                  Text(
-                    '모아보기',
-                    style: titleStyle,
-                  ),
-                  Container(
-                    width: settingSize.width,
-                    height: settingSize.height,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: grey),
-                        borderRadius: BorderRadius.circular(32)),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.settings_outlined,
-                          color: grey,
-                          size: settingIconSize,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '모아보기',
+                        style: titleStyle,
+                      ),
+                      Container(
+                        width: settingSize.width,
+                        height: settingSize.height,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: grey),
+                            borderRadius: BorderRadius.circular(32)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Icon(
+                              Icons.settings_outlined,
+                              color: grey,
+                              size: settingIconSize,
+                            ),
+                            Text(
+                              '편집',
+                              style: settingStyle.copyWith(color: grey),
+                            )
+                          ],
                         ),
-                        Text(
-                          '편집',
-                          style: settingStyle.copyWith(color: grey),
-                        )
+                      )
+                    ],
+                  ),
+                  Expanded(
+                    child: GridView.count(
+                      crossAxisCount: 2,
+                      children: [
+                        ...dataList.map((e) {
+                          if (e is BookstoreDetail) {
+                            return BookstoreCon(bookstore: e);
+                          } else if (e is ArticleDetail) {
+                            return ArticleCon(article: e);
+                          } else {
+                            return const SizedBox();
+                          }
+                        }).toList()
                       ],
                     ),
                   )
                 ],
               ),
-              GridView.count(
-                crossAxisCount: 2,
-                children: [
-                  ...dataList.map((e) {
-                    if (e is BookstoreDetail) {
-                      return BookstoreCon(bookstore: e);
-                    } else if (e is ArticleDetail) {
-                      return ArticleCon(article: e);
-                    } else {
-                      return const SizedBox();
-                    }
-                  }).toList()
-                ],
-              )
-            ],
+            ),
           );
   }
 }
