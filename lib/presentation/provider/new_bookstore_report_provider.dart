@@ -1,6 +1,7 @@
 import 'package:bookand/data/repository/kakao_repository_impl.dart';
 import 'package:bookand/domain/model/kakao/search_keyword_response.dart';
 import 'package:bookand/domain/usecase/bookstore_report_use_case.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../core/util/logger.dart';
@@ -34,18 +35,22 @@ class NewBookstoreReportStateNotifier extends _$NewBookstoreReportStateNotifier 
   int page = 1;
   int size = 15;
   String currentSearchKeyword = '';
-  bool isLoading = false;
 
   @override
   SearchKeywordState build() => SearchKeywordState(searchList: [], selectedId: '');
 
+  void onSearchTextChanged(String searchText) {
+    EasyDebounce.debounce('bookstore_search', const Duration(milliseconds: 300), () async {
+      searchKeyword(searchText);
+    });
+  }
+
   void searchKeyword(String searchText) async {
     try {
-      resetSearchResult();
-
-      isLoading = true;
-
-      if (searchText.isEmpty) return;
+      if (searchText.isEmpty) {
+        state = state.copyWith(searchList: []);
+        return;
+      }
 
       page = 1;
       searchKeywordResp = await kakaoRepository.searchKeyword(searchText, page, size);
@@ -54,8 +59,6 @@ class NewBookstoreReportStateNotifier extends _$NewBookstoreReportStateNotifier 
       state = state.copyWith(searchList: searchKeywordResp?.documents);
     } catch (e, stack) {
       logger.e(e, e, stack);
-    } finally {
-      isLoading = false;
     }
   }
 

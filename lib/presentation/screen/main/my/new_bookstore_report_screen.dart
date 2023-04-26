@@ -3,6 +3,8 @@ import 'package:bookand/domain/model/kakao/search_keyword_response.dart';
 import 'package:bookand/domain/usecase/bookstore_report_use_case.dart';
 import 'package:bookand/presentation/provider/new_bookstore_report_provider.dart';
 import 'package:bookand/presentation/screen/main/my/new_bookstore_report_success.dart';
+import 'package:easy_debounce/easy_debounce.dart';
+import 'package:easy_debounce/easy_throttle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -91,6 +93,7 @@ class _NewBookstoreReportScreenState extends ConsumerState<NewBookstoreReportScr
                         border: InputBorder.none,
                       ),
                       textInputAction: TextInputAction.search,
+                      onChanged: newBookstoreReportProvider.onSearchTextChanged,
                       onFieldSubmitted: (_) {
                         newBookstoreReportProvider.searchKeyword(searchTextController.text);
                         scrollController.jumpTo(0);
@@ -104,6 +107,7 @@ class _NewBookstoreReportScreenState extends ConsumerState<NewBookstoreReportScr
                     onTap: () {
                       if (searchTextController.text.isNotEmpty) {
                         searchTextController.text = '';
+                        newBookstoreReportProvider.resetSearchResult();
                       }
                     },
                     child: SvgPicture.asset(
@@ -135,12 +139,6 @@ class _NewBookstoreReportScreenState extends ConsumerState<NewBookstoreReportScr
                 padding: const EdgeInsets.only(top: 16, bottom: 13),
                 child: Builder(
                   builder: (context) {
-                    if (newBookstoreReportProvider.isLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-
                     return newBookstoreReportProvider.hasSearchResult()
                         ? searchResultNotFoundWidget()
                         : Scrollbar(
@@ -163,8 +161,7 @@ class _NewBookstoreReportScreenState extends ConsumerState<NewBookstoreReportScr
                                   );
                                 }
 
-                                if (!newBookstoreReportProvider.isLoading &&
-                                    newBookstoreReportProvider.isEnd()) {
+                                if (newBookstoreReportProvider.isEnd()) {
                                   return const SizedBox();
                                 } else {
                                   newBookstoreReportProvider.nextSearchKeyword();
