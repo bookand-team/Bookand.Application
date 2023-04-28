@@ -117,24 +117,9 @@ class _NewBookstoreReportScreenState extends ConsumerState<NewBookstoreReportScr
                 ],
               ),
             ),
-            const SizedBox(
-              height: 8,
-            ),
-            Visibility(
-              visible: newBookstoreReportProvider.searchKeywordResp != null,
-              child: const Text(
-                AppStrings.searchResult,
-                style: TextStyle(
-                  color: Color(0xFF565656),
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12,
-                  letterSpacing: -0.02,
-                ),
-              ),
-            ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(top: 16, bottom: 13),
+                padding: const EdgeInsets.only(top: 8, bottom: 13),
                 child: Builder(
                   builder: (context) {
                     return newBookstoreReportProvider.hasSearchResult()
