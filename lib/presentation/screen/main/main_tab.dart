@@ -1,3 +1,4 @@
+import 'package:bookand/presentation/screen/test_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -24,6 +25,7 @@ class _MainTabState extends State<MainTab> with SingleTickerProviderStateMixin {
     MapScreen(),
     const BookmarkScreen(),
     const MyScreen(),
+    TestScreen()
   ];
 
   int currentScreenIdx = 0;
@@ -85,6 +87,7 @@ class _MainTabState extends State<MainTab> with SingleTickerProviderStateMixin {
                 activeIcon: SvgPicture.asset(
                     'assets/images/home/ic_24_bottom_mypage_active.svg'),
               ),
+              BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'test')
             ],
             backgroundColor: Colors.white,
             type: BottomNavigationBarType.fixed,

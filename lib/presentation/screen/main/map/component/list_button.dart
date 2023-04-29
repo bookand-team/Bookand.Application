@@ -2,10 +2,10 @@ import 'package:bookand/presentation/provider/map/map_panel_visible_provider.dar
 import 'package:flutter/material.dart';
 //providers
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
 
 class ListButton extends ConsumerWidget {
-  const ListButton({super.key});
+  final void Function() onTap;
+  const ListButton({super.key, required this.onTap});
   final double size = 32;
 
   @override
@@ -18,6 +18,7 @@ class ListButton extends ConsumerWidget {
     return GestureDetector(
       onTap: () {
         con.toggle();
+        onTap();
       },
       child: Container(
         height: size,

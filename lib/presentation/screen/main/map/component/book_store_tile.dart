@@ -1,13 +1,15 @@
-import 'package:bookand/core/const/asset_path.dart';
-import 'package:bookand/presentation/component/map/book_mark_button.dart';
+import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
+import 'package:bookand/domain/usecase/bookstore_map_usecase.dart';
+import 'package:bookand/gen/assets.gen.dart';
+import 'package:bookand/presentation/screen/main/map/component/book_mark_button.dart';
+import 'package:bookand/presentation/screen/main/map/component/theme_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-class BookStoreTile extends StatelessWidget {
-  // final BookstoreModel model;
-  const BookStoreTile({
-    Key? key,
-    // required this.model
-  }) : super(key: key);
+class BookStoreTile extends ConsumerWidget {
+  final BookStoreMapModel store;
+  const BookStoreTile({Key? key, required this.store}) : super(key: key);
 
   final EdgeInsets padding = const EdgeInsets.symmetric(vertical: 15);
   final Color borderColor = const Color(0xfff5f5f5);
@@ -15,9 +17,11 @@ class BookStoreTile extends StatelessWidget {
   // tag 태그
   final double tagBraidus = 2;
   final Color tagBorderColor = const Color(0xffdddddd);
-  final EdgeInsets tagMargin = const EdgeInsets.symmetric(horizontal: 7);
+  final EdgeInsets tagMargin = const EdgeInsets.symmetric(horizontal: 3);
+  final EdgeInsets tagPadding =
+      const EdgeInsets.symmetric(horizontal: 3, vertical: 2);
   //장소 아이콘
-  final Size locaitonIconSize = const Size(10, 14);
+  final Size locaitonIconSize = const Size(16, 16);
 
 //book mark 북마크
   final Color bookMarkColor = const Color(0xfff5f5f7);
@@ -38,8 +42,32 @@ class BookStoreTile extends StatelessWidget {
   final TextStyle distanceStyle = const TextStyle(
       fontSize: 10, fontWeight: FontWeight.w400, color: Color(0xffff4f4f));
 
+  Widget themeText(Themes theme) {
+    return Container(
+      margin: tagMargin,
+      padding: tagPadding,
+      decoration: BoxDecoration(
+          border: Border.all(color: tagBorderColor),
+          borderRadius: BorderRadius.circular(tagBraidus)),
+      child: Text(
+        '#' + ThemeUtils.theme2Str(theme)!,
+        style: tagStyle,
+      ),
+    );
+  }
+
+  String getDistance(double distance) {
+    String type = 'm';
+    int data = distance.floor();
+    if (distance >= 1000) {
+      type = 'km';
+      data = distance ~/ 1000;
+    }
+    return '$data$type';
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       decoration:
           BoxDecoration(border: Border(bottom: BorderSide(color: borderColor))),
@@ -52,15 +80,14 @@ class BookStoreTile extends StatelessWidget {
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(imageBRaidus)),
-            child: Image(
-              image: const AssetImage('assets/images/map/book_tile_test.png'),
-            ),
+            child: Assets.images.map.bookTileTest.image(),
           ),
           Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
                     height: 10,
@@ -69,20 +96,14 @@ class BookStoreTile extends StatelessWidget {
                     children: [
                       // 제목
                       Text(
-                        '사적인 서점',
+                        store.name!,
                         style: titleStyle,
                       ),
-                      //tag container 태그
-                      Container(
-                        margin: tagMargin,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: tagBorderColor),
-                            borderRadius: BorderRadius.circular(tagBraidus)),
-                        child: Text(
-                          '#음악',
-                          style: tagStyle,
-                        ),
+                      SizedBox(
+                        width: 5,
                       ),
+                      //tag container 태그
+                      ...store.theme!.map((e) => themeText(e))
                       // bookmark button 북마크 버튼
                     ],
                   ),
@@ -94,10 +115,10 @@ class BookStoreTile extends StatelessWidget {
                   Row(
                     children: [
                       //아이콘
-                      Image(
+                      SvgPicture.asset(Assets.images.map.bookstoreTilePosition,
                           width: locaitonIconSize.width,
-                          height: locaitonIconSize.height,
-                          image: const AssetImage(locationIconPath)),
+                          height: locaitonIconSize.height),
+
                       const SizedBox(
                         width: 6,
                       ),
@@ -109,7 +130,7 @@ class BookStoreTile extends StatelessWidget {
                         width: 4,
                       ),
                       Text(
-                        '300 m',
+                        getDistance(store.userDistance!),
                         style: distanceStyle,
                       )
                     ],
@@ -118,16 +139,18 @@ class BookStoreTile extends StatelessWidget {
               ),
               // book mark 북마크 버튼
 
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  width: bookMarkSize.width,
-                  height: bookMarkSize.height,
-                  decoration: BoxDecoration(
-                      color: bookMarkColor,
-                      borderRadius: BorderRadius.circular(1000)),
-                  child: BookMarkButton(),
-                ),
+              BookMarkButton(
+                acitve: store.isBookmark!,
+                onAcive: () {
+                  ref
+                      .read(bookstoreMapUsecaseProvider)
+                      .toggleBookstoreBookmark(store.id!.toInt());
+                },
+                onDisacive: () {
+                  ref
+                      .read(bookstoreMapUsecaseProvider)
+                      .toggleBookstoreBookmark(store.id!.toInt());
+                },
               )
             ],
           ),

@@ -3,9 +3,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../api_helper.dart';
 
-part 'bookstore_service.g.dart';
-
 part 'bookstore_service.chopper.dart';
+part 'bookstore_service.g.dart';
 
 @riverpod
 BookstoreService bookstoreService(BookstoreServiceRef ref) =>
@@ -13,7 +12,8 @@ BookstoreService bookstoreService(BookstoreServiceRef ref) =>
 
 @ChopperApi(baseUrl: '/api/v1/bookstores')
 abstract class BookstoreService extends ChopperService {
-  static BookstoreService create([ChopperClient? client]) => _$BookstoreService(client);
+  static BookstoreService create([ChopperClient? client]) =>
+      _$BookstoreService(client);
 
   @Post(path: '/report')
   Future<Response> bookstoreReport(

@@ -1,3 +1,4 @@
+import 'package:bookand/presentation/screen/main/map/component/theme_utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'map_theme_provider.g.dart';
@@ -5,23 +6,21 @@ part 'map_theme_provider.g.dart';
 @Riverpod()
 class MapThemeNotifier extends _$MapThemeNotifier {
   @override
-  List<String> build() => [];
-  //옵션
-  static const List<String> options = [
-    '여행',
-    '음악',
-    '그림',
-    '애완동물',
-    '영화',
-    '추리',
-    '역사'
-  ];
+  List<Themes> build() => [];
 
-  void addThemes(List<String> selectedThemes) {
-    state = selectedThemes;
+  toggleTheme(Themes theme) {
+    if (state.contains(theme)) {
+      state.remove(theme);
+    } else {
+      state.add(theme);
+    }
   }
 
-  void initThemes() {
+  setFromList(List<Themes> selectedThemes) {
+    state = List.from(selectedThemes);
+  }
+
+  init() {
     state = [];
   }
 }

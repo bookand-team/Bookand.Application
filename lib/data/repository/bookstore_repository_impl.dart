@@ -19,14 +19,16 @@ BookstoreRepository bookstoreRepository(BookstoreRepositoryRef ref) {
   final bookstoreRemoteDataSource = ref.read(bookstoreRemoteDataSourceProvider);
   final tokenLocalDataSource = ref.read(tokenLocalDataSourceProvider);
 
-  return BookstoreRepositoryImpl(bookstoreRemoteDataSource, tokenLocalDataSource);
+  return BookstoreRepositoryImpl(
+      bookstoreRemoteDataSource, tokenLocalDataSource);
 }
 
 class BookstoreRepositoryImpl implements BookstoreRepository {
   final BookstoreRemoteDataSource bookstoreRemoteDataSource;
   final TokenLocalDataSource tokenLocalDataSource;
 
-  BookstoreRepositoryImpl(this.bookstoreRemoteDataSource, this.tokenLocalDataSource);
+  BookstoreRepositoryImpl(
+      this.bookstoreRemoteDataSource, this.tokenLocalDataSource);
 
   @override
   Future<String> bookstoreReport(String name, String address) async {
@@ -49,7 +51,8 @@ class BookstoreRepositoryImpl implements BookstoreRepository {
   Future<BookstoreDetail> getBookstoreDetail(int id) async {
     try {
       final accessToken = await tokenLocalDataSource.getAccessToken();
-      return await bookstoreRemoteDataSource.getBookstoreDetail(accessToken, id);
+      return await bookstoreRemoteDataSource.getBookstoreDetail(
+          accessToken, id);
     } on Response catch (e) {
       throw ErrorResponse.fromJson(Utf8Util.utf8JsonDecode(e.bodyString));
     } catch (_) {
@@ -59,14 +62,14 @@ class BookstoreRepositoryImpl implements BookstoreRepository {
 
   /// 처음에 전부 다 받는다는 test 기능 구현
   @override
-  Future<BookstoreTest> getBookTest(String userToken)async {
+  Future<BookstoreTest> getBookTest(String userToken) async {
     try {
       final accessToken = await tokenLocalDataSource.getAccessToken();
-      return await bookstoreRemoteDataSource.getBookstoreTest(accessToken, userToken);
-    } on Response catch (e){
+      return await bookstoreRemoteDataSource.getBookstoreTest(
+          accessToken, userToken);
+    } on Response catch (e) {
       throw ErrorResponse.fromJson(Utf8Util.utf8JsonDecode(e.bodyString));
-    }
-     catch (_) {
+    } catch (_) {
       rethrow;
     }
   }

@@ -1,16 +1,16 @@
 import 'package:bookand/core/widget/base_layout.dart';
+import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 //providers
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 //components
-import 'package:bookand/presentation/component/map/search_page/book_store_searched_tile.dart';
-import 'package:bookand/presentation/component/map/search_page/no_search_text.dart';
-import 'package:bookand/presentation/component/map/search_page/recommendation_button.dart';
-import 'package:bookand/presentation/component/map/search_page/top_bar.dart';
+import 'component/search_page/book_store_searched_tile.dart';
+import 'component/search_page/no_search_text.dart';
+import 'component/search_page/recommendation_button.dart';
+import 'component/search_page/top_bar.dart';
 
 class MapSearchScreen extends ConsumerWidget {
   static String get routeName => 'mapSearch';

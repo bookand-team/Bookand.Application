@@ -21,6 +21,24 @@ class CommonUtil {
     return dist;
   }
 
+  static bool coordInRect({
+    required double targetLat,
+    required double targetLon,
+    required double minLat,
+    required double minLon,
+    required double maxLat,
+    required double maxLon,
+  }) {
+    if (targetLat >= minLat &&
+        targetLat <= maxLat &&
+        targetLon >= minLon &&
+        targetLon <= maxLon) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   static double degToRad(double degree) {
     return degree * pi / 180;
   }

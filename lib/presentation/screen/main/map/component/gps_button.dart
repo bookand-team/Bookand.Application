@@ -4,24 +4,22 @@ import 'dart:async';
 
 import 'package:bookand/core/util/logger.dart';
 import 'package:bookand/presentation/provider/map/geolocator_permission_provider.dart';
+import 'package:bookand/presentation/provider/map/geolocator_position_provider.dart';
+import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
+import 'package:bookand/presentation/provider/map/map_controller_provider.dart';
 import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
 import 'package:bookand/presentation/screen_logic/map/gps_permission_logic.dart';
 import 'package:bookand/presentation/screen_logic/map/gps_position_logic.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-
 //providers
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
-import 'package:bookand/presentation/provider/map/geolocator_position_provider.dart';
-import 'package:bookand/presentation/provider/map/map_controller_provider.dart';
 // import 'package:bookand/presentation/provider/map/map_marker_provider.dart';
 
 class GpsButton extends ConsumerWidget {
   GpsButton({super.key});
   final double size = 32;
-  Stream<LatLng>? geoStream;
   StreamSubscription<LatLng>? geoSub;
+  Stream<LatLng>? geoStream;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selected = ref.watch(gpsToggleProvider);
@@ -73,7 +71,6 @@ class GpsButton extends ConsumerWidget {
         con.toggle();
         //활성화 시
         if (!selected) {
-          markerCon.setTestMakrers(testObjList);
           if (gpsPermission != GpsPermission.enalbe) {
             gpsPermissionCon.getPermission().then((permission) {
               if (permission == GpsPermission.enalbe) {
@@ -85,13 +82,7 @@ class GpsButton extends ConsumerWidget {
           } else {
             setListener();
           }
-          // 현재 화면에 출력된 마커들 print
-          Future.delayed(
-              Duration(milliseconds: 200),
-              () async => print(markerCon.getMarkersInScreen(
-                  await mapControllerCon.getScreenLatLngBounds())));
         } else {
-          markerCon.initMarkers();
           delListener();
         }
       },

@@ -1,11 +1,11 @@
+import 'dart:developer';
+
+import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
+import 'package:bookand/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import 'package:bookand/core/const/asset_path.dart';
-
 // lib test
 import 'package:widget_to_marker/widget_to_marker.dart';
 
@@ -23,67 +23,62 @@ class TestObj {
       required this.lng});
 }
 
+/// widget으로 google map에 marker를 생성하기 위한 프로바이더, state를 watch하고, googlemap에 파라미터로 전달하는 방식으로 구현
 @Riverpod()
 class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
   @override
   Set<Marker> build() {
-    basicIcon = Image.asset(mapBasicMarkerPath);
-    bookmarkIcon = Image.asset(bookmarkActivatePath);
-    hideIcon = Image.asset(mapHideMarkerPath);
     return {};
   }
+
+  Set<Marker> allMarker = {};
 
   late Image basicIcon;
   late Image bookmarkIcon;
   late Image hideIcon;
-
-  void setMarkers(Set<Marker> widgetMarkers) {
-    state = widgetMarkers;
+  Widget bookmarkNormal = SvgPicture.asset(Assets.images.map.bookstoreNormal);
+  Widget createMarkerText(String data) {
+    Radius br = const Radius.circular(5);
+    TextStyle style = const TextStyle(color: Colors.black);
+    EdgeInsets padding = const EdgeInsets.symmetric(vertical: 3, horizontal: 5);
+    Color color = Colors.white.withOpacity(0.5);
+    return Container(
+      padding: padding,
+      decoration:
+          BoxDecoration(color: color, borderRadius: BorderRadius.all(br)),
+      child: Text(
+        data,
+        style: style,
+      ),
+    );
   }
 
-  void setTestMakrers(List<TestObj> objs) async {
-    Set<Marker> markers = {};
-
-    for (var element in objs) {
-      Image icon;
-
-      //basick
-      if (element.type == 0) {
-        icon = basicIcon;
-      }
-      //bookmark
-      else if (element.type == 1) {
-        icon = bookmarkIcon;
-      }
-      // hide
-      else if (element.type == 2) {
-        icon = hideIcon;
-      } else {
-        icon = basicIcon;
-      }
-
+  void initMarkers(List<BookStoreMapModel> bookstoreList) async {
+    for (BookStoreMapModel store in bookstoreList) {
+      Set<Marker> markers = {};
+      Widget body = SizedBox(
+        height: 50,
+        child: Column(
+          children: [bookmarkNormal, createMarkerText(store.name!)],
+        ),
+      );
       Marker marker = Marker(
-          markerId: MarkerId(element.name),
-          position: LatLng(element.lat, element.lng),
-          icon: await icon.toBitmapDescriptor());
+        markerId: MarkerId(store.id.toString()),
+        position: LatLng(store.latitude!, store.longitude!),
+        icon: await body.toBitmapDescriptor(),
+      );
       markers.add(marker);
+      state = Set.from(state..add(marker));
+      log('marker added');
+      allMarker = state;
     }
-    state = markers;
   }
 
-  void initMarkers() {
-    state = {};
-  }
-
-  Set<Marker> getMarkersInScreen(LatLngBounds? bounds) {
-    return bounds == null
-        ? {}
-        : state.where((element) => bounds.contains(element.position)).toSet();
-  }
-
-  // meter로 point와 marker 간의 거리 계산
-  Future<double> getDistanceOfMarker(LatLng pointPos, LatLng markerPos) async {
-    return await Geolocator.distanceBetween(pointPos.latitude,
-        pointPos.longitude, markerPos.latitude, markerPos.longitude);
+  void setBookstoreMarker(List<BookStoreMapModel> bookstoreList) {
+    List<String> listForShow =
+        bookstoreList.map((e) => e.id.toString()).toList();
+    state = allMarker
+        .where((element) => listForShow.contains(element.markerId.value))
+        .toSet();
   }
 }

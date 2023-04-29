@@ -1,4 +1,3 @@
-import 'package:bookand/core/util/logger.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -17,6 +16,14 @@ class MapControllerNotifer extends _$MapControllerNotifer {
 
   void moveCamera({required double lat, required lng}) {
     state?.moveCamera(CameraUpdate.newLatLng(LatLng(lat, lng)));
+  }
+
+  void zoomIn() {
+    state?.moveCamera(CameraUpdate.zoomIn());
+  }
+
+  void zoomOut() {
+    state?.moveCamera(CameraUpdate.zoomOut());
   }
 
   Future<LatLngBounds?> getScreenLatLngBounds() async {

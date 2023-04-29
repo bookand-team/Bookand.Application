@@ -1,10 +1,12 @@
 import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
 import 'package:bookand/presentation/provider/map/map_theme_provider.dart';
+import 'package:bookand/presentation/screen/main/map/component/theme_utils.dart';
 import 'package:flutter/material.dart';
-//components
-import 'package:bookand/presentation/component/map/theme_dialog/theme_dialog.dart';
 //providers
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+//components
+import '../../theme_dialog/theme_dialog.dart';
 
 class ThemeButton extends ConsumerWidget {
   const ThemeButton({Key? key}) : super(key: key);
@@ -24,7 +26,7 @@ class ThemeButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<String> selectedThemes = ref.watch(mapThemeNotifierProvider);
+    final List<Themes> selectedThemes = ref.watch(mapThemeNotifierProvider);
     final themeCon = ref.read(mapThemeNotifierProvider.notifier);
     final bool buttonSelected = ref.watch(themeToggleProvider);
     final buttonSelectCon = ref.watch(themeToggleProvider.notifier);
@@ -37,7 +39,7 @@ class ThemeButton extends ConsumerWidget {
         int len = selectedThemes.length;
         //선택한 게 하나면
         if (len == 1) {
-          data = selectedThemes.first;
+          data = ThemeUtils.theme2Str(selectedThemes.first)!;
         }
         //둘 이상이면
         else {
@@ -74,7 +76,7 @@ class ThemeButton extends ConsumerWidget {
               ),
               selected
                   ? GestureDetector(
-                      onTap: () => themeCon.initThemes(),
+                      onTap: () => themeCon.init(),
                       child: Container(
                         child: Icon(
                           Icons.close,

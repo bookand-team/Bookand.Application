@@ -1,24 +1,32 @@
+import 'dart:math';
+
+import 'package:bookand/core/const/map.dart';
+import 'package:bookand/core/util/common_util.dart';
 import 'package:bookand/core/widget/slide_icon.dart';
+import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
+import 'package:bookand/presentation/provider/map/geolocator_position_provider.dart';
+import 'package:bookand/presentation/provider/map/map_bookstores_provider.dart';
+import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
+import 'package:bookand/presentation/provider/map/map_button_height_provider.dart';
+import 'package:bookand/presentation/provider/map/map_controller_provider.dart';
+import 'package:bookand/presentation/provider/map/map_filtered_book_store_provider.dart';
+import 'package:bookand/presentation/provider/map/map_panel_visible_provider.dart';
+import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
+import 'package:bookand/presentation/screen/main/map/component/theme_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '../../../../core/widget/base_layout.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
-
-//components
-import '../../../component/map/top_bar/top_bar.dart';
-import 'package:bookand/presentation/component/map/book_store_tile.dart';
-import 'package:bookand/presentation/component/map/gps_button.dart';
-import 'package:bookand/presentation/component/map/list_button.dart';
-import 'package:bookand/presentation/component/map/refresh_button.dart';
-
 //providers
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bookand/presentation/provider/map/map_button_height_provider.dart';
-import 'package:bookand/presentation/provider/map/map_panel_visible_provider.dart';
-import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
-import 'package:bookand/presentation/provider/map/map_controller_provider.dart';
-import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
+
+import '../../../../core/widget/base_layout.dart';
+//components
+import 'component/book_store_tile.dart';
+import 'component/gps_button.dart';
+import 'component/list_button.dart';
+import 'component/refresh_button.dart';
+import 'component/top_bar/top_bar.dart';
 
 class MapScreen extends ConsumerStatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -40,8 +48,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   final double slideMinHeight = MapButtonHeightNotifier.panelHeight;
 
   // init camera
-  static const initCamera =
-      CameraPosition(target: LatLng(37.5665, 126.9780), zoom: 13);
+  static CameraPosition initCamera =
+      CameraPosition(target: LatLng(SEOUL_COORD[0], SEOUL_COORD[1]), zoom: 13);
 
   //textstyles
   final TextStyle hideTitle = const TextStyle(
@@ -52,12 +60,52 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   // panel state에서 관리하려고 하면 open -> scrolling으로 갈 때 오류가 나서 분리
   bool panelScrolling = false;
 
+  bool inited = false;
+  bool markInited = false;
+  //서버에서 받은 모든 bookstroes
+  List<BookStoreMapModel> bookstores = [];
+  //조건 처리된 bookstores
+  List<BookStoreMapModel> filteredBookstroes = [];
+  //현재 화면 안에 있는 bookstores
+  List<BookStoreMapModel> bookstoresInScreen = [];
+
   void updatePanelState(CustomPanelState state) {
     if (panelState != state) {
       setState(() {
         panelState = state;
       });
     }
+  }
+
+  // 가지고 있는 서점에서 해당하지 않는 것들을 제거하는 방식으로 초기화
+  Future initFilteredBookstroes(
+      {required bool isBookmark, required List<Themes> selectedThemes}) async {
+    filteredBookstroes = List.from(bookstores);
+    if (isBookmark) {
+      filteredBookstroes.removeWhere((element) => element.isBookmark == false);
+    }
+    if (selectedThemes.isNotEmpty) {
+      //store의 테마가 없으면 제거 (좀 더 비교 대상 줄이기)
+      filteredBookstroes
+          .removeWhere((bookstore) => bookstore.theme?.isEmpty ?? true);
+      //체크한 테마 개수랑 store  테마 개수 안맞으면 제거(좀 더 비교 대상 줄이기)
+      filteredBookstroes.removeWhere(
+          (bookstore) => bookstores.length != filteredBookstroes.length);
+      filteredBookstroes.removeWhere((bookstore) {
+        for (Themes theme in selectedThemes) {
+          if (bookstore.theme!.contains(theme)) {
+            return false;
+          } else {
+            return true;
+          }
+        }
+        return false;
+      });
+    }
+    //마커 출력
+    ref
+        .read(widgetMarkerNotiferProvider.notifier)
+        .setBookstoreMarker(filteredBookstroes);
   }
 
   void panelClosed() {
@@ -85,6 +133,109 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   }
 
   @override
+  void initState() {
+    init();
+
+    super.initState();
+  }
+
+//bookstore를 서버에서 받고 초기화 후 마커 출력
+  Future init() async {
+    final userCoord = await ref
+        .read(gelolocatorPostionNotifierProvider.notifier)
+        .getCurrentPosition();
+    //카메라 이동
+    ref
+        .read(mapControllerNotiferProvider.notifier)
+        .moveCamera(lat: userCoord.lat, lng: userCoord.lng);
+    // 서버에서 받음.
+    await ref
+        .read(mapBooksStoreNotifierProvider.notifier)
+        .fetchBookstoreList(userLat: userCoord.lat, userLon: userCoord.lng);
+    // bookstores 초기화
+    bookstores = ref.read(mapBooksStoreNotifierProvider);
+    // filteredbookstores 초기화
+    ref
+        .read(mapFilteredBooksStoreNotifierProvider.notifier)
+        .filteredBookstroes(isBookmark: false, selectedThemes: []);
+    filteredBookstroes = ref.read(mapFilteredBooksStoreNotifierProvider);
+    //마커 출력
+    ref
+        .read(widgetMarkerNotiferProvider.notifier)
+        .initMarkers(filteredBookstroes);
+    inited = true;
+  }
+
+  //랜덤으로 하나 잡아서 타일 만듬
+  Widget getHideStoreContent() {
+    final randomIndex = Random().nextInt(bookstores.length);
+    final randomModel = bookstores[randomIndex];
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('당신을 위한 보석같은 서점 추천', style: hideTitle),
+            const RefreshButton()
+          ],
+        ),
+        BookStoreTile(
+          store: randomModel,
+        )
+      ],
+    );
+  }
+
+  Widget getListContent() {
+    return Column(
+      children: bookstores.map((e) => BookStoreTile(store: e)).toList(),
+    );
+  }
+
+  Widget getPanelContent([bool isHideStore = false]) {
+    if (isHideStore) {
+      return getHideStoreContent();
+    } else {
+      return getListContent();
+    }
+  }
+
+  Future setVisibleStore() async {
+    bookstoresInScreen.clear();
+    LatLngBounds? bounds = await ref
+        .read(mapControllerNotiferProvider.notifier)
+        .getScreenLatLngBounds();
+    filteredBookstroes.forEach((bookstore) {
+      if (CommonUtil.coordInRect(
+          targetLat: bookstore.latitude!,
+          targetLon: bookstore.longitude!,
+          minLat: bounds!.southwest.latitude,
+          minLon: bounds.southwest.longitude,
+          maxLat: bounds.northeast.latitude,
+          maxLon: bounds.northeast.longitude)) {
+        bookstoresInScreen.add(bookstore);
+      }
+    });
+  }
+
+  void showPanel() async {
+    await setVisibleStore();
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height * 0.8,
+        child: SingleChildScrollView(
+          child: Column(
+            children:
+                bookstoresInScreen.map((e) => BookStoreTile(store: e)).toList(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     final double slideMaxHeight = MediaQuery.of(context).size.height;
     //
@@ -100,7 +251,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     //
     final bool hideStoreVisible = ref.watch(hideStoreToggleProvider);
     //
-    final Set<Marker> markers = ref.watch(widgetMarkerNotiferProvider);
+    Set<Marker> markers = ref.watch(widgetMarkerNotiferProvider);
+
+    final mapController = ref.read(mapControllerNotiferProvider);
 
     /// bottom sheet에서 제스처에 따라 search bar 활성화 때 호출
     void showSearhBar() {
@@ -120,38 +273,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     /// bottom sheet에서 제스처에 따라 panel 비활성화할 때 호출
     void hidePanel() {
       panelVisibleCon.deactivate();
-    }
-
-    Widget getHideStoreContent() {
-      return Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('당신을 위한 보석같은 서점 추천', style: hideTitle),
-              const RefreshButton()
-            ],
-          ),
-          const BookStoreTile()
-        ],
-      );
-    }
-
-    Widget getListContent() {
-      return Column(children: const [
-        BookStoreTile(),
-        BookStoreTile(),
-        BookStoreTile(),
-        BookStoreTile(),
-      ]);
-    }
-
-    Widget getPanelContent() {
-      if (hideStoreVisible) {
-        return getHideStoreContent();
-      } else {
-        return getListContent();
-      }
     }
 
     return BaseLayout(
@@ -222,7 +343,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                             ? null
                             : const NeverScrollableScrollPhysics(),
 
-                        child: getPanelContent(),
+                        child: getPanelContent(hideStoreVisible),
                       ),
                     ),
                   ],
@@ -233,8 +354,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
           body: GoogleMap(
               zoomControlsEnabled: false,
-              onMapCreated: (controller) =>
-                  mapControllerCon.initController(controller),
+              onMapCreated: (controller) {
+                mapControllerCon.initController(controller);
+              },
               markers: markers,
               initialCameraPosition: initCamera),
         ),
@@ -250,11 +372,40 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                 Positioned(
                     right: buttonPading,
                     bottom: buttonHeight + buttonSpace + buttonPading,
-                    child: const ListButton()),
+                    child: ListButton(
+                      onTap: () {},
+                    )),
                 Positioned(
                     right: buttonPading,
                     bottom: buttonHeight + buttonPading,
                     child: GpsButton()),
+                Positioned(
+                    right: buttonPading,
+                    bottom: buttonHeight + 120,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        mapControllerCon.zoomIn();
+                      },
+                      child: Icon(Icons.add),
+                    )),
+                Positioned(
+                    right: buttonPading,
+                    bottom: buttonHeight + 90,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        mapControllerCon.zoomOut();
+                      },
+                      child: Icon(Icons.minimize),
+                    )),
+                Positioned(
+                    right: buttonPading,
+                    bottom: buttonHeight + 200,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        showPanel();
+                      },
+                      child: Icon(Icons.settings),
+                    )),
               ]
             : [const SizedBox()]
       ],

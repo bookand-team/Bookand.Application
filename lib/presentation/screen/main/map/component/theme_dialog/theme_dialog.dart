@@ -1,6 +1,9 @@
 import 'package:bookand/core/widget/slide_icon.dart';
 import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
+import 'package:bookand/presentation/provider/map/map_filtered_book_store_provider.dart';
 import 'package:bookand/presentation/provider/map/map_theme_provider.dart';
+import 'package:bookand/presentation/screen/main/map/component/theme_utils.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -39,16 +42,15 @@ class _ThemeDialogState extends ConsumerState<ThemeDialog> {
 
   final buttonRaidus = const Radius.circular(8);
 
-  List<String> options = MapThemeNotifier.options;
-  List<String> selectedList = [];
+  List<Themes> selectedList = [];
   //
   late ThemeToggleNotifier buttonSelectCon;
   late MapThemeNotifier themeCon;
-
+  bool active = false;
   @override
   void initState() {
     buttonSelectCon = ref.read(themeToggleProvider.notifier);
-    selectedList = ref.read(mapThemeNotifierProvider);
+    selectedList = List.from(ref.read(mapThemeNotifierProvider));
     themeCon = ref.read(mapThemeNotifierProvider.notifier);
     super.initState();
   }
@@ -62,28 +64,23 @@ class _ThemeDialogState extends ConsumerState<ThemeDialog> {
     super.dispose();
   }
 
-  void toggleTheme(String value) {
-    //안전성 점검
-    if (options.contains(value)) {
-      //있으면 제거
-      if (selectedList.contains(value)) {
-        setState(() {
-          selectedList.remove(value);
-        });
-      }
-      //없으면 추가
-      else {
-        setState(() {
-          selectedList.add(value);
-        });
-      }
+  void toggleTheme(Themes theme) {
+    if (selectedList.contains(theme)) {
+      setState(() {
+        selectedList.remove(theme);
+      });
+    } else {
+      setState(() {
+        selectedList.add(theme);
+      });
     }
   }
 
   void initThemes() {
-    themeCon.initThemes();
     setState(() {
+      // selectedList = ref.read(mapThemeNotifierProvider);
       selectedList = [];
+      active = !isDifferent();
     });
   }
 
@@ -106,9 +103,16 @@ class _ThemeDialogState extends ConsumerState<ThemeDialog> {
     );
   }
 
+  bool isDifferent() {
+    List<int> listOne = selectedList.map((e) => e.index).toList();
+    List<int> listTwo =
+        ref.read(mapThemeNotifierProvider).map((e) => e.index).toList();
+
+    return listEquals(listOne, listTwo);
+  }
+
   @override
   Widget build(BuildContext context) {
-    bool themeSelected = selectedList.isNotEmpty;
     Size screenSize = MediaQuery.of(context).size;
 
     return Dialog(
@@ -147,9 +151,10 @@ class _ThemeDialogState extends ConsumerState<ThemeDialog> {
               child: Wrap(
                 spacing: wrapSpacing,
                 runSpacing: wrapVerticalSpacing,
-                children: List.generate(options.length, (index) {
-                  String value = options[index];
-                  bool chipSelected = selectedList.contains(value);
+                children: List.generate(Themes.values.length, (index) {
+                  Themes theme = Themes.values[index];
+                  String? value = ThemeUtils.theme2Str(theme);
+                  bool chipSelected = selectedList.contains(theme);
                   return SizedBox(
                     width: chipSize.width,
                     height: chipSize.height,
@@ -166,11 +171,14 @@ class _ThemeDialogState extends ConsumerState<ThemeDialog> {
                           color: chipSelected ? Colors.white : null),
                       label: Center(
                         child: Text(
-                          options[index],
+                          value!,
                         ),
                       ),
                       onSelected: (_) {
-                        toggleTheme(value);
+                        toggleTheme(theme);
+                        setState(() {
+                          active = !isDifferent();
+                        });
                       },
                     ),
                   );
@@ -183,20 +191,25 @@ class _ThemeDialogState extends ConsumerState<ThemeDialog> {
             //적용 버튼
             GestureDetector(
               onTap: () {
-                themeCon.addThemes(selectedList);
-                context.pop();
+                if (active) {
+                  ref
+                      .read(mapFilteredBooksStoreNotifierProvider.notifier)
+                      .filterAndShowMarker(selectedThemes: selectedList);
+                  themeCon.setFromList(selectedList);
+                  context.pop();
+                }
               },
               child: Container(
                 width: buttonSize.width,
                 height: buttonSize.height,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(buttonRaidus),
-                    color: themeSelected ? selectedColor : buttonColor),
+                    color: active ? selectedColor : buttonColor),
                 child: Center(
                     child: Text(
                   '적용',
-                  style: buttonStyle.copyWith(
-                      color: themeSelected ? Colors.white : null),
+                  style:
+                      buttonStyle.copyWith(color: active ? Colors.white : null),
                 )),
               ),
             ),

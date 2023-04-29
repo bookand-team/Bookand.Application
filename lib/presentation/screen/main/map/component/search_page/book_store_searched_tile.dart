@@ -1,4 +1,4 @@
-import 'package:bookand/domain/model/bookstore/bookstore_model.dart';
+import 'package:bookand/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 
 class BookStoreSearchedTile extends StatelessWidget {
@@ -38,15 +38,11 @@ class BookStoreSearchedTile extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           Container(
-            clipBehavior: Clip.hardEdge,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(imageBRaidus)),
-            child: Image(
-                width: imageSize.width,
-                height: imageSize.height,
-                image: const AssetImage(
-                    'assets/images/map/book_searched_test.png')),
-          ),
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(imageBRaidus)),
+              child: Assets.images.map.bookSearchedTest
+                  .image(width: imageSize.width, height: imageSize.height)),
           SizedBox(
             width: 10,
           ),

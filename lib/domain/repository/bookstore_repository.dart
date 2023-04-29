@@ -7,6 +7,6 @@ abstract class BookstoreRepository {
 
   Future<BookstoreDetail> getBookstoreDetail(int id);
 
-/// 처음에 전부 받는다는 가정
+  /// 처음에 전부 받는다는 가정
   Future<BookstoreTest> getBookTest(String memberToken);
 }

@@ -1,7 +1,8 @@
+import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
+import 'package:bookand/presentation/provider/map/map_filtered_book_store_provider.dart';
 import 'package:flutter/material.dart';
 //providers
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
 
 class BookMarkButton extends ConsumerWidget {
   const BookMarkButton({Key? key}) : super(key: key);
@@ -20,7 +21,12 @@ class BookMarkButton extends ConsumerWidget {
     final con = ref.read(bookMarkToggleProvider.notifier);
 
     return GestureDetector(
-        onTap: () => con.toggle(),
+        onTap: () {
+          ref
+              .read(mapFilteredBooksStoreNotifierProvider.notifier)
+              .filterAndShowMarker(isBookmark: !selected);
+          con.toggle();
+        },
         child: Container(
           margin: EdgeInsets.all(margin),
           width: size.width,
