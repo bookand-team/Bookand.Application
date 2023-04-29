@@ -1,4 +1,3 @@
-import 'package:bookand/core/util/logger.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
 import 'package:bookand/presentation/provider/map/map_bookstores_provider.dart';
 import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
@@ -17,7 +16,7 @@ class MapFilteredBooksStoreNotifier extends _$MapFilteredBooksStoreNotifier
   @override
   List<BookStoreMapModel> build() => <BookStoreMapModel>[];
 
-  ///server에서 데이터 받은 후, 사용자 위치간의 거리를 계산하여 가까운 순으로 정렬
+  ///이미 받은 bookstore데이터에서 bookmark, theme 필터링
   void filteredBookstroes({bool? isBookmark, List<Themes>? selectedThemes}) {
     isBookmark ??= ref.read(bookMarkToggleProvider);
     selectedThemes ??= ref.read(mapThemeNotifierProvider);
@@ -30,17 +29,14 @@ class MapFilteredBooksStoreNotifier extends _$MapFilteredBooksStoreNotifier
     if (selectedThemes!.isNotEmpty) {
       //store의 테마가 없으면 제거 (좀 더 비교 대상 줄이기)
       filteredList.removeWhere((bookstore) => bookstore.theme?.isEmpty ?? true);
-      //체크한 테마 개수랑 store  테마 개수 안맞으면 제거(좀 더 비교 대상 줄이기)
-      filteredList.removeWhere((bookstore) {
-        logger.d('${bookstore.theme!.length} ${selectedThemes!.length}');
-        return bookstore.theme!.length != selectedThemes!.length;
-      });
-      //다르면 제거
-      filteredList.removeWhere((bookstore) {
-        List<int> selected = selectedThemes!.map((e) => e.index).toList();
-        List<int> storeThemes = bookstore.theme!.map((e) => e.index).toList();
-        return !listEquals(selected, storeThemes);
-      });
+
+      //선택한 테마를 가지고 있지 않으면 제거
+      for (Themes selectedTheme in selectedThemes) {
+        filteredList.removeWhere((bookstore) {
+          Set<int> storeThemes = bookstore.theme!.map((e) => e.index).toSet();
+          return !storeThemes.contains(selectedTheme.index);
+        });
+      }
     }
     state = filteredList;
   }
