@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
 import 'package:bookand/presentation/provider/map/map_bookstores_provider.dart';
 import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
@@ -49,5 +51,16 @@ class MapFilteredBooksStoreNotifier extends _$MapFilteredBooksStoreNotifier
   void filterAndShowMarker({bool? isBookmark, List<Themes>? selectedThemes}) {
     filteredBookstroes(isBookmark: isBookmark, selectedThemes: selectedThemes);
     showMarker();
+  }
+
+  BookStoreMapModel? getRandomStore() {
+    if (state.isNotEmpty) {
+      final randomIndex = Random().nextInt(state.length);
+      //filter bookstore 중 하나 선택
+      final randomModel = state[randomIndex];
+      return randomModel;
+    } else {
+      return null;
+    }
   }
 }

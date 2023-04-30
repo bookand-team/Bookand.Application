@@ -1,5 +1,6 @@
 import 'package:bookand/data/repository/bookmark_repository_impl.dart';
 import 'package:bookand/data/repository/bookstore_map_repository_impl.dart';
+import 'package:bookand/domain/model/bookstore/bookstore_map_detail_model.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
 import 'package:bookand/domain/repository/bookmark_repository.dart';
 import 'package:bookand/domain/repository/bookstore_map_repository.dart';
@@ -19,10 +20,14 @@ class BookstoreMapUsecase {
   final BookstoreMapRepository bookstoreMapRepository;
   final BookmarkRepository bookmarkRepository;
 
-  BookstoreMapUsecase(this.bookstoreMapRepository, this.bookmarkRepository);
+  BookstoreMapUsecase(
+    this.bookstoreMapRepository,
+    this.bookmarkRepository,
+  );
 
   Future<BookStoreGetAllResponse> getBookstores() async {
     return await bookstoreMapRepository.getBookstoreAll();
+    // 오류 어디서 나는 지 정확히 모름 테스트 후 추가할것
     // try {
     //   return await repository.getBookstoreAll();
     // } catch (e) {
@@ -33,5 +38,9 @@ class BookstoreMapUsecase {
 
   Future toggleBookstoreBookmark(int id) async {
     return await bookmarkRepository.addBookstoreBookmark(id);
+  }
+
+  Future<BookstoreMapDetailModel> getBookstoreMapDetail(int id) async {
+    return bookstoreMapRepository.getBookstoreMapDetail(id);
   }
 }

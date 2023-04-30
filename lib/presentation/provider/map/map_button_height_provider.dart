@@ -8,6 +8,7 @@ class MapButtonHeightNotifier extends _$MapButtonHeightNotifier {
   double build() => bottom;
   //초기 높이
   static const double panelHeight = 200;
+  static const double hideSheetHeight = 350;
   static const double bottom = 0;
   //패널 꺼졌을 때
 
@@ -29,5 +30,9 @@ class MapButtonHeightNotifier extends _$MapButtonHeightNotifier {
     if (state + delta >= 0) {
       state += delta;
     }
+  }
+
+  void toHideBottomSheet() {
+    state = hideSheetHeight;
   }
 }

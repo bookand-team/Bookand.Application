@@ -230,6 +230,9 @@ class $AssetsImagesMapGen {
   String get bookstoreTilePosition =>
       'assets/images/map/bookstore_tile_position.svg';
 
+  /// File path: assets/images/map/hidestore_reset.svg
+  String get hidestoreReset => 'assets/images/map/hidestore_reset.svg';
+
   /// File path: assets/images/map/ic_warning.png
   AssetGenImage get icWarning =>
       const AssetGenImage('assets/images/map/ic_warning.png');
@@ -242,6 +245,7 @@ class $AssetsImagesMapGen {
         bookmarkDeactive,
         bookstoreNormal,
         bookstoreTilePosition,
+        hidestoreReset,
         icWarning
       ];
 }

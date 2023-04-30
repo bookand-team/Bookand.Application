@@ -2,6 +2,7 @@ import 'package:bookand/data/datasource/bookstore_map/bookstore_map_remote_data_
 import 'package:bookand/data/datasource/bookstore_map/bookstore_remote_data_source.dart';
 import 'package:bookand/data/datasource/token/token_local_data_source.dart';
 import 'package:bookand/data/datasource/token/token_local_data_source_impl.dart';
+import 'package:bookand/domain/model/bookstore/bookstore_map_detail_model.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
 import 'package:bookand/domain/repository/bookstore_map_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -35,5 +36,12 @@ class BookstoreMapRepositoryImpl implements BookstoreMapRepository {
     // }
     final accessToken = await tokenLocalDataSource.getAccessToken();
     return await bookstoreMapRemoteDataSource.getBookStoreAll(accessToken);
+  }
+
+  @override
+  Future<BookstoreMapDetailModel> getBookstoreMapDetail(int id) async {
+    final accessToken = await tokenLocalDataSource.getAccessToken();
+    return await bookstoreMapRemoteDataSource.getBookstoreMapDetail(
+        accessToken, id);
   }
 }

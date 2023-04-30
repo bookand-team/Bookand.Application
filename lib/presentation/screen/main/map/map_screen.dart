@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:bookand/core/const/map.dart';
 import 'package:bookand/core/util/common_util.dart';
 import 'package:bookand/core/widget/slide_icon.dart';
@@ -12,7 +10,6 @@ import 'package:bookand/presentation/provider/map/map_controller_provider.dart';
 import 'package:bookand/presentation/provider/map/map_filtered_book_store_provider.dart';
 import 'package:bookand/presentation/provider/map/map_panel_visible_provider.dart';
 import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
-import 'package:bookand/presentation/screen/main/map/component/theme_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 //providers
@@ -25,7 +22,6 @@ import '../../../../core/widget/base_layout.dart';
 import 'component/book_store_tile.dart';
 import 'component/gps_button.dart';
 import 'component/list_button.dart';
-import 'component/refresh_button.dart';
 import 'component/top_bar/top_bar.dart';
 
 class MapScreen extends ConsumerStatefulWidget {
@@ -52,8 +48,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       CameraPosition(target: LatLng(SEOUL_COORD[0], SEOUL_COORD[1]), zoom: 13);
 
   //textstyles
-  final TextStyle hideTitle = const TextStyle(
-      fontSize: 18, fontWeight: FontWeight.w700, color: Color(0xff222222));
 
   //varibable
   CustomPanelState panelState = CustomPanelState.closed;
@@ -75,37 +69,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         panelState = state;
       });
     }
-  }
-
-  // 가지고 있는 서점에서 해당하지 않는 것들을 제거하는 방식으로 초기화
-  Future initFilteredBookstroes(
-      {required bool isBookmark, required List<Themes> selectedThemes}) async {
-    filteredBookstroes = List.from(bookstores);
-    if (isBookmark) {
-      filteredBookstroes.removeWhere((element) => element.isBookmark == false);
-    }
-    if (selectedThemes.isNotEmpty) {
-      //store의 테마가 없으면 제거 (좀 더 비교 대상 줄이기)
-      filteredBookstroes
-          .removeWhere((bookstore) => bookstore.theme?.isEmpty ?? true);
-      //체크한 테마 개수랑 store  테마 개수 안맞으면 제거(좀 더 비교 대상 줄이기)
-      filteredBookstroes.removeWhere(
-          (bookstore) => bookstores.length != filteredBookstroes.length);
-      filteredBookstroes.removeWhere((bookstore) {
-        for (Themes theme in selectedThemes) {
-          if (bookstore.theme!.contains(theme)) {
-            return false;
-          } else {
-            return true;
-          }
-        }
-        return false;
-      });
-    }
-    //마커 출력
-    ref
-        .read(widgetMarkerNotiferProvider.notifier)
-        .setBookstoreMarker(filteredBookstroes);
   }
 
   void panelClosed() {
@@ -166,25 +129,38 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     inited = true;
   }
 
-  //랜덤으로 하나 잡아서 타일 만듬
-  Widget getHideStoreContent() {
-    final randomIndex = Random().nextInt(bookstores.length);
-    final randomModel = bookstores[randomIndex];
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('당신을 위한 보석같은 서점 추천', style: hideTitle),
-            const RefreshButton()
-          ],
-        ),
-        BookStoreTile(
-          store: randomModel,
-        )
-      ],
-    );
-  }
+  // void showHideStore() {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     builder: (context) {
+  //       return Container(
+  //         child: getHideStoreContent(),
+  //       );
+  //     },
+  //   );
+  // }
+
+  // //랜덤으로 하나 잡아서 타일 만듬
+  // Widget getHideStoreContent() {
+  //   final randomIndex = Random().nextInt(bookstores.length);
+  //   //filter bookstore 중 하나 선택
+  //   final randomModel =
+  //       ref.read(mapFilteredBooksStoreNotifierProvider)[randomIndex];
+  //   return Column(
+  //     children: [
+  //       Row(
+  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //         children: [
+  //           Text('당신을 위한 보석같은 서점 추천', style: hideTitle),
+  //           const RefreshButton()
+  //         ],
+  //       ),
+  //       BookStoreTile(
+  //         store: randomModel,
+  //       )
+  //     ],
+  //   );
+  // }
 
   Widget getListContent() {
     return Column(
@@ -194,7 +170,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
   Widget getPanelContent([bool isHideStore = false]) {
     if (isHideStore) {
-      return getHideStoreContent();
+      // return getHideStoreContent();
+      return SizedBox();
     } else {
       return getListContent();
     }
