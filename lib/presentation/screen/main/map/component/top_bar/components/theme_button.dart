@@ -1,4 +1,5 @@
 import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
+import 'package:bookand/presentation/provider/map/map_panel_visible_provider.dart';
 import 'package:bookand/presentation/provider/map/map_theme_provider.dart';
 import 'package:bookand/presentation/screen/main/map/component/theme_utils.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +52,7 @@ class ThemeButton extends ConsumerWidget {
 
     return GestureDetector(
         onTap: () {
+          ref.read(mapPanelVisibleNotifierProvider.notifier).close();
           buttonSelectCon.activate();
           showDialog(
             context: context,

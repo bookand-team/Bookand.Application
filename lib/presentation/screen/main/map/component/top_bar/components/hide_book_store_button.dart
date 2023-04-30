@@ -1,5 +1,6 @@
 import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
 import 'package:bookand/presentation/provider/map/map_button_height_provider.dart';
+import 'package:bookand/presentation/provider/map/map_panel_visible_provider.dart';
 import 'package:flutter/material.dart';
 //providers
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,6 +27,7 @@ class HideBookStoreButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     void showHideStore() {
+      ref.read(mapPanelVisibleNotifierProvider.notifier).close();
       ref.read(mapButtonHeightNotifierProvider.notifier).toHideBottomSheet();
       showModalBottomSheet(
         useSafeArea: true,

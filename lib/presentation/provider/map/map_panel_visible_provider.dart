@@ -28,6 +28,13 @@ class MapPanelVisibleNotifier extends _$MapPanelVisibleNotifier
     }
   }
 
+  //버튼 높이 영향 없기 끄기만 함.
+  void close() {
+    if (state) {
+      state = false;
+    }
+  }
+
   void button2Panel() {
     buttonHeightCon.toPanel();
   }

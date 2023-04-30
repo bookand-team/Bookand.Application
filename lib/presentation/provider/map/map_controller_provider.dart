@@ -19,11 +19,11 @@ class MapControllerNotifer extends _$MapControllerNotifer {
   }
 
   void zoomIn() {
-    state?.moveCamera(CameraUpdate.zoomIn());
+    state?.animateCamera(CameraUpdate.zoomIn());
   }
 
   void zoomOut() {
-    state?.moveCamera(CameraUpdate.zoomOut());
+    state?.animateCamera(CameraUpdate.zoomOut());
   }
 
   Future<LatLngBounds?> getScreenLatLngBounds() async {

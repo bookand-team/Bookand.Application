@@ -10,6 +10,7 @@ import 'package:bookand/presentation/provider/map/map_controller_provider.dart';
 import 'package:bookand/presentation/provider/map/map_filtered_book_store_provider.dart';
 import 'package:bookand/presentation/provider/map/map_panel_visible_provider.dart';
 import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
+import 'package:bookand/presentation/screen/main/map/component/map_function_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 //providers
@@ -129,52 +130,10 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     inited = true;
   }
 
-  // void showHideStore() {
-  //   showModalBottomSheet(
-  //     context: context,
-  //     builder: (context) {
-  //       return Container(
-  //         child: getHideStoreContent(),
-  //       );
-  //     },
-  //   );
-  // }
-
-  // //랜덤으로 하나 잡아서 타일 만듬
-  // Widget getHideStoreContent() {
-  //   final randomIndex = Random().nextInt(bookstores.length);
-  //   //filter bookstore 중 하나 선택
-  //   final randomModel =
-  //       ref.read(mapFilteredBooksStoreNotifierProvider)[randomIndex];
-  //   return Column(
-  //     children: [
-  //       Row(
-  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //         children: [
-  //           Text('당신을 위한 보석같은 서점 추천', style: hideTitle),
-  //           const RefreshButton()
-  //         ],
-  //       ),
-  //       BookStoreTile(
-  //         store: randomModel,
-  //       )
-  //     ],
-  //   );
-  // }
-
-  Widget getListContent() {
+  Widget getPanelContent([bool isHideStore = false]) {
     return Column(
       children: bookstores.map((e) => BookStoreTile(store: e)).toList(),
     );
-  }
-
-  Widget getPanelContent([bool isHideStore = false]) {
-    if (isHideStore) {
-      // return getHideStoreContent();
-      return SizedBox();
-    } else {
-      return getListContent();
-    }
   }
 
   Future setVisibleStore() async {
@@ -357,32 +316,15 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     bottom: buttonHeight + buttonPading,
                     child: GpsButton()),
                 Positioned(
-                    right: buttonPading,
-                    bottom: buttonHeight + 120,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        mapControllerCon.zoomIn();
-                      },
-                      child: Icon(Icons.add),
-                    )),
+                  right: buttonPading,
+                  bottom: buttonHeight + buttonPading + 2 * buttonSpace,
+                  child: MapZoomOutButton(),
+                ),
                 Positioned(
-                    right: buttonPading,
-                    bottom: buttonHeight + 90,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        mapControllerCon.zoomOut();
-                      },
-                      child: Icon(Icons.minimize),
-                    )),
-                Positioned(
-                    right: buttonPading,
-                    bottom: buttonHeight + 200,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        showPanel();
-                      },
-                      child: Icon(Icons.settings),
-                    )),
+                  right: buttonPading,
+                  bottom: buttonHeight + buttonPading + 3 * buttonSpace,
+                  child: MapZoomInButton(),
+                ),
               ]
             : [const SizedBox()]
       ],
