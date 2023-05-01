@@ -1,5 +1,7 @@
+import 'package:bookand/presentation/provider/main_tab_provider.dart';
 import 'package:bookand/presentation/screen/test/test_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../core/app_strings.dart';
@@ -9,37 +11,16 @@ import 'home/home_screen.dart';
 import 'map/map_screen.dart';
 import 'my/my_screen.dart';
 
-class MainTab extends StatefulWidget {
+class MainTab extends ConsumerWidget {
   static String get routeName => 'main';
 
   const MainTab({super.key});
 
   @override
-  State<MainTab> createState() => _MainTabState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final mainTabProvider = ref.watch(mainTabNotifierProvider.notifier);
+    final mainTabIndex = ref.watch(mainTabNotifierProvider);
 
-class _MainTabState extends State<MainTab> with SingleTickerProviderStateMixin {
-  late final tabController = TabController(length: screens.length, vsync: this);
-  final screens = [
-    const HomeScreen(),
-    MapScreen(),
-    const BookmarkScreen(),
-    const MyScreen(),
-    TestScreen()
-  ];
-
-  int currentScreenIdx = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    tabController.addListener(() {
-      currentScreenIdx = tabController.index;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return BaseLayout(
       appBar: AppBar(
         toolbarHeight: 0,
@@ -97,21 +78,16 @@ class _MainTabState extends State<MainTab> with SingleTickerProviderStateMixin {
             selectedItemColor: Colors.black,
             unselectedFontSize: 8,
             selectedFontSize: 8,
-            onTap: (index) {
-              setState(() {
-                currentScreenIdx = index;
-              });
-              tabController.index = currentScreenIdx;
-            },
-            currentIndex: currentScreenIdx,
+            onTap: mainTabProvider.changeScreen,
+            currentIndex: mainTabIndex,
             elevation: 0,
           ),
         ),
       ),
-      child: TabBarView(
-        controller: tabController,
+      child: PageView(
+        controller: mainTabProvider.pageController,
         physics: const NeverScrollableScrollPhysics(),
-        children: screens,
+        children: mainTabProvider.screens,
       ),
     );
   }

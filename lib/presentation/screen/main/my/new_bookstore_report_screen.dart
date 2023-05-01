@@ -91,6 +91,7 @@ class _NewBookstoreReportScreenState extends ConsumerState<NewBookstoreReportScr
                         border: InputBorder.none,
                       ),
                       textInputAction: TextInputAction.search,
+                      onChanged: newBookstoreReportProvider.onSearchTextChanged,
                       onFieldSubmitted: (_) {
                         newBookstoreReportProvider.searchKeyword(searchTextController.text);
                         scrollController.jumpTo(0);
@@ -104,6 +105,7 @@ class _NewBookstoreReportScreenState extends ConsumerState<NewBookstoreReportScr
                     onTap: () {
                       if (searchTextController.text.isNotEmpty) {
                         searchTextController.text = '';
+                        newBookstoreReportProvider.resetSearchResult();
                       }
                     },
                     child: SvgPicture.asset(
@@ -115,32 +117,11 @@ class _NewBookstoreReportScreenState extends ConsumerState<NewBookstoreReportScr
                 ],
               ),
             ),
-            const SizedBox(
-              height: 8,
-            ),
-            Visibility(
-              visible: newBookstoreReportProvider.searchKeywordResp != null,
-              child: const Text(
-                AppStrings.searchResult,
-                style: TextStyle(
-                  color: Color(0xFF565656),
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12,
-                  letterSpacing: -0.02,
-                ),
-              ),
-            ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(top: 16, bottom: 13),
+                padding: const EdgeInsets.only(top: 8, bottom: 13),
                 child: Builder(
                   builder: (context) {
-                    if (newBookstoreReportProvider.isLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-
                     return newBookstoreReportProvider.hasSearchResult()
                         ? searchResultNotFoundWidget()
                         : Scrollbar(
@@ -163,8 +144,7 @@ class _NewBookstoreReportScreenState extends ConsumerState<NewBookstoreReportScr
                                   );
                                 }
 
-                                if (!newBookstoreReportProvider.isLoading &&
-                                    newBookstoreReportProvider.isEnd()) {
+                                if (newBookstoreReportProvider.isEnd()) {
                                   return const SizedBox();
                                 } else {
                                   newBookstoreReportProvider.nextSearchKeyword();
