@@ -1754,6 +1754,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.0"
+  widget_to_marker:
+    dependency: "direct main"
+    description:
+      name: widget_to_marker
+      sha256: "2301b211438cb09d983430b788b9f8c71cfe9dc767224d9746df170fb5f2a630"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   win32:
     dependency: transitive
     description:

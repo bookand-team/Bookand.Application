@@ -1,9 +1,10 @@
+import 'package:bookand/presentation/screen/main/bookmark_screen.dart';
+import 'package:bookand/presentation/screen/main/map/map_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../screen/main/bookmark_screen.dart';
 import '../screen/main/home/home_screen.dart';
-import '../screen/main/map_screen.dart';
+// import '../screen/main/map_screen.dart';
 import '../screen/main/my/my_screen.dart';
 
 part 'main_tab_provider.g.dart';
@@ -14,6 +15,7 @@ class MainTabNotifier extends _$MainTabNotifier {
   final screens = [
     const HomeScreen(),
     const MapScreen(),
+    // const MapScreen(),
     const BookmarkScreen(),
     const MyScreen(),
   ];

@@ -153,11 +153,12 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
   }
 
   void setBookstoreMarker(List<BookStoreMapModel> bookstoreList) {
-    List<String> listForShow =
-        bookstoreList.map((e) => e.id.toString()).toList();
+    List<String> listForShow = bookstoreList.map((e) => e.name!).toList();
     state = allMarker
         .where((element) => listForShow.contains(element.markerId.value))
         .toSet();
+    logger.d("list = ${bookstoreList} ");
+    logger.d("state = ${state}");
   }
 
   void setOneHideMarker(String name) async {

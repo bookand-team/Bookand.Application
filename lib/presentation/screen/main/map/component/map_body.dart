@@ -29,7 +29,6 @@ class MapBody extends ConsumerStatefulWidget {
   final double initLon;
   final double initZoom;
   final Future Function()? getFutureData;
-  final List<BookStoreMapModel>? datas;
   final bool isMain;
 
   ///화면 꽉 채울지 말지, 채우면 opne일 때 br 없앰
@@ -37,7 +36,6 @@ class MapBody extends ConsumerStatefulWidget {
   const MapBody(
       {Key? key,
       this.isMain = true,
-      this.datas,
       this.topBar,
       this.initLat = SEOUL_COORD_LAT,
       this.initLon = SEOUL_COORD_LON,

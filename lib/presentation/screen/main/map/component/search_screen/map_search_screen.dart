@@ -1,6 +1,8 @@
+import 'package:bookand/core/const/map.dart';
 import 'package:bookand/core/widget/base_layout.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
 import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
+import 'package:bookand/presentation/provider/map/map_panel_visible_provider.dart';
 import 'package:bookand/presentation/provider/map/map_search_stores_provider.dart';
 import 'package:bookand/presentation/screen/main/map/component/map_body.dart';
 import 'package:bookand/presentation/screen/main/map/component/search_screen/components/search_top_bar.dart';
@@ -44,17 +46,22 @@ class _MapSearchScreenState extends ConsumerState<MapSearchScreen> {
 
   Widget searchingPage(List<BookStoreMapModel> searchedList) {
     return searchedList.isEmpty
-        ? Column(children: [
-            Spacer(),
-            NoSearchText(),
-            Spacer(),
-            RecommendationButton(
-              onTap: () {},
-            ),
-            SizedBox(
-              height: 40,
-            )
-          ])
+        ? Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(children: [
+                Spacer(),
+                NoSearchText(),
+                Spacer(),
+                RecommendationButton(
+                  onTap: () {},
+                ),
+                SizedBox(
+                  height: 40,
+                )
+              ]),
+            ],
+          )
         : Column(
             children: [
               Expanded(
@@ -84,7 +91,9 @@ class _MapSearchScreenState extends ConsumerState<MapSearchScreen> {
     if (searchedList.isNotEmpty) {
       final nearStore = searchedList.first;
       initCamera = CameraPosition(
-          target: LatLng(nearStore.latitude!, nearStore.longitude!), zoom: 13);
+          target: LatLng(nearStore.latitude ?? SEOUL_COORD_LAT,
+              nearStore.longitude ?? SEOUL_COORD_LON),
+          zoom: 13);
     }
 
     return Container(
@@ -92,6 +101,7 @@ class _MapSearchScreenState extends ConsumerState<MapSearchScreen> {
       child: SafeArea(
         child: BaseLayout(
           onWillPop: () async {
+            ref.read(mapPanelVisibleNotifierProvider.notifier).deactivate();
             if (isSearched) {
               searchCon.toggle();
               return Future(() => false);
@@ -106,6 +116,7 @@ class _MapSearchScreenState extends ConsumerState<MapSearchScreen> {
               Expanded(
                   child: isSearched
                       ? MapBody(
+                          isMain: false,
                           initLat: initCamera.target.latitude,
                           initLon: initCamera.target.longitude,
                           panelBody: searchedList

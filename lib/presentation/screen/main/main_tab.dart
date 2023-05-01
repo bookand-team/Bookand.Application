@@ -1,25 +1,33 @@
 import 'package:bookand/presentation/provider/main_tab_provider.dart';
-import 'package:bookand/presentation/screen/test/test_screen.dart';
+import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../core/app_strings.dart';
 import '../../../core/widget/base_layout.dart';
-import 'bookmark_screen.dart';
-import 'home/home_screen.dart';
-import 'map/map_screen.dart';
-import 'my/my_screen.dart';
 
 class MainTab extends ConsumerWidget {
   static String get routeName => 'main';
+  final bool? needHideBottomSheet;
 
-  const MainTab({super.key});
+  const MainTab({super.key, this.needHideBottomSheet});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final mainTabProvider = ref.watch(mainTabNotifierProvider.notifier);
     final mainTabIndex = ref.watch(mainTabNotifierProvider);
+
+    if (needHideBottomSheet ?? false) {
+      Future.delayed(
+        Duration(milliseconds: 200),
+        () {
+          ref
+              .read(hideStoreToggleProvider.notifier)
+              .activate(ref: ref, context: context);
+        },
+      );
+    }
 
     return BaseLayout(
       appBar: AppBar(
@@ -68,7 +76,6 @@ class MainTab extends ConsumerWidget {
                 activeIcon: SvgPicture.asset(
                     'assets/images/home/ic_24_bottom_mypage_active.svg'),
               ),
-              BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'test')
             ],
             backgroundColor: Colors.white,
             type: BottomNavigationBarType.fixed,
