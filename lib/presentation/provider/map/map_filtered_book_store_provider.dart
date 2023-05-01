@@ -13,7 +13,7 @@ part 'map_filtered_book_store_provider.g.dart';
 
 //map에 출력할 boostoremodel 관리 프로바이더
 @Riverpod(keepAlive: true)
-class MapFilteredBooksStoreNotifier extends _$MapFilteredBooksStoreNotifier
+class MapFilteredBookStoreNotifier extends _$MapFilteredBookStoreNotifier
     with ChangeNotifier {
   @override
   List<BookStoreMapModel> build() => <BookStoreMapModel>[];
@@ -24,7 +24,7 @@ class MapFilteredBooksStoreNotifier extends _$MapFilteredBooksStoreNotifier
     selectedThemes ??= ref.read(mapThemeNotifierProvider);
 
     List<BookStoreMapModel> filteredList =
-        List.from(ref.read(mapBooksStoreNotifierProvider));
+        List.from(ref.read(mapBookStoreNotifierProvider));
     if (isBookmark!) {
       filteredList.removeWhere((element) => element.isBookmark == false);
     }

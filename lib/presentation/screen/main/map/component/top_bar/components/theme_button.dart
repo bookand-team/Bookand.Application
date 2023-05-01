@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 //components
-import '../../theme_dialog/theme_dialog.dart';
+import '../../theme_bottom_sheet/theme_bottom_sheet.dart';
 
 class ThemeButton extends ConsumerWidget {
   const ThemeButton({Key? key}) : super(key: key);
@@ -52,12 +52,12 @@ class ThemeButton extends ConsumerWidget {
 
     return GestureDetector(
         onTap: () {
-          ref.read(mapPanelVisibleNotifierProvider.notifier).close();
+          ref.read(mapPanelVisibleNotifierProvider.notifier).deactivate();
           buttonSelectCon.activate();
-          showDialog(
-            context: context,
-            builder: (context) => const ThemeDialog(),
-          );
+          showModalBottomSheet(
+              backgroundColor: Colors.white,
+              context: context,
+              builder: (context) => ThemeBottomSheet());
         },
         child: Container(
           margin: EdgeInsets.all(margin),

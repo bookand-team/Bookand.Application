@@ -7,10 +7,15 @@ class MapButtonHeightNotifier extends _$MapButtonHeightNotifier {
   @override
   double build() => bottom;
   //초기 높이
-  static const double panelHeight = 200;
-  static const double hideSheetHeight = 350;
+  double panelHeight = 200;
+  static const double hideSheetHeight = 330;
   static const double bottom = 0;
   //패널 꺼졌을 때
+
+  //다른 화면 마다 패널의 min height 정의
+  void initPanelHeight(double height) {
+    panelHeight = height;
+  }
 
   void updateHeight(double height) {
     if (height >= 0) {

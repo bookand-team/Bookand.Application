@@ -64,6 +64,8 @@ dependencies:
   firebase_remote_config: ^4.0.0
   firebase_messaging: ^14.4.0
   flutter_local_notifications: ^13.0.0
+  # bottom sheet test
+  # interactive_bottom_sheet: ^0.1.2
 
 dev_dependencies:
   flutter_test:

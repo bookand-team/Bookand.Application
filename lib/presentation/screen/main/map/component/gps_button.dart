@@ -7,7 +7,6 @@ import 'package:bookand/presentation/provider/map/geolocator_permission_provider
 import 'package:bookand/presentation/provider/map/geolocator_position_provider.dart';
 import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
 import 'package:bookand/presentation/provider/map/map_controller_provider.dart';
-import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
 import 'package:bookand/presentation/screen_logic/map/gps_permission_logic.dart';
 import 'package:bookand/presentation/screen_logic/map/gps_position_logic.dart';
 import 'package:flutter/material.dart';
@@ -31,36 +30,21 @@ class GpsButton extends ConsumerWidget {
 
     final geoLocatorCon = ref.read(gelolocatorPostionNotifierProvider.notifier);
     final mapControllerCon = ref.read(mapControllerNotiferProvider.notifier);
-//
-    final markerCon = ref.read(widgetMarkerNotiferProvider.notifier);
-
-    final testObjList = [
-      TestObj(name: 'test1', type: 0, lat: 37.5665, lng: 126.9780),
-      TestObj(name: 'test2', type: 1, lat: 37.5765, lng: 126.9780),
-      TestObj(name: 'test3', type: 2, lat: 37.5865, lng: 126.9780),
-      TestObj(name: 'test4', type: 3, lat: 37.5965, lng: 126.9780),
-    ];
 
     void setListener() async {
       geoStream ??= geoLocatorCon.getStream();
       geoSub ??= geoStream?.listen(
         (event) {
-          print('geo listen test = ' + event.toString());
           mapControllerCon.moveCamera(lat: event.lat, lng: event.lng);
         },
-        onDone: () {
-          print('해제됩니다');
-        },
+        onDone: () {},
       );
-      print('geosub =' + geoSub.toString());
     }
 
     void delListener() {
       // geoSub?.pause();
-      print('geosub =' + geoSub.toString());
       if (geoSub != null) {
         if (!geoSub!.isPaused) {
-          print('비활성화');
           geoSub?.pause();
         }
       }

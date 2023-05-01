@@ -2,6 +2,7 @@ import 'package:bookand/core/const/map.dart';
 import 'package:bookand/core/widget/base_bottom_sheet.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
 import 'package:bookand/presentation/provider/map/map_bookstores_provider.dart';
+import 'package:bookand/presentation/screen/test/testbottomsheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -16,15 +17,17 @@ class _TestScreenState extends ConsumerState<TestScreen> {
   bool inited = false;
   List<BookStoreMapModel> response = [];
 
+  bool showBottom = false;
+
   Future initBookstore() async {
     if (inited) {
       return;
     } else {
       await ref
-          .read(mapBooksStoreNotifierProvider.notifier)
+          .read(mapBookStoreNotifierProvider.notifier)
           .fetchBookstoreList(userLat: SEOUL_COORD[0], userLon: SEOUL_COORD[1]);
       setState(() {
-        response = ref.read(mapBooksStoreNotifierProvider);
+        response = ref.read(mapBookStoreNotifierProvider);
       });
       inited = true;
     }
@@ -65,6 +68,15 @@ class _TestScreenState extends ConsumerState<TestScreen> {
                   showCustomBottomSheet(context);
                 },
                 child: const Text('api test, bookmark article folder')),
+            TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const Testbottomsheetadd()),
+                  );
+                },
+                child: const Text('bottom sheet test')),
           ],
         ),
       ),

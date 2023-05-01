@@ -1,3 +1,4 @@
+import 'package:bookand/core/const/map.dart';
 import 'package:bookand/core/util/common_util.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
 import 'package:bookand/domain/usecase/bookstore_map_usecase.dart';
@@ -8,8 +9,7 @@ part 'map_bookstores_provider.g.dart';
 
 //map에 출력할 boostoremodel 관리 프로바이더
 @Riverpod(keepAlive: true)
-class MapBooksStoreNotifier extends _$MapBooksStoreNotifier
-    with ChangeNotifier {
+class MapBookStoreNotifier extends _$MapBookStoreNotifier with ChangeNotifier {
   @override
   List<BookStoreMapModel> build() => <BookStoreMapModel>[];
 
@@ -26,8 +26,8 @@ class MapBooksStoreNotifier extends _$MapBooksStoreNotifier
       element.userDistance = CommonUtil.getDistance(
           lat1: userLat,
           lon1: userLon,
-          lat2: element.latitude!,
-          lon2: element.longitude!);
+          lat2: element.latitude ?? SEOUL_COORD_LAT,
+          lon2: element.longitude ?? SEOUL_COORD_LON);
       state.add(element);
     });
     //정렬

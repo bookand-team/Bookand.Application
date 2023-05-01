@@ -1,6 +1,5 @@
-import 'package:bookand/presentation/provider/member_provider.dart';
-import 'package:bookand/presentation/screen/main/map/map_search_screen.dart';
 import 'package:bookand/presentation/screen/main/home/bookstore_map_screen.dart';
+import 'package:bookand/presentation/screen/main/map/component/search_screen/map_search_screen.dart';
 import 'package:bookand/presentation/screen/main/my/feedback_screen.dart';
 import 'package:bookand/presentation/screen/main/my/new_bookstore_report_screen.dart';
 import 'package:bookand/presentation/screen/main/my/new_bookstore_report_success.dart';

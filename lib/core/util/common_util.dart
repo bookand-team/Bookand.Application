@@ -73,4 +73,14 @@ class CommonUtil {
       return false;
     }
   }
+
+  static String distance2TypedStr(double distance) {
+    String type = 'm';
+    int data = distance.floor();
+    if (distance >= 1000) {
+      type = 'km';
+      data = distance ~/ 1000;
+    }
+    return '$data$type';
+  }
 }

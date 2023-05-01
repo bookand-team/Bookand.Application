@@ -1,3 +1,4 @@
+import 'package:bookand/core/util/common_util.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
 import 'package:bookand/domain/usecase/bookstore_map_usecase.dart';
 import 'package:bookand/gen/assets.gen.dart';
@@ -11,7 +12,9 @@ class BookStoreTile extends ConsumerWidget {
   final BookStoreMapModel store;
   const BookStoreTile({Key? key, required this.store}) : super(key: key);
 
-  final EdgeInsets padding = const EdgeInsets.symmetric(vertical: 15);
+  static const double height = 255;
+
+  final EdgeInsets padding = const EdgeInsets.only(top: 15, bottom: 5);
   final Color borderColor = const Color(0xfff5f5f5);
 
   // tag 태그
@@ -56,21 +59,12 @@ class BookStoreTile extends ConsumerWidget {
     );
   }
 
-  String getDistance(double distance) {
-    String type = 'm';
-    int data = distance.floor();
-    if (distance >= 1000) {
-      type = 'km';
-      data = distance ~/ 1000;
-    }
-    return '$data$type';
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      decoration:
-          BoxDecoration(border: Border(bottom: BorderSide(color: borderColor))),
+      height: height,
+      // decoration:
+      //     BoxDecoration(border: Border(bottom: BorderSide(color: borderColor))),
       padding: padding,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -130,7 +124,7 @@ class BookStoreTile extends ConsumerWidget {
                         width: 4,
                       ),
                       Text(
-                        getDistance(store.userDistance!),
+                        CommonUtil.distance2TypedStr(store.userDistance!),
                         style: distanceStyle,
                       )
                     ],

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class RecommendationButton extends StatelessWidget {
-  const RecommendationButton({Key? key}) : super(key: key);
+  final void Function() onTap;
+  const RecommendationButton({Key? key, required this.onTap}) : super(key: key);
 
   final Size size = const Size(328, 56);
   final EdgeInsets padding = const EdgeInsets.symmetric(vertical: 10);
@@ -10,6 +11,7 @@ class RecommendationButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: onTap,
       child: Container(
         width: size.width,
         height: size.height,

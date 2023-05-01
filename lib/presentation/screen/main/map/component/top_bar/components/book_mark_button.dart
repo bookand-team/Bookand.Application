@@ -23,7 +23,7 @@ class BookMarkButton extends ConsumerWidget {
     return GestureDetector(
         onTap: () {
           ref
-              .read(mapFilteredBooksStoreNotifierProvider.notifier)
+              .read(mapFilteredBookStoreNotifierProvider.notifier)
               .filterAndShowMarker(isBookmark: !selected);
           con.toggle();
         },

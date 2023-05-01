@@ -223,12 +223,18 @@ class $AssetsImagesMapGen {
   /// File path: assets/images/map/bookmark_deactive.svg
   String get bookmarkDeactive => 'assets/images/map/bookmark_deactive.svg';
 
+  /// File path: assets/images/map/bookstore_big.svg
+  String get bookstoreBig => 'assets/images/map/bookstore_big.svg';
+
   /// File path: assets/images/map/bookstore_normal.svg
   String get bookstoreNormal => 'assets/images/map/bookstore_normal.svg';
 
   /// File path: assets/images/map/bookstore_tile_position.svg
   String get bookstoreTilePosition =>
       'assets/images/map/bookstore_tile_position.svg';
+
+  /// File path: assets/images/map/hidestore.svg
+  String get hidestore => 'assets/images/map/hidestore.svg';
 
   /// File path: assets/images/map/hidestore_reset.svg
   String get hidestoreReset => 'assets/images/map/hidestore_reset.svg';
@@ -243,8 +249,10 @@ class $AssetsImagesMapGen {
         bookTileTest,
         bookmarkActive,
         bookmarkDeactive,
+        bookstoreBig,
         bookstoreNormal,
         bookstoreTilePosition,
+        hidestore,
         hidestoreReset,
         icWarning
       ];
