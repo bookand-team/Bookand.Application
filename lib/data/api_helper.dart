@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:bookand/core/const/storage_key.dart';
-import 'package:bookand/core/error/token_exception.dart';
 import 'package:bookand/data/service/auth_service.dart';
 import 'package:bookand/domain/model/auth/reissue_request.dart';
 import 'package:bookand/domain/model/auth/token_reponse.dart';
@@ -71,12 +70,12 @@ class JwtAuthenticator extends Authenticator {
       final reissueRequest = ReissueRequest(refreshToken!);
 
       final resp = await AuthService.create(ApiHelper.client()).reissue(reissueRequest.toJson());
-      if (resp.statusCode != HttpStatus.ok) {
+      if (!resp.isSuccessful) {
         await Future.wait([
           storage.delete(key: accessTokenKey),
           storage.delete(key: refreshTokenKey),
         ]);
-        throw TokenException(errorResponse: Utf8Util.utf8JsonDecode(resp.bodyString));
+        return null;
       }
 
       final token = TokenResponse.fromJson(Utf8Util.utf8JsonDecode(resp.bodyString));

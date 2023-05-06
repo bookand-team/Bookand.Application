@@ -49,3 +49,4 @@ app.*.map.json
 # generate file
 *.g.dart
 *.chopper.dart
+*.freezed.dart
