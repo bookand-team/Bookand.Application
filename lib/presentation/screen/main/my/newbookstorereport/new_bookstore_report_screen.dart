@@ -2,16 +2,16 @@ import 'package:bookand/core/widget/base_dialog.dart';
 import 'package:bookand/domain/model/kakao/search_keyword_response.dart';
 import 'package:bookand/domain/usecase/bookstore_report_use_case.dart';
 import 'package:bookand/presentation/provider/new_bookstore_report_provider.dart';
-import 'package:bookand/presentation/screen/main/my/new_bookstore_report_success.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/app_strings.dart';
-import '../../../../core/widget/base_app_bar.dart';
-import '../../../../core/widget/base_layout.dart';
-import '../../../component/round_rect_button.dart';
+import '../../../../../core/app_strings.dart';
+import '../../../../../core/widget/base_app_bar.dart';
+import '../../../../../core/widget/base_layout.dart';
+import '../../../../component/round_rect_button.dart';
+import 'new_bookstore_report_success.dart';
 
 class NewBookstoreReportScreen extends ConsumerStatefulWidget {
   static String get routeName => 'newBookstoreReportScreen';
