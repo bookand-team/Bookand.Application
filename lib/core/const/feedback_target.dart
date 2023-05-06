@@ -1,10 +1,22 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import '../app_strings.dart';
 
 enum FeedbackTarget {
-  push(name: '알림이 너무 자주와요'),
-  information(name: '정보가 정확하지 않거나 부족해요'),
-  use(name: '이용방법이 불편해요'),
-  etc(name: AppStrings.other);
+  @JsonValue('HOME')
+  home(name: AppStrings.home),
+  @JsonValue('MAP')
+  map(name: AppStrings.map),
+  @JsonValue('BOOKMARK')
+  bookmark(name: AppStrings.bookmark),
+  @JsonValue('MY_PAGE')
+  myPage(name: AppStrings.myPage),
+  @JsonValue('ETC')
+  etc(name: AppStrings.other),
+  @JsonValue('ARTICLE')
+  article(name: '아티클'),
+  @JsonValue('BOOKSTORE')
+  bookstore(name: '서점 정보');
 
   final String name;
 

@@ -1,15 +1,14 @@
 import 'package:bookand/core/const/revoke_type.dart';
 import 'package:bookand/core/widget/base_app_bar.dart';
 import 'package:bookand/core/widget/base_layout.dart';
+import 'package:bookand/presentation/component/custom_dropdown.dart';
 import 'package:bookand/presentation/provider/withdrawal_reason_provider.dart';
-import 'package:bookand/presentation/screen/main/my/feedback_screen.dart';
-import 'package:bookand/presentation/screen/main/my/new_bookstore_report_screen.dart';
+import 'package:bookand/presentation/screen/main/my/feedback/feedback_screen.dart';
+import 'package:bookand/presentation/screen/main/my/newbookstorereport/new_bookstore_report_screen.dart';
 import 'package:bookand/presentation/screen/main/my/terms_and_policy_screen.dart';
 import 'package:bookand/presentation/screen/main/my/withdrawal/account_authentication_screen.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/app_strings.dart';
@@ -26,7 +25,6 @@ class WithdrawalReasonScreen extends ConsumerStatefulWidget {
 
 class _WithdrawalReasonScreenState extends ConsumerState<WithdrawalReasonScreen> {
   final reasonTextController = TextEditingController();
-  bool isOpenDropdown = false;
   bool buttonEnabled = false;
 
   @override
@@ -55,12 +53,7 @@ class _WithdrawalReasonScreenState extends ConsumerState<WithdrawalReasonScreen>
                       letterSpacing: -0.02,
                     ),
                   ),
-                  Visibility(
-                      visible: MediaQuery.of(context).viewInsets.bottom == 0,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: dropdown(),
-                      )),
+                  dropdown(context),
                   const SizedBox(height: 16),
                   guideWidget(),
                 ],
@@ -83,6 +76,39 @@ class _WithdrawalReasonScreenState extends ConsumerState<WithdrawalReasonScreen>
       ),
     );
   }
+
+  Widget dropdown(BuildContext context) => Visibility(
+      visible: MediaQuery.of(context).viewInsets.bottom == 0,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 20),
+        child: CustomDropdown(
+          items: RevokeType.values
+              .map((e) => DropdownMenuItem<RevokeType>(
+                    onTap: () {
+                      setState(() {
+                        buttonEnabled = e != RevokeType.etc;
+                      });
+                    },
+                    value: e,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Text(
+                        e.name,
+                        style: const TextStyle(
+                          color: Color(0xFF222222),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                          letterSpacing: -0.02,
+                        ),
+                      ),
+                    ),
+                  ))
+              .toList(),
+          value: ref.watch(withdrawalReasonStateNotifierProvider).revokeType,
+          hint: AppStrings.defaultDropdownHint,
+          onChanged: ref.watch(withdrawalReasonStateNotifierProvider.notifier).changeRevokeType,
+        ),
+      ));
 
   Widget guideWidget() {
     switch (ref.watch(withdrawalReasonStateNotifierProvider).revokeType) {
@@ -238,117 +264,4 @@ class _WithdrawalReasonScreenState extends ConsumerState<WithdrawalReasonScreen>
         return const SizedBox();
     }
   }
-
-  List<DropdownMenuItem<RevokeType>> addDividerAfterItems() {
-    List<DropdownMenuItem<RevokeType>> menuItems = [];
-    const items = RevokeType.values;
-    for (var item in items) {
-      menuItems.addAll([
-        DropdownMenuItem<RevokeType>(
-          onTap: () {
-            setState(() {
-              if (item == RevokeType.etc) {
-                buttonEnabled = false;
-              } else {
-                buttonEnabled = true;
-              }
-            });
-          },
-          value: item,
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Text(
-              item.name,
-              style: const TextStyle(
-                color: Color(0xFF222222),
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
-                letterSpacing: -0.02,
-              ),
-            ),
-          ),
-        ),
-        if (item != items.last)
-          const DropdownMenuItem(
-            enabled: false,
-            child: Divider(
-              height: 0,
-              color: Color(0xFF222222),
-            ),
-          )
-      ]);
-    }
-    return menuItems;
-  }
-
-  Widget dropdown() => DropdownButton2<RevokeType>(
-        value: ref.watch(withdrawalReasonStateNotifierProvider).revokeType,
-        hint: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12),
-          child: Text(
-            AppStrings.defaultDropdownHint,
-            style: TextStyle(
-              color: Color(0xFFACACAC),
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-              letterSpacing: -0.02,
-            ),
-          ),
-        ),
-        items: addDividerAfterItems(),
-        onChanged: (value) {
-          ref.watch(withdrawalReasonStateNotifierProvider.notifier).changeRevokeType(value);
-        },
-        onMenuStateChange: (value) {
-          setState(() {
-            isOpenDropdown = value;
-          });
-        },
-        underline: const SizedBox(),
-        buttonStyleData: ButtonStyleData(
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-            border: Border.all(color: const Color(0xFF222222)),
-            borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(8),
-              topRight: const Radius.circular(8),
-              bottomLeft: Radius.circular(isOpenDropdown ? 0 : 8),
-              bottomRight: Radius.circular(isOpenDropdown ? 0 : 8),
-            ),
-          ),
-        ),
-        iconStyleData: IconStyleData(
-          icon: Padding(
-            padding: const EdgeInsets.only(right: 12),
-            child: SvgPicture.asset(
-              'assets/images/my/ic_drawer_open.svg',
-            ),
-          ),
-          openMenuIcon: Padding(
-            padding: const EdgeInsets.only(right: 12),
-            child: SvgPicture.asset(
-              'assets/images/my/ic_drawer_close.svg',
-            ),
-          ),
-        ),
-        dropdownStyleData: DropdownStyleData(
-          width: MediaQuery.of(context).size.width - 32,
-          padding: EdgeInsets.zero,
-          decoration: BoxDecoration(
-            border: Border.all(color: const Color(0xFF222222)),
-            borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(8),
-              bottomRight: Radius.circular(8),
-            ),
-          ),
-          elevation: 0,
-        ),
-        menuItemStyleData: MenuItemStyleData(
-          customHeights: List.generate(
-            addDividerAfterItems().length,
-            (index) => index % 2 == 0 ? 46.0 : 0.0,
-          ),
-          padding: EdgeInsets.zero,
-        ),
-      );
 }

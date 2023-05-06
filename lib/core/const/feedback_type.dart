@@ -2,20 +2,14 @@ import 'package:bookand/core/app_strings.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 enum FeedbackType {
-  @JsonValue('HOME')
-  home(name: AppStrings.home),
-  @JsonValue('MAP')
-  map(name: AppStrings.map),
-  @JsonValue('BOOKMARK')
-  bookmark(name: AppStrings.bookmark),
-  @JsonValue('MY_PAGE')
-  myPage(name: AppStrings.myPage),
+  @JsonValue('PUSH')
+  push(name: '알림이 너무 자주와요'),
+  @JsonValue('INFORMATION_ERROR')
+  information(name: '정보가 정확하지 않거나 부족해요'),
+  @JsonValue('INCONVENIENCE')
+  use(name: '이용방법이 불편해요'),
   @JsonValue('ETC')
-  etc(name: AppStrings.other),
-  @JsonValue('')
-  article(name: '아티클'),
-  @JsonValue('')
-  bookstore(name: '서점 정보');
+  etc(name: AppStrings.other);
 
   final String name;
 

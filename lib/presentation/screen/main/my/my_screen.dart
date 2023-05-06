@@ -3,7 +3,7 @@ import 'package:bookand/presentation/provider/package_info_provider.dart';
 import 'package:bookand/presentation/provider/member_provider.dart';
 import 'package:bookand/presentation/provider/profile_provider.dart';
 import 'package:bookand/presentation/screen/main/my/account_management_screen.dart';
-import 'package:bookand/presentation/screen/main/my/new_bookstore_report_screen.dart';
+import 'package:bookand/presentation/screen/main/my/newbookstorereport/new_bookstore_report_screen.dart';
 import 'package:bookand/presentation/screen/main/my/notice_screen.dart';
 import 'package:bookand/presentation/screen/main/my/notification_setting_screen.dart';
 import 'package:bookand/presentation/screen/main/my/terms_and_policy_screen.dart';
@@ -17,7 +17,7 @@ import '../../../../core/app_strings.dart';
 import '../../../../core/widget/base_layout.dart';
 import '../../../../core/util/logger.dart';
 import '../../../component/menu_item.dart';
-import 'feedback_screen.dart';
+import 'feedback/feedback_screen.dart';
 
 class MyScreen extends ConsumerWidget {
   const MyScreen({super.key});
