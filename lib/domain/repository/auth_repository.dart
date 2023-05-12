@@ -1,6 +1,6 @@
 import 'package:bookand/core/const/social_type.dart';
 
-abstract class AuthRepository {
+abstract interface class AuthRepository {
   Future<void> login(String socialAccessToken, SocialType socialType);
 
   Future<void> signUp();

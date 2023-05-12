@@ -1,6 +1,6 @@
 import '../../core/const/bookmark_type.dart';
 
-abstract class BookmarkRepository {
+abstract interface class BookmarkRepository {
   Future<void> addArticleBookmark(int articleId);
 
   Future<void> addBookstoreBookmark(int bookstoreId);

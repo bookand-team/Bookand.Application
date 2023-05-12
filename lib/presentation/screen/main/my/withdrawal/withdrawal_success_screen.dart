@@ -33,11 +33,11 @@ class WithdrawalSuccessScreen extends ConsumerWidget {
           ),
         ),
       ),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 56),
+      child: const Padding(
+        padding: EdgeInsets.only(left: 16, right: 16, bottom: 56),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             Text(
               AppStrings.withdrawalSuccessTitle,
               style: TextStyle(

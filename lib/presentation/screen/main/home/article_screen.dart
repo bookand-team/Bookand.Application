@@ -62,7 +62,7 @@ class _ArticleScreenState extends ConsumerState<ArticleScreen> {
               final bookstoreId = articleDetail.bookstoreList?[index].id;
               if (bookstoreId == null) return;
 
-              context.pushNamed(BookstoreScreen.routeName, params: {'id': bookstoreId.toString()});
+              context.pushNamed(BookstoreScreen.routeName, queryParameters: {'id': bookstoreId.toString()});
             },
           ),
         ],

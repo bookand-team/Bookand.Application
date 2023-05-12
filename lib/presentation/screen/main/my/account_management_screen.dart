@@ -130,8 +130,8 @@ class AccountManagementScreen extends ConsumerWidget {
           onTapPositiveBtn: () {
             ref.watch(memberStateNotifierProvider.notifier).logout();
           },
-          content: Column(
-            children: const [
+          content: const Column(
+            children: [
               Text(
                 AppStrings.logout,
                 style: TextStyle(

@@ -18,11 +18,9 @@ class AppConfig {
       case devMode:
         appMode = AppMode.dev;
         instance = AppConfig._dev();
-        break;
       case productMode:
         appMode = AppMode.production;
         instance = AppConfig._product();
-        break;
       default:
         throw Exception("Unknown flavor : $flavor");
     }
