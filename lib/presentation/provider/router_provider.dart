@@ -1,6 +1,7 @@
 import 'package:bookand/presentation/screen/main/home/bookstore_map_screen.dart';
-import 'package:bookand/presentation/screen/main/my/feedback/feedback_screen.dart';
-import 'package:bookand/presentation/screen/main/my/feedback/feedback_send_success_screen.dart';
+import 'package:bookand/presentation/screen/main/my/error_report_screen.dart';
+import 'package:bookand/presentation/screen/main/my/feedback_screen.dart';
+import 'package:bookand/presentation/screen/main/my/thank_you_opinion_screen.dart';
 import 'package:bookand/presentation/screen/main/my/newbookstorereport/new_bookstore_report_screen.dart';
 import 'package:bookand/presentation/screen/main/my/withdrawal/account_authentication_screen.dart';
 import 'package:bookand/presentation/screen/main/my/withdrawal/account_authentication_success_screen.dart';
@@ -109,9 +110,13 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
         name: FeedbackScreen.routeName,
         builder: (_, __) => const FeedbackScreen()),
     GoRoute(
-        path: 'feedbackSendSuccessScreen',
-        name: FeedbackSendSuccessScreen.routeName,
-        builder: (_, __) => const FeedbackSendSuccessScreen()),
+        path: 'errorReport',
+        name: ErrorReportScreen.routeName,
+        builder: (_, __) => const ErrorReportScreen()),
+    GoRoute(
+        path: 'thankYouOpinion',
+        name: ThankYouOpinionScreen.routeName,
+        builder: (_, __) => const ThankYouOpinionScreen()),
   ];
 
   List<RouteBase> accountManagementRoutes = [

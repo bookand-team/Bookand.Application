@@ -4,17 +4,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../core/app_strings.dart';
-import '../../../../../core/const/auth_state.dart';
-import '../../../../../core/widget/base_app_bar.dart';
-import '../../../../../core/widget/base_layout.dart';
-import '../../../../component/round_rect_button.dart';
-import '../../../../provider/main_tab_provider.dart';
+import '../../../../core/app_strings.dart';
+import '../../../../core/const/auth_state.dart';
+import '../../../../core/widget/base_app_bar.dart';
+import '../../../../core/widget/base_layout.dart';
+import '../../../component/round_rect_button.dart';
+import '../../../provider/main_tab_provider.dart';
 
-class FeedbackSendSuccessScreen extends ConsumerWidget {
-  static String get routeName => 'FeedbackSendSuccessScreen';
+class ThankYouOpinionScreen extends ConsumerWidget {
+  static String get routeName => 'ThankYouOpinionScreen';
 
-  const FeedbackSendSuccessScreen({Key? key}) : super(key: key);
+  const ThankYouOpinionScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -43,7 +43,7 @@ class FeedbackSendSuccessScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              AppStrings.feedbackSendSuccessTitle,
+              AppStrings.thankYouMessage,
               style: TextStyle(
                 color: Color(0xFF222222),
                 fontWeight: FontWeight.w600,
