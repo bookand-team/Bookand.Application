@@ -49,9 +49,11 @@ app.*.map.json
 # generate file
 *.g.dart
 *.chopper.dart
+*.freezed.dart
 
-# vscode build
+# vscode
 .vscode/
-#custom
+
+# 나중에 지울 custom 
 계획.txt
 궁금점.txt

@@ -64,6 +64,7 @@ dependencies:
   firebase_remote_config: ^4.0.0
   firebase_messaging: ^14.4.0
   flutter_local_notifications: ^14.0.0
+  freezed_annotation: ^2.2.0
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +79,7 @@ dev_dependencies:
   chopper_generator: ^6.0.0
   hive_generator: ^2.0.0
   json_serializable: ^6.6.1
+  freezed: ^2.3.3
 
   # asset 편하게 사용하는 라이브러리
   flutter_gen_runner:

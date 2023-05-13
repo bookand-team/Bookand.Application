@@ -1,4 +1,5 @@
 import 'package:bookand/core/util/common_util.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -26,11 +27,11 @@ void main() {
           lon1: currentLocation.longitude,
           lat2: e.latitude,
           lon2: e.longitude);
-      print('${currentLocation.name}에서 ${e.name}까지의 거리 : ${distance.round()}m');
+      debugPrint('${currentLocation.name}에서 ${e.name}까지의 거리 : ${distance.round()}m');
       return distance <= 1000;
     }).toList();
 
-    print('${currentLocation.name} 반경 1km 이내에 있는 지역 : ${in1KmLocationList.map((e) => e.name).toList()}');
+    debugPrint('${currentLocation.name} 반경 1km 이내에 있는 지역 : ${in1KmLocationList.map((e) => e.name).toList()}');
     
     expect(in1KmLocationList.map((e) => e.name).toList(), ['회현역', '충정로역', '숭례문']);
   });

@@ -77,4 +77,11 @@ class AppStrings {
   static const newBookstoreReportSuccessTitle = '따끈따끈한 새로운 서점의\n이야기와 찾아올게요';
   static const newBookstoreReportSuccessDescription = '새로운 서점 제보가 완료되었습니다.';
   static const goHome = '홈으로';
+  static const feedbackTitle = '소중한 의견으로\n성장하는 북앤드입니다';
+  static const feedbackSubTitle = '북앤드의 성장에 날개를 달아주세요';
+  static const feedbackTypeHint = '피드백 유형을 선택해주세요';
+  static const feedbackTargetHint = '대상 화면을 선택해주세요';
+  static const sendFeedback = '의견 보내기';
+  static const feedbackSendError = '피드백 전송 중 문제가 발생하였습니다.\n다시 시도 해주세요.';
+  static const feedbackSendSuccessTitle = '소중한 의견 감사합니다';
 }

@@ -1,8 +1,8 @@
 import 'package:bookand/presentation/screen/main/home/bookstore_map_screen.dart';
 import 'package:bookand/presentation/screen/main/map/component/search_screen/map_search_screen.dart';
-import 'package:bookand/presentation/screen/main/my/feedback_screen.dart';
-import 'package:bookand/presentation/screen/main/my/new_bookstore_report_screen.dart';
-import 'package:bookand/presentation/screen/main/my/new_bookstore_report_success.dart';
+import 'package:bookand/presentation/screen/main/my/feedback/feedback_screen.dart';
+import 'package:bookand/presentation/screen/main/my/feedback/feedback_send_success_screen.dart';
+import 'package:bookand/presentation/screen/main/my/newbookstorereport/new_bookstore_report_screen.dart';
 import 'package:bookand/presentation/screen/main/my/withdrawal/account_authentication_screen.dart';
 import 'package:bookand/presentation/screen/main/my/withdrawal/account_authentication_success_screen.dart';
 import 'package:bookand/presentation/screen/main/my/withdrawal/withdrawal_check_screen.dart';
@@ -22,6 +22,7 @@ import '../screen/main/home/article_screen.dart';
 import '../screen/main/home/bookstore_screen.dart';
 import '../screen/main/main_tab.dart';
 import '../screen/main/my/account_management_screen.dart';
+import '../screen/main/my/newbookstorereport/new_bookstore_report_success.dart';
 import '../screen/main/my/notice_screen.dart';
 import '../screen/main/my/notification_setting_screen.dart';
 import '../screen/main/my/terms_and_policy_screen.dart';
@@ -118,6 +119,10 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
         path: 'feedback',
         name: FeedbackScreen.routeName,
         builder: (_, __) => const FeedbackScreen()),
+    GoRoute(
+        path: 'feedbackSendSuccessScreen',
+        name: FeedbackSendSuccessScreen.routeName,
+        builder: (_, __) => const FeedbackSendSuccessScreen()),
   ];
 
   List<RouteBase> accountManagementRoutes = [

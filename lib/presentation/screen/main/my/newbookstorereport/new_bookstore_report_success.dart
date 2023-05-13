@@ -5,9 +5,9 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/widget/base_app_bar.dart';
 import '../../../../../core/widget/base_layout.dart';
-import '../../../../core/app_strings.dart';
-import '../../../component/round_rect_button.dart';
-import '../../../provider/main_tab_provider.dart';
+import '../../../../../core/app_strings.dart';
+import '../../../../component/round_rect_button.dart';
+import '../../../../provider/main_tab_provider.dart';
 
 class NewBookstoreReportSuccessScreen extends ConsumerWidget {
   static String get routeName => 'newBookstoreReportSuccess';
