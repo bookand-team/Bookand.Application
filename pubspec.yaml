@@ -63,7 +63,8 @@ dependencies:
   share_plus: ^6.3.1
   firebase_remote_config: ^4.0.0
   firebase_messaging: ^14.4.0
-  flutter_local_notifications: ^14.0.0
+  flutter_local_notifications:
+  dotted_border: ^2.0.0+3
   freezed_annotation: ^2.2.0
 
 dev_dependencies:

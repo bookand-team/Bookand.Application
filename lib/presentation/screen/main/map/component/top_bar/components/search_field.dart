@@ -1,3 +1,4 @@
+import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
 import 'package:bookand/presentation/screen/main/map/component/search_screen/map_search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,7 +14,14 @@ class SearchField extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: () => ref.context.pushNamed(MapSearchScreen.routeName),
+      onTap: () =>
+          ref.context.pushNamed(MapSearchScreen.routeName).then((value) {
+        if (value == 'showhide') {
+          ref
+              .read(hideStoreToggleProvider.notifier)
+              .activate(ref: ref, context: context);
+        }
+      }),
       child: Container(
         padding: EdgeInsets.all(padding),
         decoration: BoxDecoration(

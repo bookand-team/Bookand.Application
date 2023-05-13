@@ -27,13 +27,6 @@ class BookstoreMapUsecase {
 
   Future<BookStoreGetAllResponse> getBookstores() async {
     return await bookstoreMapRepository.getBookstoreAll();
-    // 오류 어디서 나는 지 정확히 모름 테스트 후 추가할것
-    // try {
-    //   return await repository.getBookstoreAll();
-    // } catch (e) {
-    //   logger.e(e);
-    //   rethrow;
-    // }
   }
 
   Future toggleBookstoreBookmark(int id) async {

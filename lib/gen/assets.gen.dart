@@ -91,6 +91,10 @@ class $AssetsImagesGen {
 class $AssetsImagesBookstoreGen {
   const $AssetsImagesBookstoreGen();
 
+  /// File path: assets/images/bookstore/ic_add_folder_icon.svg
+  String get icAddFolderIcon =>
+      'assets/images/bookstore/ic_add_folder_icon.svg';
+
   /// File path: assets/images/bookstore/ic_alarm_12.svg
   String get icAlarm12 => 'assets/images/bookstore/ic_alarm_12.svg';
 
@@ -114,6 +118,7 @@ class $AssetsImagesBookstoreGen {
 
   /// List of all assets
   List<String> get values => [
+        icAddFolderIcon,
         icAlarm12,
         icCall12,
         icCopy8,

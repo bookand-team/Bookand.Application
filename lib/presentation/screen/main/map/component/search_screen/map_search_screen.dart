@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 //providers
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 //components
@@ -54,7 +55,9 @@ class _MapSearchScreenState extends ConsumerState<MapSearchScreen> {
                 NoSearchText(),
                 Spacer(),
                 RecommendationButton(
-                  onTap: () {},
+                  onTap: () {
+                    ref.context.pop('showhide');
+                  },
                 ),
                 SizedBox(
                   height: 40,

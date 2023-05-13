@@ -1,4 +1,4 @@
-import 'package:bookand/presentation/screen/main/bookmark_screen.dart';
+import 'package:bookand/presentation/screen/main/bookmark/bookmark_screen.dart';
 import 'package:bookand/presentation/screen/main/map/map_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
