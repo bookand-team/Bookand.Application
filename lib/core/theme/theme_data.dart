@@ -1,3 +1,4 @@
+import 'package:bookand/core/theme/input_decoration_theme.dart';
 import 'package:bookand/core/theme/progress_indicator_theme_data.dart';
 import 'package:bookand/core/theme/text_button_theme.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ final ThemeData lightThemeData = ThemeData(
     ),
     dividerColor: const Color(0xFFF5F5F5),
     hintColor: lightColorFFACACAC,
+    inputDecorationTheme: lightInputDecorationTheme,
     unselectedWidgetColor: lightColorFFF5F5F7,
     useMaterial3: true);
 
