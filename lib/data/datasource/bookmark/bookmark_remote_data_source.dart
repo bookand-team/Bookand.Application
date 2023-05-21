@@ -20,7 +20,7 @@ abstract class BookmarkRemoteDataSource {
 
   //content
 
-  Future<BookmarkContentsReponse> getBookmarkContentList(
+  Future<BookmarkContentsReponse> getBookmarkList(
     String accessToken, {
     required BookmarkType type,
     int cursorId,

@@ -1,10 +1,11 @@
 import 'package:bookand/data/repository/bookmark_repository_impl.dart';
 import 'package:bookand/data/repository/bookstore_map_repository_impl.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_map_detail_model.dart';
-import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
 import 'package:bookand/domain/repository/bookmark_repository.dart';
 import 'package:bookand/domain/repository/bookstore_map_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../model/bookstore/response/bookstore_map_response.dart';
 
 part 'bookstore_map_usecase.g.dart';
 
@@ -27,10 +28,6 @@ class BookstoreMapUsecase {
 
   Future<BookStoreGetAllResponse> getBookstores() async {
     return await bookstoreMapRepository.getBookstoreAll();
-  }
-
-  Future toggleBookstoreBookmark(int id) async {
-    return await bookmarkRepository.addBookstoreBookmark(id);
   }
 
   Future<BookstoreMapDetailModel> getBookstoreMapDetail(int id) async {

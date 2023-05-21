@@ -67,18 +67,16 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
     }
   }
 
-  //fodler
-
   //contents
 
   @override
-  Future<BookmarkContentsReponse> getBookmarkContentList(String accessToken,
+  Future<BookmarkContentsReponse> getBookmarkList(String accessToken,
       {required BookmarkType type,
       int cursorId = 0,
       int page = 0,
       int size = 10}) async {
-    final resp = await service.getBookmarkContentList(
-        accessToken, type, cursorId, page, size);
+    final resp = await service.getBookmarkList(
+        accessToken, type.toServerString(), cursorId, page, size);
 
     if (resp.isSuccessful) {
       return BookmarkContentsReponse.fromJson(
@@ -91,7 +89,8 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
   @override
   Future<ResultResponse> deleteBookmarkContent(String accessToken,
       {required BookmarkIdsRequest request}) async {
-    final resp = await service.deleteBookmarkContent(accessToken, request);
+    final resp =
+        await service.deleteBookmarkContent(accessToken, request.toJson());
     if (resp.isSuccessful) {
       return ResultResponse.fromJson(Utf8Util.utf8JsonDecode(resp.bodyString));
     } else {
@@ -104,7 +103,8 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
   @override
   Future<BookmarkFolderListResponse> getBookmarkFolderList(String accessToken,
       {required BookmarkType type}) async {
-    final resp = await service.getBookmarkFolderList(accessToken, type);
+    final resp =
+        await service.getBookmarkFolderList(accessToken, type.toServerString());
     if (resp.isSuccessful) {
       return BookmarkFolderListResponse.fromJson(
           Utf8Util.utf8JsonDecode(resp.bodyString));
@@ -120,7 +120,7 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
       required int page,
       required int size}) async {
     final resp = await service.getBookmarkFolderContents(
-        accessToken, folderId, cursorId, page, size);
+        accessToken, folderId, cursorId, page, size, folderId);
     if (resp.isSuccessful) {
       return BookmarkContentsReponse.fromJson(
           Utf8Util.utf8JsonDecode(resp.bodyString));
@@ -132,7 +132,7 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
   @override
   Future<BookmarkIdReponse> addBookmarkFolder(String accessToken,
       {required BookmarkFolderNameRequest request}) async {
-    final resp = await service.addBookmarkFolder(accessToken, request);
+    final resp = await service.addBookmarkFolder(accessToken, request.toJson());
     if (resp.isSuccessful) {
       return BookmarkIdReponse.fromJson(
           Utf8Util.utf8JsonDecode(resp.bodyString));
@@ -144,8 +144,8 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
   @override
   Future<BookmarkIdReponse> addBookmarkFolderContents(String accessToken,
       {required folderId, required BookmarkIdsRequest request}) async {
-    final resp =
-        await service.addBookmarkFolderContents(accessToken, folderId, request);
+    final resp = await service.addBookmarkFolderContents(
+        accessToken, folderId, request.toJson());
     if (resp.isSuccessful) {
       return BookmarkIdReponse.fromJson(
           Utf8Util.utf8JsonDecode(resp.bodyString));
@@ -158,8 +158,8 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
   Future<BookmarkIdReponse> updateBookmarkFolderName(String accessToken,
       {required int folderId,
       required BookmarkFolderNameRequest request}) async {
-    final resp =
-        await service.updateBookmarkFolderName(accessToken, folderId, request);
+    final resp = await service.updateBookmarkFolderName(
+        accessToken, folderId, request.toJson());
     if (resp.isSuccessful) {
       return BookmarkIdReponse.fromJson(
           Utf8Util.utf8JsonDecode(resp.bodyString));
@@ -183,7 +183,7 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
   Future<ResultResponse> deleteBookmarkFolderContents(String accessToken,
       {required int folderId, required BookmarkIdsRequest request}) async {
     final resp = await service.deleteBookmarkFolderContents(
-        accessToken, folderId, request);
+        accessToken, folderId, request.toJson());
     if (resp.isSuccessful) {
       return ResultResponse.fromJson(Utf8Util.utf8JsonDecode(resp.bodyString));
     } else {

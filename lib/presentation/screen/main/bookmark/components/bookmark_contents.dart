@@ -1,14 +1,25 @@
-import 'package:bookand/domain/model/article/article_detail.dart';
-import 'package:bookand/domain/model/bookstore/bookstore_detail.dart';
+import 'package:bookand/core/const/bookmark_type.dart';
+import 'package:bookand/domain/model/bookmark/bookmark_model.dart';
+import 'package:bookand/presentation/provider/bookmark/bookmark_edit_provider.dart';
 import 'package:bookand/presentation/screen/main/bookmark/bookmark_style.dart';
-import 'package:bookand/presentation/screen/main/bookmark/components/content_components/article_con.dart';
-import 'package:bookand/presentation/screen/main/bookmark/components/content_components/bookstore_con.dart';
+import 'package:bookand/presentation/screen/main/bookmark/components/content_components/bookmark_container.dart';
+import 'package:bookand/presentation/screen/main/bookmark/components/content_components/edit_sheet_button.dart';
+import 'package:bookand/presentation/screen/main/home/article_screen.dart';
+import 'package:bookand/presentation/screen/main/home/bookstore_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class BookmarkContents extends ConsumerWidget {
-  final List<dynamic> dataList;
-  const BookmarkContents({Key? key, required this.dataList}) : super(key: key);
+  final BookmarkType type;
+  final List<BookmarkModel> bookmarkList;
+  final ScrollController scrollController;
+  const BookmarkContents(
+      {Key? key,
+      required this.type,
+      required this.bookmarkList,
+      required this.scrollController})
+      : super(key: key);
 
   final TextStyle titleStyle =
       const TextStyle(fontSize: 18, color: Color(0xff222222));
@@ -30,33 +41,33 @@ class BookmarkContents extends ConsumerWidget {
   final warningPath = 'assets/images/map/ic_warning.png';
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    bool isEmpty = dataList.isEmpty;
-    //테스트
-    // bool isEmpty = false;
+    bool settingMode = ref.watch(bookmarkEditNotifierProvider);
+    bool isEmpty = bookmarkList.isEmpty;
+    // 테스트
     return isEmpty
         ? SizedBox(
             height: noContentHeight,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Spacer(
-                  flex: 3,
+                const SizedBox(
+                  height: 30,
                 ),
                 Image.asset(
                   warningPath,
                   width: warningSize.width,
                   height: warningSize.height,
                 ),
-                const Spacer(
-                  flex: 1,
+                const SizedBox(
+                  height: 20,
                 ),
                 Text(
                   '북마크한 서점이 없어요',
                   style: titleStyle,
                   textAlign: TextAlign.center,
                 ),
-                const Spacer(
-                  flex: 1,
+                const SizedBox(
+                  height: 12,
                 ),
                 Text(
                   '북마크 기능을 이용해\n나만의 리스트를 만들어보세요!',
@@ -66,7 +77,8 @@ class BookmarkContents extends ConsumerWidget {
               ],
             ),
           )
-        : Expanded(
+        : SizedBox(
+            height: MediaQuery.of(context).size.height - 100,
             child: Padding(
               padding: pagePadding,
               child: Column(
@@ -78,41 +90,33 @@ class BookmarkContents extends ConsumerWidget {
                         '모아보기',
                         style: titleStyle,
                       ),
-                      Container(
-                        width: settingSize.width,
-                        height: settingSize.height,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: grey),
-                            borderRadius: BorderRadius.circular(32)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Icon(
-                              Icons.settings_outlined,
-                              color: grey,
-                              size: settingIconSize,
-                            ),
-                            Text(
-                              '편집',
-                              style: settingStyle.copyWith(color: grey),
-                            )
-                          ],
-                        ),
-                      )
+                      EditSheetButton()
                     ],
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   Expanded(
                     child: GridView.count(
+                      mainAxisSpacing: 0,
+                      crossAxisSpacing: 10,
+                      primary: false,
                       crossAxisCount: 2,
+                      childAspectRatio: BookmarkContainer.size.width /
+                          BookmarkContainer.size.height,
                       children: [
-                        ...dataList.map((e) {
-                          if (e is BookstoreDetail) {
-                            return BookstoreCon(bookstore: e);
-                          } else if (e is ArticleDetail) {
-                            return ArticleCon(article: e);
-                          } else {
-                            return const SizedBox();
-                          }
+                        ...bookmarkList.map((e) {
+                          return BookmarkContainer(
+                            model: e,
+                            settingMode: settingMode,
+                            onTap: () {
+                              context.goNamed(
+                                  type == BookmarkType.article
+                                      ? ArticleScreen.routeName
+                                      : BookstoreScreen.routeName,
+                                  params: {'id': e.bookmarkId!.toString()});
+                            },
+                          );
                         }).toList()
                       ],
                     ),

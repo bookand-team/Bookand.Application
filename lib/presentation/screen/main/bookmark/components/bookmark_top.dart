@@ -1,12 +1,14 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:bookand/core/const/bookmark_type.dart';
+import 'package:bookand/presentation/provider/bookmark/bookmark_type_provider.dart';
 import 'package:bookand/presentation/screen/main/bookmark/bookmark_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BookmarkTop extends ConsumerWidget {
-  final bool isBookmark;
-  const BookmarkTop({Key? key, required this.isBookmark}) : super(key: key);
+  final BookmarkType type;
+  const BookmarkTop({Key? key, required this.type}) : super(key: key);
 
   final TextStyle buttonStyle =
       const TextStyle(fontSize: 22, fontWeight: FontWeight.bold);
@@ -39,8 +41,10 @@ class BookmarkTop extends ConsumerWidget {
       children: [
         createButton(
           data: BOOKSTORE,
-          isActive: isBookmark,
-          ontap: () {},
+          isActive: type == BookmarkType.bookstore,
+          ontap: () {
+            ref.read(bookmarkTypeNotifierProvider.notifier).toBookstore();
+          },
         ),
         Text(
           '/',
@@ -48,8 +52,10 @@ class BookmarkTop extends ConsumerWidget {
         ),
         createButton(
           data: ARTICLE,
-          isActive: !isBookmark,
-          ontap: () {},
+          isActive: type == BookmarkType.article,
+          ontap: () {
+            ref.read(bookmarkTypeNotifierProvider.notifier).toArticle();
+          },
         ),
       ],
     );

@@ -5,12 +5,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 class BookMarkButton extends StatefulWidget {
   final bool acitve;
   final void Function() onAcive;
-  final void Function() onDisacive;
+  final void Function() onDisactive;
   const BookMarkButton(
       {Key? key,
       required this.acitve,
       required this.onAcive,
-      required this.onDisacive})
+      required this.onDisactive})
       : super(key: key);
 
   @override
@@ -31,7 +31,7 @@ class _BookMarkButtonState extends State<BookMarkButton> {
         if (isSelected) {
           widget.onAcive();
         } else {
-          widget.onDisacive();
+          widget.onDisactive();
         }
         setState(() {
           isSelected = !isSelected;

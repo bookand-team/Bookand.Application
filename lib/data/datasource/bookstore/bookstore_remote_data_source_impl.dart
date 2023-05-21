@@ -2,7 +2,6 @@ import 'package:bookand/data/datasource/bookstore/bookstore_remote_data_source.d
 import 'package:bookand/data/service/bookstore_service.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_detail.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_report_request.dart';
-import 'package:bookand/domain/model/bookstore/bookstore_test.dart';
 import 'package:bookand/domain/model/result_response.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -44,17 +43,6 @@ class BookstoreRemoteDataStoreImpl implements BookstoreRemoteDataSource {
 
     if (resp.isSuccessful) {
       return BookstoreDetail.fromJson(Utf8Util.utf8JsonDecode(resp.bodyString));
-    } else {
-      throw resp;
-    }
-  }
-
-  @override
-  Future<BookstoreTest> getBookstoreTest(
-      String accessToken, String userToken) async {
-    final resp = await service.getBookstoreTest(accessToken, userToken);
-    if (resp.isSuccessful) {
-      return BookstoreTest.fromJson(Utf8Util.utf8JsonDecode(resp.bodyString));
     } else {
       throw resp;
     }

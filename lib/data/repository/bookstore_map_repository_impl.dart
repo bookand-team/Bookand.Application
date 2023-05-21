@@ -3,7 +3,7 @@ import 'package:bookand/data/datasource/bookstore_map/bookstore_remote_data_sour
 import 'package:bookand/data/datasource/token/token_local_data_source.dart';
 import 'package:bookand/data/datasource/token/token_local_data_source_impl.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_map_detail_model.dart';
-import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
+import 'package:bookand/domain/model/bookstore/response/bookstore_map_response.dart';
 import 'package:bookand/domain/repository/bookstore_map_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

@@ -1,6 +1,3 @@
-import 'package:bookand/core/const/bookmark_type.dart';
-import 'package:bookand/domain/model/bookmark/request/bookmark_folder_name_request.dart';
-import 'package:bookand/domain/model/bookmark/request/bookmark_ids_request.dart';
 import 'package:chopper/chopper.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -39,9 +36,9 @@ abstract class BookmarkService extends ChopperService {
   //content
 
   @Get(path: '/collections')
-  Future<Response> getBookmarkContentList(
+  Future<Response> getBookmarkList(
     @Header('Authorization') String accessToken,
-    @Query('bookmarkType') BookmarkType type,
+    @Query('bookmarkType') String type,
     @Query('cursorId') int cursorId,
     @Query('page') int page,
     @Query('size') int size,
@@ -50,28 +47,28 @@ abstract class BookmarkService extends ChopperService {
   @Delete(path: '/collections')
   Future<Response> deleteBookmarkContent(
     @Header('Authorization') String accessToken,
-    @Field('bookmarkRequest') BookmarkIdsRequest bookmarkRequest,
+    @Body() Map<String, dynamic> body,
   );
 
-  //fodler
+  //folder
 
   @Get()
   Future<Response> getBookmarkFolderList(
     @Header('Authorization') String accessToken,
-    @Query('bookmarkType') BookmarkType type,
+    @Query('bookmarkType') String type,
   );
 
   @Post()
   Future<Response> addBookmarkFolder(
     @Header('Authorization') String accessToken,
-    @Field('bookmarkRequest') BookmarkFolderNameRequest bookmarkRequest,
+    @Body() Map<String, dynamic> body,
   );
 
   @Get(path: '/folders/{bookmarkFolderId}')
   Future<Response> getBookmarkFolderContents(
-    // @Path('bookmarkFolderId') String folderId,
     @Header('Authorization') String accessToken,
-    @Query('bookmarkFolderId ') int folderId,
+    @Path('bookmarkFolderId') int folderId,
+    @Query('bookmarkFolderId ') int folderIdParam,
     @Query('cursorId') int cursorId,
     @Query('page') int page,
     @Query('size') int size,
@@ -79,32 +76,28 @@ abstract class BookmarkService extends ChopperService {
 
   @Post(path: '/folders/{bookmarkFolderId}')
   Future<Response> addBookmarkFolderContents(
-    // @Path('bookmarkFolderId') String folderId,
     @Header('Authorization') String accessToken,
-    @Query('bookmarkFolderId ') int folderId,
-    @Query('bookmarkRequest') BookmarkIdsRequest bookmarkRequest,
+    @Path('bookmarkFolderId') int folderId,
+    @Body() Map<String, dynamic> body,
   );
 
   @Put(path: '/folders/{bookmarkFolderId}')
   Future<Response> updateBookmarkFolderName(
-    // @Path('bookmarkFolderId') String folderId,
     @Header('Authorization') String accessToken,
-    @Query('bookmarkFolderId ') int folderId,
-    @Query('bookmarkRequest') BookmarkFolderNameRequest bookmarkRequest,
+    @Path('bookmarkFolderId') int folderId,
+    @Body() Map<String, dynamic> body,
   );
 
   @Delete(path: '/folders/{bookmarkFolderId}')
   Future<Response> deleteBookmarkFolder(
-    // @Path('bookmarkFolderId') String folderId,
     @Header('Authorization') String accessToken,
-    @Query('bookmarkFolderId ') int folderId,
+    @Path('bookmarkFolderId') int folderId,
   );
 
   @Delete(path: '/folders/{bookmarkFolderId}/contents')
   Future<Response> deleteBookmarkFolderContents(
-    // @Path('bookmarkFolderId') String folderId,
     @Header('Authorization') String accessToken,
-    @Query('bookmarkFolderId ') int folderId,
-    @Query('bookmarkRequest') BookmarkIdsRequest bookmarkRequest,
+    @Path('bookmarkFolderId') int folderId,
+    @Body() Map<String, dynamic> body,
   );
 }

@@ -12,6 +12,7 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  $AssetsImagesBookmarkGen get bookmark => const $AssetsImagesBookmarkGen();
   $AssetsImagesBookstoreGen get bookstore => const $AssetsImagesBookstoreGen();
   $AssetsImagesHomeGen get home => const $AssetsImagesHomeGen();
 
@@ -85,6 +86,59 @@ class $AssetsImagesGen {
         icNonFavorite,
         icSearch,
         icWarning
+      ];
+}
+
+class $AssetsImagesBookmarkGen {
+  const $AssetsImagesBookmarkGen();
+
+  /// File path: assets/images/bookmark/ic_16_bookmarkX.svg
+  String get ic16BookmarkX => 'assets/images/bookmark/ic_16_bookmarkX.svg';
+
+  /// File path: assets/images/bookmark/ic_24_bookmarkX.svg
+  String get ic24BookmarkX => 'assets/images/bookmark/ic_24_bookmarkX.svg';
+
+  /// File path: assets/images/bookmark/ic_24_edit.svg
+  String get ic24Edit => 'assets/images/bookmark/ic_24_edit.svg';
+
+  /// File path: assets/images/bookmark/ic_24_folderX.svg
+  String get ic24FolderX => 'assets/images/bookmark/ic_24_folderX.svg';
+
+  /// File path: assets/images/bookmark/ic_24_foldersave.svg
+  String get ic24Foldersave => 'assets/images/bookmark/ic_24_foldersave.svg';
+
+  /// File path: assets/images/bookmark/ic_24_more.svg
+  String get ic24More => 'assets/images/bookmark/ic_24_more.svg';
+
+  /// File path: assets/images/bookmark/ic_24_up.svg
+  String get ic24Up => 'assets/images/bookmark/ic_24_up.svg';
+
+  /// File path: assets/images/bookmark/ic_app_bar_back.svg
+  String get icAppBarBack => 'assets/images/bookmark/ic_app_bar_back.svg';
+
+  /// File path: assets/images/bookmark/ic_delete_snackbar_icon.svg
+  String get icDeleteSnackbarIcon =>
+      'assets/images/bookmark/ic_delete_snackbar_icon.svg';
+
+  /// File path: assets/images/bookmark/ic_folder.svg
+  String get icFolder => 'assets/images/bookmark/ic_folder.svg';
+
+  /// File path: assets/images/bookmark/ic_folder_add.svg
+  String get icFolderAdd => 'assets/images/bookmark/ic_folder_add.svg';
+
+  /// List of all assets
+  List<String> get values => [
+        ic16BookmarkX,
+        ic24BookmarkX,
+        ic24Edit,
+        ic24FolderX,
+        ic24Foldersave,
+        ic24More,
+        ic24Up,
+        icAppBarBack,
+        icDeleteSnackbarIcon,
+        icFolder,
+        icFolderAdd
       ];
 }
 

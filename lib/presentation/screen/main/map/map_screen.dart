@@ -43,6 +43,11 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
 //bookstore를 서버에서 받고 초기화 후 마커 출력
   Future init() async {
     final userCoord = await ref

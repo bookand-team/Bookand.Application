@@ -1,13 +1,12 @@
-class BookmarkContentModel {
+class BookmarkModel {
   int? bookmarkId;
   String? image;
   String? location;
   String? title;
 
-  BookmarkContentModel(
-      {this.bookmarkId, this.image, this.location, this.title});
+  BookmarkModel({this.bookmarkId, this.image, this.location, this.title});
 
-  BookmarkContentModel.fromJson(Map<String, dynamic> json) {
+  BookmarkModel.fromJson(Map<String, dynamic> json) {
     bookmarkId = json['bookmarkId'];
     image = json['image'];
     location = json['location'];

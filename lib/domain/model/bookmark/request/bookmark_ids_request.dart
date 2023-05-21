@@ -5,7 +5,7 @@ class BookmarkIdsRequest {
   BookmarkType? bookmarkType;
   List<int>? contentIdList;
 
-  BookmarkIdsRequest({this.bookmarkType, this.contentIdList});
+  BookmarkIdsRequest({required this.bookmarkType, required this.contentIdList});
 
   BookmarkIdsRequest.fromJson(Map<String, dynamic> json) {
     bookmarkType =

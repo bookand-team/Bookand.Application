@@ -6,3 +6,14 @@ enum BookmarkType {
   @JsonValue('BOOKSTORE')
   bookstore
 }
+
+extension BookmarkServerStr on BookmarkType {
+  String toServerString() {
+    switch (this) {
+      case BookmarkType.article:
+        return 'ARTICLE';
+      case BookmarkType.bookstore:
+        return 'BOOKSTORE';
+    }
+  }
+}

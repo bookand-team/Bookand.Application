@@ -1,7 +1,8 @@
 import 'package:bookand/core/util/common_util.dart';
+import 'package:bookand/domain/model/bookmark/bookmark_model.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
-import 'package:bookand/domain/usecase/bookstore_map_usecase.dart';
 import 'package:bookand/gen/assets.gen.dart';
+import 'package:bookand/presentation/provider/bookmark/bookmark_store_provider.dart';
 import 'package:bookand/presentation/screen/main/map/component/book_mark_button.dart';
 import 'package:bookand/presentation/screen/main/map/component/theme_utils.dart';
 import 'package:flutter/material.dart';
@@ -137,13 +138,16 @@ class BookStoreTile extends ConsumerWidget {
                 acitve: store.isBookmark!,
                 onAcive: () {
                   ref
-                      .read(bookstoreMapUsecaseProvider)
-                      .toggleBookstoreBookmark(store.id!.toInt());
+                      .read(bookmarkStoreNotifierProvider.notifier)
+                      .delete([store.id!]);
                 },
-                onDisacive: () {
-                  ref
-                      .read(bookstoreMapUsecaseProvider)
-                      .toggleBookstoreBookmark(store.id!.toInt());
+                onDisactive: () {
+                  ref.read(bookmarkStoreNotifierProvider.notifier).add(
+                      BookmarkModel(
+                          bookmarkId: store.id,
+                          image: store.mainImage,
+                          location: store.address,
+                          title: store.name));
                 },
               )
             ],

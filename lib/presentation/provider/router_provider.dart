@@ -1,3 +1,4 @@
+import 'package:bookand/presentation/screen/main/bookmark/components/folder_page/folder_page.dart';
 import 'package:bookand/presentation/screen/main/home/bookstore_map_screen.dart';
 import 'package:bookand/presentation/screen/main/map/component/search_screen/map_search_screen.dart';
 import 'package:bookand/presentation/screen/main/my/feedback/feedback_screen.dart';
@@ -64,11 +65,6 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
                         policy: state.extra as Tuple2<int, PolicyModel>))
               ]),
         ]),
-    GoRoute(
-      path: '/mapSearch',
-      name: MapSearchScreen.routeName,
-      builder: (_, __) => const MapSearchScreen(),
-    )
   ];
 
   late List<RouteBase> mainTabRoutes = [
@@ -123,6 +119,18 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
         path: 'feedbackSendSuccessScreen',
         name: FeedbackSendSuccessScreen.routeName,
         builder: (_, __) => const FeedbackSendSuccessScreen()),
+    GoRoute(
+      path: 'mapSearch',
+      name: MapSearchScreen.routeName,
+      builder: (_, __) => const MapSearchScreen(),
+    ),
+    GoRoute(
+        path: 'folder/:id/:name',
+        name: FolderPage.routeName,
+        builder: (_, state) => FolderPage(
+              id: state.params['id']!,
+              name: state.params['name']!,
+            )),
   ];
 
   List<RouteBase> accountManagementRoutes = [

@@ -1,5 +1,6 @@
+import 'dart:developer';
+
 import 'package:bookand/core/const/map.dart';
-import 'package:bookand/core/util/logger.dart';
 import 'package:bookand/core/widget/slide_icon.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
 import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
@@ -272,7 +273,7 @@ class _MapBodyState extends ConsumerState<MapBody> {
               }
 
               return GestureDetector(
-                // behavior: HitTestBehavior.translucent,
+                behavior: HitTestBehavior.translucent,
                 //close일 때 + panel show 일 때 아래 슬라이딩 감지 후 닫기
                 onPanStart: (details) {},
                 onPanUpdate: (details) {
@@ -284,7 +285,7 @@ class _MapBodyState extends ConsumerState<MapBody> {
                   }
                 },
                 onPanEnd: (details) {
-                  logger.d(minHeight);
+                  log('스크롤 가능 여부 = ${panelController.panelPosition == 0 || !isFull}');
                   if (minHeight < 150) {
                     setState(() {
                       minHeight = 0;
@@ -292,7 +293,6 @@ class _MapBodyState extends ConsumerState<MapBody> {
                     ref
                         .read(mapPanelVisibleNotifierProvider.notifier)
                         .deactivate();
-                    logger.d(minHeight);
                   } else {
                     minHeight = widget.panelMinHeight;
                   }
@@ -308,7 +308,7 @@ class _MapBodyState extends ConsumerState<MapBody> {
                           controller: sc,
                           // close일 때는 scroll 감지 안되게
                           physics:
-                              (panelController.panelPosition == 0 || !isFull)
+                              (panelController.panelPosition == 0 && isFull)
                                   ? const NeverScrollableScrollPhysics()
                                   : null,
 

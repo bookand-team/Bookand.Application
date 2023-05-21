@@ -1,7 +1,7 @@
 import 'package:bookand/core/util/utf8_util.dart';
 import 'package:bookand/data/service/bookstore_map_service.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_map_detail_model.dart';
-import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
+import 'package:bookand/domain/model/bookstore/response/bookstore_map_response.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'bookstore_remote_data_source.dart';

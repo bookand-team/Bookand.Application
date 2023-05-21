@@ -1,11 +1,11 @@
-import 'package:bookand/presentation/screen/main/bookmark/components/folder_components/add_folder_dialog.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 //북마크 페이지에서 새폴더 추가 버튼
 class AddFolder extends StatelessWidget {
-  const AddFolder({Key? key}) : super(key: key);
+  final void Function() onTap;
+  const AddFolder({Key? key, required this.onTap}) : super(key: key);
 
   final Radius br = const Radius.circular(4);
   final double strokeWidth = 1;
@@ -20,12 +20,7 @@ class AddFolder extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AddFolderDialog();
-          },
-        );
+        onTap();
       },
       child: SizedBox(
         width: folderSize.width,

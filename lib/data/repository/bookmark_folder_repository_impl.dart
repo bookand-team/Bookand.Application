@@ -2,7 +2,7 @@ import 'package:bookand/core/const/bookmark_type.dart';
 import 'package:bookand/data/datasource/bookmark/bookmark_remote_data_source.dart';
 import 'package:bookand/data/datasource/bookmark/bookmark_remote_data_source_impl.dart';
 import 'package:bookand/data/datasource/token/token_local_data_source.dart';
-import 'package:bookand/domain/model/bookmark/bookmark_content_model.dart';
+import 'package:bookand/domain/model/bookmark/bookmark_model.dart';
 import 'package:bookand/domain/model/bookmark/bookmark_folder_model.dart';
 import 'package:bookand/domain/model/bookmark/request/bookmark_folder_name_request.dart';
 import 'package:bookand/domain/model/bookmark/request/bookmark_ids_request.dart';
@@ -39,7 +39,7 @@ class BookmarkFolderRepositoryImpl implements BookmarkFolderRepository {
       this.bookmarkRemoteDataSource, this.tokenLocalDataSource);
 
   @override
-  Future<List<BookmarkContentModel>?> getBookmarkFolderContents(
+  Future<List<BookmarkModel>?> getBookmarkFolderContents(
       {required int folderId,
       int cursorId = 0,
       int page = 0,

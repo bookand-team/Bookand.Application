@@ -94,6 +94,7 @@ flutter:
     - assets/images/my/
     - assets/images/map/
     - assets/images/bookstore/
+    - assets/images/bookmark/
 
   fonts:
     - family: Pretendard

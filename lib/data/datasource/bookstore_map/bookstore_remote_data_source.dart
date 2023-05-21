@@ -1,5 +1,5 @@
 import 'package:bookand/domain/model/bookstore/bookstore_map_detail_model.dart';
-import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
+import 'package:bookand/domain/model/bookstore/response/bookstore_map_response.dart';
 
 abstract class BookstoreMapRemoteDataSource {
 //map에서 서점 데이터 전부 다 받을 때 사용

@@ -1,5 +1,5 @@
 import 'package:bookand/core/const/bookmark_type.dart';
-import 'package:bookand/domain/model/bookmark/bookmark_content_model.dart';
+import 'package:bookand/domain/model/bookmark/bookmark_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 class BookmarkContentsReponse {
@@ -46,7 +46,7 @@ class BookmarkContentsReponse {
 }
 
 class BookmarkInfo {
-  List<BookmarkContentModel>? content;
+  List<BookmarkModel>? content;
   bool? last;
   int? totalElements;
   int? totalPages;
@@ -55,9 +55,9 @@ class BookmarkInfo {
 
   BookmarkInfo.fromJson(Map<String, dynamic> json) {
     if (json['content'] != null) {
-      content = <BookmarkContentModel>[];
+      content = <BookmarkModel>[];
       json['content'].forEach((v) {
-        content!.add(new BookmarkContentModel.fromJson(v));
+        content!.add(new BookmarkModel.fromJson(v));
       });
     }
     last = json['last'];

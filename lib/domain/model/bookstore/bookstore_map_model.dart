@@ -3,30 +3,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'bookstore_map_model.g.dart';
 
-class BookStoreGetAllResponse {
-  List<BookStoreMapModel>? bookStoreAddressListResponse;
-
-  BookStoreGetAllResponse({this.bookStoreAddressListResponse});
-
-  BookStoreGetAllResponse.fromJson(Map<String, dynamic> json) {
-    if (json['bookStoreAddressListResponse'] != null) {
-      bookStoreAddressListResponse = <BookStoreMapModel>[];
-      json['bookStoreAddressListResponse'].forEach((v) {
-        bookStoreAddressListResponse!.add(new BookStoreMapModel.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.bookStoreAddressListResponse != null) {
-      data['bookStoreAddressListResponse'] =
-          this.bookStoreAddressListResponse!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
 @JsonSerializable()
 class BookStoreMapModel {
   int? id;
@@ -38,6 +14,7 @@ class BookStoreMapModel {
   double? userDistance;
   String? mainImage;
   String? name;
+  String? address;
   List<Themes>? theme;
 
   BookStoreMapModel(
@@ -47,6 +24,7 @@ class BookStoreMapModel {
       this.longitude,
       this.mainImage,
       this.name,
+      this.address,
       this.userDistance = 0,
       this.theme});
 
