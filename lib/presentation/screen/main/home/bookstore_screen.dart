@@ -303,7 +303,7 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
               height: 160,
               child: GoogleMap(
                 onTap: (latLon) {
-                  context.pushNamed(BookstoreMapScreen.routeName, params: {
+                  context.pushNamed(BookstoreMapScreen.routeName, queryParameters: {
                     'latitude': latLon.latitude.toString(),
                     'longitude': latLon.longitude.toString(),
                   });
@@ -390,7 +390,7 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
                             final articleId = articles?[index].id;
                             if (articleId == null) return;
 
-                            context.pushNamed(ArticleScreen.routeName, params: {
+                            context.pushNamed(ArticleScreen.routeName, queryParameters: {
                               'id': articleId.toString(),
                               'isFirstScreen': 'false',
                             });

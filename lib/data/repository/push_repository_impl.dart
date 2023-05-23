@@ -13,7 +13,7 @@ PushRepository pushRepository(PushRepositoryRef ref) {
   return PushRepositoryImpl(pushLocalDataSource);
 }
 
-class PushRepositoryImpl extends PushRepository {
+class PushRepositoryImpl implements PushRepository {
   final PushLocalDataSource pushLocalDataSource;
 
   PushRepositoryImpl(this.pushLocalDataSource);

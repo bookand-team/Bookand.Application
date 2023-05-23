@@ -31,7 +31,7 @@ class FCMUseCase {
   }
 
   void updateApiServerFCMToken() async {
-    final token = await getToken();
+    // final token = await getToken();
     // TODO: 서버에 fcm 토큰 저장
   }
 

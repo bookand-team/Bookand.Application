@@ -38,6 +38,7 @@ class App extends ConsumerWidget {
 
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return ScreenUtilInit(
+        useInheritedMediaQuery: true,
         designSize: const Size(360, 720),
         builder: (_, __) => MaterialApp.router(
               routeInformationProvider: router.routeInformationProvider,
