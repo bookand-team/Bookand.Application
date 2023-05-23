@@ -37,14 +37,11 @@ class ShakeLogSender {
               case TargetPlatform.android:
                 final androidInfo = await deviceInfoPlugin.androidInfo;
                 deviceInfo = '${androidInfo.model}_Android ${androidInfo.version.release}';
-                break;
               case TargetPlatform.iOS:
                 final iosInfo = await deviceInfoPlugin.iosInfo;
                 deviceInfo = '${iosInfo.model}_iOS ${iosInfo.systemVersion}';
-                break;
               default:
                 deviceInfo = 'UnknownDeviceInfo';
-                break;
             }
 
             final zipFileName = '${deviceInfo}_${DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now())}_logs.zip';

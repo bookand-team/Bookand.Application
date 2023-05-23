@@ -72,13 +72,10 @@ class MemberStateNotifier extends _$MemberStateNotifier {
             switch (socialType) {
               case SocialType.NONE:
                 onError(AppStrings.loginCancel);
-                break;
               case SocialType.GOOGLE:
                 onError(AppStrings.googleLoginCancel);
-                break;
               case SocialType.APPLE:
                 onError(AppStrings.appleLoginCancel);
-                break;
             }
           },
           onSignUp: () {

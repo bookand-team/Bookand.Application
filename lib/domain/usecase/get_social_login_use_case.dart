@@ -21,7 +21,7 @@ class GetSocialAccessTokenUseCase {
   }
 }
 
-abstract class SocialLogin {
+abstract interface class SocialLogin {
   Future<String?> getSocialAccessToken();
 }
 

@@ -1,7 +1,7 @@
 import '../../core/const/revoke_type.dart';
 import '../model/member/member_model.dart';
 
-abstract class MemberRepository {
+abstract interface class MemberRepository {
   Future<MemberModel> getMe();
 
   Future<String> getRandomNickname();

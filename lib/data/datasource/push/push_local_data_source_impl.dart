@@ -13,7 +13,7 @@ PushLocalDataSource pushLocalDataSource(PushLocalDataSourceRef ref) {
   return PushLocalDataSourceImpl(box);
 }
 
-class PushLocalDataSourceImpl extends PushLocalDataSource {
+class PushLocalDataSourceImpl implements PushLocalDataSource {
   final enabledPushNotificationKey = 'enabledPushNotificationKey';
   final Box box;
 
