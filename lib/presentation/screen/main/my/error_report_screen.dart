@@ -110,7 +110,7 @@ class ErrorReportScreen extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    '첨부파일은 최대 5개, 30MB까지 등록 가능합니다.',
+                    '첨부파일은 최대 30MB까지 등록 가능합니다.',
                     style: TextStyle(
                         color: lightColorFF565656,
                         fontSize: 12,
