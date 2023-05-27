@@ -72,19 +72,19 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
         path: 'article/:id/:isFirstScreen',
         name: ArticleScreen.routeName,
         builder: (_, state) => ArticleScreen(
-              id: state.queryParameters['id']!,
-              isFirstScreen: state.queryParameters['isFirstScreen']!,
+              id: state.pathParameters['id']!,
+              isFirstScreen: state.pathParameters['isFirstScreen']!,
             )),
     GoRoute(
         path: 'bookstore/:id',
         name: BookstoreScreen.routeName,
-        builder: (_, state) => BookstoreScreen(id: state.queryParameters['id']!)),
+        builder: (_, state) => BookstoreScreen(id: state.pathParameters['id']!)),
     GoRoute(
         path: 'bookstoreMap/:latitude/:longitude',
         name: BookstoreMapScreen.routeName,
         builder: (_, state) => BookstoreMapScreen(
-              latitude: state.queryParameters['latitude']!,
-              longitude: state.queryParameters['longitude']!,
+              latitude: state.pathParameters['latitude']!,
+              longitude: state.pathParameters['longitude']!,
             )),
     GoRoute(
         path: 'notificationSetting',
