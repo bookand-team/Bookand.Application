@@ -23,7 +23,7 @@ class FolderContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.goNamed(FolderPage.routeName, params: {
+        context.goNamed(FolderPage.routeName, pathParameters: {
           "id": folderModel.bookmarkId!.toString(),
           'name': folderModel.folderName!
         });

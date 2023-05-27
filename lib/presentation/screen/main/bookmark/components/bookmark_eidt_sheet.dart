@@ -198,9 +198,7 @@ class BookmarkEidtSheet extends ConsumerWidget {
                       : ref.read(bookmarkStoreFoldersNotifierProvider);
 
                   bool isOverflow = folderList.length > 8;
-                  double height = isOverflow
-                      ? 0.8
-                      : elementHeight * folderList.length / screenHeight;
+                  double maxHeight = 0.8;
                   // 폴더 추가 바텀 시트
                   showModalBottomSheet(
                     isScrollControlled: true,
@@ -223,15 +221,8 @@ class BookmarkEidtSheet extends ConsumerWidget {
                                 color: Colors.white,
                                 borderRadius: BorderRadius.vertical(
                                     top: Radius.circular(24))),
-                            child: DraggableScrollableSheet(
-                              expand: false,
-                              initialChildSize: height,
-                              maxChildSize: height,
-                              minChildSize: 0,
-                              builder: (context, scrollController) {
-                                return SingleChildScrollView(
-                                  controller: scrollController,
-                                  child: Column(
+                            child: !isOverflow
+                                ? Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       const SizedBox(
@@ -247,10 +238,35 @@ class BookmarkEidtSheet extends ConsumerWidget {
                                               createFolderElement(e, ref))
                                           .toList()
                                     ],
+                                  )
+                                : DraggableScrollableSheet(
+                                    expand: false,
+                                    initialChildSize: maxHeight,
+                                    maxChildSize: maxHeight,
+                                    minChildSize: 0,
+                                    builder: (context, scrollController) {
+                                      return SingleChildScrollView(
+                                        controller: scrollController,
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            const SizedBox(
+                                              height: 2,
+                                            ),
+                                            slideIcon,
+                                            const SizedBox(
+                                              height: 34,
+                                            ),
+                                            createFolderAddElement(ref),
+                                            ...models
+                                                .map((e) =>
+                                                    createFolderElement(e, ref))
+                                                .toList()
+                                          ],
+                                        ),
+                                      );
+                                    },
                                   ),
-                                );
-                              },
-                            ),
                           );
                         },
                       );
@@ -274,14 +290,6 @@ class BookmarkEidtSheet extends ConsumerWidget {
             child: GestureDetector(
               onTap: () {
                 if (ref.read(bookmarkEditListNotifierProvider).isNotEmpty) {
-                  // showDialog(
-                  //   context: context,
-                  //   builder: (context) => BookmarkDeleteDialog(
-                  //     bookmarkIdList:
-                  //         ref.read(bookmarkEditListNotifierProvider),
-                  //     type: ref.read(bookmarkTypeNotifierProvider),
-                  //   ),
-                  // );
                   showDialog(
                       context: context,
                       builder: (context) => BookmarkDialog(

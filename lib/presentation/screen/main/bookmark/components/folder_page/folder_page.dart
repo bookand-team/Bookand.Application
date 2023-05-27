@@ -141,12 +141,12 @@ class _FolderPageState extends ConsumerState<FolderPage> {
                                 ref.read(bookmarkTypeNotifierProvider) ==
                                         BookmarkType.article
                                     ? context.pushNamed(ArticleScreen.routeName,
-                                        params: {
+                                        pathParameters: {
                                             'id': e.bookmarkId.toString(),
                                             'isFirstScreen': 'false',
                                           })
                                     : context.goNamed(BookstoreScreen.routeName,
-                                        params: {
+                                        pathParameters: {
                                             'id': e.bookmarkId.toString()
                                           });
                               },

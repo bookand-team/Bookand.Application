@@ -32,7 +32,7 @@ class BookStoreSearchedTile extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         context.pushNamed(BookstoreScreen.routeName,
-            params: {'id': '${model.id}'});
+            pathParameters: {'id': '${model.id}'});
       },
       child: Container(
         margin: margin,

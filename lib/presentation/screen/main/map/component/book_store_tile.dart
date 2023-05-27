@@ -3,11 +3,13 @@ import 'package:bookand/domain/model/bookmark/bookmark_model.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
 import 'package:bookand/gen/assets.gen.dart';
 import 'package:bookand/presentation/provider/bookmark/bookmark_store_provider.dart';
+import 'package:bookand/presentation/screen/main/home/bookstore_screen.dart';
 import 'package:bookand/presentation/screen/main/map/component/book_mark_button.dart';
 import 'package:bookand/presentation/screen/main/map/component/theme_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 class BookStoreTile extends ConsumerWidget {
   final BookStoreMapModel store;
@@ -71,11 +73,19 @@ class BookStoreTile extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           //image, 이미지
-          Container(
-            clipBehavior: Clip.hardEdge,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(imageBRaidus)),
-            child: Assets.images.map.bookTileTest.image(),
+          GestureDetector(
+            onTap: () {
+              context.goNamed(BookstoreScreen.routeName,
+                  pathParameters: {'id': store.id.toString()});
+            },
+            child:
+                //  CachedNetworkImage(imageUrl: store.mainImage!)
+                Container(
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(imageBRaidus)),
+              child: Assets.images.map.bookTileTest.image(),
+            ),
           ),
           Row(
             mainAxisSize: MainAxisSize.max,

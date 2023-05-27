@@ -71,7 +71,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     //마커 출력
     ref
         .read(widgetMarkerNotiferProvider.notifier)
-        .initMarkers(filteredBookstroes);
+        .initMarkers(filteredBookstroes, context);
     inited = true;
   }
 

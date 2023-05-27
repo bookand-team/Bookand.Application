@@ -2,9 +2,11 @@ import 'dart:developer';
 
 import 'package:bookand/core/const/map.dart';
 import 'package:bookand/core/util/logger.dart';
+import 'package:bookand/core/widget/slide_icon.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
 import 'package:bookand/gen/assets.gen.dart';
 import 'package:bookand/presentation/provider/map/map_in_screen_bookstores_provider.dart';
+import 'package:bookand/presentation/screen/main/map/component/book_store_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -93,7 +95,8 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
     );
   }
 
-  void initMarkers(List<BookStoreMapModel> bookstoreList) async {
+  void initMarkers(
+      List<BookStoreMapModel> bookstoreList, BuildContext context) async {
     for (BookStoreMapModel store in bookstoreList) {
       Set<Marker> markers = {};
 
@@ -116,6 +119,35 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
                 .read(mapInScreenBookStoreNotifierProvider.notifier)
                 .setOne(store);
           }
+          // ignore: use_build_context_synchronously
+          showBottomSheet(
+            context: context,
+            builder: (context) {
+              const bottomSheetPadding =
+                  EdgeInsets.symmetric(horizontal: 15, vertical: 5);
+              const bottomSheetBr = Radius.circular(24);
+
+              return Container(
+                decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: bottomSheetBr, topRight: bottomSheetBr)),
+                padding: bottomSheetPadding,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    slideIcon,
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    BookStoreTile(
+                      store: store,
+                    )
+                  ],
+                ),
+              );
+            },
+          );
         },
         markerId: MarkerId(store.name!),
         position: LatLng(store.latitude ?? SEOUL_COORD_LAT,

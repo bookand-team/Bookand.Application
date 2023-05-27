@@ -1,6 +1,7 @@
 import 'package:bookand/core/const/bookmark_type.dart';
 import 'package:bookand/domain/model/bookmark/bookmark_model.dart';
 import 'package:bookand/presentation/provider/bookmark/bookmark_edit_provider.dart';
+import 'package:bookand/presentation/provider/bookmark/bookmark_type_provider.dart';
 import 'package:bookand/presentation/screen/main/bookmark/bookmark_style.dart';
 import 'package:bookand/presentation/screen/main/bookmark/components/content_components/bookmark_container.dart';
 import 'package:bookand/presentation/screen/main/bookmark/components/content_components/edit_sheet_button.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+/// 북마크 페이지의 모아보기에서 북마크들을 표시하는 위젯
 class BookmarkContents extends ConsumerWidget {
   final BookmarkType type;
   final List<BookmarkModel> bookmarkList;
@@ -107,16 +109,24 @@ class BookmarkContents extends ConsumerWidget {
                       children: [
                         ...bookmarkList.map((e) {
                           return BookmarkContainer(
-                            model: e,
-                            settingMode: settingMode,
-                            onTap: () {
-                              context.goNamed(
-                                  type == BookmarkType.article
-                                      ? ArticleScreen.routeName
-                                      : BookstoreScreen.routeName,
-                                  params: {'id': e.bookmarkId!.toString()});
-                            },
-                          );
+                              key: Key(e.title!),
+                              model: e,
+                              onTap: () {
+                                ref.read(bookmarkTypeNotifierProvider) ==
+                                        BookmarkType.article
+                                    ? context.pushNamed(ArticleScreen.routeName,
+                                        pathParameters: {
+                                            'id': e.bookmarkId.toString(),
+                                            'isFirstScreen': 'false',
+                                          })
+                                    : context.goNamed(
+                                        BookstoreScreen.routeName,
+                                        pathParameters: {
+                                          'id': e.bookmarkId.toString()
+                                        },
+                                      );
+                              },
+                              settingMode: settingMode);
                         }).toList()
                       ],
                     ),
