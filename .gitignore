@@ -54,6 +54,5 @@ app.*.map.json
 # vscode
 .vscode/
 
-# 나중에 지울 custom 
-계획.txt
-궁금점.txt
+# fvm 
+.fvm
