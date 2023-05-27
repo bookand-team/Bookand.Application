@@ -1,4 +1,4 @@
-abstract class TokenLocalDataSource {
+abstract interface class TokenLocalDataSource {
   Future<void> setSignToken(String signToken);
 
   Future<void> setAccessToken(String accessToken);

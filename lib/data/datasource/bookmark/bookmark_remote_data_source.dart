@@ -7,7 +7,7 @@ import 'package:bookand/domain/model/bookmark/response/bookmark_folder_list_resp
 import 'package:bookand/domain/model/bookmark/response/bookmark_id_response.dart';
 import 'package:bookand/domain/model/result_response.dart';
 
-abstract class BookmarkRemoteDataSource {
+abstract interface class BookmarkRemoteDataSource {
   Future<ResultResponse> addArticleBookmark(String accessToken, int articleId);
 
   Future<ResultResponse> addBookstoreBookmark(
