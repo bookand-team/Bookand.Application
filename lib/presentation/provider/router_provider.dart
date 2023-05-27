@@ -78,7 +78,8 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
     GoRoute(
         path: 'bookstore/:id',
         name: BookstoreScreen.routeName,
-        builder: (_, state) => BookstoreScreen(id: state.pathParameters['id']!)),
+        builder: (_, state) =>
+            BookstoreScreen(id: state.pathParameters['id']!)),
     GoRoute(
         path: 'bookstoreMap/:latitude/:longitude',
         name: BookstoreMapScreen.routeName,
@@ -128,8 +129,8 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
         path: 'folder/:id/:name',
         name: FolderPage.routeName,
         builder: (_, state) => FolderPage(
-              id: state.params['id']!,
-              name: state.params['name']!,
+              id: state.pathParameters['id']!,
+              name: state.pathParameters['name']!,
             )),
   ];
 
