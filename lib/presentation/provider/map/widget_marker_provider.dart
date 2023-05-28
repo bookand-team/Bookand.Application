@@ -1,12 +1,8 @@
-import 'dart:developer';
-
 import 'package:bookand/core/const/map.dart';
-import 'package:bookand/core/util/logger.dart';
-import 'package:bookand/core/widget/slide_icon.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
 import 'package:bookand/gen/assets.gen.dart';
-import 'package:bookand/presentation/provider/map/map_in_screen_bookstores_provider.dart';
-import 'package:bookand/presentation/screen/main/map/component/book_store_tile.dart';
+import 'package:bookand/presentation/provider/map/bottomhseet/map_bottomsheet_controller_provider.dart';
+import 'package:bookand/presentation/provider/map/map_controller_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -16,20 +12,9 @@ import 'package:widget_to_marker/widget_to_marker.dart';
 
 part 'widget_marker_provider.g.dart';
 
-class TestObj {
-  String name;
-  int type;
-  double lat;
-  double lng;
-  TestObj(
-      {required this.name,
-      required this.type,
-      required this.lat,
-      required this.lng});
-}
-
 /// widget으로 google map에 marker를 생성하기 위한 프로바이더, state를 watch하고, googlemap에 파라미터로 전달하는 방식으로 구현
-@Riverpod()
+
+@Riverpod(keepAlive: true)
 class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
   @override
   Set<Marker> build() {
@@ -98,67 +83,46 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
   void initMarkers(
       List<BookStoreMapModel> bookstoreList, BuildContext context) async {
     for (BookStoreMapModel store in bookstoreList) {
-      Set<Marker> markers = {};
-
       Marker marker = Marker(
         onTap: () async {
+          // 다른 마커 정상화
           setAllNormal();
-          logger.d('tes');
+          // 눌러진 마커 검색
           Iterable<Marker> iter =
               state.where((element) => element.markerId.value == store.name);
           if (iter.isNotEmpty) {
+            // 눌러진 마커 확대로 변경
             selectedMarker = iter.first.copyWith(
                 zIndexParam: 1,
                 iconParam:
                     await createBigBody(store.name!).toBitmapDescriptor());
 
-            state.add(selectedMarker!);
-            state = Set.from(state);
+            // rebuild
+            state = {...state};
 
+            //bottomsheet update
+            // ref
+            //     .read(mapInScreenBookStoreNotifierProvider.notifier)
+            //     .setOne(store);
             ref
-                .read(mapInScreenBookStoreNotifierProvider.notifier)
-                .setOne(store);
-          }
-          // ignore: use_build_context_synchronously
-          showBottomSheet(
-            context: context,
-            builder: (context) {
-              const bottomSheetPadding =
-                  EdgeInsets.symmetric(horizontal: 15, vertical: 5);
-              const bottomSheetBr = Radius.circular(24);
+                .read(mapBottomSheetControllerProvider.notifier)
+                .showBookstoreSheet(context: context, bookstoreList: [store]);
 
-              return Container(
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: bottomSheetBr, topRight: bottomSheetBr)),
-                padding: bottomSheetPadding,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    slideIcon,
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    BookStoreTile(
-                      store: store,
-                    )
-                  ],
-                ),
-              );
-            },
-          );
+            // 마커 누르면 마커가 바텀시트에 안가리게 위치 조정해서 이동
+            ref.read(mapControllerNotiferProvider)?.animateCamera(
+                CameraUpdate.newLatLng(LatLng(
+                    selectedMarker!.position.latitude - 0.03,
+                    selectedMarker!.position.longitude)));
+          }
         },
         markerId: MarkerId(store.name!),
         position: LatLng(store.latitude ?? SEOUL_COORD_LAT,
             store.longitude ?? SEOUL_COORD_LON),
         icon: await createNormalBody(store.name!).toBitmapDescriptor(),
       );
-      markers.add(marker);
-      state = Set.from(state..add(marker));
-      log('marker added');
-      allMarker = state;
+      state = {...state, marker};
     }
+    allMarker = state;
   }
 
   void setAllNormal() async {
@@ -167,21 +131,8 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
     }
     if (hidestoreMarker != null) {
       state.remove(hidestoreMarker);
-      // state = Set.from(state);
     }
-
-    //   Iterable<Marker> iter = state.where((element) => element.zIndex == 1);
-    //   if (iter.isNotEmpty) {
-    //     iter.forEach((element) async {
-    //       Marker marker = element;
-    //       state.remove(marker);
-    //       state.add(marker.copyWith(
-    //           zIndexParam: 0,
-    //           iconParam: await createNormalBody(marker.markerId.value)
-    //               .toBitmapDescriptor()));
-    //     });
-    //   }
-    //   state = Set.from(state);
+    state = Set.from(state);
   }
 
   void setBookstoreMarker(List<BookStoreMapModel> bookstoreList) {
@@ -189,8 +140,6 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
     state = allMarker
         .where((element) => listForShow.contains(element.markerId.value))
         .toSet();
-    logger.d("list = ${bookstoreList} ");
-    logger.d("state = ${state}");
   }
 
   void setOneHideMarker(String name) async {
@@ -202,7 +151,7 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
           zIndexParam: 1,
           iconParam: await createHidestoreBody(name).toBitmapDescriptor());
       state.add(hidestoreMarker!);
-      state = Set.from(state);
+      state = {...state};
     }
   }
 }

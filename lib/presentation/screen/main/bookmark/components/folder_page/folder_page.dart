@@ -5,6 +5,7 @@ import 'package:bookand/core/widget/base_layout.dart';
 import 'package:bookand/domain/model/bookmark/bookmark_model.dart';
 import 'package:bookand/domain/usecase/bookmark_usercae.dart';
 import 'package:bookand/gen/assets.gen.dart';
+import 'package:bookand/presentation/component/bookstore_snackbar.dart';
 import 'package:bookand/presentation/provider/bookmark/bookmark_ariticle_folders_provider.dart';
 import 'package:bookand/presentation/provider/bookmark/bookmark_eidt_list.dart';
 import 'package:bookand/presentation/provider/bookmark/bookmark_store_folders_provider.dart';
@@ -13,7 +14,6 @@ import 'package:bookand/presentation/provider/bookmark/main_context_provider.dar
 import 'package:bookand/presentation/screen/main/bookmark/bottom_sheet/input_bottom_sheet.dart';
 import 'package:bookand/presentation/screen/main/bookmark/components/content_components/bookmark_container.dart';
 import 'package:bookand/presentation/screen/main/bookmark/components/dialogs/bookmark_dialog.dart';
-import 'package:bookand/presentation/screen/main/bookmark/snack_bar/bookmark_snackbar.dart';
 import 'package:bookand/presentation/screen/main/home/article_screen.dart';
 import 'package:bookand/presentation/screen/main/home/bookstore_screen.dart';
 import 'package:flutter/material.dart';

@@ -1,10 +1,14 @@
 import 'package:bookand/core/const/map.dart';
 import 'package:bookand/core/widget/base_layout.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
-import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
-import 'package:bookand/presentation/provider/map/map_panel_visible_provider.dart';
+import 'package:bookand/presentation/provider/map/bools/map_search_out_toggle.dart.dart';
+import 'package:bookand/presentation/provider/map/bottomhseet/map_button_height_provider.dart';
+import 'package:bookand/presentation/provider/map/map_controller_provider.dart';
 import 'package:bookand/presentation/provider/map/map_search_stores_provider.dart';
-import 'package:bookand/presentation/screen/main/map/component/map_body.dart';
+import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
+import 'package:bookand/presentation/screen/main/map/component/gps_button.dart';
+import 'package:bookand/presentation/screen/main/map/component/list_button.dart';
+import 'package:bookand/presentation/screen/main/map/component/map_function_buttons.dart';
 import 'package:bookand/presentation/screen/main/map/component/search_screen/components/search_top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,50 +44,55 @@ class _MapSearchScreenState extends ConsumerState<MapSearchScreen> {
   CameraPosition initCamera =
       const CameraPosition(target: LatLng(37.5665, 126.9780), zoom: 13);
 
+  final double buttonPading = 15;
+  final double buttonSpace = 40;
   @override
   void initState() {
     super.initState();
   }
 
   Widget searchingPage(List<BookStoreMapModel> searchedList) {
-    return searchedList.isEmpty
-        ? Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(children: [
-                Spacer(),
-                NoSearchText(),
-                Spacer(),
-                RecommendationButton(
-                  onTap: () {
-                    ref.context.pop('showhide');
-                  },
-                ),
-                SizedBox(
-                  height: 40,
-                )
-              ]),
-            ],
-          )
-        : Column(
-            children: [
-              Expanded(
-                  child: SingleChildScrollView(
-                child: Column(
-                  children: searchedList
-                      .map((e) => BookStoreSearchedTile(
-                            model: e,
-                          ))
-                      .toList(),
-                ),
-              )),
-            ],
-          );
+    return Container(
+      color: Colors.white,
+      child: searchedList.isEmpty
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(children: [
+                  const Spacer(),
+                  const NoSearchText(),
+                  const Spacer(),
+                  RecommendationButton(
+                    onTap: () {
+                      ref.context.pop('showhide');
+                    },
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  )
+                ]),
+              ],
+            )
+          : Column(
+              children: [
+                Expanded(
+                    child: SingleChildScrollView(
+                  child: Column(
+                    children: searchedList
+                        .map((e) => BookStoreSearchedTile(
+                              model: e,
+                            ))
+                        .toList(),
+                  ),
+                )),
+              ],
+            ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         systemNavigationBarColor: Colors.black,
         statusBarIconBrightness: Brightness.dark));
 
@@ -99,12 +108,13 @@ class _MapSearchScreenState extends ConsumerState<MapSearchScreen> {
           zoom: 13);
     }
 
+    double buttonHeight = ref.watch(mapButtonHeightNotifierProvider);
+
     return Container(
       color: Colors.white,
       child: SafeArea(
         child: BaseLayout(
           onWillPop: () async {
-            ref.read(mapPanelVisibleNotifierProvider.notifier).deactivate();
             if (isSearched) {
               searchCon.toggle();
               return Future(() => false);
@@ -113,23 +123,51 @@ class _MapSearchScreenState extends ConsumerState<MapSearchScreen> {
               return true;
             }
           },
-          child: Column(
+          child: Stack(
             children: [
-              SearchTopBar(),
-              Expanded(
-                  child: isSearched
-                      ? MapBody(
-                          isMain: false,
-                          initLat: initCamera.target.latitude,
-                          initLon: initCamera.target.longitude,
-                          panelBody: searchedList
-                              .map((e) => BookStoreSearchedTile(model: e))
-                              .toList(),
-                          panelMaxHeight:
-                              MediaQuery.of(context).size.height * 0.85,
-                          panelMinHeight: 250,
-                          isfull: false)
-                      : searchingPage(searchedList))
+              GoogleMap(
+                  onTap: (argument) {
+                    ref
+                        .read(widgetMarkerNotiferProvider.notifier)
+                        .setAllNormal();
+                  },
+                  zoomControlsEnabled: false,
+                  onMapCreated: (controller) {
+                    ref
+                        .read(mapControllerNotiferProvider.notifier)
+                        .initController(controller);
+                  },
+                  markers: ref.watch(widgetMarkerNotiferProvider),
+                  initialCameraPosition: initCamera),
+              Positioned(
+                  right: buttonPading,
+                  bottom: buttonHeight + buttonSpace + buttonPading,
+                  child: ListButton(
+                    onAcitve: () async {},
+                    onDeactive: () {},
+                  )),
+              Positioned(
+                  right: buttonPading,
+                  bottom: buttonHeight + buttonPading,
+                  child: GpsButton(
+                    onAcitve: () {},
+                    onDeactive: () {},
+                  )),
+              Positioned(
+                right: buttonPading,
+                bottom: buttonHeight + buttonPading + 2 * buttonSpace,
+                child: const MapZoomOutButton(),
+              ),
+              Positioned(
+                right: buttonPading,
+                bottom: buttonHeight + buttonPading + 3 * buttonSpace,
+                child: const MapZoomInButton(),
+              ),
+              isSearched ? const SizedBox() : searchingPage(searchedList),
+              const Align(
+                alignment: Alignment.topCenter,
+                child: SearchTopBar(),
+              )
             ],
           ),
         ),

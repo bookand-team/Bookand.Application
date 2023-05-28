@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
+import 'package:bookand/presentation/provider/map/bools/map_bookmark_toggle.dart';
 import 'package:bookand/presentation/provider/map/map_bookstores_provider.dart';
-import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
 import 'package:bookand/presentation/provider/map/map_theme_provider.dart';
 import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
 import 'package:bookand/presentation/screen/main/map/component/theme_utils.dart';
@@ -43,14 +43,9 @@ class MapFilteredBookStoreNotifier extends _$MapFilteredBookStoreNotifier
     state = filteredList;
   }
 
-  //마커 출력
-  void showMarker() {
-    ref.read(widgetMarkerNotiferProvider.notifier).setBookstoreMarker(state);
-  }
-
   void filterAndShowMarker({bool? isBookmark, List<Themes>? selectedThemes}) {
     filteredBookstroes(isBookmark: isBookmark, selectedThemes: selectedThemes);
-    showMarker();
+    ref.read(widgetMarkerNotiferProvider.notifier).setBookstoreMarker(state);
   }
 
   BookStoreMapModel? getRandomStore() {

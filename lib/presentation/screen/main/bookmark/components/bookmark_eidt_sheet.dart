@@ -3,6 +3,7 @@ import 'package:bookand/core/widget/slide_icon.dart';
 import 'package:bookand/domain/model/bookmark/bookmark_folder_model.dart';
 import 'package:bookand/domain/usecase/bookmark_usercae.dart';
 import 'package:bookand/gen/assets.gen.dart';
+import 'package:bookand/presentation/component/bookstore_snackbar.dart';
 import 'package:bookand/presentation/provider/bookmark/bookmark_ariticle_folders_provider.dart';
 import 'package:bookand/presentation/provider/bookmark/bookmark_article_provider.dart';
 import 'package:bookand/presentation/provider/bookmark/bookmark_edit_provider.dart';
@@ -14,7 +15,6 @@ import 'package:bookand/presentation/provider/bookmark/bookmark_type_provider.da
 import 'package:bookand/presentation/provider/bookmark/main_ref_provider.dart';
 import 'package:bookand/presentation/screen/main/bookmark/components/dialogs/add_folder_dialog.dart';
 import 'package:bookand/presentation/screen/main/bookmark/components/dialogs/bookmark_dialog.dart';
-import 'package:bookand/presentation/screen/main/bookmark/snack_bar/bookmark_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';

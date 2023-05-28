@@ -1,5 +1,5 @@
 //provider
-import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
+import 'package:bookand/presentation/provider/map/bools/map_search_out_toggle.dart.dart';
 import 'package:bookand/presentation/provider/map/map_search_stores_provider.dart';
 import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
 import 'package:flutter/material.dart';
@@ -30,9 +30,10 @@ class _SearchTopBarState extends ConsumerState<SearchTopBar> {
     return Container(
       padding: EdgeInsets.all(padding),
       decoration: BoxDecoration(
+        color: Colors.white,
         border: Border(bottom: BorderSide(color: thinGreyColor)),
       ),
-      width: size.width,
+      width: MediaQuery.of(context).size.width,
       height: size.height,
       child: Row(
         children: [

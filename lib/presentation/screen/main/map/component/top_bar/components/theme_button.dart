@@ -1,5 +1,5 @@
-import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
-import 'package:bookand/presentation/provider/map/map_panel_visible_provider.dart';
+import 'package:bookand/presentation/provider/map/bools/map_theme_toggle.dart';
+import 'package:bookand/presentation/provider/map/bottomhseet/map_bottomsheet_controller_provider.dart';
 import 'package:bookand/presentation/provider/map/map_theme_provider.dart';
 import 'package:bookand/presentation/screen/main/map/component/theme_utils.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +52,7 @@ class ThemeButton extends ConsumerWidget {
 
     return GestureDetector(
         onTap: () {
-          ref.read(mapPanelVisibleNotifierProvider.notifier).deactivate();
+          ref.read(mapBottomSheetControllerProvider.notifier).close();
           buttonSelectCon.activate();
           showModalBottomSheet(
               backgroundColor: Colors.white,

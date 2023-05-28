@@ -1,10 +1,11 @@
-import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
+import 'package:bookand/presentation/provider/map/bools/map_hidestore_toggle.dart';
+import 'package:bookand/presentation/provider/map/bottomhseet/map_bottomsheet_controller_provider.dart';
 import 'package:flutter/material.dart';
 //providers
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HideBookStoreButton extends ConsumerWidget {
-  HideBookStoreButton({Key? key}) : super(key: key);
+  const HideBookStoreButton({Key? key}) : super(key: key);
 
   final double bRauius = 15;
   final Size size = const Size(80, 28);
@@ -28,9 +29,13 @@ class HideBookStoreButton extends ConsumerWidget {
     return GestureDetector(
         onTap: () {
           if (!selected) {
-            con.activate(ref: ref, context: context);
+            con.activate();
+            ref
+                .read(mapBottomSheetControllerProvider.notifier)
+                .showHideStore(ref);
           } else {
             con.deactivate();
+            ref.read(mapBottomSheetControllerProvider)?.close();
           }
         },
         child: Container(

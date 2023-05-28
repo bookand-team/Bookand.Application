@@ -1,5 +1,5 @@
 import 'package:bookand/core/widget/slide_icon.dart';
-import 'package:bookand/presentation/provider/map/map_bools_providers.dart';
+import 'package:bookand/presentation/provider/map/bools/map_theme_toggle.dart';
 import 'package:bookand/presentation/provider/map/map_filtered_book_store_provider.dart';
 import 'package:bookand/presentation/provider/map/map_theme_provider.dart';
 import 'package:bookand/presentation/screen/main/map/component/theme_utils.dart';

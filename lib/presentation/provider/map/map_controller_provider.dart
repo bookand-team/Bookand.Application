@@ -14,16 +14,16 @@ class MapControllerNotifer extends _$MapControllerNotifer {
     state = controller;
   }
 
-  void moveCamera({required double lat, required lng}) {
-    state?.moveCamera(CameraUpdate.newLatLng(LatLng(lat, lng)));
+  Future moveCamera({required double lat, required lng}) async {
+    await state?.moveCamera(CameraUpdate.newLatLng(LatLng(lat, lng)));
   }
 
-  void zoomIn() {
-    state?.animateCamera(CameraUpdate.zoomIn());
+  Future zoomIn() async {
+    await state?.animateCamera(CameraUpdate.zoomIn());
   }
 
-  void zoomOut() {
-    state?.animateCamera(CameraUpdate.zoomOut());
+  Future zoomOut() async {
+    await state?.animateCamera(CameraUpdate.zoomOut());
   }
 
   Future<LatLngBounds?> getScreenLatLngBounds() async {

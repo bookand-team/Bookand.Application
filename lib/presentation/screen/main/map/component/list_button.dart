@@ -1,5 +1,4 @@
-import 'package:bookand/presentation/provider/map/map_button_height_provider.dart';
-import 'package:bookand/presentation/provider/map/map_panel_visible_provider.dart';
+import 'package:bookand/presentation/provider/map/bottomhseet/map_list_toggle.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/material.dart';
 //providers
@@ -15,19 +14,19 @@ class ListButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // 패널열렸는지는 show panel 에서
-    final selected = ref.watch(mapPanelVisibleNotifierProvider);
+    final selected = ref.watch(mapListToggleProvider);
     // 다시 누르면 list type은 List(기본)로
-    final con = ref.read(mapPanelVisibleNotifierProvider.notifier);
+    final con = ref.read(mapListToggleProvider.notifier);
 
     return GestureDetector(
       onTap: () {
         if (selected) {
+          con.deactivate();
           onDeactive();
-          ref.read(mapButtonHeightNotifierProvider.notifier).toBottom();
         } else {
+          con.activate();
           onAcitve();
         }
-        con.toggle();
       },
       child: Container(
         height: size,

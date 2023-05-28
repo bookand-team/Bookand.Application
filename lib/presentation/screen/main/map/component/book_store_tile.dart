@@ -15,7 +15,7 @@ class BookStoreTile extends ConsumerWidget {
   final BookStoreMapModel store;
   const BookStoreTile({Key? key, required this.store}) : super(key: key);
 
-  static const double height = 255;
+  static const double height = 260;
 
   final EdgeInsets padding = const EdgeInsets.only(top: 15, bottom: 5);
   final Color borderColor = const Color(0xfff5f5f5);
@@ -40,7 +40,10 @@ class BookStoreTile extends ConsumerWidget {
 
 //texts tyles
   final TextStyle titleStyle = const TextStyle(
-      fontSize: 16, fontWeight: FontWeight.w500, color: Color(0xff222222));
+      fontFamily: "Pretendard",
+      fontSize: 16,
+      fontWeight: FontWeight.w500,
+      color: Color(0xff222222));
   final TextStyle tagStyle = const TextStyle(
       fontSize: 10, fontWeight: FontWeight.w400, color: Color(0xff222222));
   final TextStyle locationStyle = const TextStyle(
@@ -101,12 +104,10 @@ class BookStoreTile extends ConsumerWidget {
                     children: [
                       // 제목
                       Text(
-                        store.name!,
+                        store.name ?? '',
                         style: titleStyle,
                       ),
-                      SizedBox(
-                        width: 5,
-                      ),
+                      const SizedBox(width: 8),
                       //tag container 태그
                       ...store.theme!.map((e) => themeText(e))
                       // bookmark button 북마크 버튼
@@ -128,11 +129,14 @@ class BookStoreTile extends ConsumerWidget {
                         width: 6,
                       ),
                       Text(
-                        '서울 마포구',
-                        style: locationStyle,
+                        store.address ?? '',
+                        style: const TextStyle(
+                          color: Color(0xff565656),
+                          fontSize: 12,
+                        ),
                       ),
                       const SizedBox(
-                        width: 4,
+                        width: 5,
                       ),
                       Text(
                         CommonUtil.distance2TypedStr(store.userDistance!),

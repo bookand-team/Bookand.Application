@@ -17,8 +17,7 @@ class MapInScreenBookStoreNotifier extends _$MapInScreenBookStoreNotifier
   List<BookStoreMapModel> build() => <BookStoreMapModel>[];
 
   /// 현재 화면에 있는 것만 출력
-  Future fetchInScreenBookstore() async {
-    state = [];
+  Future<List<BookStoreMapModel>> fetchInScreenBookstore() async {
     List<BookStoreMapModel> list = [];
     LatLngBounds? bounds = await ref
         .read(mapControllerNotiferProvider.notifier)
@@ -35,6 +34,7 @@ class MapInScreenBookStoreNotifier extends _$MapInScreenBookStoreNotifier
       }
     });
     state = list;
+    return list;
   }
 
   void setOne(BookStoreMapModel model) {
