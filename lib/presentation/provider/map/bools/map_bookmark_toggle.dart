@@ -1,27 +1,25 @@
 //북마크 버튼에 따라 토글되는 state
-import 'package:bookand/presentation/screen_logic/map/toggle_logic.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class BookMarkToggleNotifier extends StateNotifier<bool>
-    implements ToggleLogic {
-  BookMarkToggleNotifier() : super(false);
+part 'map_bookmark_toggle.g.dart';
 
+@Riverpod()
+class BookMarkToggleNotifier extends _$BookMarkToggleNotifier {
   @override
+  bool build() => false;
   void toggle() {
     state = !state;
   }
 
-  @override
   void activate() {
     state = true;
   }
 
-  @override
   void deactivate() {
     state = false;
   }
-}
 
-final bookMarkToggleProvider =
-    StateNotifierProvider<BookMarkToggleNotifier, bool>(
-        (ref) => BookMarkToggleNotifier());
+  bool getState() {
+    return state;
+  }
+}

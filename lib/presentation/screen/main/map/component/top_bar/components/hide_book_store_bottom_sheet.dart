@@ -1,11 +1,9 @@
 import 'package:bookand/core/const/map.dart';
 import 'package:bookand/core/widget/slide_icon.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
-import 'package:bookand/presentation/provider/map/bools/map_hidestore_toggle.dart';
 import 'package:bookand/presentation/provider/map/bottomhseet/map_button_height_provider.dart';
-import 'package:bookand/presentation/provider/map/bottomhseet/map_button_min_height_provider.dart';
+import 'package:bookand/presentation/provider/map/map_bookstores_provider.dart';
 import 'package:bookand/presentation/provider/map/map_controller_provider.dart';
-import 'package:bookand/presentation/provider/map/map_filtered_book_store_provider.dart';
 import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
 import 'package:bookand/presentation/screen/main/map/component/book_store_tile.dart';
 import 'package:bookand/presentation/screen/main/map/component/refresh_button.dart';
@@ -27,7 +25,7 @@ class _HideBookStoreBottomSheetState
   final bottomSheetPadding =
       const EdgeInsets.symmetric(horizontal: 15, vertical: 5);
   final bottomSheetBr = const Radius.circular(24);
-  final double bottomSheetHeight = MapButtonMinHeightProvider.hideSheetHeight;
+  final double bottomSheetHeight = MapButtonHeightNotifier.hideSheetHeight;
   final TextStyle hideTitle = const TextStyle(
       fontSize: 18, fontWeight: FontWeight.w700, color: Color(0xff222222));
 
@@ -39,32 +37,14 @@ class _HideBookStoreBottomSheetState
     super.initState();
   }
 
-  @override
-  void dispose() {
-    Future.delayed(
-      Duration(milliseconds: 100),
-      () {
-        widget.safeRef.read(hideStoreToggleProvider.notifier).deactivate();
-        widget.safeRef
-            .read(mapButtonHeightNotifierProvider.notifier)
-            .toBottom();
-      },
-    );
-    super.dispose();
-  }
-
   void getNewStore() async {
-    model = ref
-        .read(mapFilteredBookStoreNotifierProvider.notifier)
-        .getRandomStore();
+    model = ref.read(mapBookStoreNotifierProvider.notifier).getRandomStore();
     if (model != null) {
       //화면 이동 조정
       await ref.read(mapControllerNotiferProvider.notifier).moveCamera(
           lat: (model!.latitude ?? SEOUL_COORD_LAT) - 0.045,
           lng: model!.longitude ?? SEOUL_COORD_LON);
-      ref
-          .read(widgetMarkerNotiferProvider.notifier)
-          .setOneHideMarker(model!.name!);
+      ref.read(widgetMarkerNotiferProvider.notifier).setOneHideMarker(model!);
     }
   }
 

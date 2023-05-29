@@ -1,11 +1,14 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:bookand/core/const/map.dart';
+import 'package:bookand/presentation/component/bookmark_dialog.dart';
 import 'package:bookand/presentation/provider/map/bools/map_hidestore_toggle.dart';
 import 'package:bookand/presentation/provider/map/bools/map_search_bar_toggle.dart';
 import 'package:bookand/presentation/provider/map/bottomhseet/map_bottomsheet_controller_provider.dart';
 import 'package:bookand/presentation/provider/map/bottomhseet/map_button_height_provider.dart';
-import 'package:bookand/presentation/provider/map/bottomhseet/map_button_min_height_provider.dart';
+import 'package:bookand/presentation/provider/map/geolocator_permission_provider.dart';
+import 'package:bookand/presentation/provider/map/geolocator_position_provider.dart';
+import 'package:bookand/presentation/provider/map/map_body_key_provider.dart';
 import 'package:bookand/presentation/provider/map/map_controller_provider.dart';
 import 'package:bookand/presentation/provider/map/map_in_screen_bookstores_provider.dart';
 import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
@@ -14,6 +17,7 @@ import 'package:bookand/presentation/screen/main/map/component/list_button.dart'
 import 'package:bookand/presentation/screen/main/map/component/map_function_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapBody extends ConsumerStatefulWidget {
@@ -30,11 +34,10 @@ class _MapTestState extends ConsumerState<MapBody> {
 
   @override
   Widget build(BuildContext context) {
-    // final buttonHeightCon = ref.read(mapButtonHeightNotifierProvider.notifier);
     double buttonHeight = ref.watch(mapButtonHeightNotifierProvider);
-    double minHeight = ref.watch(mapButtonMinHeightNotifier);
     Set<Marker> markers = ref.watch(widgetMarkerNotiferProvider);
     return Scaffold(
+      key: ref.read(mapBodyKeyProvider),
       backgroundColor: Colors.white,
       body: Stack(
         children: [
@@ -56,7 +59,7 @@ class _MapTestState extends ConsumerState<MapBody> {
           //떠있는 버튼들 시작
           Positioned(
               right: buttonPading,
-              bottom: minHeight + buttonHeight + buttonSpace + buttonPading,
+              bottom: buttonHeight + buttonSpace + buttonPading,
               child: ListButton(
                 onAcitve: () async {
                   final inMap = await ref
@@ -66,40 +69,71 @@ class _MapTestState extends ConsumerState<MapBody> {
                   ref
                       .read(mapBottomSheetControllerProvider.notifier)
                       .showBookstoreSheet(
-                        context: context,
                         bookstoreList: inMap,
                         onInnerScrollUp: () {
                           ref
-                              .read(mapSearchBarToggleProvider.notifier)
+                              .read(mapSearchBarToggleNotifierProvider.notifier)
                               .activate();
                         },
                         onInnerScrollDown: () {
                           ref
-                              .read(mapSearchBarToggleProvider.notifier)
+                              .read(mapSearchBarToggleNotifierProvider.notifier)
                               .deactivate();
                         },
                       );
                 },
                 onDeactive: () {
                   ref.read(mapBottomSheetControllerProvider)?.close();
-                  ref.read(hideStoreToggleProvider.notifier).deactivate();
+                  ref
+                      .read(hideStoreToggleNotifierProvider.notifier)
+                      .deactivate();
                 },
               )),
           Positioned(
               right: buttonPading,
-              bottom: minHeight + buttonHeight + buttonPading,
+              bottom: buttonHeight + buttonPading,
               child: GpsButton(
-                onAcitve: () {},
-                onDeactive: () {},
+                onAcitve: () async {
+                  bool isGranted = await ref
+                      .read(geolocaotorPermissionNotifierProvider.notifier)
+                      .getPermission();
+                  if (isGranted) {
+                    ref
+                        .read(gelolocatorPostionNotifierProvider.notifier)
+                        .addGpsStreamListener((pos) {
+                      ref
+                          .read(mapControllerNotiferProvider.notifier)
+                          .moveCamera(lat: pos.latitude, lng: pos.longitude);
+                    });
+                  } else {
+                    showDialog(
+                        context: context,
+                        builder: (context) => BookmarkDialog(
+                              title: 'Gsp 권한 설정',
+                              description: '해당 기능을 사용하기 위해선 Gps 권한 설정이 필요합니다.',
+                              leftButtonString: '취소',
+                              rightButtonString: '설정',
+                              onLeftButtonTap: () {},
+                              onRightButtonTap: () {
+                                Geolocator.openAppSettings();
+                              },
+                            ));
+                  }
+                },
+                onDeactive: () {
+                  ref
+                      .read(gelolocatorPostionNotifierProvider.notifier)
+                      .cancelGpsStreamListner();
+                },
               )),
           Positioned(
             right: buttonPading,
-            bottom: minHeight + buttonHeight + buttonPading + 2 * buttonSpace,
+            bottom: buttonHeight + buttonPading + 2 * buttonSpace,
             child: const MapZoomOutButton(),
           ),
           Positioned(
             right: buttonPading,
-            bottom: minHeight + buttonHeight + buttonPading + 3 * buttonSpace,
+            bottom: buttonHeight + buttonPading + 3 * buttonSpace,
             child: const MapZoomInButton(),
           )
         ],

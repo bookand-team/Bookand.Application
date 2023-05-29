@@ -24,8 +24,8 @@ class HideBookStoreButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool selected = ref.watch(hideStoreToggleProvider);
-    final con = ref.read(hideStoreToggleProvider.notifier);
+    final bool selected = ref.watch(hideStoreToggleNotifierProvider);
+    final con = ref.read(hideStoreToggleNotifierProvider.notifier);
     return GestureDetector(
         onTap: () {
           if (!selected) {

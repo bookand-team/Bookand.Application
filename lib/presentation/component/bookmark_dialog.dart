@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-void showConfirmDialog(
-    {required BuildContext context,
-    String? title,
-    String? description,
-    required String leftButtonString,
-    required String rightButtonString,
-    required bool rightIsImportant,
-    required void Function() onLeftButtonTap,
-    required void Function() onRightButtonTap}) {
+void showConfirmDialog({
+  required BuildContext context,
+  String? title,
+  String? description,
+  required String leftButtonString,
+  required String rightButtonString,
+  required void Function() onLeftButtonTap,
+  required void Function() onRightButtonTap,
+  bool rightIsImportant = true,
+}) {
   showDialog(
     context: context,
     builder: (context) => BookmarkDialog(
@@ -32,16 +33,16 @@ class BookmarkDialog extends ConsumerWidget {
   final bool rightIsImportant;
   final void Function() onLeftButtonTap;
   final void Function() onRightButtonTap;
-  const BookmarkDialog(
-      {Key? key,
-      this.title,
-      this.description,
-      required this.leftButtonString,
-      required this.rightButtonString,
-      required this.rightIsImportant,
-      required this.onLeftButtonTap,
-      required this.onRightButtonTap})
-      : super(key: key);
+  const BookmarkDialog({
+    Key? key,
+    this.title,
+    this.description,
+    required this.leftButtonString,
+    required this.rightButtonString,
+    required this.onLeftButtonTap,
+    required this.onRightButtonTap,
+    this.rightIsImportant = true,
+  }) : super(key: key);
 
   final TextStyle titleStyle = const TextStyle(fontSize: 18);
   final TextStyle contentStyle = const TextStyle(fontSize: 15);

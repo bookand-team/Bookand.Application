@@ -24,8 +24,8 @@ class _SearchTopBarState extends ConsumerState<SearchTopBar> {
 
   @override
   Widget build(BuildContext context) {
-    final search = ref.read(mapSearchPageSearchedProvider);
-    final searchCon = ref.read(mapSearchPageSearchedProvider.notifier);
+    final search = ref.read(mapSearchPageSearchedNotifierProvider);
+    final searchCon = ref.read(mapSearchPageSearchedNotifierProvider.notifier);
 
     return Container(
       padding: EdgeInsets.all(padding),
@@ -58,7 +58,9 @@ class _SearchTopBarState extends ConsumerState<SearchTopBar> {
                     .searchTextChange(value);
               },
               onSubmitted: (value) {
-                ref.read(mapSearchPageSearchedProvider.notifier).activate();
+                ref
+                    .read(mapSearchPageSearchedNotifierProvider.notifier)
+                    .activate();
                 ref
                     .read(widgetMarkerNotiferProvider.notifier)
                     .setBookstoreMarker(

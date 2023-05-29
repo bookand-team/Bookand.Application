@@ -29,8 +29,8 @@ class ThemeButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final List<Themes> selectedThemes = ref.watch(mapThemeNotifierProvider);
     final themeCon = ref.read(mapThemeNotifierProvider.notifier);
-    final bool buttonSelected = ref.watch(themeToggleProvider);
-    final buttonSelectCon = ref.watch(themeToggleProvider.notifier);
+    final bool buttonSelected = ref.watch(themeToggleNotifierProvider);
+    final buttonSelectCon = ref.watch(themeToggleNotifierProvider.notifier);
     final bool themeSelected = selectedThemes.isNotEmpty;
     final bool selected = buttonSelected || themeSelected;
     String getContent() {

@@ -29,9 +29,9 @@ class _BookMarkButtonState extends State<BookMarkButton> {
     return GestureDetector(
       onTap: () {
         if (isSelected) {
-          widget.onAcive();
-        } else {
           widget.onDisactive();
+        } else {
+          widget.onAcive();
         }
         setState(() {
           isSelected = !isSelected;

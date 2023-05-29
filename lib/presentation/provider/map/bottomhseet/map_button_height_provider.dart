@@ -10,7 +10,8 @@ class MapButtonHeightNotifier extends _$MapButtonHeightNotifier {
   double build() => bottom;
   //초기 높이
   static const double bottom = 0;
-
+  static const double storeSheetHeight = 300;
+  static const double hideSheetHeight = 335;
   Timer? aniTimer;
 
   void updateHeight(double height) {
@@ -21,6 +22,18 @@ class MapButtonHeightNotifier extends _$MapButtonHeightNotifier {
 
   double getHeight() {
     return state;
+  }
+
+  void toSheet() {
+    updateHeight(storeSheetHeight);
+  }
+
+  void toTwoSheet() {
+    updateHeight(2 * storeSheetHeight);
+  }
+
+  void toHideBottomSheet() {
+    state = hideSheetHeight;
   }
 
   void toBottom() {

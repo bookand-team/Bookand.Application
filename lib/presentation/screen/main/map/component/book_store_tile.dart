@@ -151,17 +151,19 @@ class BookStoreTile extends ConsumerWidget {
               BookMarkButton(
                 acitve: store.isBookmark!,
                 onAcive: () {
-                  ref
-                      .read(bookmarkStoreNotifierProvider.notifier)
-                      .delete([store.id!]);
-                },
-                onDisactive: () {
+                  store.isBookmark = true;
                   ref.read(bookmarkStoreNotifierProvider.notifier).add(
                       BookmarkModel(
                           bookmarkId: store.id,
                           image: store.mainImage,
                           location: store.address,
                           title: store.name));
+                },
+                onDisactive: () {
+                  store.isBookmark = false;
+                  ref
+                      .read(bookmarkStoreNotifierProvider.notifier)
+                      .delete([store.id!]);
                 },
               )
             ],

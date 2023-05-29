@@ -1,7 +1,8 @@
 import 'package:bookand/core/widget/slide_icon.dart';
 import 'package:bookand/presentation/provider/map/bools/map_theme_toggle.dart';
-import 'package:bookand/presentation/provider/map/map_filtered_book_store_provider.dart';
+import 'package:bookand/presentation/provider/map/map_bookstores_provider.dart';
 import 'package:bookand/presentation/provider/map/map_theme_provider.dart';
+import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
 import 'package:bookand/presentation/screen/main/map/component/theme_utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,7 @@ class _ThemeBottomSheetState extends ConsumerState<ThemeBottomSheet> {
   bool active = false;
   @override
   void initState() {
-    buttonSelectCon = ref.read(themeToggleProvider.notifier);
+    buttonSelectCon = ref.read(themeToggleNotifierProvider.notifier);
     selectedList = List.from(ref.read(mapThemeNotifierProvider));
     themeCon = ref.read(mapThemeNotifierProvider.notifier);
     super.initState();
@@ -189,10 +190,16 @@ class _ThemeBottomSheetState extends ConsumerState<ThemeBottomSheet> {
           GestureDetector(
             onTap: () {
               if (active) {
-                ref
-                    .read(mapFilteredBookStoreNotifierProvider.notifier)
-                    .filterAndShowMarker(selectedThemes: selectedList);
                 themeCon.setFromList(selectedList);
+                //북스토어 패치
+                ref
+                    .read(mapBookStoreNotifierProvider.notifier)
+                    .filteredBookstores();
+                //마커 변경
+                ref
+                    .read(widgetMarkerNotiferProvider.notifier)
+                    .setBookstoreMarker(ref.read(mapBookStoreNotifierProvider));
+
                 context.pop();
               }
             },

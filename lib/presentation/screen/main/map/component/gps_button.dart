@@ -16,14 +16,18 @@ class _GpsButtonState extends State<GpsButton> {
   final double size = 32;
   @override
   Widget build(BuildContext context) {
-    //permission은 굳이 rebuild 필요 없음
-
     return GestureDetector(
-      onTap: () async {
+      onTap: () {
         //활성화 시
         if (!selected) {
+          setState(() {
+            selected = true;
+          });
           widget.onAcitve();
         } else {
+          setState(() {
+            selected = false;
+          });
           widget.onDeactive();
         }
       },

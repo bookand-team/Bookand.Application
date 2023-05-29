@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bookand/core/const/bookmark_type.dart';
 import 'package:bookand/core/widget/base_layout.dart';
 import 'package:bookand/domain/model/bookmark/bookmark_folder_model.dart';
@@ -56,8 +54,6 @@ class _BookmarkScreenState extends ConsumerState<BookmarkScreen>
     List<BookmarkModel> articleList =
         ref.watch(bookmarkArticleNotifierProvider);
     List<BookmarkModel> storeList = ref.watch(bookmarkStoreNotifierProvider);
-    log('bookmark book folder list =${storeFolderList.map((e) => e.folderName)}');
-    log('bookmark book list =${storeList.map((e) => e.title)}');
 
     BookmarkType type = ref.watch(bookmarkTypeNotifierProvider);
 

@@ -1,8 +1,8 @@
 import 'package:bookand/core/const/map.dart';
 import 'package:bookand/core/util/common_util.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
+import 'package:bookand/presentation/provider/map/map_bookstores_provider.dart';
 import 'package:bookand/presentation/provider/map/map_controller_provider.dart';
-import 'package:bookand/presentation/provider/map/map_filtered_book_store_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -22,7 +22,7 @@ class MapInScreenBookStoreNotifier extends _$MapInScreenBookStoreNotifier
     LatLngBounds? bounds = await ref
         .read(mapControllerNotiferProvider.notifier)
         .getScreenLatLngBounds();
-    ref.read(mapFilteredBookStoreNotifierProvider).forEach((bookstore) {
+    ref.read(mapBookStoreNotifierProvider).forEach((bookstore) {
       if (CommonUtil.coordInRect(
           targetLat: bookstore.latitude ?? SEOUL_COORD_LAT,
           targetLon: bookstore.longitude ?? SEOUL_COORD_LON,

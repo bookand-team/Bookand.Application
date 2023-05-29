@@ -1,9 +1,10 @@
-import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:bookand/presentation/component/bookmark_dialog.dart';
 import 'package:bookand/presentation/provider/map/bools/map_search_bar_toggle.dart';
+import 'package:bookand/presentation/provider/map/geolocator_permission_provider.dart';
 import 'package:bookand/presentation/provider/map/geolocator_position_provider.dart';
 import 'package:bookand/presentation/provider/map/map_bookstores_provider.dart';
-import 'package:bookand/presentation/provider/map/map_controller_provider.dart';
-import 'package:bookand/presentation/provider/map/map_filtered_book_store_provider.dart';
 import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
 import 'package:bookand/presentation/screen/main/map/component/map_body.dart';
 import 'package:bookand/presentation/screen/main/map/component/top_bar/map_bar_long.dart';
@@ -11,6 +12,7 @@ import 'package:bookand/presentation/screen/main/map/component/top_bar/map_bar_s
 import 'package:flutter/material.dart';
 //providers
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
 
 import '../../../../core/widget/base_layout.dart';
 
@@ -27,13 +29,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   //textstyles
 
   bool inited = false;
-
-  //서버에서 받은 모든 bookstroes
-  List<BookStoreMapModel> bookstores = [];
-  //조건 처리된 bookstores
-  List<BookStoreMapModel> filteredBookstroes = [];
-  //현재 화면 안에 있는 bookstores
-  List<BookStoreMapModel> bookstoresInScreen = [];
 
   BorderRadius panelBr = const BorderRadius.only(
       topLeft: Radius.circular(24), topRight: Radius.circular(24));
@@ -69,34 +64,48 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
 //bookstore를 서버에서 받고 초기화 후 마커 출력
   Future init() async {
-    final userCoord = await ref
-        .read(gelolocatorPostionNotifierProvider.notifier)
-        .getCurrentPosition();
-    //카메라 이동
-    ref
-        .read(mapControllerNotiferProvider.notifier)
-        .moveCamera(lat: userCoord.lat, lng: userCoord.lng);
-    // 서버에서 받음.
-    await ref
-        .read(mapBookStoreNotifierProvider.notifier)
-        .fetchBookstoreList(userLat: userCoord.lat, userLon: userCoord.lng);
-    // bookstores 초기화
-    bookstores = ref.read(mapBookStoreNotifierProvider);
-    // filteredbookstores 초기화
-    ref
-        .read(mapFilteredBookStoreNotifierProvider.notifier)
-        .filteredBookstroes(isBookmark: false, selectedThemes: []);
-    filteredBookstroes = ref.read(mapFilteredBookStoreNotifierProvider);
-    //마커 출력
-    ref
-        .read(widgetMarkerNotiferProvider.notifier)
-        .initMarkers(filteredBookstroes, context);
-    inited = true;
+    if (inited) return;
+    bool isGranted = await ref
+        .read(geolocaotorPermissionNotifierProvider.notifier)
+        .getPermission();
+    if (isGranted) {
+      final userCoord = await ref
+          .read(gelolocatorPostionNotifierProvider.notifier)
+          .getCurrentPosition();
+
+      // 서버에서 받음.
+      final bookstores = await ref
+          .read(mapBookStoreNotifierProvider.notifier)
+          .initBookStores(
+              userLat: userCoord.latitude, userLon: userCoord.longitude);
+      //마커 출력
+      ref
+          .read(widgetMarkerNotiferProvider.notifier)
+          .initMarkers(bookstores, context);
+
+      inited = true;
+    } else {
+      await showDialog(
+          context: context,
+          builder: (context) => BookmarkDialog(
+                title: 'Gsp 권한 설정',
+                description: '해당 기능을 사용하기 위해선 Gps 권한 설정이 필요합니다.',
+                leftButtonString: '취소',
+                rightButtonString: '설정',
+                onLeftButtonTap: () {},
+                onRightButtonTap: () {
+                  Geolocator.openAppSettings();
+                },
+              ));
+      if (!inited) {
+        init();
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    bool searchBarShow = ref.watch(mapSearchBarToggleProvider);
+    bool searchBarShow = ref.watch(mapSearchBarToggleNotifierProvider);
     return BaseLayout(
         appBar: searchBarShow
             ? const MapBarLong() as PreferredSizeWidget

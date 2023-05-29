@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 void showCustomBottomSheet(BuildContext context) {
@@ -29,7 +27,6 @@ class _BaseBottomSheetState extends State<BaseBottomSheet> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onPanUpdate: (details) {
-        log('test');
         setState(() {
           height += details.delta.dy;
         });

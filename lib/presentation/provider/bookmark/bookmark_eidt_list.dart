@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bookand/core/const/bookmark_type.dart';
 import 'package:bookand/domain/model/bookmark/bookmark_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -15,7 +13,6 @@ class BookmarkEditListNotifier extends _$BookmarkEditListNotifier {
   }
 
   void toggle(BookmarkType type, BookmarkModel model) {
-    log('test lsit = $state');
     if (!state.contains(model.bookmarkId!)) {
       state.add(model.bookmarkId!);
     } else {

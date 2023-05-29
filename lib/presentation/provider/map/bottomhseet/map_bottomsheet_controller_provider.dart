@@ -1,13 +1,12 @@
 //북마크 버튼에 따라 토글되는 state
-import 'dart:developer';
-
 import 'package:bookand/core/widget/slide_icon.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
 import 'package:bookand/presentation/component/bookstore_snackbar.dart';
 import 'package:bookand/presentation/provider/map/bools/map_hidestore_toggle.dart';
 import 'package:bookand/presentation/provider/map/bottomhseet/map_button_height_provider.dart';
-import 'package:bookand/presentation/provider/map/bottomhseet/map_button_min_height_provider.dart';
 import 'package:bookand/presentation/provider/map/bottomhseet/map_list_toggle.dart';
+import 'package:bookand/presentation/provider/map/map_body_key_provider.dart';
+import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
 import 'package:bookand/presentation/screen/main/map/component/book_store_tile.dart';
 import 'package:bookand/presentation/screen/main/map/component/top_bar/components/hide_book_store_bottom_sheet.dart';
 import 'package:bookand/presentation/screen/main/map/component/top_bar/map_bar_long.dart';
@@ -17,47 +16,75 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MapBottomSheetControllerNotifier
     extends StateNotifier<PersistentBottomSheetController?> {
-  late MapButtonHeightNotifier buttonHeightProvider;
-  late MapButtonMinHeightProvider buttonMinHeightProvider;
-  late MapListToggle listToggle;
+  late MapButtonHeightNotifier buttonHeightCon;
+  late MapListToggle listToggleCon;
+  late HideStoreToggleNotifier hideToggleCon;
+  late WidgetMarkerNotifer markerCon;
+  late GlobalKey bodyKey;
+
   MapBottomSheetControllerNotifier(StateNotifierProviderRef ref) : super(null) {
-    buttonHeightProvider = ref.read(mapButtonHeightNotifierProvider.notifier);
-    buttonMinHeightProvider = ref.read(mapButtonMinHeightNotifier.notifier);
-    listToggle = ref.read(mapListToggleProvider.notifier);
+    buttonHeightCon = ref.read(mapButtonHeightNotifierProvider.notifier);
+    listToggleCon = ref.read(mapListToggleProvider.notifier);
+    hideToggleCon = ref.read(hideStoreToggleNotifierProvider.notifier);
+    markerCon = ref.read(widgetMarkerNotiferProvider.notifier);
+    bodyKey = ref.read(mapBodyKeyProvider);
   }
+
   EdgeInsets padding = const EdgeInsets.all(10);
   BorderRadius br = const BorderRadius.only(
       topLeft: Radius.circular(24), topRight: Radius.circular(24));
 
+  //이미 바텀 시트 출력 중일 때 새로 바텀 시트를 출력하면 오작동을 막기 위해 구분
+  PersistentBottomSheetController? oldSheet;
+
   void close() {
     state?.close();
+    state = null;
   }
 
-  ///서점 3개 이상을 출력하여 화면을 꽉 채울 때 용도
+  ///서점을 대상으로한 바텀 시트 출력
   void showBookstoreSheet({
-    required BuildContext context,
     required List<BookStoreMapModel> bookstoreList,
     void Function()? onInnerScrollUp,
     void Function()? onInnerScrollDown,
   }) {
-    // 이미 켜져있는 거 끄기
-    state?.close();
-    //버튼 높이 조정
+    if (bodyKey.currentContext == null) {
+      return;
+    }
+    BuildContext context = bodyKey.currentState!.context;
 
+    // 이미 켜져 있을 때
+    if (state != null) {
+      oldSheet = state;
+      state = null;
+      oldSheet?.closed.then((value) {
+        showBookstoreSheet(
+            bookstoreList: bookstoreList,
+            onInnerScrollDown: onInnerScrollUp,
+            onInnerScrollUp: onInnerScrollDown);
+      });
+      oldSheet?.close();
+      oldSheet = null;
+      return;
+    }
+
+    //버튼 높이 조정
     if (bookstoreList.isEmpty) {
       ScaffoldMessenger.of(context)
           .showSnackBar(createSnackBar(data: '여기엔 서점이 없어요~'));
-      listToggle.deactivate();
+      listToggleCon.deactivate();
       return;
     }
 
     if (bookstoreList.length == 1) {
-      buttonMinHeightProvider.toSheet();
+      buttonHeightCon.toSheet();
     } else if (bookstoreList.length == 2) {
-      buttonMinHeightProvider.toTwoSheet();
+      buttonHeightCon.toTwoSheet();
     } else {
-      buttonMinHeightProvider.toSheet();
+      buttonHeightCon.toSheet();
     }
+
+    listToggleCon.activate();
 
     //바텀 시트 출력
     state = Scaffold.of(context).showBottomSheet(
@@ -84,10 +111,9 @@ class MapBottomSheetControllerNotifier
                   return NotificationListener<DraggableScrollableNotification>(
                     onNotification:
                         (DraggableScrollableNotification dsNotification) {
-                      log('max = $maxHeight extent= ${dsNotification.extent.toString()}');
                       //버튼 높이 조절
                       double updateHeight = (maxHeight) * dsNotification.extent;
-                      buttonMinHeightProvider.setMinHeight(updateHeight);
+                      buttonHeightCon.updateHeight(updateHeight);
                       //바텀 시트가 완전히 펼쳐졌을 때 br, slide icon 조정을 위한 감지
                       if (!isOpend && dsNotification.extent >= 1) {
                         setState(() {
@@ -98,13 +124,12 @@ class MapBottomSheetControllerNotifier
                           isOpend = false;
                         });
                       }
-                      return true;
+                      return false;
                     },
                     child: DraggableScrollableSheet(
                         expand: false,
                         builder: (context, scrollController) {
                           scrollController.addListener(() {
-                            log(scrollController.offset.toString());
                             if (scrollController.offset > 0.2) {
                               if (scrollController
                                       .position.userScrollDirection ==
@@ -122,6 +147,8 @@ class MapBottomSheetControllerNotifier
                             }
                           });
                           return SingleChildScrollView(
+                            physics:
+                                isOpend ? null : NeverScrollableScrollPhysics(),
                             controller: scrollController,
                             child: Container(
                               decoration: BoxDecoration(
@@ -152,15 +179,29 @@ class MapBottomSheetControllerNotifier
 
   /// 숨은 서점 출력할 때
   void showHideStore(WidgetRef ref) {
-    close();
+    if (bodyKey.currentContext == null) {
+      return;
+    }
+    BuildContext context = bodyKey.currentState!.context;
+
+    if (state != null) {
+      oldSheet = state;
+      state = null;
+      oldSheet?.closed.then((value) {
+        showHideStore(ref);
+      });
+      oldSheet?.close();
+      oldSheet = null;
+      return;
+    }
 
     //button height 조절
-    buttonMinHeightProvider.toHideBottomSheet();
+    buttonHeightCon.toHideBottomSheet();
     //버튼
-    listToggle.activate();
+    listToggleCon.activate();
 
     state = showBottomSheet(
-      context: ref.context,
+      context: context,
       builder: (context) {
         return HideBookStoreBottomSheet(
           safeRef: ref,
@@ -169,15 +210,16 @@ class MapBottomSheetControllerNotifier
     );
     state?.closed.then((value) {
       onBottomSheetDismissed();
-      ref.read(hideStoreToggleProvider.notifier).deactivate();
     });
   }
 
   ///바텀시트 사라질 때
   void onBottomSheetDismissed() {
-    listToggle.deactivate();
-    buttonMinHeightProvider.toBottom();
-    buttonHeightProvider.toBottomAnimation();
+    state = null;
+    listToggleCon.deactivate();
+    hideToggleCon.deactivate();
+    buttonHeightCon.toBottom();
+    markerCon.setAllNormal();
   }
 }
 

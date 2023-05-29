@@ -23,4 +23,8 @@ class MapThemeNotifier extends _$MapThemeNotifier {
   init() {
     state = [];
   }
+
+  List<Themes> getState() {
+    return state;
+  }
 }

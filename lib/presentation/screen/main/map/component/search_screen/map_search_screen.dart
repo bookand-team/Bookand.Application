@@ -98,8 +98,8 @@ class _MapSearchScreenState extends ConsumerState<MapSearchScreen> {
 
     searchedList = ref.watch(mapSearchStoreNotifierProvider);
     // is searched
-    isSearched = ref.watch(mapSearchPageSearchedProvider);
-    final searchCon = ref.read(mapSearchPageSearchedProvider.notifier);
+    isSearched = ref.watch(mapSearchPageSearchedNotifierProvider);
+    final searchCon = ref.read(mapSearchPageSearchedNotifierProvider.notifier);
     if (searchedList.isNotEmpty) {
       final nearStore = searchedList.first;
       initCamera = CameraPosition(
