@@ -65,7 +65,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         (value) => ref
             .read(widgetMarkerNotiferProvider.notifier)
             .initMarkers(value, context));
-    //유저 좌표 확인
+
+    //유저 좌표 확인 및 유저와의 거리 추가
     bool isGranted = await ref
         .read(geolocaotorPermissionNotifierProvider.notifier)
         .getPermission();

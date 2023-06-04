@@ -1,5 +1,6 @@
 import 'package:bookand/presentation/provider/map/bools/map_hidestore_toggle.dart';
 import 'package:bookand/presentation/provider/map/bottomhseet/map_bottomsheet_controller_provider.dart';
+import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
 import 'package:flutter/material.dart';
 //providers
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,6 +29,9 @@ class HideBookStoreButton extends ConsumerWidget {
     final con = ref.read(hideStoreToggleNotifierProvider.notifier);
     return GestureDetector(
         onTap: () {
+          if (!ref.read(widgetMarkerNotiferProvider.notifier).inited) {
+            return;
+          }
           if (!selected) {
             con.activate();
             ref.read(mapBottomSheetControllerProvider.notifier).showHideStore();

@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'map_hidestore_toggle.g.dart';
@@ -20,6 +20,7 @@ class HideStoreToggleNotifier extends _$HideStoreToggleNotifier {
 
   void deactivate() {
     state = false;
+    ref.read(widgetMarkerNotiferProvider.notifier).setAllNormal();
   }
 }
 

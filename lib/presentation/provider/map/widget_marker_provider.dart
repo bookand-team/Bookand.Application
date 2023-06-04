@@ -122,8 +122,7 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
 
   Future initMarkers(
       List<BookStoreMapModel> bookstoreList, BuildContext context) async {
-    _fetchBookmarkedStoreMarkers(bookstoreList);
-    for (BookStoreMapModel store in bookstoreList) {
+    bookstoreList.forEach((store) async {
       Marker marker = Marker(
         onTap: () async {
           // 다른 마커 정상화
@@ -160,8 +159,10 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
       );
       state.add(marker);
       state = Set.from(state);
-    }
+    });
     _allMarker.addAll(state);
+    _fetchBookmarkedStoreMarkers(bookstoreList);
+
     inited = true;
   }
 
@@ -171,9 +172,11 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
     }
     if (_selectedMarker != null) {
       state.remove(_selectedMarker);
+      _selectedMarker = null;
     }
     if (_hidestoreMarker != null) {
       state.remove(_hidestoreMarker);
+      _hidestoreMarker = null;
     }
     state = {...state};
   }
