@@ -282,4 +282,11 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
     await _fetchBookmarkedStoreMarkers(storeList);
     state = Set.from(_bookmakredMarkerSet);
   }
+
+  Set<Marker> getSearchedMarker(List<BookStoreMapModel> storeList) {
+    List<String> nameList = storeList.map((e) => e.name!).toList();
+    return _allMarker
+        .where((element) => nameList.contains(element.markerId.value))
+        .toSet();
+  }
 }

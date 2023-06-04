@@ -30,9 +30,7 @@ class HideBookStoreButton extends ConsumerWidget {
         onTap: () {
           if (!selected) {
             con.activate();
-            ref
-                .read(mapBottomSheetControllerProvider.notifier)
-                .showHideStore(ref);
+            ref.read(mapBottomSheetControllerProvider.notifier).showHideStore();
           } else {
             con.deactivate();
             ref.read(mapBottomSheetControllerProvider)?.close();

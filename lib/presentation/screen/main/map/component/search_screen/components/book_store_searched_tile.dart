@@ -2,6 +2,7 @@ import 'package:bookand/core/util/common_util.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
 import 'package:bookand/gen/assets.gen.dart';
 import 'package:bookand/presentation/screen/main/home/bookstore_screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -10,10 +11,8 @@ class BookStoreSearchedTile extends StatelessWidget {
   const BookStoreSearchedTile({Key? key, required this.model})
       : super(key: key);
 
-  final double height = 200;
+  static const double height = 50 + 16;
   final Color borderColor = const Color(0xfff5f5f5);
-  final EdgeInsets margin = const EdgeInsets.symmetric(horizontal: 12);
-  final EdgeInsets padding = const EdgeInsets.symmetric(vertical: 12);
 
   //image
   final double imageBRaidus = 4;
@@ -28,28 +27,35 @@ class BookStoreSearchedTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
         context.pushNamed(BookstoreScreen.routeName,
             pathParameters: {'id': '${model.id}'});
       },
       child: Container(
-        margin: margin,
-        padding: padding,
-        // width: screenSize.width * 9,
-        // height: height,
+        padding: EdgeInsets.symmetric(vertical: 8),
+        width: MediaQuery.of(context).size.width * .9,
+        height: height,
         decoration: BoxDecoration(
             border: Border(bottom: BorderSide(color: borderColor))),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           children: [
             Container(
-                clipBehavior: Clip.hardEdge,
+                width: imageSize.width,
+                height: imageSize.height,
+                clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(imageBRaidus)),
-                child: Assets.images.map.bookSearchedTest
-                    .image(width: imageSize.width, height: imageSize.height)),
+                child: model.mainImage != null
+                    ? CachedNetworkImage(
+                        imageUrl: model.mainImage!,
+                        width: imageSize.width,
+                        height: imageSize.height,
+                        fit: BoxFit.fill,
+                      )
+                    : Assets.images.map.bookSearchedTest.image(
+                        width: imageSize.width, height: imageSize.height)),
             SizedBox(
               width: 10,
             ),
@@ -69,7 +75,7 @@ class BookStoreSearchedTile extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Text(
-                        '서울시 마포구',
+                        model.address ?? '',
                         style: locationStyle,
                       ),
                       Text(

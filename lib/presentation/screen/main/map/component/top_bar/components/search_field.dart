@@ -1,3 +1,4 @@
+import 'package:bookand/presentation/provider/map/bottomhseet/map_bottomsheet_controller_provider.dart';
 import 'package:bookand/presentation/screen/main/map/component/search_screen/map_search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,7 +17,7 @@ class SearchField extends ConsumerWidget {
       onTap: () =>
           ref.context.pushNamed(MapSearchScreen.routeName).then((value) {
         if (value == 'showhide') {
-          //TODO 숨은 서점 열기
+          ref.read(mapBottomSheetControllerProvider.notifier).showHideStore();
         }
       }),
       child: Container(

@@ -8,6 +8,7 @@ import 'package:bookand/presentation/provider/map/bottomhseet/map_list_toggle.da
 import 'package:bookand/presentation/provider/map/map_body_key_provider.dart';
 import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
 import 'package:bookand/presentation/screen/main/map/component/book_store_tile.dart';
+import 'package:bookand/presentation/screen/main/map/component/search_screen/components/book_store_searched_tile.dart';
 import 'package:bookand/presentation/screen/main/map/component/top_bar/components/hide_book_store_bottom_sheet.dart';
 import 'package:bookand/presentation/screen/main/map/component/top_bar/map_bar_long.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +41,56 @@ class MapBottomSheetControllerNotifier
   void close() {
     state?.close();
     state = null;
+  }
+
+  void showSearchPageSheet(
+      {required BuildContext context,
+      required List<BookStoreMapModel> bookstoreList}) {
+    if (state != null) {
+      state?.close();
+      state = null;
+    }
+    //바텀 시트 출력
+    state = showBottomSheet(
+        context: context,
+        builder: (context) =>
+            NotificationListener<DraggableScrollableNotification>(
+              onNotification: (DraggableScrollableNotification dsNotification) {
+                double maxHeight = MediaQuery.of(context).size.height;
+                //버튼 높이 조절
+                double updateHeight = (maxHeight) * dsNotification.extent;
+                buttonHeightCon.updateHeight(updateHeight);
+
+                return false;
+              },
+              child: DraggableScrollableSheet(
+                  maxChildSize: 0.8,
+                  expand: false,
+                  builder: (context, scrollController) {
+                    return SingleChildScrollView(
+                      controller: scrollController,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white, borderRadius: br),
+                        width: MediaQuery.of(context).size.width,
+                        padding: padding,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            slideIcon,
+                            ...bookstoreList
+                                .map((e) => BookStoreSearchedTile(model: e))
+                                .toList()
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+            ),
+        backgroundColor: Colors.white);
+    state?.closed.then((value) {
+      onBottomSheetDismissed();
+    });
   }
 
   ///서점을 대상으로한 바텀 시트 출력
@@ -178,7 +229,7 @@ class MapBottomSheetControllerNotifier
   }
 
   /// 숨은 서점 출력할 때
-  void showHideStore(WidgetRef ref) {
+  void showHideStore() {
     if (bodyKey.currentContext == null) {
       return;
     }
@@ -188,7 +239,7 @@ class MapBottomSheetControllerNotifier
       oldSheet = state;
       state = null;
       oldSheet?.closed.then((value) {
-        showHideStore(ref);
+        showHideStore();
       });
       oldSheet?.close();
       oldSheet = null;
@@ -203,9 +254,7 @@ class MapBottomSheetControllerNotifier
     state = showBottomSheet(
       context: context,
       builder: (context) {
-        return HideBookStoreBottomSheet(
-          safeRef: ref,
-        );
+        return const HideBookStoreBottomSheet();
       },
     );
     state?.closed.then((value) {

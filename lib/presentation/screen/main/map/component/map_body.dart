@@ -9,12 +9,13 @@ import 'package:bookand/presentation/provider/map/bottomhseet/map_button_height_
 import 'package:bookand/presentation/provider/map/geolocator_permission_provider.dart';
 import 'package:bookand/presentation/provider/map/geolocator_position_provider.dart';
 import 'package:bookand/presentation/provider/map/map_body_key_provider.dart';
+import 'package:bookand/presentation/provider/map/map_bookstores_provider.dart';
 import 'package:bookand/presentation/provider/map/map_controller_provider.dart';
-import 'package:bookand/presentation/provider/map/map_in_screen_bookstores_provider.dart';
 import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
 import 'package:bookand/presentation/screen/main/map/component/gps_button.dart';
 import 'package:bookand/presentation/screen/main/map/component/list_button.dart';
 import 'package:bookand/presentation/screen/main/map/component/map_function_buttons.dart';
+import 'package:bookand/presentation/screen/main/map/component/map_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
@@ -62,14 +63,20 @@ class _MapTestState extends ConsumerState<MapBody> {
               bottom: buttonHeight + buttonSpace + buttonPading,
               child: ListButton(
                 onAcitve: () async {
-                  final inMap = await ref
-                      .read(mapInScreenBookStoreNotifierProvider.notifier)
-                      .fetchInScreenBookstore();
+                  final bounds = await ref
+                      .read(mapControllerNotiferProvider.notifier)
+                      .getScreenLatLngBounds();
+                  if (bounds == null) {
+                    return;
+                  }
+
+                  final inScreen = await MapUtils.getBookstoresInScreen(
+                      ref.read(mapBookStoreNotifierProvider), bounds);
 
                   ref
                       .read(mapBottomSheetControllerProvider.notifier)
                       .showBookstoreSheet(
-                        bookstoreList: inMap,
+                        bookstoreList: inScreen,
                         onInnerScrollUp: () {
                           ref
                               .read(mapSearchBarToggleNotifierProvider.notifier)
@@ -129,12 +136,15 @@ class _MapTestState extends ConsumerState<MapBody> {
           Positioned(
             right: buttonPading,
             bottom: buttonHeight + buttonPading + 2 * buttonSpace,
-            child: const MapZoomOutButton(),
+            child: MapZoomOutButton(
+              controller: ref.read(mapControllerNotiferProvider),
+            ),
           ),
           Positioned(
             right: buttonPading,
             bottom: buttonHeight + buttonPading + 3 * buttonSpace,
-            child: const MapZoomInButton(),
+            child: MapZoomInButton(
+                controller: ref.read(mapControllerNotiferProvider)),
           )
         ],
       ),

@@ -1,20 +1,19 @@
-import 'package:bookand/presentation/provider/map/map_controller_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class MapZoomInButton extends ConsumerWidget {
-  const MapZoomInButton({Key? key}) : super(key: key);
+class MapZoomInButton extends StatelessWidget {
+  final GoogleMapController? controller;
+  const MapZoomInButton({Key? key, required this.controller}) : super(key: key);
   final double size = 32;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     // 패널열렸는지는 show panel 에서
     // 다시 누르면 list type은 List(기본)로
-    final con = ref.read(mapControllerNotiferProvider.notifier);
 
     return GestureDetector(
       onTap: () {
-        con.zoomIn();
+        controller?.animateCamera(CameraUpdate.zoomIn());
       },
       child: Container(
         height: size,
@@ -31,19 +30,17 @@ class MapZoomInButton extends ConsumerWidget {
   }
 }
 
-class MapZoomOutButton extends ConsumerWidget {
-  const MapZoomOutButton({Key? key}) : super(key: key);
+class MapZoomOutButton extends StatelessWidget {
+  final GoogleMapController? controller;
+  const MapZoomOutButton({Key? key, required this.controller})
+      : super(key: key);
   final double size = 32;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // 패널열렸는지는 show panel 에서
-    // 다시 누르면 list type은 List(기본)로
-    final con = ref.read(mapControllerNotiferProvider.notifier);
-
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        con.zoomOut();
+        controller?.animateCamera(CameraUpdate.zoomOut());
       },
       child: Container(
         height: size,

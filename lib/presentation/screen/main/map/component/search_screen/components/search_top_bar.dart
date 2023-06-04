@@ -1,32 +1,33 @@
 //provider
-import 'package:bookand/presentation/provider/map/bools/map_search_out_toggle.dart.dart';
-import 'package:bookand/presentation/provider/map/map_search_stores_provider.dart';
-import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class SearchTopBar extends ConsumerStatefulWidget {
-  const SearchTopBar({Key? key}) : super(key: key);
+class SearchTopBar extends ConsumerWidget {
+  final TextEditingController controller;
+  final void Function(String value) onChanged;
+  final void Function(String value) onSubmitted;
+  final void Function() onFieldFocus;
+  final FocusNode focusNode;
 
-  @override
-  _SearchTopBarState createState() => _SearchTopBarState();
-}
+  SearchTopBar(
+      {Key? key,
+      required this.focusNode,
+      required this.controller,
+      required this.onFieldFocus,
+      required this.onChanged,
+      required this.onSubmitted})
+      : super(key: key);
 
-class _SearchTopBarState extends ConsumerState<SearchTopBar> {
   final double bRadius = 8;
   final double padding = 10;
   final Color greyColor = const Color(0xffacacac);
   final Color thinGreyColor = const Color(0xfff5f5f5);
 
-  final Size size = const Size(320, 50);
-  TextEditingController controller = TextEditingController();
+  static const double height = 50;
 
   @override
-  Widget build(BuildContext context) {
-    final search = ref.read(mapSearchPageSearchedNotifierProvider);
-    final searchCon = ref.read(mapSearchPageSearchedNotifierProvider.notifier);
-
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       padding: EdgeInsets.all(padding),
       decoration: BoxDecoration(
@@ -34,40 +35,32 @@ class _SearchTopBarState extends ConsumerState<SearchTopBar> {
         border: Border(bottom: BorderSide(color: thinGreyColor)),
       ),
       width: MediaQuery.of(context).size.width,
-      height: size.height,
+      height: height,
       child: Row(
         children: [
           GestureDetector(
             onTap: () {
-              if (search) {
-                searchCon.toggle();
-              } else {
-                ref.context.pop();
-              }
+              context.pop();
             },
             child: const Icon(
               Icons.arrow_back_ios_rounded,
             ),
           ),
           Expanded(
-            child: TextField(
-              controller: controller,
-              onChanged: (value) {
-                ref
-                    .read(mapSearchStoreNotifierProvider.notifier)
-                    .searchTextChange(value);
+            child: Focus(
+              onFocusChange: (value) {
+                if (value) {
+                  onFieldFocus();
+                }
               },
-              onSubmitted: (value) {
-                ref
-                    .read(mapSearchPageSearchedNotifierProvider.notifier)
-                    .activate();
-                ref
-                    .read(widgetMarkerNotiferProvider.notifier)
-                    .setBookstoreMarker(
-                        ref.read(mapSearchStoreNotifierProvider));
-              },
-              decoration: const InputDecoration.collapsed(
-                  hintText: '궁금한 서점/지역을 검색해 보세요'),
+              child: TextField(
+                focusNode: focusNode,
+                controller: controller,
+                onChanged: onChanged,
+                onSubmitted: onSubmitted,
+                decoration: const InputDecoration.collapsed(
+                    hintText: '궁금한 서점/지역을 검색해 보세요'),
+              ),
             ),
           ),
           GestureDetector(

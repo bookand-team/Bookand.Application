@@ -11,9 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HideBookStoreBottomSheet extends ConsumerStatefulWidget {
-  final WidgetRef safeRef;
-  const HideBookStoreBottomSheet({Key? key, required this.safeRef})
-      : super(key: key);
+  const HideBookStoreBottomSheet({Key? key}) : super(key: key);
 
   @override
   _HideBookStoreBottomSheetState createState() =>
