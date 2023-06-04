@@ -29,32 +29,35 @@ class MapBookStoreNotifier extends _$MapBookStoreNotifier with ChangeNotifier {
   List<BookStoreMapModel> storedList = [];
 
   ///server에서 데이터 받은 후, 사용자 위치간의 거리를 계산하여 가까운 순으로 정렬
-  Future<List<BookStoreMapModel>> initBookStores(
-      {required double userLat, required double userLon}) async {
-    List<BookStoreMapModel> formattedList = [];
+  Future<List<BookStoreMapModel>> initBookStores() async {
     //데이터 받음
     final response =
         await ref.read(bookstoreMapUsecaseProvider).getBookstores();
 
     if (response.bookStoreAddressListResponse != null) {
-      formattedList.addAll(response.bookStoreAddressListResponse!);
-
-      //데이터에 유저간의 거리 추가
-      for (BookStoreMapModel store in formattedList) {
-        store.userDistance = CommonUtil.getDistance(
-            lat1: userLat,
-            lon1: userLon,
-            lat2: store.latitude ?? SEOUL_COORD_LAT,
-            lon2: store.longitude ?? SEOUL_COORD_LON);
-      }
-      //거리 순 정렬
-      formattedList.sort(
-        (a, b) => a.userDistance!.compareTo(b.userDistance!),
-      );
+      state.addAll(response.bookStoreAddressListResponse!);
     }
-    storedList.addAll(formattedList);
-    state.addAll(formattedList);
+    state = [...state];
+
     return state;
+  }
+
+  void patchStoresDistanceBetweenUser(
+      {required double userLat, required double userLon}) {
+    //데이터에 유저간의 거리 추가
+    for (BookStoreMapModel store in state) {
+      store.userDistance = CommonUtil.getDistance(
+          lat1: userLat,
+          lon1: userLon,
+          lat2: store.latitude ?? SEOUL_COORD_LAT,
+          lon2: store.longitude ?? SEOUL_COORD_LON);
+    }
+    //거리 순 정렬
+    state.sort(
+      (a, b) => a.userDistance!.compareTo(b.userDistance!),
+    );
+
+    state = [...state];
   }
 
   void filteredBookstores() {

@@ -139,7 +139,9 @@ class BookStoreTile extends ConsumerWidget {
                         width: 5,
                       ),
                       Text(
-                        CommonUtil.distance2TypedStr(store.userDistance!),
+                        store.userDistance == null
+                            ? ''
+                            : CommonUtil.distance2TypedStr(store.userDistance!),
                         style: distanceStyle,
                       )
                     ],

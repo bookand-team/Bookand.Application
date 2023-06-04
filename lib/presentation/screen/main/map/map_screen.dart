@@ -26,10 +26,6 @@ class MapScreen extends ConsumerStatefulWidget {
 enum CustomPanelState { opend, closed }
 
 class _MapScreenState extends ConsumerState<MapScreen> {
-  //textstyles
-
-  bool inited = false;
-
   BorderRadius panelBr = const BorderRadius.only(
       topLeft: Radius.circular(24), topRight: Radius.circular(24));
 
@@ -64,7 +60,12 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
 //bookstore를 서버에서 받고 초기화 후 마커 출력
   Future init() async {
-    if (inited) return;
+    // 서버에서 받고 마커 출력
+    ref.read(mapBookStoreNotifierProvider.notifier).initBookStores().then(
+        (value) => ref
+            .read(widgetMarkerNotiferProvider.notifier)
+            .initMarkers(value, context));
+    //유저 좌표 확인
     bool isGranted = await ref
         .read(geolocaotorPermissionNotifierProvider.notifier)
         .getPermission();
@@ -72,18 +73,10 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       final userCoord = await ref
           .read(gelolocatorPostionNotifierProvider.notifier)
           .getCurrentPosition();
-
-      // 서버에서 받음.
-      final bookstores = await ref
-          .read(mapBookStoreNotifierProvider.notifier)
-          .initBookStores(
-              userLat: userCoord.latitude, userLon: userCoord.longitude);
-      //마커 출력
       ref
-          .read(widgetMarkerNotiferProvider.notifier)
-          .initMarkers(bookstores, context);
-
-      inited = true;
+          .read(mapBookStoreNotifierProvider.notifier)
+          .patchStoresDistanceBetweenUser(
+              userLat: userCoord.latitude, userLon: userCoord.longitude);
     } else {
       await showDialog(
           context: context,
@@ -97,9 +90,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                   Geolocator.openAppSettings();
                 },
               ));
-      if (!inited) {
-        init();
-      }
     }
   }
 

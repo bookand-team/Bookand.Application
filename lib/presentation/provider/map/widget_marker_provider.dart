@@ -43,6 +43,7 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
     width: 36,
     height: 36,
   );
+
   final Widget _hidestore = SvgPicture.asset(Assets.images.map.hidestore);
 
   final Widget _bookmarkStore = SvgPicture.asset(
@@ -50,6 +51,7 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
     width: 28,
     height: 28,
   );
+
   final Widget _bookmarkStoreBig = SvgPicture.asset(
     Assets.images.map.bookmarkActive,
     width: 36,
