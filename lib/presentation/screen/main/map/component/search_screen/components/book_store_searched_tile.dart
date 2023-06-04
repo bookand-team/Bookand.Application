@@ -1,6 +1,5 @@
 import 'package:bookand/core/util/common_util.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
-import 'package:bookand/gen/assets.gen.dart';
 import 'package:bookand/presentation/screen/main/home/bookstore_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -47,15 +46,13 @@ class BookStoreSearchedTile extends StatelessWidget {
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(imageBRaidus)),
-                child: model.mainImage != null
-                    ? CachedNetworkImage(
-                        imageUrl: model.mainImage!,
-                        width: imageSize.width,
-                        height: imageSize.height,
-                        fit: BoxFit.fill,
-                      )
-                    : Assets.images.map.bookSearchedTest.image(
-                        width: imageSize.width, height: imageSize.height)),
+                child: CachedNetworkImage(
+                  imageUrl: model.mainImage ??
+                      'https://as1.ftcdn.net/v2/jpg/03/92/26/10/1000_F_392261071_S2G0tB0EyERSAk79LG12JJXmvw8DLNCd.jpg',
+                  width: imageSize.width,
+                  height: imageSize.height,
+                  fit: BoxFit.fill,
+                )),
             SizedBox(
               width: 10,
             ),
@@ -79,7 +76,9 @@ class BookStoreSearchedTile extends StatelessWidget {
                         style: locationStyle,
                       ),
                       Text(
-                        CommonUtil.distance2TypedStr(model.userDistance!),
+                        model.userDistance == null
+                            ? ''
+                            : CommonUtil.distance2TypedStr(model.userDistance!),
                         style: distanceStyle,
                       )
                     ],

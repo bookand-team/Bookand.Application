@@ -1,4 +1,3 @@
-import 'package:bookand/core/const/app_mode.dart';
 import 'package:bookand/core/const/bookmark_type.dart';
 import 'package:bookand/domain/model/bookmark/bookmark_model.dart';
 import 'package:bookand/gen/assets.gen.dart';
@@ -13,7 +12,7 @@ class BookmarkContainer extends ConsumerStatefulWidget {
   final BookmarkModel model;
   final void Function() onTap;
   final bool settingMode;
-  static Size size = const Size(156, 208);
+  static Size size = const Size(156, 216);
   const BookmarkContainer(
       {Key? key,
       required this.model,
@@ -31,11 +30,14 @@ class _BookmarkContainerState extends ConsumerState<BookmarkContainer> {
   final BorderRadius imageBr = const BorderRadius.all(Radius.circular(8));
   final locationAssetPath = 'assets/images/map/location_icon.png';
 
-  final TextStyle titleStyle =
-      const TextStyle(fontSize: 15, color: Color(0xff222222));
+  final TextStyle titleStyle = const TextStyle(
+    color: Color(0xff222222),
+    fontSize: 15,
+    fontFamily: "Pretendard",
+    fontWeight: FontWeight.w500,
+  );
   final TextStyle locationStyle =
       const TextStyle(fontSize: 12, color: Color(0xff666666));
-
   bool isSelected = false;
 
   @override
@@ -60,28 +62,26 @@ class _BookmarkContainerState extends ConsumerState<BookmarkContainer> {
         child: Stack(
           children: [
             Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 ClipRRect(
                     borderRadius: imageBr,
                     child: ColorFiltered(
-                      colorFilter: ColorFilter.mode(
-                        isSelected
-                            ? const Color(0xffff540b).withOpacity(0.4)
-                            : Colors.transparent,
-                        BlendMode.colorBurn,
-                      ),
-                      child: CAN_IMAGE
-                          ? CachedNetworkImage(
-                              imageUrl: widget.model.image!,
-                              width: imageSize.width,
-                              height: imageSize.height,
-                            )
-                          : Container(
-                              color: Colors.grey.shade300,
-                              width: imageSize.width,
-                              height: imageSize.height,
-                            ),
-                    )),
+                        colorFilter: ColorFilter.mode(
+                          isSelected
+                              ? const Color(0xffff540b).withOpacity(0.4)
+                              : Colors.transparent,
+                          BlendMode.colorBurn,
+                        ),
+                        child: CachedNetworkImage(
+                          imageUrl: widget.model.image ??
+                              'https://as1.ftcdn.net/v2/jpg/03/92/26/10/1000_F_392261071_S2G0tB0EyERSAk79LG12JJXmvw8DLNCd.jpg',
+                          width: imageSize.width,
+                          height: imageSize.height,
+                        ))),
+                SizedBox(
+                  height: 12,
+                ),
                 Row(
                   children: [
                     Text(
@@ -90,6 +90,9 @@ class _BookmarkContainerState extends ConsumerState<BookmarkContainer> {
                       style: titleStyle,
                     )
                   ],
+                ),
+                SizedBox(
+                  height: 4,
                 ),
                 Row(
                   children: [

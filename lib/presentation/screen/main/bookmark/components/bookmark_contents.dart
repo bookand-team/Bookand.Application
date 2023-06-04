@@ -23,8 +23,12 @@ class BookmarkContents extends ConsumerWidget {
       required this.scrollController})
       : super(key: key);
 
-  final TextStyle titleStyle =
-      const TextStyle(fontSize: 18, color: Color(0xff222222));
+  final TextStyle titleStyle = const TextStyle(
+    color: Color(0xff222222),
+    fontSize: 18,
+    fontFamily: "Pretendard",
+    fontWeight: FontWeight.w700,
+  );
   final TextStyle settingStyle = const TextStyle(
     fontSize: 12,
   );

@@ -1,6 +1,6 @@
-import 'package:bookand/core/const/app_mode.dart';
 import 'package:bookand/domain/model/bookmark/bookmark_folder_model.dart';
 import 'package:bookand/presentation/screen/main/bookmark/components/folder_page/folder_page.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -37,15 +37,14 @@ class FolderContainer extends StatelessWidget {
           child: Stack(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.all(br),
-                child: CAN_IMAGE
-                    ? Image.network(
-                        '',
-                        width: conSize.width,
-                        height: conSize.height,
-                      )
-                    : SizedBox(),
-              ),
+                  borderRadius: BorderRadius.all(br),
+                  child: CachedNetworkImage(
+                    imageUrl: folderModel.bookmarkImage ??
+                        'https://as1.ftcdn.net/v2/jpg/03/92/26/10/1000_F_392261071_S2G0tB0EyERSAk79LG12JJXmvw8DLNCd.jpg',
+                    width: conSize.width,
+                    height: conSize.height,
+                    fit: BoxFit.fill,
+                  )),
               Align(
                 alignment: const Alignment(0, 0.7),
                 child: Text(

@@ -8,6 +8,7 @@ import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
 import 'package:bookand/presentation/component/bookmark_dialog.dart';
 import 'package:bookand/presentation/provider/map/bottomhseet/map_bottomsheet_controller_provider.dart';
 import 'package:bookand/presentation/provider/map/bottomhseet/map_button_height_provider.dart';
+import 'package:bookand/presentation/provider/map/bottomhseet/map_list_toggle.dart';
 import 'package:bookand/presentation/provider/map/geolocator_permission_provider.dart';
 import 'package:bookand/presentation/provider/map/geolocator_position_provider.dart';
 import 'package:bookand/presentation/provider/map/map_bookstores_provider.dart';
@@ -129,137 +130,163 @@ class _MapSearchScreenState extends ConsumerState<MapSearchScreen> {
           },
           child: Scaffold(
               body: Builder(
-            builder: (context) => Stack(
+            builder: (context) => Column(
               children: [
-                GoogleMap(
-                    onTap: (argument) {
-                      ref
+                SearchTopBar(
+                  onFieldFocus: () {
+                    setState(() {
+                      isSearching = true;
+                    });
+                    ref.read(mapBottomSheetControllerProvider.notifier).close();
+                  },
+                  focusNode: focusNode,
+                  controller: searchTextCon,
+
+                  onChanged: (value) async {
+                    setState(() {
+                      searchingList = searchStores(value);
+                    });
+                  },
+                  // 검색 완료 시
+                  onSubmitted: (value) {
+                    setState(() {
+                      //검색
+                      searchedList = searchStores(value);
+                      if (searchedList.isEmpty) {
+                        return;
+                      }
+                      isSearching = false;
+                      //마커 출력
+                      markerSet = ref
                           .read(widgetMarkerNotiferProvider.notifier)
-                          .setAllNormal();
-                    },
-                    zoomControlsEnabled: false,
-                    onMapCreated: (controller) {
-                      mapController = controller;
-                    },
-                    markers: markerSet,
-                    initialCameraPosition: initCamera),
-                Positioned(
-                    right: buttonPading,
-                    bottom: buttonHeight + buttonSpace + buttonPading,
-                    child: ListButton(
-                      onAcitve: () async {
-                        final bounds = await mapController?.getVisibleRegion();
-                        if (bounds == null) {
-                          return;
-                        }
+                          .getSearchedMarker(searchedList);
+                      //검색된 것 중 가장 가까운 서점으로 카메라 이동
+                      if (mapController != null) {
+                        mapController!.animateCamera(CameraUpdate.newLatLng(
+                            LatLng(
+                                (searchedList.first.latitude ??
+                                        SEOUL_COORD_LAT) -
+                                    0.0025,
+                                searchedList.first.longitude ??
+                                    SEOUL_COORD_LON)));
+                      }
 
-                        final inScreen = await MapUtils.getBookstoresInScreen(
-                            searchedList, bounds);
-                        log('test in = $inScreen');
-                        ref
-                            .read(mapBottomSheetControllerProvider.notifier)
-                            .showSearchPageSheet(
-                                context: context, bookstoreList: inScreen);
-                      },
-                      onDeactive: () {
-                        ref
-                            .read(mapBottomSheetControllerProvider.notifier)
-                            .close();
-                      },
-                    )),
-                Positioned(
-                    right: buttonPading,
-                    bottom: buttonHeight + buttonPading,
-                    child: GpsButton(
-                      onAcitve: () async {
-                        bool isGranted = await ref
-                            .read(
-                                geolocaotorPermissionNotifierProvider.notifier)
-                            .getPermission();
-                        if (isGranted) {
-                          ref
-                              .read(gelolocatorPostionNotifierProvider.notifier)
-                              .addGpsStreamListener((pos) {
-                            mapController?.moveCamera(CameraUpdate.newLatLng(
-                                LatLng(pos.latitude, pos.longitude)));
-                          });
-                        } else {
-                          showDialog(
-                              context: context,
-                              builder: (context) => BookmarkDialog(
-                                    title: 'Gsp 권한 설정',
-                                    description:
-                                        '해당 기능을 사용하기 위해선 Gps 권한 설정이 필요합니다.',
-                                    leftButtonString: '취소',
-                                    rightButtonString: '설정',
-                                    onLeftButtonTap: () {},
-                                    onRightButtonTap: () {
-                                      Geolocator.openAppSettings();
-                                    },
-                                  ));
-                        }
-                      },
-                      onDeactive: () {
-                        ref
-                            .read(gelolocatorPostionNotifierProvider.notifier)
-                            .cancelGpsStreamListner();
-                      },
-                    )),
-                Positioned(
-                  right: buttonPading,
-                  bottom: buttonHeight + buttonPading + 2 * buttonSpace,
-                  child: MapZoomOutButton(
-                    controller: mapController,
+                      ref
+                          .read(mapBottomSheetControllerProvider.notifier)
+                          .showSearchPageSheet(
+                              context: context, bookstoreList: searchedList);
+
+                      ref.read(mapListToggleProvider.notifier).activate();
+
+                      ref
+                          .read(mapButtonHeightNotifierProvider.notifier)
+                          .updateHeight(
+                              (MediaQuery.of(context).size.height) * 0.5);
+                    });
+                  },
+                ),
+                Expanded(
+                  child: Stack(
+                    children: [
+                      GoogleMap(
+                          zoomControlsEnabled: false,
+                          mapToolbarEnabled: false,
+                          onTap: (argument) {
+                            ref
+                                .read(widgetMarkerNotiferProvider.notifier)
+                                .setAllNormal();
+                          },
+                          onMapCreated: (controller) {
+                            mapController = controller;
+                          },
+                          markers: markerSet,
+                          initialCameraPosition: initCamera),
+                      Positioned(
+                          right: buttonPading,
+                          bottom: buttonHeight + buttonSpace + buttonPading,
+                          child: ListButton(
+                            onAcitve: () async {
+                              final bounds =
+                                  await mapController?.getVisibleRegion();
+                              if (bounds == null) {
+                                return;
+                              }
+
+                              final inScreen =
+                                  await MapUtils.getBookstoresInScreen(
+                                      searchedList, bounds);
+                              log('test in = $inScreen');
+                              ref
+                                  .read(
+                                      mapBottomSheetControllerProvider.notifier)
+                                  .showSearchPageSheet(
+                                      context: context,
+                                      bookstoreList: inScreen);
+                            },
+                            onDeactive: () {
+                              ref
+                                  .read(
+                                      mapBottomSheetControllerProvider.notifier)
+                                  .close();
+                            },
+                          )),
+                      Positioned(
+                          right: buttonPading,
+                          bottom: buttonHeight + buttonPading,
+                          child: GpsButton(
+                            onAcitve: () async {
+                              bool isGranted = await ref
+                                  .read(geolocaotorPermissionNotifierProvider
+                                      .notifier)
+                                  .getPermission();
+                              if (isGranted) {
+                                ref
+                                    .read(gelolocatorPostionNotifierProvider
+                                        .notifier)
+                                    .addGpsStreamListener((pos) {
+                                  mapController?.moveCamera(
+                                      CameraUpdate.newLatLng(
+                                          LatLng(pos.latitude, pos.longitude)));
+                                });
+                              } else {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => BookmarkDialog(
+                                          title: 'Gsp 권한 설정',
+                                          description:
+                                              '해당 기능을 사용하기 위해선 Gps 권한 설정이 필요합니다.',
+                                          leftButtonString: '취소',
+                                          rightButtonString: '설정',
+                                          onLeftButtonTap: () {},
+                                          onRightButtonTap: () {
+                                            Geolocator.openAppSettings();
+                                          },
+                                        ));
+                              }
+                            },
+                            onDeactive: () {
+                              ref
+                                  .read(gelolocatorPostionNotifierProvider
+                                      .notifier)
+                                  .cancelGpsStreamListner();
+                            },
+                          )),
+                      Positioned(
+                        right: buttonPading,
+                        bottom: buttonHeight + buttonPading + 2 * buttonSpace,
+                        child: MapZoomOutButton(
+                          controller: mapController,
+                        ),
+                      ),
+                      Positioned(
+                        right: buttonPading,
+                        bottom: buttonHeight + buttonPading + 3 * buttonSpace,
+                        child: MapZoomInButton(controller: mapController),
+                      ),
+                      createSearchBody(),
+                    ],
                   ),
                 ),
-                Positioned(
-                  right: buttonPading,
-                  bottom: buttonHeight + buttonPading + 3 * buttonSpace,
-                  child: MapZoomInButton(controller: mapController),
-                ),
-                createSearchBody(),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: SearchTopBar(
-                    onFieldFocus: () {
-                      setState(() {
-                        isSearching = true;
-                      });
-                    },
-                    focusNode: focusNode,
-                    controller: searchTextCon,
-
-                    onChanged: (value) async {
-                      setState(() {
-                        searchingList = searchStores(value);
-                      });
-                    },
-                    // 검색 완료 시
-                    onSubmitted: (value) {
-                      setState(() {
-                        //검색
-                        searchedList = searchStores(value);
-                        if (searchedList.isEmpty) {
-                          return;
-                        }
-                        isSearching = false;
-                        //마커 출력
-                        markerSet = ref
-                            .read(widgetMarkerNotiferProvider.notifier)
-                            .getSearchedMarker(searchedList);
-                        //검색된 것 중 가장 가까운 서점으로 카메라 이동
-                        if (mapController != null) {
-                          mapController!.animateCamera(CameraUpdate.newLatLng(
-                              LatLng(
-                                  searchedList.first.latitude ??
-                                      SEOUL_COORD_LAT,
-                                  searchedList.first.longitude ??
-                                      SEOUL_COORD_LON)));
-                        }
-                      });
-                    },
-                  ),
-                )
               ],
             ),
           ))),

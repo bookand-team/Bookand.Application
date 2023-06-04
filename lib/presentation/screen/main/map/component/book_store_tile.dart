@@ -6,6 +6,7 @@ import 'package:bookand/presentation/provider/bookmark/bookmark_store_provider.d
 import 'package:bookand/presentation/screen/main/home/bookstore_screen.dart';
 import 'package:bookand/presentation/screen/main/map/component/book_mark_button.dart';
 import 'package:bookand/presentation/screen/main/map/component/theme_utils.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -81,13 +82,19 @@ class BookStoreTile extends ConsumerWidget {
               context.goNamed(BookstoreScreen.routeName,
                   pathParameters: {'id': store.id.toString()});
             },
-            child:
-                //  CachedNetworkImage(imageUrl: store.mainImage!)
-                Container(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 170,
               clipBehavior: Clip.hardEdge,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(imageBRaidus)),
-              child: Assets.images.map.bookTileTest.image(),
+              child: CachedNetworkImage(
+                imageUrl: store.mainImage ??
+                    'https://as1.ftcdn.net/v2/jpg/03/92/26/10/1000_F_392261071_S2G0tB0EyERSAk79LG12JJXmvw8DLNCd.jpg',
+                width: MediaQuery.of(context).size.width,
+                height: 170,
+                fit: BoxFit.fill,
+              ),
             ),
           ),
           Row(

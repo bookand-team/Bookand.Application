@@ -37,6 +37,7 @@ class MapBookStoreNotifier extends _$MapBookStoreNotifier with ChangeNotifier {
     if (response.bookStoreAddressListResponse != null) {
       state.addAll(response.bookStoreAddressListResponse!);
     }
+    storedList = state;
     state = [...state];
 
     return state;

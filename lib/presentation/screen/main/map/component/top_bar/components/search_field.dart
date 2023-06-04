@@ -1,4 +1,6 @@
 import 'package:bookand/presentation/provider/map/bottomhseet/map_bottomsheet_controller_provider.dart';
+import 'package:bookand/presentation/provider/map/map_bookstores_provider.dart';
+import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
 import 'package:bookand/presentation/screen/main/map/component/search_screen/map_search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,6 +19,9 @@ class SearchField extends ConsumerWidget {
       onTap: () =>
           ref.context.pushNamed(MapSearchScreen.routeName).then((value) {
         if (value == 'showhide') {
+          ref
+              .read(widgetMarkerNotiferProvider.notifier)
+              .setBookstoreMarker(ref.read(mapBookStoreNotifierProvider));
           ref.read(mapBottomSheetControllerProvider.notifier).showHideStore();
         }
       }),

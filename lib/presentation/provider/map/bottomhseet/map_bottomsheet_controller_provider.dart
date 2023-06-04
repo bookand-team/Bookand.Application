@@ -31,7 +31,7 @@ class MapBottomSheetControllerNotifier
     bodyKey = ref.read(mapBodyKeyProvider);
   }
 
-  EdgeInsets padding = const EdgeInsets.all(10);
+  EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 16);
   BorderRadius br = const BorderRadius.only(
       topLeft: Radius.circular(24), topRight: Radius.circular(24));
 

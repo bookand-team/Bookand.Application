@@ -122,6 +122,7 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
 
   Future initMarkers(
       List<BookStoreMapModel> bookstoreList, BuildContext context) async {
+    int i = 0;
     bookstoreList.forEach((store) async {
       Marker marker = Marker(
         onTap: () async {
@@ -159,8 +160,11 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
       );
       state.add(marker);
       state = Set.from(state);
+      i += 1;
+      if (i == bookstoreList.length) {
+        _allMarker.addAll(state);
+      }
     });
-    _allMarker.addAll(state);
     _fetchBookmarkedStoreMarkers(bookstoreList);
 
     inited = true;
@@ -187,9 +191,15 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
     }
     List<String> listForShow = bookstoreList.map((e) => e.name!).toList();
 
-    state = Set.from(_allMarker
-        .where((element) => listForShow.contains(element.markerId.value))
-        .toSet());
+    Set<Marker> result = {};
+    _allMarker.forEach((element) {
+      String name = element.markerId.value;
+      if (listForShow.contains(name)) {
+        result.add(element);
+      }
+    });
+
+    state = result;
   }
 
   Future setOneHideMarker(BookStoreMapModel model) async {
@@ -227,7 +237,7 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
 
     //이미 저장된 marker들 중에서 이름 취함
     Iterable<String> storedNames =
-        _bookmakredMarkerSet.map((e) => e.markerId.value);
+        List.from(_bookmakredMarkerSet.map((e) => e.markerId.value));
 
     //새로운 북마크된 서점 마커 추가
     for (BookStoreMapModel store in fechedList) {
@@ -271,12 +281,12 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
       }
     }
     // 북마크 해제된 서점 마커 삭제
-    for (String storedName in storedNames) {
+    storedNames.forEach((storedName) {
       if (!newNames.contains(storedName)) {
         _bookmakredMarkerSet
             .removeWhere((element) => element.markerId.value == storedName);
       }
-    }
+    });
   }
 
   ///북마크 마커 생성
