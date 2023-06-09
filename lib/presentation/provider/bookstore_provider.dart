@@ -1,5 +1,6 @@
 import 'package:bookand/data/repository/bookstore_repository_impl.dart';
 import 'package:bookand/domain/model/bookmark/bookmark_model.dart';
+import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
 import 'package:bookand/presentation/provider/bookmark/bookmark_store_provider.dart';
 import 'package:bookand/presentation/provider/map/map_bookstores_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -31,23 +32,31 @@ class BookstoreStateNotifier extends _$BookstoreStateNotifier {
 
     state = state.copyWith(isBookmark: !isBookmark);
 
+    BookStoreMapModel? model;
+
+    final iter = ref
+        .read(mapBookStoreNotifierProvider)
+        .where((element) => element.id == state.id);
+    if (iter.isNotEmpty) {
+      model = iter.first;
+      ref
+          .read(mapBookStoreNotifierProvider.notifier)
+          .updateBookmarked(model.id!, !isBookmark);
+    }
+
     if (isBookmark) {
       //bookmark 페이지 연동
-      if (state.id != null) {
+      if (model != null) {
         ref
             .read(bookmarkStoreNotifierProvider.notifier)
-            .deleteOnlyState([state.id!]);
+            .deleteOnlyState([model.id!]);
       }
       await ref
           .read(deleteBookmarkUseCaseProvider)
           .deleteBookmarkBookstoreList([state.id ?? -1]);
     } else {
       //bookmark 페이지 연동
-      final iter = ref
-          .read(mapBookStoreNotifierProvider)
-          .where((element) => element.id == state.id);
-      if (iter.isNotEmpty) {
-        final model = iter.first;
+      if (model != null) {
         ref.read(bookmarkStoreNotifierProvider.notifier).addOnlyState(
             BookmarkModel(
                 bookmarkId: model.id,

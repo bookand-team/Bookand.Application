@@ -1,6 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:bookand/core/const/bookmark_type.dart';
+import 'package:bookand/presentation/provider/bookmark/bookmark_edit_provider.dart';
+import 'package:bookand/presentation/provider/bookmark/bookmark_eidt_list.dart';
 import 'package:bookand/presentation/provider/bookmark/bookmark_type_provider.dart';
 import 'package:bookand/presentation/screen/main/bookmark/bookmark_style.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +46,9 @@ class BookmarkTop extends ConsumerWidget {
           isActive: type == BookmarkType.bookstore,
           ontap: () {
             ref.read(bookmarkTypeNotifierProvider.notifier).toBookstore();
+            ref.read(bookmarkEditNotifierProvider.notifier).editOff();
+            ref.read(bookmarkEditNotifierProvider.notifier).closeBottomSheet();
+            ref.read(bookmarkEditListNotifierProvider.notifier).clear();
           },
         ),
         Text(
@@ -55,6 +60,9 @@ class BookmarkTop extends ConsumerWidget {
           isActive: type == BookmarkType.article,
           ontap: () {
             ref.read(bookmarkTypeNotifierProvider.notifier).toArticle();
+            ref.read(bookmarkEditNotifierProvider.notifier).editOff();
+            ref.read(bookmarkEditNotifierProvider.notifier).closeBottomSheet();
+            ref.read(bookmarkEditListNotifierProvider.notifier).clear();
           },
         ),
       ],

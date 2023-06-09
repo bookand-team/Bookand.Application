@@ -6,6 +6,7 @@ import 'package:bookand/presentation/provider/map/bools/map_hidestore_toggle.dar
 import 'package:bookand/presentation/provider/map/bottomhseet/map_button_height_provider.dart';
 import 'package:bookand/presentation/provider/map/bottomhseet/map_list_toggle.dart';
 import 'package:bookand/presentation/provider/map/map_body_key_provider.dart';
+import 'package:bookand/presentation/provider/map/map_bookstores_provider.dart';
 import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
 import 'package:bookand/presentation/screen/main/map/component/book_store_tile.dart';
 import 'package:bookand/presentation/screen/main/map/component/search_screen/components/book_store_searched_tile.dart';
@@ -63,29 +64,37 @@ class MapBottomSheetControllerNotifier
 
                 return false;
               },
-              child: DraggableScrollableSheet(
-                  maxChildSize: 0.8,
-                  expand: false,
-                  builder: (context, scrollController) {
-                    return SingleChildScrollView(
-                      controller: scrollController,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white, borderRadius: br),
-                        width: MediaQuery.of(context).size.width,
-                        padding: padding,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            slideIcon,
-                            ...bookstoreList
-                                .map((e) => BookStoreSearchedTile(model: e))
-                                .toList()
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
+              child: Consumer(
+                builder: (context, ref, child) {
+                  List<int?> idList = bookstoreList.map((e) => e.id).toList();
+                  final modelList = ref
+                      .watch(mapBookStoreNotifierProvider)
+                      .where((element) => idList.contains(element.id ?? -1));
+                  return DraggableScrollableSheet(
+                      maxChildSize: 0.8,
+                      expand: false,
+                      builder: (context, scrollController) {
+                        return SingleChildScrollView(
+                          controller: scrollController,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white, borderRadius: br),
+                            width: MediaQuery.of(context).size.width,
+                            padding: padding,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                slideIcon,
+                                ...modelList
+                                    .map((e) => BookStoreSearchedTile(model: e))
+                                    .toList()
+                              ],
+                            ),
+                          ),
+                        );
+                      });
+                },
+              ),
             ),
         backgroundColor: Colors.white);
     state?.closed.then((value) {
@@ -138,91 +147,100 @@ class MapBottomSheetControllerNotifier
     listToggleCon.activate();
 
     //바텀 시트 출력
-    state = Scaffold.of(context).showBottomSheet(
-        (context) => bookstoreList.length < 3
-            ? Container(
-                decoration:
-                    BoxDecoration(color: Colors.white, borderRadius: br),
-                padding: padding,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    slideIcon,
-                    ...bookstoreList
-                        .map((e) => BookStoreTile(store: e))
-                        .toList()
-                  ],
-                ))
-            : StatefulBuilder(
-                builder: (context, setState) {
-                  bool isOpend = false;
-                  double maxHeight = MediaQuery.of(context).size.height -
-                      kBottomNavigationBarHeight -
-                      MapBarLong.height;
-                  return NotificationListener<DraggableScrollableNotification>(
-                    onNotification:
-                        (DraggableScrollableNotification dsNotification) {
-                      //버튼 높이 조절
-                      double updateHeight = (maxHeight) * dsNotification.extent;
-                      buttonHeightCon.updateHeight(updateHeight);
-                      //바텀 시트가 완전히 펼쳐졌을 때 br, slide icon 조정을 위한 감지
-                      if (!isOpend && dsNotification.extent >= 1) {
-                        setState(() {
-                          isOpend = true;
-                        });
-                      } else if (isOpend && dsNotification.extent < 1) {
-                        setState(() {
-                          isOpend = false;
-                        });
-                      }
-                      return false;
-                    },
-                    child: DraggableScrollableSheet(
-                        expand: false,
-                        builder: (context, scrollController) {
-                          scrollController.addListener(() {
-                            if (scrollController.offset > 0.2) {
-                              if (scrollController
-                                      .position.userScrollDirection ==
-                                  ScrollDirection.forward) {
-                                if (onInnerScrollUp != null) {
-                                  onInnerScrollUp();
-                                }
-                              } else if (scrollController
-                                      .position.userScrollDirection ==
-                                  ScrollDirection.reverse) {
-                                if (onInnerScrollDown != null) {
-                                  onInnerScrollDown();
+    state = Scaffold.of(context).showBottomSheet((context) {
+      return Consumer(
+        builder: (context, ref, child) {
+          List<int?> idList = bookstoreList.map((e) => e.id).toList();
+          final modelList = ref
+              .watch(mapBookStoreNotifierProvider)
+              .where((element) => idList.contains(element.id ?? -1));
+          return modelList.length < 3
+              ? Container(
+                  decoration:
+                      BoxDecoration(color: Colors.white, borderRadius: br),
+                  padding: padding,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      slideIcon,
+                      ...modelList.map((e) => BookStoreTile(store: e)).toList()
+                    ],
+                  ))
+              : StatefulBuilder(
+                  builder: (context, setState) {
+                    bool isOpend = false;
+                    double maxHeight = MediaQuery.of(context).size.height -
+                        kBottomNavigationBarHeight -
+                        MapBarLong.height;
+                    return NotificationListener<
+                        DraggableScrollableNotification>(
+                      onNotification:
+                          (DraggableScrollableNotification dsNotification) {
+                        //버튼 높이 조절
+                        double updateHeight =
+                            (maxHeight) * dsNotification.extent;
+                        buttonHeightCon.updateHeight(updateHeight);
+                        //바텀 시트가 완전히 펼쳐졌을 때 br, slide icon 조정을 위한 감지
+                        if (!isOpend && dsNotification.extent >= 1) {
+                          setState(() {
+                            isOpend = true;
+                          });
+                        } else if (isOpend && dsNotification.extent < 1) {
+                          setState(() {
+                            isOpend = false;
+                          });
+                        }
+                        return false;
+                      },
+                      child: DraggableScrollableSheet(
+                          expand: false,
+                          builder: (context, scrollController) {
+                            scrollController.addListener(() {
+                              if (scrollController.offset > 0.2) {
+                                if (scrollController
+                                        .position.userScrollDirection ==
+                                    ScrollDirection.forward) {
+                                  if (onInnerScrollUp != null) {
+                                    onInnerScrollUp();
+                                  }
+                                } else if (scrollController
+                                        .position.userScrollDirection ==
+                                    ScrollDirection.reverse) {
+                                  if (onInnerScrollDown != null) {
+                                    onInnerScrollDown();
+                                  }
                                 }
                               }
-                            }
-                          });
-                          return SingleChildScrollView(
-                            physics:
-                                isOpend ? null : NeverScrollableScrollPhysics(),
-                            controller: scrollController,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: isOpend ? null : br),
-                              width: MediaQuery.of(context).size.width,
-                              padding: padding,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  isOpend ? SizedBox() : slideIcon,
-                                  ...bookstoreList
-                                      .map((e) => BookStoreTile(store: e))
-                                      .toList()
-                                ],
+                            });
+                            return SingleChildScrollView(
+                              physics: isOpend
+                                  ? null
+                                  : NeverScrollableScrollPhysics(),
+                              controller: scrollController,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: isOpend ? null : br),
+                                width: MediaQuery.of(context).size.width,
+                                padding: padding,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    isOpend ? SizedBox() : slideIcon,
+                                    ...modelList
+                                        .map((e) => BookStoreTile(store: e))
+                                        .toList()
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
-                        }),
-                  );
-                },
-              ),
-        backgroundColor: Colors.white);
+                            );
+                          }),
+                    );
+                  },
+                );
+        },
+      );
+    }, backgroundColor: Colors.white);
     state?.closed.then((value) {
       onBottomSheetDismissed();
     });

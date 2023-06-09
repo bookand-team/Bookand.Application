@@ -18,6 +18,8 @@ class MapBookStoreNotifier extends _$MapBookStoreNotifier with ChangeNotifier {
   late BookMarkToggleNotifier bookmarkToggle;
   late MapThemeNotifier mapTheme;
 
+  bool inited = false;
+
   @override
   List<BookStoreMapModel> build() {
     bookmarkToggle = ref.read(bookMarkToggleNotifierProvider.notifier);
@@ -39,6 +41,7 @@ class MapBookStoreNotifier extends _$MapBookStoreNotifier with ChangeNotifier {
     }
     storedList = state;
     state = [...state];
+    inited = true;
 
     return state;
   }
@@ -93,6 +96,15 @@ class MapBookStoreNotifier extends _$MapBookStoreNotifier with ChangeNotifier {
       return randomModel;
     } else {
       return null;
+    }
+  }
+
+  void updateBookmarked(int id, bool isBookmarked) {
+    Iterable<BookStoreMapModel> iter =
+        state.where((element) => element.id == id);
+    if (iter.isNotEmpty) {
+      iter.first.isBookmark = isBookmarked;
+      state = [...state];
     }
   }
 }

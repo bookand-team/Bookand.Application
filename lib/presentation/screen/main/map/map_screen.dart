@@ -66,10 +66,12 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       return;
     }
     // 서버에서 받고 마커 출력
-    safeRef.read(mapBookStoreNotifierProvider.notifier).initBookStores().then(
-        (value) => safeRef
-            .read(widgetMarkerNotiferProvider.notifier)
-            .initMarkers(value, context));
+    if (!ref.read(mapBookStoreNotifierProvider.notifier).inited) {
+      safeRef.read(mapBookStoreNotifierProvider.notifier).initBookStores().then(
+          (value) => safeRef
+              .read(widgetMarkerNotiferProvider.notifier)
+              .initMarkers(value, context));
+    }
 
     //유저 좌표 확인 및 유저와의 거리 추가
     bool isGranted = await safeRef

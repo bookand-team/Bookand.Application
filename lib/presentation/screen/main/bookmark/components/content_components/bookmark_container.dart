@@ -62,6 +62,7 @@ class _BookmarkContainerState extends ConsumerState<BookmarkContainer> {
           children: [
             Column(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ClipRRect(
                     borderRadius: imageBr,
@@ -79,8 +80,9 @@ class _BookmarkContainerState extends ConsumerState<BookmarkContainer> {
                               'https://as1.ftcdn.net/v2/jpg/03/92/26/10/1000_F_392261071_S2G0tB0EyERSAk79LG12JJXmvw8DLNCd.jpg',
                           width: imageSize.width,
                           height: imageSize.height,
+                          fit: BoxFit.fill,
                         ))),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
                 Row(
@@ -92,7 +94,7 @@ class _BookmarkContainerState extends ConsumerState<BookmarkContainer> {
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
                 (widget.model.location != null &&
@@ -107,7 +109,7 @@ class _BookmarkContainerState extends ConsumerState<BookmarkContainer> {
                           )
                         ],
                       )
-                    : SizedBox()
+                    : const SizedBox()
               ],
             ),
             widget.settingMode

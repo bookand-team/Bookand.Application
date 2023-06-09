@@ -19,13 +19,19 @@ class BookMarkButton extends StatefulWidget {
 
 class _BookMarkButtonState extends State<BookMarkButton> {
   late bool isSelected;
+  late bool widgetState;
   @override
   void initState() {
     isSelected = widget.acitve;
+    widgetState = widget.acitve;
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widgetState != widget.acitve) {
+      isSelected = widget.acitve;
+    }
     return GestureDetector(
       onTap: () {
         if (isSelected) {
