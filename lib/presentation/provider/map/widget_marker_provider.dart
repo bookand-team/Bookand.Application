@@ -26,6 +26,7 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
 
   bool inited = false;
 
+  // 만들어진 모든 마커(제작에 오래 걸려 가지고 있음)
   final Set<Marker> _allMarker = {};
   Marker? _selectedMarker;
   Marker? _hidestoreMarker;
@@ -129,6 +130,7 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
           // 다른 마커 정상화
           setAllNormal();
           // 눌러진 마커 검색
+
           Iterable<Marker> iter =
               state.where((element) => element.markerId.value == store.name);
           if (iter.isNotEmpty) {
@@ -137,8 +139,8 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
                 zIndexParam: 1,
                 iconParam:
                     await _createBigBody(store.name!).toBitmapDescriptor());
-
             // rebuild
+            state.remove(iter.first);
             state.add(_selectedMarker!);
             state = Set.from(state);
 
@@ -175,10 +177,20 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
       return;
     }
     if (_selectedMarker != null) {
+      Iterable<Marker> iter = _allMarker.where((element) =>
+          element.markerId.value == _selectedMarker!.markerId.value);
+      if (iter.isNotEmpty) {
+        state.add(iter.first);
+      }
       state.remove(_selectedMarker);
       _selectedMarker = null;
     }
     if (_hidestoreMarker != null) {
+      Iterable<Marker> iter = _allMarker.where((element) =>
+          element.markerId.value == _hidestoreMarker!.markerId.value);
+      if (iter.isNotEmpty) {
+        state.add(iter.first);
+      }
       state.remove(_hidestoreMarker);
       _hidestoreMarker = null;
     }
@@ -217,6 +229,7 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
           iconParam:
               await _createHidestoreBody(model.name!).toBitmapDescriptor());
       state.add(_hidestoreMarker!);
+      state.remove(iter.first);
       state = Set.from(state);
     }
   }

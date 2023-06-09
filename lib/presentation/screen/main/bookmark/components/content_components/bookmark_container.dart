@@ -43,7 +43,6 @@ class _BookmarkContainerState extends ConsumerState<BookmarkContainer> {
   @override
   Widget build(BuildContext context) {
     if (!widget.settingMode) isSelected = false;
-
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -74,6 +73,8 @@ class _BookmarkContainerState extends ConsumerState<BookmarkContainer> {
                           BlendMode.colorBurn,
                         ),
                         child: CachedNetworkImage(
+                          errorWidget: (_, __, ___) =>
+                              Container(color: Colors.grey),
                           imageUrl: widget.model.image ??
                               'https://as1.ftcdn.net/v2/jpg/03/92/26/10/1000_F_392261071_S2G0tB0EyERSAk79LG12JJXmvw8DLNCd.jpg',
                           width: imageSize.width,
@@ -94,16 +95,19 @@ class _BookmarkContainerState extends ConsumerState<BookmarkContainer> {
                 SizedBox(
                   height: 4,
                 ),
-                Row(
-                  children: [
-                    SvgPicture.asset(Assets.images.bookstore.icLocation12,
-                        width: iconSize.width, height: iconSize.height),
-                    Text(
-                      widget.model.location!,
-                      style: locationStyle,
-                    )
-                  ],
-                )
+                (widget.model.location != null &&
+                        widget.model.location != 'location')
+                    ? Row(
+                        children: [
+                          SvgPicture.asset(Assets.images.bookstore.icLocation12,
+                              width: iconSize.width, height: iconSize.height),
+                          Text(
+                            widget.model.location ?? '',
+                            style: locationStyle,
+                          )
+                        ],
+                      )
+                    : SizedBox()
               ],
             ),
             widget.settingMode

@@ -101,7 +101,7 @@ class _FolderPageState extends ConsumerState<FolderPage> {
       child: Stack(children: [
         FutureBuilder(
           future: ref.read(bookmarkUsecaseProvider).initBookmarkFolderContents(
-              folderId: int.parse(widget.id), page: 0, cursorId: 0, size: 1),
+              folderId: int.parse(widget.id), page: 0, cursorId: 0, size: 10),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done &&
                 !snapshot.hasError &&

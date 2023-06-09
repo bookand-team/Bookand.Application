@@ -26,15 +26,21 @@ class BookmarkStoreNotifier extends _$BookmarkStoreNotifier {
 
   Future add(BookmarkModel model) async {
     await bookmarkUsecase.addBookmarkStore(model.bookmarkId!);
-    state.add(model);
-    state = List.from(state);
+    addOnlyState(model);
   }
 
   Future delete(List<int> bookmarkIdList) async {
     await bookmarkUsecase.deleteBookmarkStoreList(idList: bookmarkIdList);
-    bookmarkIdList.forEach((id) {
-      state.removeWhere((element) => element.bookmarkId == id);
-    });
+    deleteOnlyState(bookmarkIdList);
+  }
+
+  void addOnlyState(BookmarkModel model) async {
+    state.add(model);
+    state = List.from(state);
+  }
+
+  void deleteOnlyState(List<int> bookmarkIdList) async {
+    state.removeWhere((element) => bookmarkIdList.contains(element.bookmarkId));
     state = List.from(state);
   }
 }

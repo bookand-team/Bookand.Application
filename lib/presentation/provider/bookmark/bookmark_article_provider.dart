@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bookand/domain/model/bookmark/bookmark_model.dart';
 import 'package:bookand/domain/usecase/bookmark_usercae.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -26,16 +28,23 @@ class BookmarkArticleNotifier extends _$BookmarkArticleNotifier {
 
   Future add(BookmarkModel model) async {
     await bookmarkUsecase.addBookmarkArticle(model.bookmarkId!);
-    state.add(model);
-    state = List.from(state);
+    addOnlyState(model);
   }
 
   ///모아보기 or 폴더 내부에서 삭제
   Future delete(List<int> bookmarkIdList) async {
     await bookmarkUsecase.deleteBookmarkArticleList(idList: bookmarkIdList);
-    bookmarkIdList.forEach((id) {
-      state.removeWhere((element) => element.bookmarkId == id);
-    });
+    deleteOnlyState(bookmarkIdList);
+  }
+
+  void addOnlyState(BookmarkModel model) async {
+    state.add(model);
+    state = List.from(state);
+    log('test added');
+  }
+
+  void deleteOnlyState(List<int> bookmarkIdList) async {
+    state.removeWhere((element) => bookmarkIdList.contains(element.bookmarkId));
     state = List.from(state);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:bookand/core/const/bookmark_type.dart';
 import 'package:bookand/domain/model/bookmark/bookmark_model.dart';
+import 'package:bookand/gen/assets.gen.dart';
 import 'package:bookand/presentation/provider/bookmark/bookmark_edit_provider.dart';
 import 'package:bookand/presentation/provider/bookmark/bookmark_type_provider.dart';
 import 'package:bookand/presentation/screen/main/bookmark/bookmark_style.dart';
@@ -9,6 +10,7 @@ import 'package:bookand/presentation/screen/main/home/article_screen.dart';
 import 'package:bookand/presentation/screen/main/home/bookstore_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 /// 북마크 페이지의 모아보기에서 북마크들을 표시하는 위젯
@@ -59,11 +61,8 @@ class BookmarkContents extends ConsumerWidget {
                 const SizedBox(
                   height: 30,
                 ),
-                Image.asset(
-                  warningPath,
-                  width: warningSize.width,
-                  height: warningSize.height,
-                ),
+                SvgPicture.asset(Assets.images.icWarning,
+                    width: warningSize.width, height: warningSize.height),
                 const SizedBox(
                   height: 20,
                 ),

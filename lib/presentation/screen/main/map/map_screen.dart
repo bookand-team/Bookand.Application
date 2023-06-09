@@ -1,6 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:developer';
+
 import 'package:bookand/presentation/component/bookmark_dialog.dart';
+import 'package:bookand/presentation/provider/bookmark/main_ref_provider.dart';
 import 'package:bookand/presentation/provider/map/bools/map_search_bar_toggle.dart';
 import 'package:bookand/presentation/provider/map/geolocator_permission_provider.dart';
 import 'package:bookand/presentation/provider/map/geolocator_position_provider.dart';
@@ -60,21 +63,26 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
 //bookstore를 서버에서 받고 초기화 후 마커 출력
   Future init() async {
+    WidgetRef? safeRef = ref.read(mainRefNotifierProvider);
+    log('safe ref = $safeRef');
+    if (safeRef == null) {
+      return;
+    }
     // 서버에서 받고 마커 출력
-    ref.read(mapBookStoreNotifierProvider.notifier).initBookStores().then(
-        (value) => ref
+    safeRef.read(mapBookStoreNotifierProvider.notifier).initBookStores().then(
+        (value) => safeRef
             .read(widgetMarkerNotiferProvider.notifier)
             .initMarkers(value, context));
 
     //유저 좌표 확인 및 유저와의 거리 추가
-    bool isGranted = await ref
+    bool isGranted = await safeRef
         .read(geolocaotorPermissionNotifierProvider.notifier)
         .getPermission();
     if (isGranted) {
-      final userCoord = await ref
+      final userCoord = await safeRef
           .read(gelolocatorPostionNotifierProvider.notifier)
           .getCurrentPosition();
-      ref
+      safeRef
           .read(mapBookStoreNotifierProvider.notifier)
           .patchStoresDistanceBetweenUser(
               userLat: userCoord.latitude, userLon: userCoord.longitude);

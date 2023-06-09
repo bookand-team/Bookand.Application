@@ -33,7 +33,13 @@ class SearchField extends ConsumerWidget {
         width: 320,
         child: Row(
           children: [
-            const Text('궁금한 서점/지역을 검색해 보세요'),
+            const Text(
+              "궁금한 서점/지역을 검색해 보세요",
+              style: TextStyle(
+                color: Color(0xffacacac),
+                fontSize: 15,
+              ),
+            ),
             const Spacer(),
             Icon(
               Icons.search,

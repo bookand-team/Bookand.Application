@@ -39,6 +39,7 @@ class FolderContainer extends StatelessWidget {
               ClipRRect(
                   borderRadius: BorderRadius.all(br),
                   child: CachedNetworkImage(
+                    errorWidget: (_, __, ___) => Container(color: Colors.grey),
                     imageUrl: folderModel.bookmarkImage ??
                         'https://as1.ftcdn.net/v2/jpg/03/92/26/10/1000_F_392261071_S2G0tB0EyERSAk79LG12JJXmvw8DLNCd.jpg',
                     width: conSize.width,
