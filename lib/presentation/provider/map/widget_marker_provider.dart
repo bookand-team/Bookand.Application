@@ -26,6 +26,8 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
 
   bool inited = false;
 
+  bool bookmarked = false;
+
   // 만들어진 모든 마커(제작에 오래 걸려 가지고 있음)
   final Set<Marker> _allMarker = {};
   Marker? _selectedMarker;
@@ -177,8 +179,14 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
       return;
     }
     if (_selectedMarker != null) {
-      Iterable<Marker> iter = _allMarker.where((element) =>
-          element.markerId.value == _selectedMarker!.markerId.value);
+      Iterable<Marker> iter;
+      if (bookmarked) {
+        iter = _bookmakredMarkerSet.where((element) =>
+            element.markerId.value == _selectedMarker!.markerId.value);
+      } else {
+        iter = _allMarker.where((element) =>
+            element.markerId.value == _selectedMarker!.markerId.value);
+      }
       if (iter.isNotEmpty) {
         state.add(iter.first);
       }
@@ -210,6 +218,8 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
         result.add(element);
       }
     });
+
+    bookmarked = false;
 
     state = result;
   }
@@ -262,15 +272,15 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
             // 다른 마커 정상화
             setAllNormal();
             // 눌러진 마커 검색
-            Iterable<Marker> iter =
-                state.where((element) => element.markerId.value == patchedName);
+            Iterable<Marker> iter = _bookmakredMarkerSet
+                .where((element) => element.markerId.value == patchedName);
             if (iter.isNotEmpty) {
               // 눌러진 마커 확대로 변경
+              state.remove(iter.first);
               _selectedMarker = iter.first.copyWith(
                   zIndexParam: 1,
                   iconParam: await _createBookmarkedBigBody(store.name!)
                       .toBitmapDescriptor());
-
               // rebuild
               state.add(_selectedMarker!);
               state = Set.from(state);
@@ -307,6 +317,7 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
     if (!inited) {
       return;
     }
+    bookmarked = true;
     await _fetchBookmarkedStoreMarkers(storeList);
     state = Set.from(_bookmakredMarkerSet);
   }

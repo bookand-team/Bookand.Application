@@ -1,7 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:developer';
-
 import 'package:bookand/core/const/map.dart';
 import 'package:bookand/core/widget/base_layout.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
@@ -215,7 +213,6 @@ class _MapSearchScreenState extends ConsumerState<MapSearchScreen> {
                               final inScreen =
                                   await MapUtils.getBookstoresInScreen(
                                       searchedList, bounds);
-                              log('test in = $inScreen');
                               ref
                                   .read(
                                       mapBottomSheetControllerProvider.notifier)

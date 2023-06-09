@@ -1,7 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:developer';
-
 import 'package:bookand/presentation/component/bookmark_dialog.dart';
 import 'package:bookand/presentation/provider/bookmark/main_ref_provider.dart';
 import 'package:bookand/presentation/provider/map/bools/map_search_bar_toggle.dart';
@@ -64,7 +62,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 //bookstore를 서버에서 받고 초기화 후 마커 출력
   Future init() async {
     WidgetRef? safeRef = ref.read(mainRefNotifierProvider);
-    log('safe ref = $safeRef');
     if (safeRef == null) {
       return;
     }

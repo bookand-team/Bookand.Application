@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bookand/domain/model/bookmark/bookmark_model.dart';
 import 'package:bookand/domain/usecase/bookmark_usercae.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -40,7 +38,6 @@ class BookmarkArticleNotifier extends _$BookmarkArticleNotifier {
   void addOnlyState(BookmarkModel model) async {
     state.add(model);
     state = List.from(state);
-    log('test added');
   }
 
   void deleteOnlyState(List<int> bookmarkIdList) async {
