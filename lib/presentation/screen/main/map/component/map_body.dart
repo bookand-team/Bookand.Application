@@ -1,7 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:developer';
-
 import 'package:bookand/core/const/map.dart';
 import 'package:bookand/presentation/component/bookmark_dialog.dart';
 import 'package:bookand/presentation/provider/map/bools/map_hidestore_toggle.dart';
@@ -35,7 +33,11 @@ class _MapTestState extends ConsumerState<MapBody> {
   //버튼 사이의 간격
   final double buttonSpace = 40;
 
-  GoogleMapController? mapController;
+  @override
+  void dispose() {
+    ref.read(mapControllerNotiferProvider.notifier).clear();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,11 +55,9 @@ class _MapTestState extends ConsumerState<MapBody> {
               },
               zoomControlsEnabled: false,
               onMapCreated: (controller) {
-                log('test inited');
-                mapController = controller;
                 ref
                     .read(mapControllerNotiferProvider.notifier)
-                    .initController(mapController!);
+                    .initController(controller);
               },
               markers: markers,
               initialCameraPosition: const CameraPosition(
@@ -143,13 +143,14 @@ class _MapTestState extends ConsumerState<MapBody> {
             right: buttonPading,
             bottom: buttonHeight + buttonPading + 2 * buttonSpace,
             child: MapZoomOutButton(
-              controller: mapController,
+              controller: ref.read(mapControllerNotiferProvider),
             ),
           ),
           Positioned(
             right: buttonPading,
             bottom: buttonHeight + buttonPading + 3 * buttonSpace,
-            child: MapZoomInButton(controller: mapController),
+            child: MapZoomInButton(
+                controller: ref.read(mapControllerNotiferProvider)),
           )
         ],
       ),
