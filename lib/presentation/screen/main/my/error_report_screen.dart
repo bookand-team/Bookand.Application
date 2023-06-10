@@ -1,8 +1,12 @@
+import 'package:bookand/core/extensions/string_extension.dart';
 import 'package:bookand/core/theme/color_table.dart';
+import 'package:bookand/core/widget/base_dialog.dart';
 import 'package:bookand/presentation/provider/error_report_provider.dart';
+import 'package:bookand/presentation/screen/main/my/thank_you_opinion_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/app_strings.dart';
@@ -23,6 +27,8 @@ class ErrorReportScreen extends ConsumerWidget {
 
     return BaseLayout(
       appBar: const BaseAppBar(title: AppStrings.errorReport),
+      ignoring: errorReportState.isLoading,
+      isLoading: errorReportState.isLoading,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: SingleChildScrollView(
@@ -46,6 +52,21 @@ class ErrorReportScreen extends ConsumerWidget {
                 ),
                 onChanged: errorReportProvider.onChangedErrorDateText,
               ),
+              Visibility(
+                  visible:
+                      errorReportState.showErrorMessage && !errorReportProvider.checkDateFormat(),
+                  child: const Padding(
+                    padding: EdgeInsets.only(top: 8),
+                    child: Text(
+                      '오류 발생일시를 입력해주세요 (예: 2023/08/23 13:15)',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12,
+                        letterSpacing: -0.02,
+                        color: lightMainColor,
+                      ),
+                    ),
+                  )),
               const SizedBox(height: 16),
               const Text(
                 '오류 내용',
@@ -71,6 +92,21 @@ class ErrorReportScreen extends ConsumerWidget {
                   onChanged: errorReportProvider.onChangedErrorContentText,
                 ),
               ),
+              Visibility(
+                  visible:
+                      errorReportState.showErrorMessage && errorReportState.errorContent.isEmpty,
+                  child: const Padding(
+                    padding: EdgeInsets.only(top: 8),
+                    child: Text(
+                      '오류 내용을 입력해주세요',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12,
+                        letterSpacing: -0.02,
+                        color: lightMainColor,
+                      ),
+                    ),
+                  )),
               const SizedBox(height: 12),
               TextField(
                 decoration: const InputDecoration(
@@ -79,6 +115,20 @@ class ErrorReportScreen extends ConsumerWidget {
                 ),
                 onChanged: errorReportProvider.onChangedEmailText,
               ),
+              Visibility(
+                  visible: errorReportState.showErrorMessage && !errorReportState.email.isEmail(),
+                  child: const Padding(
+                    padding: EdgeInsets.only(top: 8),
+                    child: Text(
+                      '이메일 주소를 입력해주세요',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12,
+                        letterSpacing: -0.02,
+                        color: lightMainColor,
+                      ),
+                    ),
+                  )),
               const SizedBox(height: 12),
               InkWell(
                 borderRadius: BorderRadius.circular(8),
@@ -205,7 +255,10 @@ class ErrorReportScreen extends ConsumerWidget {
                 minVerticalPadding: 0,
               ),
               InkWell(
-                onTap: errorReportProvider.toggleTermsAgree,
+                onTap: () {
+                  errorReportProvider.toggleTermsAgree();
+                  FocusManager.instance.primaryFocus?.unfocus();
+                },
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 child: ListTile(
@@ -244,7 +297,17 @@ class ErrorReportScreen extends ConsumerWidget {
                     text: '접수하기',
                     width: MediaQuery.of(context).size.width,
                     height: 56,
-                    onPressed: () {}),
+                    enabled: errorReportState.termsAgree,
+                    onPressed: () {
+                      errorReportProvider.reportError(onSuccess: () {
+                        context.goNamed(ThankYouOpinionScreen.routeName);
+                      }, onError: (msg) {
+                        showDialog(
+                          context: context,
+                          builder: (_) => BaseDialog(content: Text(msg)),
+                        );
+                      });
+                    }),
               ),
             ],
           ),

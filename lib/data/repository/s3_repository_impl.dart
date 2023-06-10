@@ -6,11 +6,7 @@ import 'package:bookand/data/datasource/token/token_local_data_source.dart';
 import 'package:bookand/data/datasource/token/token_local_data_source_impl.dart';
 import 'package:bookand/domain/model/s3_response.dart';
 import 'package:bookand/domain/repository/s3_repository.dart';
-import 'package:chopper/chopper.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import '../../core/util/utf8_util.dart';
-import '../../domain/model/error_response.dart';
 
 part 's3_repository_impl.g.dart';
 
@@ -33,8 +29,6 @@ class S3RepositoryImpl implements S3Repository {
     try {
       final accessToken = await tokenLocalDataSource.getAccessToken();
       return await s3remoteDataSource.uploadFiles(accessToken, files);
-    } on Response catch (e) {
-      throw ErrorResponse.fromJson(Utf8Util.utf8JsonDecode(e.bodyString));
     } catch (_) {
       rethrow;
     }
