@@ -26,7 +26,9 @@ void main() async {
       return stack;
     };
     runApp(const ProviderScope(child: App()));
-  }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack, fatal: true));
+  },
+      (error, stack) =>
+          FirebaseCrashlytics.instance.recordError(error, stack, fatal: true));
 }
 
 class App extends ConsumerWidget {
@@ -48,7 +50,8 @@ class App extends ConsumerWidget {
               theme: lightThemeData,
               darkTheme: darkThemeData,
               builder: (context, child) => MediaQuery(
-                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0), child: child!),
+                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  child: child!),
             ));
   }
 }

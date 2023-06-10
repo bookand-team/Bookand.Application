@@ -10,7 +10,8 @@ import '../../../core/util/utf8_util.dart';
 part 'bookstore_remote_data_source_impl.g.dart';
 
 @riverpod
-BookstoreRemoteDataSource bookstoreRemoteDataSource(BookstoreRemoteDataSourceRef ref) {
+BookstoreRemoteDataSource bookstoreRemoteDataSource(
+    BookstoreRemoteDataSourceRef ref) {
   final bookstoreService = ref.read(bookstoreServiceProvider);
 
   return BookstoreRemoteDataStoreImpl(bookstoreService);
@@ -26,7 +27,8 @@ class BookstoreRemoteDataStoreImpl implements BookstoreRemoteDataSource {
     String accessToken,
     BookstoreReportRequest bookstoreReportRequest,
   ) async {
-    final resp = await service.bookstoreReport(accessToken, bookstoreReportRequest.toJson());
+    final resp = await service.bookstoreReport(
+        accessToken, bookstoreReportRequest.toJson());
 
     if (resp.isSuccessful) {
       return ResultResponse.fromJson(Utf8Util.utf8JsonDecode(resp.bodyString));

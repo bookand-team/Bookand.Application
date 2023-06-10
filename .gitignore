@@ -50,3 +50,9 @@ app.*.map.json
 *.g.dart
 *.chopper.dart
 *.freezed.dart
+
+# vscode
+.vscode/
+
+# fvm 
+.fvm

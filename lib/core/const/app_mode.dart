@@ -1,3 +1,1 @@
-enum AppMode {
-  dev, production
-}
+enum AppMode { dev, production }

@@ -32,13 +32,16 @@ class BookstoreScreen extends ConsumerStatefulWidget {
 class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
   @override
   void didChangeDependencies() {
-    ref.read(bookstoreStateNotifierProvider.notifier).fetchBookstoreDetail(int.parse(widget.id));
+    ref
+        .read(bookstoreStateNotifierProvider.notifier)
+        .fetchBookstoreDetail(int.parse(widget.id));
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    final bookstoreProvider = ref.watch(bookstoreStateNotifierProvider.notifier);
+    final bookstoreProvider =
+        ref.watch(bookstoreStateNotifierProvider.notifier);
     final bookstoreDetail = ref.watch(bookstoreStateNotifierProvider);
 
     return BaseLayout(
@@ -303,7 +306,8 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
               height: 160,
               child: GoogleMap(
                 onTap: (latLon) {
-                  context.pushNamed(BookstoreMapScreen.routeName, pathParameters: {
+                  context
+                      .pushNamed(BookstoreMapScreen.routeName, pathParameters: {
                     'latitude': latLon.latitude.toString(),
                     'longitude': latLon.longitude.toString(),
                   });
@@ -390,10 +394,11 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
                             final articleId = articles?[index].id;
                             if (articleId == null) return;
 
-                            context.pushNamed(ArticleScreen.routeName, pathParameters: {
-                              'id': articleId.toString(),
-                              'isFirstScreen': 'false',
-                            });
+                            context.pushNamed(ArticleScreen.routeName,
+                                pathParameters: {
+                                  'id': articleId.toString(),
+                                  'isFirstScreen': 'false',
+                                });
                           },
                           onTapBookmark: () {
                             onTapBookmark(index);

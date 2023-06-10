@@ -1,7 +1,7 @@
 name: bookand
 description: Bookand Mobile Application
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 0.3.1+2
 
@@ -55,12 +55,16 @@ dependencies:
   tuple: ^2.0.1
   stack_trace: ^1.11.0
   google_maps_flutter: ^2.2.5
+  sliding_up_panel: ^2.0.0+1
+  geolocator: ^9.0.2
+  widget_to_marker: ^1.0.4
   url_launcher: ^6.1.10
   maps_launcher: ^2.2.0
   share_plus: ^7.0.0
   firebase_remote_config: ^4.0.0
   firebase_messaging: ^14.4.0
-  flutter_local_notifications: ^14.0.0
+  flutter_local_notifications:
+  dotted_border: ^2.0.0+3
   freezed_annotation: ^2.2.0
 
 dev_dependencies:
@@ -69,21 +73,28 @@ dev_dependencies:
 
   flutter_lints: ^2.0.0
   build_runner: ^2.3.0
-  json_serializable: ^6.5.1
+  # riverpod_generator: ^1.2.0
+  # json_serializable: ^6.5.
+
   riverpod_generator: ^2.1.6
   chopper_generator: ^6.0.0
   hive_generator: ^2.0.0
+  json_serializable: ^6.6.1
   freezed: ^2.3.3
 
-flutter:
+  # asset 편하게 사용하는 라이브러리
+  flutter_gen_runner:
 
+flutter:
   uses-material-design: true
 
   assets:
     - assets/images/
     - assets/images/home/
     - assets/images/my/
+    - assets/images/map/
     - assets/images/bookstore/
+    - assets/images/bookmark/
 
   fonts:
     - family: Pretendard

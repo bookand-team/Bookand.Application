@@ -21,6 +21,24 @@ class CommonUtil {
     return dist;
   }
 
+  static bool coordInRect({
+    required double targetLat,
+    required double targetLon,
+    required double minLat,
+    required double minLon,
+    required double maxLat,
+    required double maxLon,
+  }) {
+    if (targetLat >= minLat &&
+        targetLat <= maxLat &&
+        targetLon >= minLon &&
+        targetLon <= maxLon) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   static double degToRad(double degree) {
     return degree * pi / 180;
   }
@@ -54,5 +72,15 @@ class CommonUtil {
       logger.e(e);
       return false;
     }
+  }
+
+  static String distance2TypedStr(double distance) {
+    String type = 'm';
+    int data = distance.floor();
+    if (distance >= 1000) {
+      type = 'km';
+      data = distance ~/ 1000;
+    }
+    return '$data$type';
   }
 }

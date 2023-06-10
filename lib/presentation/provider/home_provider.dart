@@ -1,5 +1,7 @@
 import 'package:bookand/data/repository/article_repository_impl.dart';
 import 'package:bookand/data/repository/bookmark_repository_impl.dart';
+import 'package:bookand/domain/model/bookmark/bookmark_model.dart';
+import 'package:bookand/presentation/provider/bookmark/bookmark_article_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../core/util/logger.dart';
@@ -26,8 +28,21 @@ class HomeStateNotifier extends _$HomeStateNotifier {
     state = copyState;
 
     if (isBookmark) {
-      await ref.read(deleteBookmarkUseCaseProvider).deleteBookmarkArticleList([articleId]);
+      //북마크 페이지 연동
+      ref
+          .read(bookmarkArticleNotifierProvider.notifier)
+          .deleteOnlyState([articleId]);
+      await ref
+          .read(deleteBookmarkUseCaseProvider)
+          .deleteBookmarkArticleList([articleId]);
     } else {
+      //북마크 페이지 연동
+      final content = copyState[index];
+      ref.read(bookmarkArticleNotifierProvider.notifier).addOnlyState(
+          BookmarkModel(
+              bookmarkId: content.id,
+              image: content.mainImage,
+              title: content.title));
       await ref.read(bookmarkRepositoryProvider).addArticleBookmark(articleId);
     }
   }
@@ -36,7 +51,9 @@ class HomeStateNotifier extends _$HomeStateNotifier {
     try {
       isLoading = true;
       cursorId = 0;
-      final article = await ref.read(articleRepositoryProvider).getArticleList(cursorId, size);
+      final article = await ref
+          .read(articleRepositoryProvider)
+          .getArticleList(cursorId, size);
       cursorId = article.content.last.id;
       isEnd = article.last;
       state = article.content;
@@ -52,7 +69,9 @@ class HomeStateNotifier extends _$HomeStateNotifier {
       if (!isLoading && isEnd) return;
 
       isLoading = true;
-      final article = await ref.read(articleRepositoryProvider).getArticleList(cursorId, size);
+      final article = await ref
+          .read(articleRepositoryProvider)
+          .getArticleList(cursorId, size);
       isEnd = article.last;
       state = [
         ...state,

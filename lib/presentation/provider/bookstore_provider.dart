@@ -1,4 +1,8 @@
 import 'package:bookand/data/repository/bookstore_repository_impl.dart';
+import 'package:bookand/domain/model/bookmark/bookmark_model.dart';
+import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
+import 'package:bookand/presentation/provider/bookmark/bookmark_store_provider.dart';
+import 'package:bookand/presentation/provider/map/map_bookstores_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../core/util/logger.dart';
@@ -16,7 +20,8 @@ class BookstoreStateNotifier extends _$BookstoreStateNotifier {
 
   void fetchBookstoreDetail(int id) async {
     try {
-      state = await ref.read(bookstoreRepositoryProvider).getBookstoreDetail(id);
+      state =
+          await ref.read(bookstoreRepositoryProvider).getBookstoreDetail(id);
     } catch (e) {
       logger.e(e);
     }
@@ -27,16 +32,49 @@ class BookstoreStateNotifier extends _$BookstoreStateNotifier {
 
     state = state.copyWith(isBookmark: !isBookmark);
 
+    BookStoreMapModel? model;
+
+    final iter = ref
+        .read(mapBookStoreNotifierProvider)
+        .where((element) => element.id == state.id);
+    if (iter.isNotEmpty) {
+      model = iter.first;
+      ref
+          .read(mapBookStoreNotifierProvider.notifier)
+          .updateBookmarked(model.id!, !isBookmark);
+    }
+
     if (isBookmark) {
-      await ref.read(deleteBookmarkUseCaseProvider).deleteBookmarkBookstoreList([state.id ?? -1]);
+      //bookmark 페이지 연동
+      if (model != null) {
+        ref
+            .read(bookmarkStoreNotifierProvider.notifier)
+            .deleteOnlyState([model.id!]);
+      }
+      await ref
+          .read(deleteBookmarkUseCaseProvider)
+          .deleteBookmarkBookstoreList([state.id ?? -1]);
     } else {
-      await ref.read(bookmarkRepositoryProvider).addBookstoreBookmark(state.id ?? -1);
+      //bookmark 페이지 연동
+      if (model != null) {
+        ref.read(bookmarkStoreNotifierProvider.notifier).addOnlyState(
+            BookmarkModel(
+                bookmarkId: model.id,
+                image: model.mainImage,
+                title: model.name,
+                location: model.address));
+      }
+
+      await ref
+          .read(bookmarkRepositoryProvider)
+          .addBookstoreBookmark(state.id ?? -1);
     }
   }
 
   void updateArticleBookmark(int index) async {
     try {
-      final List<ArticleContent> articleList = List.from(state.articleResponse ?? []);
+      final List<ArticleContent> articleList =
+          List.from(state.articleResponse ?? []);
       final isBookmark = articleList[index].isBookmark;
 
       articleList[index].isBookmark = !isBookmark;
@@ -44,9 +82,13 @@ class BookstoreStateNotifier extends _$BookstoreStateNotifier {
       state = state.copyWith(articleResponse: articleList);
 
       if (isBookmark) {
-        await ref.read(deleteBookmarkUseCaseProvider).deleteBookmarkArticleList([state.id ?? -1]);
+        await ref
+            .read(deleteBookmarkUseCaseProvider)
+            .deleteBookmarkArticleList([state.id ?? -1]);
       } else {
-        await ref.read(bookmarkRepositoryProvider).addArticleBookmark(state.id ?? -1);
+        await ref
+            .read(bookmarkRepositoryProvider)
+            .addArticleBookmark(state.id ?? -1);
       }
     } catch (e) {
       logger.e(e);
