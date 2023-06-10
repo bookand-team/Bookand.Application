@@ -16,7 +16,7 @@ class MapBarLong extends ConsumerWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
       ),
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 4),
@@ -30,9 +30,11 @@ class MapBarLong extends ConsumerWidget implements PreferredSizeWidget {
             height: 5,
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               const MapBookMarkButton(),
+              const SizedBox(
+                width: 8,
+              ),
               const ThemeButton(),
               const Spacer(),
               Container(

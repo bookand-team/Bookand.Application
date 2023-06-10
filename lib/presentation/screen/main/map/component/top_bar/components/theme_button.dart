@@ -60,7 +60,6 @@ class ThemeButton extends ConsumerWidget {
               builder: (context) => ThemeBottomSheet());
         },
         child: Container(
-          margin: EdgeInsets.all(margin),
           // width: size.width,
           height: size.height,
           padding: EdgeInsets.symmetric(

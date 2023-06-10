@@ -30,7 +30,7 @@ class SearchField extends ConsumerWidget {
         decoration: BoxDecoration(
             border: Border.all(color: greyColor),
             borderRadius: BorderRadius.all(Radius.circular(bRadius))),
-        width: 320,
+        width: MediaQuery.of(context).size.width,
         child: Row(
           children: [
             const Text(

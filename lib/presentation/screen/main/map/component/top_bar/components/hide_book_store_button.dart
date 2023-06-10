@@ -41,7 +41,6 @@ class HideBookStoreButton extends ConsumerWidget {
           }
         },
         child: Container(
-          margin: EdgeInsets.all(margin),
           height: size.height,
           padding: EdgeInsets.symmetric(
               vertical: vertPadding, horizontal: horiPadding),

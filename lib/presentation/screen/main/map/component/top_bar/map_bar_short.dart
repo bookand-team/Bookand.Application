@@ -14,8 +14,8 @@ class MapBarShort extends ConsumerWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      decoration: BoxDecoration(color: Colors.white, boxShadow: [
-        const BoxShadow(blurRadius: 1, spreadRadius: 1, color: Colors.grey)
+      decoration: const BoxDecoration(color: Colors.white, boxShadow: [
+        BoxShadow(blurRadius: 1, spreadRadius: 1, color: Colors.grey)
       ]),
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 4),
       // height: 108,
@@ -24,9 +24,11 @@ class MapBarShort extends ConsumerWidget implements PreferredSizeWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               const MapBookMarkButton(),
+              const SizedBox(
+                width: 8,
+              ),
               const ThemeButton(),
               const Spacer(),
               Container(
