@@ -68,6 +68,10 @@ class $AssetsImagesGen {
   $AssetsImagesMapGen get map => const $AssetsImagesMapGen();
   $AssetsImagesMyGen get my => const $AssetsImagesMyGen();
 
+  /// File path: assets/images/welcome_image.png
+  AssetGenImage get welcomeImage =>
+      const AssetGenImage('assets/images/welcome_image.png');
+
   /// List of all assets
   List<dynamic> get values => [
         icAllCheckActive,
@@ -85,7 +89,8 @@ class $AssetsImagesGen {
         icLogoAndTitle,
         icNonFavorite,
         icSearch,
-        icWarning
+        icWarning,
+        welcomeImage
       ];
 }
 

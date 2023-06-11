@@ -10,6 +10,7 @@ import 'package:bookand/presentation/screen/main/my/withdrawal/account_authentic
 import 'package:bookand/presentation/screen/main/my/withdrawal/withdrawal_check_screen.dart';
 import 'package:bookand/presentation/screen/main/my/withdrawal/withdrawal_reason_screen.dart';
 import 'package:bookand/presentation/screen/main/my/withdrawal/withdrawal_success_screen.dart';
+import 'package:bookand/presentation/screen/welcome_screen.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -64,6 +65,11 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
                         TermsAgreeDetailScreen(policy: state.extra as Tuple2<int, PolicyModel>))
               ]),
         ]),
+    GoRoute(
+      path: '/welcome',
+      name: WelcomeScreen.routeName,
+      builder: (_, __) => const WelcomeScreen(),
+    ),
   ];
 
   late List<RouteBase> mainTabRoutes = [
@@ -177,6 +183,10 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
       return '/login';
     }
 
+    if (authState == AuthState.welcome) {
+      return '/welcome';
+    }
+
     if (authState == AuthState.signUp) {
       if (goRouterState.location.startsWith('/login/termsAgree/termsAgreeDetail')) {
         return null;
@@ -186,11 +196,15 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
     }
 
     if (authState == AuthState.signIn) {
-      return goRouterState.location.startsWith('/login') || goRouterState.location == '/splash'
-          ? '/'
-          : null;
+      final isLoginScreen = goRouterState.location.startsWith('/login');
+      final isSplashScreen = goRouterState.location == '/splash';
+      final isWelcomeScreen = goRouterState.location == '/welcome';
 
-      // return goRouterState.location.startsWith('/login') ? '/' : null;
+      if (isLoginScreen || isSplashScreen || isWelcomeScreen) {
+        return '/';
+      } else {
+        return null;
+      }
     }
 
     return null;

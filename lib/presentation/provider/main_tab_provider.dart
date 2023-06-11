@@ -4,18 +4,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../screen/main/home/home_screen.dart';
-// import '../screen/main/map_screen.dart';
 import '../screen/main/my/my_screen.dart';
 
 part 'main_tab_provider.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class MainTabNotifier extends _$MainTabNotifier {
   final pageController = PageController(initialPage: 0);
   final screens = [
     const HomeScreen(),
     const MapScreen(),
-    // const MapScreen(),
     const BookmarkScreen(),
     const MyScreen(),
   ];

@@ -100,7 +100,7 @@ class MemberStateNotifier extends _$MemberStateNotifier {
 
     try {
       state = await ref.read(signUpUseCaseProvider).signUp();
-      authState.changeState(AuthState.signIn);
+      authState.changeState(AuthState.welcome);
     } catch (e) {
       logger.e(e);
       authState.changeState(AuthState.signUp);
