@@ -57,10 +57,7 @@ class MyScreen extends ConsumerWidget {
                         errorWidget: (_, __, ___) => Container(color: Colors.grey),
                         fit: BoxFit.cover,
                       )
-                    : Image.file(
-                        profileCardState.previewImageFile!,
-                        fit: BoxFit.cover,
-                      );
+                    : Container(color: Colors.grey);
               }),
               onTapEdit: profileProvider.editToggle,
               onTapReset: profileProvider.onTapReset,
