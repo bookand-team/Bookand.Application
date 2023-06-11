@@ -32,7 +32,7 @@ class BookStoreSearchedTile extends StatelessWidget {
             pathParameters: {'id': '${model.id}'});
       },
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 8),
         width: MediaQuery.of(context).size.width * .9,
         height: height,
         decoration: BoxDecoration(
@@ -54,7 +54,7 @@ class BookStoreSearchedTile extends StatelessWidget {
                   height: imageSize.height,
                   fit: BoxFit.fill,
                 )),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Expanded(
@@ -65,7 +65,7 @@ class BookStoreSearchedTile extends StatelessWidget {
                     model.name!,
                     style: titleStyle,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(

@@ -14,7 +14,7 @@ class HideBookStoreBottomSheet extends ConsumerStatefulWidget {
   const HideBookStoreBottomSheet({Key? key}) : super(key: key);
 
   @override
-  _HideBookStoreBottomSheetState createState() =>
+  ConsumerState<HideBookStoreBottomSheet> createState() =>
       _HideBookStoreBottomSheetState();
 }
 
@@ -40,7 +40,7 @@ class _HideBookStoreBottomSheetState
     if (model != null) {
       //화면 이동 조정
       await ref.read(mapControllerNotiferProvider.notifier).moveCamera(
-          lat: (model!.latitude ?? SEOUL_COORD_LAT) - 0.045,
+          lat: (model!.latitude ?? SEOUL_COORD_LAT) - LAT_FIXED,
           lng: model!.longitude ?? SEOUL_COORD_LON);
       ref.read(widgetMarkerNotiferProvider.notifier).setOneHideMarker(model!);
     }
@@ -59,7 +59,7 @@ class _HideBookStoreBottomSheetState
         mainAxisSize: MainAxisSize.min,
         children: [
           slideIcon,
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Row(
@@ -76,7 +76,7 @@ class _HideBookStoreBottomSheetState
             ],
           ),
           model == null
-              ? SizedBox()
+              ? const SizedBox()
               : BookStoreTile(
                   store: model!,
                 )

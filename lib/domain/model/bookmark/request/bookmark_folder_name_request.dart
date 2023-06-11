@@ -16,9 +16,9 @@ class BookmarkFolderNameRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['bookmarkType'] = _$BookmarkTypeEnumMap[bookmarkType];
-    data['folderName'] = this.folderName;
+    data['folderName'] = folderName;
     return data;
   }
 

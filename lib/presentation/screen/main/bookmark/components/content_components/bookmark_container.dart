@@ -20,7 +20,7 @@ class BookmarkContainer extends ConsumerStatefulWidget {
       required this.settingMode})
       : super(key: key);
   @override
-  _BookmarkContainerState createState() => _BookmarkContainerState();
+  ConsumerState<BookmarkContainer> createState() => _BookmarkContainerState();
 }
 
 class _BookmarkContainerState extends ConsumerState<BookmarkContainer> {
@@ -129,8 +129,9 @@ class _BookmarkContainerState extends ConsumerState<BookmarkContainer> {
                         child: Center(
                           child: SvgPicture.asset(
                             Assets.images.icCheckActive,
-                            color: Colors.white,
                             width: 18,
+                            colorFilter: const ColorFilter.mode(
+                                Colors.white, BlendMode.srcIn),
                             height: 18,
                           ),
                         ),

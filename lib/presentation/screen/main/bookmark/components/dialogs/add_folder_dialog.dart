@@ -7,7 +7,7 @@ class AddFolderDialog extends StatefulWidget {
   const AddFolderDialog({Key? key, required this.onAdd}) : super(key: key);
 
   @override
-  _AddFolderDialogState createState() => _AddFolderDialogState();
+  State<AddFolderDialog> createState() => _AddFolderDialogState();
 }
 
 class _AddFolderDialogState extends State<AddFolderDialog> {

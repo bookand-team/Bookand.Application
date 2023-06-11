@@ -43,7 +43,7 @@ class MapButtonHeightNotifier extends _$MapButtonHeightNotifier {
   void toBottomAnimation() {
     int count = 5;
     int i = 1;
-    aniTimer = Timer.periodic(Duration(milliseconds: 150), (timer) {
+    aniTimer = Timer.periodic(const Duration(milliseconds: 150), (timer) {
       updateHeight(state - i * (state ~/ count));
       i += 1;
       if (state - i * (state ~/ count) <= 0) {

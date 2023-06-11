@@ -20,7 +20,7 @@ class BookmarkContentsReponse {
     bookmarkId = json['bookmarkId'];
     bookmarkImage = json['bookmarkImage'];
     bookmarkInfo = json['bookmarkInfo'] != null
-        ? new BookmarkInfo.fromJson(json['bookmarkInfo'])
+        ? BookmarkInfo.fromJson(json['bookmarkInfo'])
         : null;
     bookmarkType =
         $enumDecodeNullable(_$BookmarkTypeEnumMap, json['bookmarkType']);
@@ -28,14 +28,14 @@ class BookmarkContentsReponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['bookmarkId'] = this.bookmarkId;
-    data['bookmarkImage'] = this.bookmarkImage;
-    if (this.bookmarkInfo != null) {
-      data['bookmarkInfo'] = this.bookmarkInfo!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['bookmarkId'] = bookmarkId;
+    data['bookmarkImage'] = bookmarkImage;
+    if (bookmarkInfo != null) {
+      data['bookmarkInfo'] = bookmarkInfo!.toJson();
     }
     data['bookmarkType'] = _$BookmarkTypeEnumMap[bookmarkType];
-    data['folderName'] = this.folderName;
+    data['folderName'] = folderName;
     return data;
   }
 
@@ -57,7 +57,7 @@ class BookmarkInfo {
     if (json['content'] != null) {
       content = <BookmarkModel>[];
       json['content'].forEach((v) {
-        content!.add(new BookmarkModel.fromJson(v));
+        content!.add(BookmarkModel.fromJson(v));
       });
     }
     last = json['last'];
@@ -66,13 +66,13 @@ class BookmarkInfo {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.content != null) {
-      data['content'] = this.content!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (content != null) {
+      data['content'] = content!.map((v) => v.toJson()).toList();
     }
-    data['last'] = this.last;
-    data['totalElements'] = this.totalElements;
-    data['totalPages'] = this.totalPages;
+    data['last'] = last;
+    data['totalElements'] = totalElements;
+    data['totalPages'] = totalPages;
     return data;
   }
 }

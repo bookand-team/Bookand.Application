@@ -8,8 +8,8 @@ class BookmarkIdReponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['bookmarkId'] = this.bookmarkId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['bookmarkId'] = bookmarkId;
     return data;
   }
 }

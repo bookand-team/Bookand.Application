@@ -156,8 +156,6 @@ class BookmarkEidtSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    double screenHeight = MediaQuery.of(context).size.height;
-
     return Container(
       color: backgroundColor,
       width: double.infinity,

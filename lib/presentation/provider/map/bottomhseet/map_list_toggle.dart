@@ -1,5 +1,4 @@
 //북마크 버튼에 따라 토글되는 state
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'map_list_toggle.g.dart';

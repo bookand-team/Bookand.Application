@@ -14,7 +14,7 @@ class BookMarkButton extends StatefulWidget {
       : super(key: key);
 
   @override
-  _BookMarkButtonState createState() => _BookMarkButtonState();
+  State<BookMarkButton> createState() => _BookMarkButtonState();
 }
 
 class _BookMarkButtonState extends State<BookMarkButton> {

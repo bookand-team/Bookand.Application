@@ -50,6 +50,7 @@ app.*.map.json
 *.g.dart
 *.chopper.dart
 *.freezed.dart
+/lig/gen
 
 # vscode
 .vscode/

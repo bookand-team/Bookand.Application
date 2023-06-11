@@ -95,10 +95,10 @@ class BookmarkContents extends ConsumerWidget {
                         '모아보기',
                         style: titleStyle,
                       ),
-                      EditSheetButton()
+                      const EditSheetButton()
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Expanded(

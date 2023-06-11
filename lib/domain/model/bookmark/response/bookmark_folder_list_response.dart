@@ -9,16 +9,16 @@ class BookmarkFolderListResponse {
     if (json['bookmarkFolderList'] != null) {
       bookmarkFolderList = <BookmarkFolderModel>[];
       json['bookmarkFolderList'].forEach((v) {
-        bookmarkFolderList!.add(new BookmarkFolderModel.fromJson(v));
+        bookmarkFolderList!.add(BookmarkFolderModel.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.bookmarkFolderList != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (bookmarkFolderList != null) {
       data['bookmarkFolderList'] =
-          this.bookmarkFolderList!.map((v) => v.toJson()).toList();
+          bookmarkFolderList!.map((v) => v.toJson()).toList();
     }
     return data;
   }

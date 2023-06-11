@@ -32,11 +32,11 @@ class BookmarkDeleteDialog extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 50, right: 30, left: 30, bottom: 20),
+            const Padding(
+              padding:
+                  EdgeInsets.only(top: 50, right: 30, left: 30, bottom: 20),
               child: Column(
-                children: const [
+                children: [
                   Text(
                     "북마크를 삭제하시겠어요?",
                     style: TextStyle(
