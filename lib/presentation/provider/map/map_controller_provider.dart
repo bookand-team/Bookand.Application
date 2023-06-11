@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:bookand/core/const/map.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -14,7 +13,6 @@ class MapControllerNotifer extends _$MapControllerNotifer {
 
   void initController(GoogleMapController controller) {
     state = controller;
-    log('test state = $state');
   }
 
   void clear() {
@@ -22,11 +20,11 @@ class MapControllerNotifer extends _$MapControllerNotifer {
   }
 
   Future moveCamera({required double lat, required lng}) async {
-    await state?.moveCamera(CameraUpdate.newLatLng(LatLng(lat, lng)));
+    await state?.animateCamera(
+        CameraUpdate.newLatLngZoom(LatLng(lat, lng), DEFAULT_ZOOM));
   }
 
   Future zoomIn() async {
-    log('tes');
     await state?.animateCamera(CameraUpdate.zoomIn());
   }
 

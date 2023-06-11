@@ -18,7 +18,7 @@ class BookmarkScreen extends ConsumerStatefulWidget {
   const BookmarkScreen({Key? key}) : super(key: key);
 
   @override
-  _BookmarkScreenState createState() => _BookmarkScreenState();
+  ConsumerState<BookmarkScreen> createState() => _BookmarkScreenState();
 }
 
 class _BookmarkScreenState extends ConsumerState<BookmarkScreen>

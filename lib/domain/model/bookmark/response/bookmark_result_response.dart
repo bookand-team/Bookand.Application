@@ -8,8 +8,8 @@ class BookmarkResultReponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['result'] = this.result;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['result'] = result;
     return data;
   }
 }

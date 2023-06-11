@@ -81,7 +81,7 @@ class BookstoreMapDetailModel {
   Map<String, dynamic> toJson() => _$BookstoreMapDetailModelToJson(this);
   @override
   String toString() {
-    return 'BookstoreMapDetailModel' + toJson().toString();
+    return 'BookstoreMapDetailModel${toJson()}';
   }
 }
 
@@ -113,7 +113,7 @@ class BookstoreMapInfoModel {
   Map<String, dynamic> toJson() => _$BookstoreMapInfoModelToJson(this);
   @override
   String toString() {
-    return 'BookstoreMapInfoModel' + toJson().toString();
+    return 'BookstoreMapInfoModel${toJson()}';
   }
 }
 
@@ -132,6 +132,6 @@ class BookstoreMapSubImageModel {
   Map<String, dynamic> toJson() => _$BookstoreMapSubImageModelToJson(this);
   @override
   String toString() {
-    return 'BookstoreMapSubImageModel' + toJson().toString();
+    return 'BookstoreMapSubImageModel${toJson()}';
   }
 }

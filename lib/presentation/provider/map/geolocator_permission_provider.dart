@@ -12,7 +12,6 @@ class GeolocaotorPermissionNotifier extends _$GeolocaotorPermissionNotifier {
     return false;
   }
 
-  @override
   Future<bool> getPermission() async {
     LocationPermission permission;
     bool serviceEnabled;

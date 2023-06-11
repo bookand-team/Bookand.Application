@@ -14,9 +14,9 @@ class BookmarkIdsRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['bookmarkType'] = _$BookmarkTypeEnumMap[bookmarkType];
-    data['contentIdList'] = this.contentIdList;
+    data['contentIdList'] = contentIdList;
     return data;
   }
 

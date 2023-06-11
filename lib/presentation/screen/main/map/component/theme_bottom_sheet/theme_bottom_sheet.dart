@@ -13,7 +13,7 @@ class ThemeBottomSheet extends ConsumerStatefulWidget {
   const ThemeBottomSheet({Key? key}) : super(key: key);
 
   @override
-  _ThemeBottomSheetState createState() => _ThemeBottomSheetState();
+  ConsumerState<ThemeBottomSheet> createState() => _ThemeBottomSheetState();
 }
 
 class _ThemeBottomSheetState extends ConsumerState<ThemeBottomSheet> {

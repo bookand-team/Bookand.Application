@@ -19,7 +19,7 @@ class MainTab extends ConsumerWidget {
     final mainTabIndex = ref.watch(mainTabNotifierProvider);
 
     Future.delayed(
-      Duration(milliseconds: 500),
+      const Duration(milliseconds: 500),
       () {
         ref.read(mainRefNotifierProvider.notifier).init(ref);
       },

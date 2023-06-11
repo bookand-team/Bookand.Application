@@ -5,10 +5,10 @@ void showCustomBottomSheet(BuildContext context) {
   double minHeight = 200;
   showModalBottomSheet(
     isScrollControlled: true,
-    constraints: BoxConstraints(minHeight: 200, maxHeight: maxHeight),
+    constraints: BoxConstraints(minHeight: minHeight, maxHeight: maxHeight),
     context: context,
     builder: (context) {
-      return BaseBottomSheet();
+      return const BaseBottomSheet();
     },
   );
 }
@@ -17,10 +17,10 @@ class BaseBottomSheet extends StatefulWidget {
   const BaseBottomSheet({Key? key}) : super(key: key);
 
   @override
-  _BaseBottomSheetState createState() => _BaseBottomSheetState();
+  BaseBottomSheetState createState() => BaseBottomSheetState();
 }
 
-class _BaseBottomSheetState extends State<BaseBottomSheet> {
+class BaseBottomSheetState extends State<BaseBottomSheet> {
   double height = 200;
 
   @override

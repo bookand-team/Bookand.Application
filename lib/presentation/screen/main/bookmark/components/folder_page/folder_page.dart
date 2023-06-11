@@ -27,7 +27,7 @@ class FolderPage extends ConsumerStatefulWidget {
       : super(key: key);
 
   @override
-  _FolderPageState createState() => _FolderPageState();
+  ConsumerState<FolderPage> createState() => _FolderPageState();
 }
 
 class _FolderPageState extends ConsumerState<FolderPage> {
@@ -39,7 +39,7 @@ class _FolderPageState extends ConsumerState<FolderPage> {
 
   late String name;
 
-  final Size menuSize = Size(224, 45);
+  final Size menuSize = const Size(224, 45);
 
   @override
   void initState() {
@@ -218,6 +218,8 @@ class _FolderPageState extends ConsumerState<FolderPage> {
                                   folderId: int.parse(widget.id),
                                   contentsIdList: selectedList);
                       setState(() {
+                        //TODO for in 조사 후 수정
+                        // ignore: avoid_function_literals_in_foreach_calls
                         selectedList.forEach((id) {
                           modelList.removeWhere(
                               (element) => element.bookmarkId == id);

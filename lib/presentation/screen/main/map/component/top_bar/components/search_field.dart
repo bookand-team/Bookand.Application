@@ -19,10 +19,17 @@ class SearchField extends ConsumerWidget {
       onTap: () =>
           ref.context.pushNamed(MapSearchScreen.routeName).then((value) {
         if (value == 'showhide') {
-          ref
-              .read(widgetMarkerNotiferProvider.notifier)
-              .setBookstoreMarker(ref.read(mapBookStoreNotifierProvider));
-          ref.read(mapBottomSheetControllerProvider.notifier).showHideStore();
+          Future.delayed(
+            const Duration(seconds: 1),
+            () {
+              ref
+                  .read(widgetMarkerNotiferProvider.notifier)
+                  .setBookstoreMarker(ref.read(mapBookStoreNotifierProvider));
+              ref
+                  .read(mapBottomSheetControllerProvider.notifier)
+                  .showHideStore();
+            },
+          );
         }
       }),
       child: Container(

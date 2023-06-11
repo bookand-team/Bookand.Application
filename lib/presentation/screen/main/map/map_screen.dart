@@ -21,12 +21,12 @@ class MapScreen extends ConsumerStatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
 
   @override
-  _MapScreenState createState() => _MapScreenState();
+  MapScreenState createState() => MapScreenState();
 }
 
 enum CustomPanelState { opend, closed }
 
-class _MapScreenState extends ConsumerState<MapScreen> {
+class MapScreenState extends ConsumerState<MapScreen> {
   BorderRadius panelBr = const BorderRadius.only(
       topLeft: Radius.circular(24), topRight: Radius.circular(24));
 

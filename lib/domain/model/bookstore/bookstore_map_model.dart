@@ -34,7 +34,7 @@ class BookStoreMapModel {
 
   @override
   String toString() {
-    return 'BookStoreMapModel' + toJson().toString();
+    return 'BookStoreMapModel${toJson()}';
   }
 
   static double? _fromJsonDoule(dynamic data) {

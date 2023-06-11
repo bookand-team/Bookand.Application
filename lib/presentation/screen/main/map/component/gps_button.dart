@@ -6,9 +6,10 @@ import 'package:flutter/material.dart';
 class GpsButton extends StatefulWidget {
   final void Function() onAcitve;
   final void Function() onDeactive;
-  GpsButton({super.key, required this.onAcitve, required this.onDeactive});
+  const GpsButton(
+      {super.key, required this.onAcitve, required this.onDeactive});
   @override
-  _GpsButtonState createState() => _GpsButtonState();
+  State<GpsButton> createState() => _GpsButtonState();
 }
 
 class _GpsButtonState extends State<GpsButton> {

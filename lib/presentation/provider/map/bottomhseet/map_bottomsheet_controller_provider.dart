@@ -215,7 +215,7 @@ class MapBottomSheetControllerNotifier
                             return SingleChildScrollView(
                               physics: isOpend
                                   ? null
-                                  : NeverScrollableScrollPhysics(),
+                                  : const NeverScrollableScrollPhysics(),
                               controller: scrollController,
                               child: Container(
                                 decoration: BoxDecoration(
@@ -226,7 +226,7 @@ class MapBottomSheetControllerNotifier
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    isOpend ? SizedBox() : slideIcon,
+                                    isOpend ? const SizedBox() : slideIcon,
                                     ...modelList
                                         .map((e) => BookStoreTile(store: e))
                                         .toList()
@@ -263,6 +263,7 @@ class MapBottomSheetControllerNotifier
       oldSheet = null;
       return;
     }
+    hideToggleCon.activate();
 
     //button height 조절
     buttonHeightCon.toHideBottomSheet();

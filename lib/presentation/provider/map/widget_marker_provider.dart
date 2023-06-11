@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-// lib test
 import 'package:widget_to_marker/widget_to_marker.dart';
 
 part 'widget_marker_provider.g.dart';
@@ -126,6 +125,8 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
   Future initMarkers(
       List<BookStoreMapModel> bookstoreList, BuildContext context) async {
     int i = 0;
+    // for in error -> 마지막 store 출력 안되는 오류, 시간 너무 오래 걸림
+    // ignore: avoid_function_literals_in_foreach_calls
     bookstoreList.forEach((store) async {
       Marker marker = Marker(
         onTap: () async {
@@ -152,9 +153,10 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
 
             // 마커 누르면 마커가 바텀시트에 안가리게 위치 조정해서 이동
             ref.read(mapControllerNotiferProvider)?.animateCamera(
-                CameraUpdate.newLatLng(LatLng(
-                    _selectedMarker!.position.latitude - 0.015,
-                    _selectedMarker!.position.longitude)));
+                CameraUpdate.newLatLngZoom(
+                    LatLng(_selectedMarker!.position.latitude - LAT_FIXED,
+                        _selectedMarker!.position.longitude),
+                    DEFAULT_ZOOM));
           }
         },
         markerId: MarkerId(store.name!),
@@ -212,6 +214,8 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
     List<String> listForShow = bookstoreList.map((e) => e.name!).toList();
 
     Set<Marker> result = {};
+    // TODO for in error 자세히 조사 후 수정
+    // ignore: avoid_function_literals_in_foreach_calls
     _allMarker.forEach((element) {
       String name = element.markerId.value;
       if (listForShow.contains(name)) {
@@ -291,9 +295,10 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
 
               // 마커 누르면 마커가 바텀시트에 안가리게 위치 조정해서 이동
               ref.read(mapControllerNotiferProvider)?.animateCamera(
-                  CameraUpdate.newLatLng(LatLng(
-                      _selectedMarker!.position.latitude - 0.015,
-                      _selectedMarker!.position.longitude)));
+                  CameraUpdate.newLatLngZoom(
+                      LatLng(_selectedMarker!.position.latitude - LAT_FIXED,
+                          _selectedMarker!.position.longitude),
+                      DEFAULT_ZOOM));
             }
           },
           markerId: MarkerId(patchedName),
@@ -304,6 +309,7 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
       }
     }
     // 북마크 해제된 서점 마커 삭제
+    // ignore: avoid_function_literals_in_foreach_calls
     storedNames.forEach((storedName) {
       if (!newNames.contains(storedName)) {
         _bookmakredMarkerSet
