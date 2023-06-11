@@ -11,7 +11,7 @@ class NoSearchText extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(Icons.error_outline),
+        const Icon(Icons.error_outline),
         Text(
           '검색 결과가 없어요',
           style: medium,

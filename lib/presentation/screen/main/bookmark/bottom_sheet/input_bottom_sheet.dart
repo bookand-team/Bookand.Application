@@ -33,7 +33,7 @@ class InputFolderDialog extends StatefulWidget {
       : super(key: key);
 
   @override
-  _AddFolderDialogState createState() => _AddFolderDialogState();
+  State<InputFolderDialog> createState() => _AddFolderDialogState();
 }
 
 class _AddFolderDialogState extends State<InputFolderDialog> {

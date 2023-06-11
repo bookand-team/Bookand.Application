@@ -9,16 +9,16 @@ class BookStoreGetAllResponse {
     if (json['bookStoreAddressListResponse'] != null) {
       bookStoreAddressListResponse = <BookStoreMapModel>[];
       json['bookStoreAddressListResponse'].forEach((v) {
-        bookStoreAddressListResponse!.add(new BookStoreMapModel.fromJson(v));
+        bookStoreAddressListResponse!.add(BookStoreMapModel.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.bookStoreAddressListResponse != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (bookStoreAddressListResponse != null) {
       data['bookStoreAddressListResponse'] =
-          this.bookStoreAddressListResponse!.map((v) => v.toJson()).toList();
+          bookStoreAddressListResponse!.map((v) => v.toJson()).toList();
     }
     return data;
   }

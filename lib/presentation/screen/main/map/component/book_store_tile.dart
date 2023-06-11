@@ -60,7 +60,7 @@ class BookStoreTile extends ConsumerWidget {
           border: Border.all(color: tagBorderColor),
           borderRadius: BorderRadius.circular(tagBraidus)),
       child: Text(
-        '#' + ThemeUtils.theme2Str(theme)!,
+        '#${ThemeUtils.theme2Str(theme)!}',
         style: tagStyle,
       ),
     );

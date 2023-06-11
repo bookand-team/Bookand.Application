@@ -34,7 +34,7 @@ class MapSearchScreen extends ConsumerStatefulWidget {
   const MapSearchScreen({Key? key}) : super(key: key);
 
   @override
-  _MapSearchScreenState createState() => _MapSearchScreenState();
+  ConsumerState<MapSearchScreen> createState() => _MapSearchScreenState();
 }
 
 class _MapSearchScreenState extends ConsumerState<MapSearchScreen> {
@@ -160,13 +160,14 @@ class _MapSearchScreenState extends ConsumerState<MapSearchScreen> {
                           .getSearchedMarker(searchedList);
                       //검색된 것 중 가장 가까운 서점으로 카메라 이동
                       if (mapController != null) {
-                        mapController!.animateCamera(CameraUpdate.newLatLng(
+                        mapController!.animateCamera(CameraUpdate.newLatLngZoom(
                             LatLng(
                                 (searchedList.first.latitude ??
                                         SEOUL_COORD_LAT) -
-                                    0.0025,
+                                    LAT_FIXED,
                                 searchedList.first.longitude ??
-                                    SEOUL_COORD_LON)));
+                                    SEOUL_COORD_LON),
+                            DEFAULT_ZOOM));
                       }
 
                       ref

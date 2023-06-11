@@ -14,11 +14,11 @@ class BookmarkModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['bookmarkId'] = this.bookmarkId;
-    data['image'] = this.image;
-    data['location'] = this.location;
-    data['title'] = this.title;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['bookmarkId'] = bookmarkId;
+    data['image'] = image;
+    data['location'] = location;
+    data['title'] = title;
     return data;
   }
 }

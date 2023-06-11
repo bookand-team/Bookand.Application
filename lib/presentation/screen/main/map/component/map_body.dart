@@ -25,19 +25,13 @@ class MapBody extends ConsumerStatefulWidget {
   const MapBody({Key? key}) : super(key: key);
 
   @override
-  _MapTestState createState() => _MapTestState();
+  ConsumerState<MapBody> createState() => _MapBodyState();
 }
 
-class _MapTestState extends ConsumerState<MapBody> {
+class _MapBodyState extends ConsumerState<MapBody> {
   final double buttonPading = 15;
   //버튼 사이의 간격
   final double buttonSpace = 40;
-
-  @override
-  void dispose() {
-    ref.read(mapControllerNotiferProvider.notifier).clear();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +55,8 @@ class _MapTestState extends ConsumerState<MapBody> {
               },
               markers: markers,
               initialCameraPosition: const CameraPosition(
-                  target: LatLng(SEOUL_COORD_LAT, SEOUL_COORD_LON), zoom: 13)),
+                  target: LatLng(SEOUL_COORD_LAT, SEOUL_COORD_LON),
+                  zoom: DEFAULT_ZOOM)),
 
           //떠있는 버튼들 시작
           Positioned(
@@ -143,14 +138,14 @@ class _MapTestState extends ConsumerState<MapBody> {
             right: buttonPading,
             bottom: buttonHeight + buttonPading + 2 * buttonSpace,
             child: MapZoomOutButton(
-              controller: ref.read(mapControllerNotiferProvider),
+              controller: ref.watch(mapControllerNotiferProvider),
             ),
           ),
           Positioned(
             right: buttonPading,
             bottom: buttonHeight + buttonPading + 3 * buttonSpace,
             child: MapZoomInButton(
-                controller: ref.read(mapControllerNotiferProvider)),
+                controller: ref.watch(mapControllerNotiferProvider)),
           )
         ],
       ),

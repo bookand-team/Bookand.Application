@@ -57,7 +57,7 @@ class ThemeButton extends ConsumerWidget {
           showModalBottomSheet(
               backgroundColor: Colors.white,
               context: context,
-              builder: (context) => ThemeBottomSheet());
+              builder: (context) => const ThemeBottomSheet());
         },
         child: Container(
           // width: size.width,
@@ -78,12 +78,10 @@ class ThemeButton extends ConsumerWidget {
               selected
                   ? GestureDetector(
                       onTap: () => themeCon.init(),
-                      child: Container(
-                        child: Icon(
-                          Icons.close,
-                          color: selectedColor,
-                          size: iconSize,
-                        ),
+                      child: Icon(
+                        Icons.close,
+                        color: selectedColor,
+                        size: iconSize,
                       ),
                     )
                   : Icon(

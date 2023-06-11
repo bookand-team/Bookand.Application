@@ -10,7 +10,7 @@ class SearchTopBar extends ConsumerWidget {
   final void Function() onFieldFocus;
   final FocusNode focusNode;
 
-  SearchTopBar(
+  const SearchTopBar(
       {Key? key,
       required this.focusNode,
       required this.controller,
@@ -58,7 +58,11 @@ class SearchTopBar extends ConsumerWidget {
                 controller: controller,
                 onChanged: onChanged,
                 onSubmitted: onSubmitted,
-                decoration: const InputDecoration.collapsed(
+                decoration: const InputDecoration(
+                    isCollapsed: true,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    border: InputBorder.none,
                     hintText: '궁금한 서점/지역을 검색해 보세요'),
               ),
             ),
