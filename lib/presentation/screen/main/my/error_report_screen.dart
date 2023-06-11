@@ -32,6 +32,7 @@ class ErrorReportScreen extends ConsumerWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
           controller: ScrollController(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

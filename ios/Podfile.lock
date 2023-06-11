@@ -9,9 +9,6 @@ PODS:
     - Flutter
   - Firebase/Analytics (10.9.0):
     - Firebase/Core
-  - Firebase/Auth (10.9.0):
-    - Firebase/CoreOnly
-    - FirebaseAuth (~> 10.9.0)
   - Firebase/Core (10.9.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (~> 10.9.0)
@@ -29,9 +26,6 @@ PODS:
   - Firebase/RemoteConfig (10.9.0):
     - Firebase/CoreOnly
     - FirebaseRemoteConfig (~> 10.9.0)
-  - Firebase/Storage (10.9.0):
-    - Firebase/CoreOnly
-    - FirebaseStorage (~> 10.9.0)
   - firebase_analytics (10.4.1):
     - Firebase/Analytics (= 10.9.0)
     - firebase_core
@@ -40,10 +34,6 @@ PODS:
     - Firebase/CoreOnly (~> 10.9.0)
     - firebase_core
     - FirebaseAppCheck (~> 10.9.0-beta)
-    - Flutter
-  - firebase_auth (4.6.1):
-    - Firebase/Auth (= 10.9.0)
-    - firebase_core
     - Flutter
   - firebase_core (2.13.0):
     - Firebase/CoreOnly (= 10.9.0)
@@ -62,10 +52,6 @@ PODS:
     - Flutter
   - firebase_remote_config (4.2.1):
     - Firebase/RemoteConfig (= 10.9.0)
-    - firebase_core
-    - Flutter
-  - firebase_storage (11.2.1):
-    - Firebase/Storage (= 10.9.0)
     - firebase_core
     - Flutter
   - FirebaseABTesting (10.10.0):
@@ -92,14 +78,6 @@ PODS:
     - FirebaseCore (~> 10.0)
     - GoogleUtilities/Environment (~> 7.8)
     - PromisesObjC (~> 2.1)
-  - FirebaseAppCheckInterop (10.10.0)
-  - FirebaseAuth (10.9.0):
-    - FirebaseAppCheckInterop (~> 10.0)
-    - FirebaseCore (~> 10.0)
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
-    - GoogleUtilities/Environment (~> 7.8)
-    - GTMSessionFetcher/Core (< 4.0, >= 2.1)
-  - FirebaseAuthInterop (10.10.0)
   - FirebaseCore (10.9.0):
     - FirebaseCoreInternal (~> 10.0)
     - GoogleUtilities/Environment (~> 7.8)
@@ -154,12 +132,6 @@ PODS:
     - GoogleUtilities/Environment (~> 7.10)
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesSwift (~> 2.1)
-  - FirebaseStorage (10.9.0):
-    - FirebaseAppCheckInterop (~> 10.0)
-    - FirebaseAuthInterop (~> 10.0)
-    - FirebaseCore (~> 10.0)
-    - FirebaseCoreExtension (~> 10.0)
-    - GTMSessionFetcher/Core (< 4.0, >= 2.1)
   - Flutter (1.0.0)
   - flutter_local_notifications (0.0.1):
     - Flutter
@@ -268,13 +240,11 @@ DEPENDENCIES:
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_app_check (from `.symlinks/plugins/firebase_app_check/ios`)
-  - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_crashlytics (from `.symlinks/plugins/firebase_crashlytics/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - firebase_performance (from `.symlinks/plugins/firebase_performance/ios`)
   - firebase_remote_config (from `.symlinks/plugins/firebase_remote_config/ios`)
-  - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - Flutter (from `Flutter`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
@@ -299,9 +269,6 @@ SPEC REPOS:
     - FirebaseABTesting
     - FirebaseAnalytics
     - FirebaseAppCheck
-    - FirebaseAppCheckInterop
-    - FirebaseAuth
-    - FirebaseAuthInterop
     - FirebaseCore
     - FirebaseCoreExtension
     - FirebaseCoreInternal
@@ -311,7 +278,6 @@ SPEC REPOS:
     - FirebasePerformance
     - FirebaseRemoteConfig
     - FirebaseSessions
-    - FirebaseStorage
     - FMDB
     - GoogleAppMeasurement
     - GoogleDataTransport
@@ -331,8 +297,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_app_check:
     :path: ".symlinks/plugins/firebase_app_check/ios"
-  firebase_auth:
-    :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
   firebase_crashlytics:
@@ -343,8 +307,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_performance/ios"
   firebase_remote_config:
     :path: ".symlinks/plugins/firebase_remote_config/ios"
-  firebase_storage:
-    :path: ".symlinks/plugins/firebase_storage/ios"
   Flutter:
     :path: Flutter
   flutter_local_notifications:
@@ -384,19 +346,14 @@ SPEC CHECKSUMS:
   Firebase: bd152f0f3d278c4060c5c71359db08ebcfd5a3e2
   firebase_analytics: 24c9089f960ea2255654488d219cb15a913adf8e
   firebase_app_check: 5d7b6b5b32bf17f999e214eaecbeca96d84d80b8
-  firebase_auth: 202fb0b14e267d2a91d83b75d0ce064ef2063383
   firebase_core: fc68c0f9eec4e800b9418deff14a7e0a504016f3
   firebase_crashlytics: 6c82b5f80f225b2429ebc5fdadde5b7e7735ed4e
   firebase_messaging: ffb4e7c95d4daca8cef4eca0283f0ddd2b365d40
   firebase_performance: 516fbfa3ace3c84add028be727ff08f15d8a3502
   firebase_remote_config: 8456e4cc4139b07721a31b89f992b1e652117b5f
-  firebase_storage: 09fe224b1ae65ffb74241f2e3e89c8ebabbaa5cb
   FirebaseABTesting: b2a87808d90f02766fcffb3957d3e397e7accc15
   FirebaseAnalytics: 5ea0db4893825e7b0149d575352cd838236313dc
   FirebaseAppCheck: ad3a99d0e14dd153eb54d11bdd7e702e396ee505
-  FirebaseAppCheckInterop: 7d3521f56872cf74a01792c0a095a30e054ff6ae
-  FirebaseAuth: 21d5e902fcea44d0d961540fc4742966ae6118cc
-  FirebaseAuthInterop: edf6ead0428515d8efc10810c2dabc3a4ec70501
   FirebaseCore: b68d3616526ec02e4d155166bbafb8eca64af557
   FirebaseCoreExtension: 8d93ebbf6838a874b4ed82a564c9d6705f8365dd
   FirebaseCoreInternal: 971029061d326000d65bfdc21f5502c75c8b0893
@@ -406,7 +363,6 @@ SPEC CHECKSUMS:
   FirebasePerformance: eee2f5da94fd7e5d15487649f8fe10a90c87c174
   FirebaseRemoteConfig: 5ea5834e8c518f377bf1af2d97ebd611914ebf2d
   FirebaseSessions: 5f9e62cd4096e24d2011cbd845b0efceffaee1ec
-  FirebaseStorage: 075a0c10ec43f24193018c539d65e991db65d9ef
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
@@ -437,4 +393,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
 
-COCOAPODS: 1.12.0
+COCOAPODS: 1.11.3
