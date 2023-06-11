@@ -1,9 +1,10 @@
 import 'package:bookand/presentation/screen/main/bookmark/components/folder_page/folder_page.dart';
 import 'package:bookand/presentation/screen/main/home/bookstore_map_screen.dart';
 import 'package:bookand/presentation/screen/main/map/component/search_screen/map_search_screen.dart';
-import 'package:bookand/presentation/screen/main/my/feedback/feedback_screen.dart';
-import 'package:bookand/presentation/screen/main/my/feedback/feedback_send_success_screen.dart';
+import 'package:bookand/presentation/screen/main/my/error_report_screen.dart';
+import 'package:bookand/presentation/screen/main/my/feedback_screen.dart';
 import 'package:bookand/presentation/screen/main/my/newbookstorereport/new_bookstore_report_screen.dart';
+import 'package:bookand/presentation/screen/main/my/thank_you_opinion_screen.dart';
 import 'package:bookand/presentation/screen/main/my/withdrawal/account_authentication_screen.dart';
 import 'package:bookand/presentation/screen/main/my/withdrawal/account_authentication_success_screen.dart';
 import 'package:bookand/presentation/screen/main/my/withdrawal/withdrawal_check_screen.dart';
@@ -46,8 +47,6 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
         name: MainTab.routeName,
         builder: (_, __) => const MainTab(),
         routes: mainTabRoutes),
-    // GoRoute(
-    //     path: '/splash', name: SplashScreen.routeName, builder: (_, __) => const SplashScreen()),
     GoRoute(
         path: '/login',
         name: LoginScreen.routeName,
@@ -61,8 +60,8 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
                 GoRoute(
                     path: 'termsAgreeDetail',
                     name: TermsAgreeDetailScreen.routeName,
-                    builder: (_, state) => TermsAgreeDetailScreen(
-                        policy: state.extra as Tuple2<int, PolicyModel>))
+                    builder: (_, state) =>
+                        TermsAgreeDetailScreen(policy: state.extra as Tuple2<int, PolicyModel>))
               ]),
         ]),
   ];
@@ -78,8 +77,7 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
     GoRoute(
         path: 'bookstore/:id',
         name: BookstoreScreen.routeName,
-        builder: (_, state) =>
-            BookstoreScreen(id: state.pathParameters['id']!)),
+        builder: (_, state) => BookstoreScreen(id: state.pathParameters['id']!)),
     GoRoute(
         path: 'bookstoreMap/:latitude/:longitude',
         name: BookstoreMapScreen.routeName,
@@ -91,10 +89,7 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
         path: 'notificationSetting',
         name: NotificationSettingScreen.routeName,
         builder: (_, __) => const NotificationSettingScreen()),
-    GoRoute(
-        path: 'notice',
-        name: NoticeScreen.routeName,
-        builder: (_, __) => const NoticeScreen()),
+    GoRoute(path: 'notice', name: NoticeScreen.routeName, builder: (_, __) => const NoticeScreen()),
     GoRoute(
         path: 'termsAndPolicy',
         name: TermsAndPolicyScreen.routeName,
@@ -113,14 +108,6 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
         name: NewBookstoreReportSuccessScreen.routeName,
         builder: (_, __) => const NewBookstoreReportSuccessScreen()),
     GoRoute(
-        path: 'feedback',
-        name: FeedbackScreen.routeName,
-        builder: (_, __) => const FeedbackScreen()),
-    GoRoute(
-        path: 'feedbackSendSuccessScreen',
-        name: FeedbackSendSuccessScreen.routeName,
-        builder: (_, __) => const FeedbackSendSuccessScreen()),
-    GoRoute(
       path: 'mapSearch',
       name: MapSearchScreen.routeName,
       builder: (_, __) => const MapSearchScreen(),
@@ -132,6 +119,18 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
               id: state.pathParameters['id']!,
               name: state.pathParameters['name']!,
             )),
+    GoRoute(
+        path: 'errorReport',
+        name: ErrorReportScreen.routeName,
+        builder: (_, __) => const ErrorReportScreen()),
+    GoRoute(
+        path: 'feedback',
+        name: FeedbackScreen.routeName,
+        builder: (_, __) => const FeedbackScreen()),
+    GoRoute(
+        path: 'thankYouOpinion',
+        name: ThankYouOpinionScreen.routeName,
+        builder: (_, __) => const ThankYouOpinionScreen()),
   ];
 
   List<RouteBase> accountManagementRoutes = [
@@ -179,8 +178,7 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
     }
 
     if (authState == AuthState.signUp) {
-      if (goRouterState.location
-          .startsWith('/login/termsAgree/termsAgreeDetail')) {
+      if (goRouterState.location.startsWith('/login/termsAgree/termsAgreeDetail')) {
         return null;
       } else {
         return '/login/termsAgree';
@@ -188,8 +186,7 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
     }
 
     if (authState == AuthState.signIn) {
-      return goRouterState.location.startsWith('/login') ||
-              goRouterState.location == '/splash'
+      return goRouterState.location.startsWith('/login') || goRouterState.location == '/splash'
           ? '/'
           : null;
 

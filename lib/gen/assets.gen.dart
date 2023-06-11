@@ -323,6 +323,12 @@ class $AssetsImagesMyGen {
   /// File path: assets/images/my/ic_bookstore.svg
   String get icBookstore => 'assets/images/my/ic_bookstore.svg';
 
+  /// File path: assets/images/my/ic_clip.svg
+  String get icClip => 'assets/images/my/ic_clip.svg';
+
+  /// File path: assets/images/my/ic_delete_image.svg
+  String get icDeleteImage => 'assets/images/my/ic_delete_image.svg';
+
   /// File path: assets/images/my/ic_drawer_close.svg
   String get icDrawerClose => 'assets/images/my/ic_drawer_close.svg';
 
@@ -347,12 +353,17 @@ class $AssetsImagesMyGen {
   /// File path: assets/images/my/ic_policy.svg
   String get icPolicy => 'assets/images/my/ic_policy.svg';
 
+  /// File path: assets/images/my/ic_report.svg
+  String get icReport => 'assets/images/my/ic_report.svg';
+
   /// File path: assets/images/my/ic_user.svg
   String get icUser => 'assets/images/my/ic_user.svg';
 
   /// List of all assets
   List<String> get values => [
         icBookstore,
+        icClip,
+        icDeleteImage,
         icDrawerClose,
         icDrawerOpen,
         icFeedback,
@@ -361,6 +372,7 @@ class $AssetsImagesMyGen {
         icNotification,
         icPhoto,
         icPolicy,
+        icReport,
         icUser
       ];
 }

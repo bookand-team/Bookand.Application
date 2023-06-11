@@ -3,7 +3,7 @@ import 'package:bookand/core/widget/base_app_bar.dart';
 import 'package:bookand/core/widget/base_layout.dart';
 import 'package:bookand/presentation/component/custom_dropdown.dart';
 import 'package:bookand/presentation/provider/withdrawal_reason_provider.dart';
-import 'package:bookand/presentation/screen/main/my/feedback/feedback_screen.dart';
+import 'package:bookand/presentation/screen/main/my/feedback_screen.dart';
 import 'package:bookand/presentation/screen/main/my/newbookstorereport/new_bookstore_report_screen.dart';
 import 'package:bookand/presentation/screen/main/my/terms_and_policy_screen.dart';
 import 'package:bookand/presentation/screen/main/my/withdrawal/account_authentication_screen.dart';

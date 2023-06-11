@@ -38,6 +38,7 @@ class AppStrings {
   static const termsAndPolicy = '약관 및 정책';
   static const newBookstoreReport = '새로운 서점 제보';
   static const feedback = '피드백';
+  static const errorReport = '오류 및 버그 신고';
   static const nickname = '닉네임';
   static const loginInfo = '로그인 정보';
   static const loginId = '로그인 ID';
@@ -83,5 +84,5 @@ class AppStrings {
   static const feedbackTargetHint = '대상 화면을 선택해주세요';
   static const sendFeedback = '의견 보내기';
   static const feedbackSendError = '피드백 전송 중 문제가 발생하였습니다.\n다시 시도 해주세요.';
-  static const feedbackSendSuccessTitle = '소중한 의견 감사합니다';
+  static const thankYouMessage = '소중한 의견 감사합니다';
 }

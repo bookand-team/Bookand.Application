@@ -1,17 +1,17 @@
 import 'package:bookand/core/widget/base_dialog.dart';
 import 'package:bookand/presentation/component/custom_dropdown.dart';
-import 'package:bookand/presentation/screen/main/my/feedback/feedback_send_success_screen.dart';
+import 'package:bookand/presentation/screen/main/my/thank_you_opinion_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../core/app_strings.dart';
-import '../../../../../core/const/feedback_target.dart';
-import '../../../../../core/const/feedback_type.dart';
-import '../../../../../core/widget/base_app_bar.dart';
-import '../../../../../core/widget/base_layout.dart';
-import '../../../../component/round_rect_button.dart';
-import '../../../../provider/feedback_provider.dart';
+import '../../../../core/app_strings.dart';
+import '../../../../core/const/feedback_target.dart';
+import '../../../../core/const/feedback_type.dart';
+import '../../../../core/widget/base_app_bar.dart';
+import '../../../../core/widget/base_layout.dart';
+import '../../../component/round_rect_button.dart';
+import '../../../provider/feedback_provider.dart';
 
 class FeedbackScreen extends ConsumerWidget {
   static String get routeName => 'feedbackScreen';
@@ -137,7 +137,7 @@ class FeedbackScreen extends ConsumerWidget {
                   onPressed: () {
                     feedbackProvider.sendFeedback(
                       onSuccess: () {
-                        context.goNamed(FeedbackSendSuccessScreen.routeName);
+                        context.goNamed(ThankYouOpinionScreen.routeName);
                       },
                       onError: () {
                         showDialog(
