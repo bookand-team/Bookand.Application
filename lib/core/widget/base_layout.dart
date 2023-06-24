@@ -8,6 +8,7 @@ class BaseLayout extends StatelessWidget {
   final PreferredSizeWidget? appBar;
   final Widget? bottomNavigationBar;
   final bool isLoading;
+  final Function()? onTapScreen;
   final Widget child;
 
   const BaseLayout({
@@ -19,6 +20,7 @@ class BaseLayout extends StatelessWidget {
     this.appBar,
     this.bottomNavigationBar,
     this.isLoading = false,
+    this.onTapScreen,
     required this.child,
   }) : super(key: key);
 
@@ -26,27 +28,30 @@ class BaseLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: onWillPop,
-      child: IgnorePointer(
-        ignoring: ignoring,
-        child: Stack(
-          children: [
-            Scaffold(
-              resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-              backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.background,
-              appBar: appBar,
-              body: child,
-              bottomNavigationBar: bottomNavigationBar,
-            ),
-            Visibility(
-              visible: isLoading,
-              child: Container(
-                color: Colors.black12,
-                child: const Center(
-                  child: CircularProgressIndicator(),
-                ),
+      child: GestureDetector(
+        onTap: onTapScreen,
+        child: IgnorePointer(
+          ignoring: ignoring,
+          child: Stack(
+            children: [
+              Scaffold(
+                resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+                backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.background,
+                appBar: appBar,
+                body: child,
+                bottomNavigationBar: bottomNavigationBar,
               ),
-            )
-          ],
+              Visibility(
+                visible: isLoading,
+                child: Container(
+                  color: Colors.black12,
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

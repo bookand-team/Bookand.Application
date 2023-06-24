@@ -31,6 +31,9 @@ class _NewBookstoreReportScreenState extends ConsumerState<NewBookstoreReportScr
     searchTextController.addListener(() {
       setState(() {});
     });
+    scrollController.addListener(() {
+      FocusManager.instance.primaryFocus?.unfocus();
+    });
     super.initState();
   }
 
@@ -44,6 +47,9 @@ class _NewBookstoreReportScreenState extends ConsumerState<NewBookstoreReportScr
       appBar: const BaseAppBar(
         title: AppStrings.newBookstoreReportAppBarTitle,
       ),
+      onTapScreen: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
       child: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16, bottom: 56),
         child: Column(
