@@ -1,3 +1,5 @@
+import 'package:bookand/core/theme/color_table.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -47,18 +49,41 @@ class ProfileCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              InkWell(
-                onTap: isEditMode ? onTapChangeNickname : null,
-                child: Text(
-                  nickname,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 25,
-                    letterSpacing: -0.02,
-                  ),
-                ),
-              ),
+              isEditMode
+                  ? InkWell(
+                      onTap: onTapChangeNickname,
+                      child: DottedBorder(
+                        dashPattern: const [5, 5],
+                        color: lightMainColor,
+                        borderType: BorderType.RRect,
+                        radius: const Radius.circular(8),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: const Color(0x40FFFFFF),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Text(
+                            nickname,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 20,
+                              letterSpacing: -0.02,
+                            ),
+                          ),
+                        ),
+                      ))
+                  : Text(
+                      nickname,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 25,
+                        letterSpacing: -0.02,
+                      ),
+                    ),
+              const SizedBox(height: 3),
               Text(
                 email,
                 style: const TextStyle(
