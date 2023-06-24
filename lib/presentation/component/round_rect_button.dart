@@ -5,6 +5,7 @@ import '../../core/theme/color_table.dart';
 
 class RoundRectButton extends StatelessWidget {
   final String text;
+  final TextStyle? textStyle;
   final double width;
   final double height;
   final Color? backgroundColor;
@@ -14,6 +15,7 @@ class RoundRectButton extends StatelessWidget {
   const RoundRectButton(
       {super.key,
       required this.text,
+      this.textStyle,
       required this.width,
       required this.height,
       this.backgroundColor,
@@ -32,7 +34,7 @@ class RoundRectButton extends StatelessWidget {
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0))),
         child: Text(
           text,
-          style: const TextStyle().roundRectButtonText(enabled: enabled),
+          style: textStyle ?? const TextStyle().roundRectButtonText(enabled: enabled),
         ));
   }
 }
