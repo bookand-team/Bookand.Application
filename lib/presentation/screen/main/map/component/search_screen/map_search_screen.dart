@@ -211,11 +211,6 @@ class _MapSearchScreenState extends ConsumerState<MapSearchScreen> {
                           },
                           onMapCreated: (controller) {
                             mapController = controller;
-                            try {
-                              // double lat = ref.read()
-                              // Future.delayed(Duration(seconds: 1),
-                              // controller.animateCamera(CameraUpdate.newLatLngZoom(, zoom)));
-                            } catch (e) {}
                           },
                           markers: markerSet,
                           initialCameraPosition: initCamera),

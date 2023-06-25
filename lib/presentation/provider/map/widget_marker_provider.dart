@@ -62,17 +62,29 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
 
   Widget _createMarkerText(String data, [bool bigStore = false]) {
     Radius br = const Radius.circular(5);
-    TextStyle style =
-        TextStyle(color: Colors.black, fontSize: bigStore ? 15 : 13);
-    EdgeInsets padding = const EdgeInsets.symmetric(vertical: 3, horizontal: 5);
-    Color color = Colors.white.withOpacity(0.5);
+    EdgeInsets padding = const EdgeInsets.symmetric(vertical: 1, horizontal: 2);
+    Color color = Colors.white;
     return Container(
       padding: padding,
       decoration:
           BoxDecoration(color: color, borderRadius: BorderRadius.all(br)),
       child: Text(
         data,
-        style: style,
+        style: bigStore
+            ? const TextStyle(
+                color: Color(0xFF222222),
+                fontSize: 15,
+                fontFamily: 'Pretendard',
+                fontWeight: FontWeight.w700,
+                letterSpacing: -0.30,
+              )
+            : const TextStyle(
+                color: Color(0xFF222222),
+                fontSize: 13,
+                fontFamily: 'Pretendard',
+                fontWeight: FontWeight.w700,
+                letterSpacing: -0.26,
+              ),
       ),
     );
   }
@@ -81,7 +93,7 @@ class WidgetMarkerNotifer extends _$WidgetMarkerNotifer {
     return SizedBox(
       height: 70,
       child: Column(
-        children: [_hidestore, _createMarkerText(data)],
+        children: [_hidestore, _createMarkerText(data, true)],
       ),
     );
   }
