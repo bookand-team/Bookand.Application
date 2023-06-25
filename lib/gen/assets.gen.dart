@@ -297,6 +297,12 @@ class $AssetsImagesMapGen {
   String get bookstoreTilePosition =>
       'assets/images/map/bookstore_tile_position.svg';
 
+  /// File path: assets/images/map/clsoe_icon.svg
+  String get clsoeIcon => 'assets/images/map/clsoe_icon.svg';
+
+  /// File path: assets/images/map/down_vector_icon.svg
+  String get downVectorIcon => 'assets/images/map/down_vector_icon.svg';
+
   /// File path: assets/images/map/hidestore.svg
   String get hidestore => 'assets/images/map/hidestore.svg';
 
@@ -316,6 +322,8 @@ class $AssetsImagesMapGen {
         bookstoreBig,
         bookstoreNormal,
         bookstoreTilePosition,
+        clsoeIcon,
+        downVectorIcon,
         hidestore,
         hidestoreReset,
         icWarning
