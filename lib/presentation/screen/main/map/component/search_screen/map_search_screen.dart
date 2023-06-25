@@ -16,9 +16,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 //providers
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../../../../component/bookmark_dialog.dart';
 import '../../../../../provider/map/user_location_provider.dart';
 import 'components/book_store_searched_tile.dart';
 import 'components/no_search_text.dart';
@@ -59,6 +61,8 @@ class _MapSearchScreenState extends ConsumerState<MapSearchScreen> {
 
   bool showLocationPub = false;
 
+  bool showEmptyScreen = false;
+
   Widget createSearchBody() {
     //검색 끝나면 검색 화면 제거
     if (!isSearching) {
@@ -73,33 +77,32 @@ class _MapSearchScreenState extends ConsumerState<MapSearchScreen> {
             SizedBox(
               height: MediaQuery.of(context).size.height,
               child: Column(
-                children:
-                    (searchTextCon.text.isNotEmpty && searchingList.isEmpty)
-                        ? [
-                            const Spacer(),
-                            const NoSearchText(),
-                            const Spacer(),
-                            RecommendationButton(
-                              onTap: () {
-                                ref.context.pop('showhide');
-                              },
-                            ),
-                            const SizedBox(
-                              height: 40,
-                            )
-                          ]
-                        : [
-                            Expanded(
-                                child: SingleChildScrollView(
-                              child: Column(
-                                children: searchingList
-                                    .map((e) => BookStoreSearchedTile(
-                                          model: e,
-                                        ))
-                                    .toList(),
-                              ),
-                            )),
-                          ],
+                children: (showEmptyScreen)
+                    ? [
+                        const Spacer(),
+                        const NoSearchText(),
+                        const Spacer(),
+                        RecommendationButton(
+                          onTap: () {
+                            ref.context.pop('showhide');
+                          },
+                        ),
+                        const SizedBox(
+                          height: 40,
+                        )
+                      ]
+                    : [
+                        Expanded(
+                            child: SingleChildScrollView(
+                          child: Column(
+                            children: searchingList
+                                .map((e) => BookStoreSearchedTile(
+                                      model: e,
+                                    ))
+                                .toList(),
+                          ),
+                        )),
+                      ],
               ),
             )
           ],
@@ -141,6 +144,11 @@ class _MapSearchScreenState extends ConsumerState<MapSearchScreen> {
                   onChanged: (value) async {
                     setState(() {
                       searchingList = searchStores(value);
+                      if (searchingList.isNotEmpty) {
+                        setState(() {
+                          showEmptyScreen = false;
+                        });
+                      }
                     });
                   },
                   // 검색 완료 시
@@ -149,8 +157,14 @@ class _MapSearchScreenState extends ConsumerState<MapSearchScreen> {
                       //검색
                       searchedList = searchStores(value);
                       if (searchedList.isEmpty) {
+                        setState(() {
+                          showEmptyScreen = true;
+                        });
                         return;
                       }
+                      setState(() {
+                        showEmptyScreen = false;
+                      });
                       isSearching = false;
                       //마커 출력
                       markerSet = ref
@@ -238,14 +252,33 @@ class _MapSearchScreenState extends ConsumerState<MapSearchScreen> {
                           bottom: buttonHeight + buttonPading,
                           child: GpsButton(
                             onAcitve: () async {
-                              setState(() {
-                                showLocationPub = true;
-                              });
-                              final pos =
-                                  ref.read(userLocationProviderProvider);
-                              mapController?.animateCamera(
-                                  CameraUpdate.newLatLngZoom(
-                                      pos, DEFAULT_ZOOM));
+                              if (await ref
+                                  .read(userLocationProviderProvider.notifier)
+                                  .checkPermissionAndListen()) {
+                                setState(() {
+                                  showLocationPub = true;
+                                });
+                                final pos =
+                                    ref.read(userLocationProviderProvider);
+                                mapController?.animateCamera(
+                                    CameraUpdate.newLatLngZoom(
+                                        pos, DEFAULT_ZOOM));
+                              } else {
+                                await showDialog(
+                                    context: context,
+                                    builder: (context) => BookmarkDialog(
+                                          title: 'Gsp 권한 설정',
+                                          description:
+                                              '해당 기능을 사용하기 위해선 Gps 권한 설정이 필요합니다.',
+                                          leftButtonString: '취소',
+                                          rightButtonString: '설정',
+                                          onLeftButtonTap: () {},
+                                          onRightButtonTap: () {
+                                            Geolocator.openAppSettings();
+                                          },
+                                        ));
+                                throw FlutterError('location permision denied');
+                              }
                             },
                             onDeactive: () {
                               setState(() {

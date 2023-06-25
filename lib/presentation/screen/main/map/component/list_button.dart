@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 // import 'package:flutter/material.dart';
 //providers
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
+
+import '../../../../../gen/assets.gen.dart';
 
 class ListButton extends ConsumerWidget {
   final void Function() onAcitve;
@@ -29,16 +32,21 @@ class ListButton extends ConsumerWidget {
         }
       },
       child: Container(
-        height: size,
-        width: size,
-        decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(1000))),
-        child: Icon(
-          Icons.list,
-          color: selected ? Colors.amber : Colors.black,
-        ),
-      ),
+          height: size,
+          alignment: Alignment.center,
+          width: size,
+          decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(1000))),
+          child: SvgPicture.asset(
+            Assets.images.map.listIcon,
+            width: 24,
+            height: 24,
+            fit: BoxFit.fill,
+            colorFilter: ColorFilter.mode(
+                selected ? const Color(0xffF86C30) : Colors.black,
+                BlendMode.srcIn),
+          )),
     );
   }
 }

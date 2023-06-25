@@ -70,4 +70,13 @@ class UserLocationProvider extends _$UserLocationProvider {
     }
     return true;
   }
+
+  Future<bool> checkPermissionAndListen() async {
+    if (await checkPermission()) {
+      await startTrackLocation();
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

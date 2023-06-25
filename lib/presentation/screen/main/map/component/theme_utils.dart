@@ -10,8 +10,7 @@ enum Themes {
   MOVIE,
   @JsonValue('MUSIC')
   MUSIC,
-  @JsonValue('NONE')
-  NONE,
+
   @JsonValue('PET')
   PET,
   @JsonValue('PICTURE')
@@ -31,8 +30,6 @@ class ThemeUtils {
         return '영화';
       case Themes.MUSIC:
         return '음악';
-      case Themes.NONE:
-        return '없음';
       case Themes.PET:
         return '애완동물';
       case Themes.PICTURE:
@@ -54,8 +51,6 @@ class ThemeUtils {
         return Themes.MOVIE;
       case '음악':
         return Themes.MUSIC;
-      case '없음':
-        return Themes.NONE;
       case '애완동물':
         return Themes.PET;
       case '사진':

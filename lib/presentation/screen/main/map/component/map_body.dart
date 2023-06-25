@@ -15,7 +15,10 @@ import 'package:bookand/presentation/screen/main/map/component/list_button.dart'
 import 'package:bookand/presentation/screen/main/map/component/map_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import '../../../../component/bookmark_dialog.dart';
 
 class MapBody extends ConsumerStatefulWidget {
   const MapBody({Key? key}) : super(key: key);
@@ -104,12 +107,30 @@ class _MapBodyState extends ConsumerState<MapBody> {
               bottom: buttonHeight + buttonPading,
               child: GpsButton(
                 onAcitve: () async {
-                  setState(() {
-                    showLocationPub = true;
-                  });
-                  final pos = ref.read(userLocationProviderProvider);
-                  googleMapController?.animateCamera(
-                      CameraUpdate.newLatLngZoom(pos, DEFAULT_ZOOM));
+                  if (await ref
+                      .read(userLocationProviderProvider.notifier)
+                      .checkPermissionAndListen()) {
+                    setState(() {
+                      showLocationPub = true;
+                    });
+                    final pos = ref.read(userLocationProviderProvider);
+                    googleMapController?.animateCamera(
+                        CameraUpdate.newLatLngZoom(pos, DEFAULT_ZOOM));
+                  } else {
+                    await showDialog(
+                        context: context,
+                        builder: (context) => BookmarkDialog(
+                              title: 'Gsp 권한 설정',
+                              description: '해당 기능을 사용하기 위해선 Gps 권한 설정이 필요합니다.',
+                              leftButtonString: '취소',
+                              rightButtonString: '설정',
+                              onLeftButtonTap: () {},
+                              onRightButtonTap: () {
+                                Geolocator.openAppSettings();
+                              },
+                            ));
+                    throw FlutterError('location permision denied');
+                  }
                 },
                 onDeactive: () {
                   setState(() {
