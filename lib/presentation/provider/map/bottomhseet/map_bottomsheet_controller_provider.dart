@@ -131,7 +131,7 @@ class MapBottomSheetControllerNotifier
     //버튼 높이 조정
     if (bookstoreList.isEmpty) {
       ScaffoldMessenger.of(context)
-          .showSnackBar(createSnackBar(data: '여기엔 서점이 없어요~'));
+          .showSnackBar(createSnackBar(data: '현 위치에 해당하는 서점이 없어요'));
       listToggleCon.deactivate();
       return;
     }
