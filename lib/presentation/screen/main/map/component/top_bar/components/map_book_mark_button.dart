@@ -9,12 +9,10 @@ class MapBookMarkButton extends ConsumerWidget {
   const MapBookMarkButton({Key? key}) : super(key: key);
 
   final double bRauius = 15;
-  final Size size = const Size(60, 28);
-  final double margin = 5;
+  final Size size = const Size(55, 28);
   final double horiPadding = 12;
   final double vertPadding = 5;
   final Color grey = const Color(0xffdddddd);
-  final TextStyle textStyle = const TextStyle(fontSize: 12);
   final Color selectedColor = const Color(0xfff86c30);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -43,17 +41,25 @@ class MapBookMarkButton extends ConsumerWidget {
           }
         },
         child: Container(
-          width: size.width,
+          // width: size.width,
           height: size.height,
+          alignment: Alignment.center,
           padding: EdgeInsets.symmetric(
               vertical: vertPadding, horizontal: horiPadding),
           decoration: BoxDecoration(
               color: Colors.white,
               border: Border.all(color: selected ? selectedColor : grey),
               borderRadius: BorderRadius.all(Radius.circular(bRauius))),
-          child: Text(
+          child: const Text(
             '북마크',
-            style: textStyle.copyWith(color: selected ? selectedColor : null),
+            style: TextStyle(
+              color: Color(0xFF222222),
+              fontSize: 12,
+              fontFamily: 'Pretendard',
+              fontWeight: FontWeight.w400,
+              // height: 18,
+              letterSpacing: -0.24,
+            ),
           ),
         ));
   }
