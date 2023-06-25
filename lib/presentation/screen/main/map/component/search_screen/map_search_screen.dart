@@ -3,28 +3,23 @@
 import 'package:bookand/core/const/map.dart';
 import 'package:bookand/core/widget/base_layout.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
-import 'package:bookand/presentation/component/bookmark_dialog.dart';
 import 'package:bookand/presentation/provider/map/bottomhseet/map_bottomsheet_controller_provider.dart';
 import 'package:bookand/presentation/provider/map/bottomhseet/map_button_height_provider.dart';
 import 'package:bookand/presentation/provider/map/bottomhseet/map_list_toggle.dart';
-import 'package:bookand/presentation/provider/map/geolocator_permission_provider.dart';
-import 'package:bookand/presentation/provider/map/geolocator_position_provider.dart';
 import 'package:bookand/presentation/provider/map/map_bookstores_provider.dart';
 import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
 import 'package:bookand/presentation/screen/main/map/component/gps_button.dart';
 import 'package:bookand/presentation/screen/main/map/component/list_button.dart';
-import 'package:bookand/presentation/screen/main/map/component/map_function_buttons.dart';
 import 'package:bookand/presentation/screen/main/map/component/map_utils.dart';
 import 'package:bookand/presentation/screen/main/map/component/search_screen/components/search_top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 //providers
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-//components
+import '../../../../../provider/map/user_location_provider.dart';
 import 'components/book_store_searched_tile.dart';
 import 'components/no_search_text.dart';
 import 'components/recommendation_button.dart';
@@ -61,6 +56,8 @@ class _MapSearchScreenState extends ConsumerState<MapSearchScreen> {
   Set<Marker> markerSet = {};
 
   GoogleMapController? mapController;
+
+  bool showLocationPub = false;
 
   Widget createSearchBody() {
     //검색 끝나면 검색 화면 제거
@@ -116,6 +113,7 @@ class _MapSearchScreenState extends ConsumerState<MapSearchScreen> {
     double buttonHeight = ref.watch(mapButtonHeightNotifierProvider);
 
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: Colors.white,
         systemNavigationBarColor: Colors.black,
         statusBarIconBrightness: Brightness.dark));
 
@@ -188,6 +186,8 @@ class _MapSearchScreenState extends ConsumerState<MapSearchScreen> {
                   child: Stack(
                     children: [
                       GoogleMap(
+                          myLocationEnabled: showLocationPub,
+                          myLocationButtonEnabled: false,
                           zoomControlsEnabled: false,
                           mapToolbarEnabled: false,
                           onTap: (argument) {
@@ -197,6 +197,11 @@ class _MapSearchScreenState extends ConsumerState<MapSearchScreen> {
                           },
                           onMapCreated: (controller) {
                             mapController = controller;
+                            try {
+                              // double lat = ref.read()
+                              // Future.delayed(Duration(seconds: 1),
+                              // controller.animateCamera(CameraUpdate.newLatLngZoom(, zoom)));
+                            } catch (e) {}
                           },
                           markers: markerSet,
                           initialCameraPosition: initCamera),
@@ -233,54 +238,34 @@ class _MapSearchScreenState extends ConsumerState<MapSearchScreen> {
                           bottom: buttonHeight + buttonPading,
                           child: GpsButton(
                             onAcitve: () async {
-                              bool isGranted = await ref
-                                  .read(geolocaotorPermissionNotifierProvider
-                                      .notifier)
-                                  .getPermission();
-                              if (isGranted) {
-                                ref
-                                    .read(gelolocatorPostionNotifierProvider
-                                        .notifier)
-                                    .addGpsStreamListener((pos) {
-                                  mapController?.moveCamera(
-                                      CameraUpdate.newLatLng(
-                                          LatLng(pos.latitude, pos.longitude)));
-                                });
-                              } else {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => BookmarkDialog(
-                                          title: 'Gsp 권한 설정',
-                                          description:
-                                              '해당 기능을 사용하기 위해선 Gps 권한 설정이 필요합니다.',
-                                          leftButtonString: '취소',
-                                          rightButtonString: '설정',
-                                          onLeftButtonTap: () {},
-                                          onRightButtonTap: () {
-                                            Geolocator.openAppSettings();
-                                          },
-                                        ));
-                              }
+                              setState(() {
+                                showLocationPub = true;
+                              });
+                              final pos =
+                                  ref.read(userLocationProviderProvider);
+                              mapController?.animateCamera(
+                                  CameraUpdate.newLatLngZoom(
+                                      pos, DEFAULT_ZOOM));
                             },
                             onDeactive: () {
-                              ref
-                                  .read(gelolocatorPostionNotifierProvider
-                                      .notifier)
-                                  .cancelGpsStreamListner();
+                              setState(() {
+                                showLocationPub = false;
+                              });
                             },
                           )),
-                      Positioned(
-                        right: buttonPading,
-                        bottom: buttonHeight + buttonPading + 2 * buttonSpace,
-                        child: MapZoomOutButton(
-                          controller: mapController,
-                        ),
-                      ),
-                      Positioned(
-                        right: buttonPading,
-                        bottom: buttonHeight + buttonPading + 3 * buttonSpace,
-                        child: MapZoomInButton(controller: mapController),
-                      ),
+                      //TODO for dev
+                      // Positioned(
+                      //   right: buttonPading,
+                      //   bottom: buttonHeight + buttonPading + 2 * buttonSpace,
+                      //   child: MapZoomOutButton(
+                      //     controller: mapController,
+                      //   ),
+                      // ),
+                      // Positioned(
+                      //   right: buttonPading,
+                      //   bottom: buttonHeight + buttonPading + 3 * buttonSpace,
+                      //   child: MapZoomInButton(controller: mapController),
+                      // ),
                       createSearchBody(),
                     ],
                   ),
@@ -292,6 +277,9 @@ class _MapSearchScreenState extends ConsumerState<MapSearchScreen> {
   }
 
   List<BookStoreMapModel> searchStores(String data) {
+    if (data.isEmpty) {
+      return [];
+    }
     List<BookStoreMapModel> all = ref.read(mapBookStoreNotifierProvider);
     //검색어 포함한 store 거리 순으로 정렬해서 리턴
     List<BookStoreMapModel> searched =

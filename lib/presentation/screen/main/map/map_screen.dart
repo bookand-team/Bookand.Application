@@ -3,9 +3,8 @@
 import 'package:bookand/presentation/component/bookmark_dialog.dart';
 import 'package:bookand/presentation/provider/bookmark/main_ref_provider.dart';
 import 'package:bookand/presentation/provider/map/bools/map_search_bar_toggle.dart';
-import 'package:bookand/presentation/provider/map/geolocator_permission_provider.dart';
-import 'package:bookand/presentation/provider/map/geolocator_position_provider.dart';
 import 'package:bookand/presentation/provider/map/map_bookstores_provider.dart';
+import 'package:bookand/presentation/provider/map/user_location_provider.dart';
 import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
 import 'package:bookand/presentation/screen/main/map/component/map_body.dart';
 import 'package:bookand/presentation/screen/main/map/component/top_bar/map_bar_long.dart';
@@ -75,11 +74,14 @@ class MapScreenState extends ConsumerState<MapScreen> {
 
     //유저 좌표 확인 및 유저와의 거리 추가
     bool isGranted = await safeRef
-        .read(geolocaotorPermissionNotifierProvider.notifier)
-        .getPermission();
+        .read(userLocationProviderProvider.notifier)
+        .checkPermission();
     if (isGranted) {
+      await ref
+          .read(userLocationProviderProvider.notifier)
+          .startTrackLocation();
       final userCoord = await safeRef
-          .read(gelolocatorPostionNotifierProvider.notifier)
+          .read(userLocationProviderProvider.notifier)
           .getCurrentPosition();
       safeRef
           .read(mapBookStoreNotifierProvider.notifier)
