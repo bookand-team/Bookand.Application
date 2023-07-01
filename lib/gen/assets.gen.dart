@@ -106,6 +106,9 @@ class $AssetsImagesBookmarkGen {
   /// File path: assets/images/bookmark/ic_24_bookmarkX.svg
   String get ic24BookmarkX => 'assets/images/bookmark/ic_24_bookmarkX.svg';
 
+  /// File path: assets/images/bookmark/ic_24_check.svg
+  String get ic24Check => 'assets/images/bookmark/ic_24_check.svg';
+
   /// File path: assets/images/bookmark/ic_24_edit.svg
   String get ic24Edit => 'assets/images/bookmark/ic_24_edit.svg';
 
@@ -142,6 +145,7 @@ class $AssetsImagesBookmarkGen {
         ic12Edit,
         ic16BookmarkX,
         ic24BookmarkX,
+        ic24Check,
         ic24Edit,
         ic24FolderX,
         ic24Foldersave,
