@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/widget/base_app_bar.dart';
 import '../../../component/drawer_list_tile.dart';
@@ -55,6 +56,13 @@ class _TermsAndPolicyScreenState extends ConsumerState<TermsAndPolicyScreen> {
                 isOpen: isOpenList[index],
                 child: Markdown(
                   data: policyList[index].content,
+                  onTapLink: (text, url, title) async {
+                    if (url == null) return;
+
+                    if (await canLaunchUrl(Uri.parse(url))) {
+                      await launchUrl(Uri.parse(url));
+                    }
+                  },
                 ),
               );
             },
