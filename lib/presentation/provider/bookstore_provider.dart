@@ -9,6 +9,7 @@ import '../../core/util/logger.dart';
 import '../../data/repository/bookmark_repository_impl.dart';
 import '../../domain/model/article/article_model.dart';
 import '../../domain/model/bookstore/bookstore_detail.dart';
+import '../../domain/model/error_response.dart';
 import '../../domain/usecase/delete_bookmark_use_case.dart';
 
 part 'bookstore_provider.g.dart';
@@ -22,8 +23,10 @@ class BookstoreStateNotifier extends _$BookstoreStateNotifier {
     try {
       state =
           await ref.read(bookstoreRepositoryProvider).getBookstoreDetail(id);
-    } catch (e) {
-      logger.e(e);
+    } on ErrorResponse catch (e, stack) {
+      logger.e('[${e.code}] ${e.message}', e.log, stack);
+    } catch (e, stack) {
+      logger.e(e.toString(), e, stack);
     }
   }
 
