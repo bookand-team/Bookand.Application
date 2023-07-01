@@ -97,6 +97,9 @@ class $AssetsImagesGen {
 class $AssetsImagesBookmarkGen {
   const $AssetsImagesBookmarkGen();
 
+  /// File path: assets/images/bookmark/ic_12_edit.svg
+  String get ic12Edit => 'assets/images/bookmark/ic_12_edit.svg';
+
   /// File path: assets/images/bookmark/ic_16_bookmarkX.svg
   String get ic16BookmarkX => 'assets/images/bookmark/ic_16_bookmarkX.svg';
 
@@ -131,8 +134,12 @@ class $AssetsImagesBookmarkGen {
   /// File path: assets/images/bookmark/ic_folder_add.svg
   String get icFolderAdd => 'assets/images/bookmark/ic_folder_add.svg';
 
+  /// File path: assets/images/bookmark/ic_reset.svg
+  String get icReset => 'assets/images/bookmark/ic_reset.svg';
+
   /// List of all assets
   List<String> get values => [
+        ic12Edit,
         ic16BookmarkX,
         ic24BookmarkX,
         ic24Edit,
@@ -143,7 +150,8 @@ class $AssetsImagesBookmarkGen {
         icAppBarBack,
         icDeleteSnackbarIcon,
         icFolder,
-        icFolderAdd
+        icFolderAdd,
+        icReset
       ];
 }
 

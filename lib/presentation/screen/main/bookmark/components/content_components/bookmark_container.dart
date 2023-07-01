@@ -12,7 +12,7 @@ class BookmarkContainer extends ConsumerStatefulWidget {
   final BookmarkModel model;
   final void Function() onTap;
   final bool settingMode;
-  static Size size = const Size(156, 216);
+  static Size size = const Size(156, 208 + 24);
   const BookmarkContainer(
       {Key? key,
       required this.model,
@@ -61,8 +61,7 @@ class _BookmarkContainerState extends ConsumerState<BookmarkContainer> {
         child: Stack(
           children: [
             Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ClipRRect(
                     borderRadius: imageBr,
@@ -90,12 +89,18 @@ class _BookmarkContainerState extends ConsumerState<BookmarkContainer> {
                     Text(
                       widget.model.title!,
                       textAlign: TextAlign.start,
-                      style: titleStyle,
+                      style: const TextStyle(
+                        color: Color(0xFF222222),
+                        fontSize: 15,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: -0.30,
+                      ),
                     )
                   ],
                 ),
                 const SizedBox(
-                  height: 4,
+                  height: 8,
                 ),
                 (widget.model.location != null &&
                         widget.model.location != 'location')
@@ -103,9 +108,18 @@ class _BookmarkContainerState extends ConsumerState<BookmarkContainer> {
                         children: [
                           SvgPicture.asset(Assets.images.bookstore.icLocation12,
                               width: iconSize.width, height: iconSize.height),
+                          const SizedBox(
+                            width: 4,
+                          ),
                           Text(
                             widget.model.location ?? '',
-                            style: locationStyle,
+                            style: const TextStyle(
+                              color: Color(0xFF666666),
+                              fontSize: 12,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: -0.24,
+                            ),
                           )
                         ],
                       )

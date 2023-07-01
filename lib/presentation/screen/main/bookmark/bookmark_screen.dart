@@ -66,6 +66,7 @@ class _BookmarkScreenState extends ConsumerState<BookmarkScreen>
         BookmarkTop(type: type),
         Expanded(
             child: ListView(
+          shrinkWrap: true,
           controller: scrollController,
           children: [
             FutureBuilder(
@@ -115,7 +116,17 @@ class _BookmarkScreenState extends ConsumerState<BookmarkScreen>
                 } else if (snapshot.hasError) {
                   aniCon.stop();
                   return const Center(
-                    child: Text('error! 다시 시도해주세요'),
+                    child: Text(
+                      'error! 다시 시도해주세요',
+                      style: TextStyle(
+                        color: Color(0xFF222222),
+                        fontSize: 18,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w500,
+                        height: 27,
+                        letterSpacing: -0.36,
+                      ),
+                    ),
                   );
                 } else {
                   aniCon.repeat(reverse: true);

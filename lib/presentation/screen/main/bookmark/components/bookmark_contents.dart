@@ -3,7 +3,6 @@ import 'package:bookand/domain/model/bookmark/bookmark_model.dart';
 import 'package:bookand/gen/assets.gen.dart';
 import 'package:bookand/presentation/provider/bookmark/bookmark_edit_provider.dart';
 import 'package:bookand/presentation/provider/bookmark/bookmark_type_provider.dart';
-import 'package:bookand/presentation/screen/main/bookmark/bookmark_style.dart';
 import 'package:bookand/presentation/screen/main/bookmark/components/content_components/bookmark_container.dart';
 import 'package:bookand/presentation/screen/main/bookmark/components/content_components/edit_sheet_button.dart';
 import 'package:bookand/presentation/screen/main/home/article_screen.dart';
@@ -82,60 +81,59 @@ class BookmarkContents extends ConsumerWidget {
               ],
             ),
           )
-        : SizedBox(
-            height: MediaQuery.of(context).size.height - 100,
-            child: Padding(
-              padding: pagePadding,
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '모아보기',
-                        style: titleStyle,
-                      ),
-                      const EditSheetButton()
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Expanded(
-                    child: GridView.count(
-                      mainAxisSpacing: 0,
-                      crossAxisSpacing: 10,
-                      primary: false,
+        : Padding(
+            padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '모아보기',
+                      style: titleStyle,
+                    ),
+                    const EditSheetButton()
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                GridView.builder(
+                  controller: scrollController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: BookmarkContainer.size.width /
-                          BookmarkContainer.size.height,
-                      children: [
-                        ...bookmarkList.map((e) {
-                          return BookmarkContainer(
-                              key: Key(e.title!),
-                              model: e,
-                              onTap: () {
-                                ref.read(bookmarkTypeNotifierProvider) ==
-                                        BookmarkType.article
-                                    ? context.pushNamed(ArticleScreen.routeName,
-                                        pathParameters: {
-                                            'id': e.bookmarkId.toString(),
-                                            'isFirstScreen': 'false',
-                                          })
-                                    : context.goNamed(
-                                        BookstoreScreen.routeName,
-                                        pathParameters: {
-                                          'id': e.bookmarkId.toString()
-                                        },
-                                      );
-                              },
-                              settingMode: settingMode);
-                        }).toList()
-                      ],
-                    ),
-                  )
-                ],
-              ),
+                          BookmarkContainer.size.height),
+                  shrinkWrap: true,
+                  itemCount: bookmarkList.length,
+                  itemBuilder: (context, index) {
+                    return BookmarkContainer(
+                        model: bookmarkList[index],
+                        onTap: () {
+                          ref.read(bookmarkTypeNotifierProvider) ==
+                                  BookmarkType.article
+                              ? context.pushNamed(ArticleScreen.routeName,
+                                  pathParameters: {
+                                      'id': bookmarkList[index]
+                                          .bookmarkId
+                                          .toString(),
+                                      'isFirstScreen': 'false',
+                                    })
+                              : context.goNamed(
+                                  BookstoreScreen.routeName,
+                                  pathParameters: {
+                                    'id': bookmarkList[index]
+                                        .bookmarkId
+                                        .toString()
+                                  },
+                                );
+                        },
+                        settingMode: settingMode);
+                  },
+                )
+              ],
             ),
           );
   }
