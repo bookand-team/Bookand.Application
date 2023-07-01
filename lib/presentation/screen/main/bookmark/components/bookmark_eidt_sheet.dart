@@ -47,7 +47,7 @@ class BookmarkEidtSheet extends ConsumerWidget {
           context: ref.context,
           builder: (context) {
             return BookmarkDialog(
-              title: '선택한 북마크를 폴더에 저장할까요?',
+              title: '선택한 북마크를\n폴더에 저장할까요?',
               description: null,
               leftButtonString: '아니오',
               rightButtonString: '저장',
@@ -305,7 +305,7 @@ class BookmarkEidtSheet extends ConsumerWidget {
                             title: '북마크를 삭제하시겠어요?',
                             description:
                                 "'모아보기'에서 북마크를 삭제하면\n폴더에 저장된 북마크도 함께 삭제돼요.",
-                            leftButtonString: '삭제할래요',
+                            leftButtonString: '삭제 할래요',
                             rightButtonString: '아니요',
                             rightIsImportant: false,
                             onLeftButtonTap: () {
