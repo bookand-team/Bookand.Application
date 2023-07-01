@@ -27,7 +27,12 @@ class BookmarkEidtSheet extends ConsumerWidget {
 
   final Color backgroundColor = Colors.black;
   final Color contentColor = Colors.white;
-  final TextStyle textStyle = const TextStyle(fontSize: 8, color: Colors.white);
+  final TextStyle textStyle = const TextStyle(
+    color: Colors.white,
+    fontSize: 8,
+    fontFamily: 'Pretendard',
+    fontWeight: FontWeight.w400,
+  );
 
   final double foldrSheetMaximumHeight = 560;
   final double elementHeight = 48;
@@ -80,7 +85,7 @@ class BookmarkEidtSheet extends ConsumerWidget {
         );
       },
       child: SizedBox(
-        height: elementHeight,
+        height: elementHeight + MediaQuery.of(ref.context).viewInsets.bottom,
         child: Row(
           children: [
             const SizedBox(
@@ -174,6 +179,9 @@ class BookmarkEidtSheet extends ConsumerWidget {
                 children: [
                   SvgPicture.asset(
                     Assets.images.bookmark.ic24Up,
+                  ),
+                  const SizedBox(
+                    height: 4,
                   ),
                   Text(
                     '맨 위로',
@@ -276,6 +284,9 @@ class BookmarkEidtSheet extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgPicture.asset(Assets.images.bookmark.ic24Foldersave),
+                  const SizedBox(
+                    height: 4,
+                  ),
                   Text(
                     '폴더에 저장',
                     style: textStyle,
@@ -330,6 +341,9 @@ class BookmarkEidtSheet extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgPicture.asset(Assets.images.bookmark.ic24BookmarkX),
+                  const SizedBox(
+                    height: 4,
+                  ),
                   Text(
                     '북마크 삭제',
                     style: textStyle,
