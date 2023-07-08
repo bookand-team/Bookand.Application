@@ -1,12 +1,16 @@
+import 'dart:io';
+
 import 'package:bookand/core/theme/color_table.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_detail.dart';
 import 'package:bookand/presentation/provider/bookstore_provider.dart';
 import 'package:bookand/presentation/screen/main/home/component/bookstore_app_bar.dart';
 import 'package:bookand/presentation/screen/main/home/component/bookstore_articles_card.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maps_launcher/maps_launcher.dart';
@@ -32,16 +36,13 @@ class BookstoreScreen extends ConsumerStatefulWidget {
 class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
   @override
   void didChangeDependencies() {
-    ref
-        .read(bookstoreStateNotifierProvider.notifier)
-        .fetchBookstoreDetail(int.parse(widget.id));
+    ref.read(bookstoreStateNotifierProvider.notifier).fetchBookstoreDetail(int.parse(widget.id));
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    final bookstoreProvider =
-        ref.watch(bookstoreStateNotifierProvider.notifier);
+    final bookstoreProvider = ref.watch(bookstoreStateNotifierProvider.notifier);
     final bookstoreDetail = ref.watch(bookstoreStateNotifierProvider);
 
     return BaseLayout(
@@ -156,10 +157,22 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
               ),
               const SizedBox(width: 8),
               InkWell(
-                onTap: () {
-                  final address = bookstoreDetail.info?.address;
-                  if (address == null) return;
-                  Clipboard.setData(ClipboardData(text: address));
+                onTap: () async {
+                  ref.read(bookstoreStateNotifierProvider.notifier).copyAddress();
+
+                  if (Platform.isAndroid) {
+                    final androidInfo = await DeviceInfoPlugin().androidInfo;
+                    if (androidInfo.version.sdkInt >= 33) return;
+                  }
+
+                  Fluttertoast.showToast(
+                      msg: "클립보드에 복사되었어요.",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 2,
+                      backgroundColor: const Color(0xFF666666),
+                      textColor: Colors.white,
+                      fontSize: 16.0);
                 },
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -306,8 +319,7 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
               height: 160,
               child: GoogleMap(
                 onTap: (latLon) {
-                  context
-                      .pushNamed(BookstoreMapScreen.routeName, pathParameters: {
+                  context.pushNamed(BookstoreMapScreen.routeName, pathParameters: {
                     'latitude': latLon.latitude.toString(),
                     'longitude': latLon.longitude.toString(),
                   });
@@ -394,11 +406,10 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
                             final articleId = articles?[index].id;
                             if (articleId == null) return;
 
-                            context.pushNamed(ArticleScreen.routeName,
-                                pathParameters: {
-                                  'id': articleId.toString(),
-                                  'isFirstScreen': 'false',
-                                });
+                            context.pushNamed(ArticleScreen.routeName, pathParameters: {
+                              'id': articleId.toString(),
+                              'isFirstScreen': 'false',
+                            });
                           },
                           onTapBookmark: () {
                             onTapBookmark(index);

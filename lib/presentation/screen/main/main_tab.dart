@@ -17,6 +17,7 @@ class MainTab extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final mainTabProvider = ref.watch(mainTabNotifierProvider.notifier);
     final mainTabIndex = ref.watch(mainTabNotifierProvider);
+    const bottomNavIconPadding = EdgeInsets.only(bottom: 4);
 
     Future.delayed(
       const Duration(milliseconds: 500),
@@ -36,9 +37,7 @@ class MainTab extends ConsumerWidget {
         ),
         bottomNavigationBar: Container(
           decoration: const BoxDecoration(
-              border: Border(
-                  top: BorderSide(
-                      color: Color.fromRGBO(0, 0, 0, 0.05), width: 2))),
+              border: Border(top: BorderSide(color: Color.fromRGBO(0, 0, 0, 0.05), width: 2))),
           child: Theme(
             data: ThemeData(
               splashColor: Colors.transparent,
@@ -47,32 +46,49 @@ class MainTab extends ConsumerWidget {
             child: BottomNavigationBar(
               items: [
                 BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                      'assets/images/home/ic_24_bottom_home_inactive.svg'),
+                  icon: Padding(
+                    padding: bottomNavIconPadding,
+                    child: SvgPicture.asset('assets/images/home/ic_24_bottom_home_inactive.svg'),
+                  ),
                   label: AppStrings.home,
-                  activeIcon: SvgPicture.asset(
-                      'assets/images/home/ic_24_bottom_home_active.svg'),
+                  activeIcon: Padding(
+                    padding: bottomNavIconPadding,
+                    child: SvgPicture.asset('assets/images/home/ic_24_bottom_home_active.svg'),
+                  ),
                 ),
                 BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                      'assets/images/home/ic_24_bottom_map_inactive.svg'),
+                  icon: Padding(
+                    padding: bottomNavIconPadding,
+                    child: SvgPicture.asset('assets/images/home/ic_24_bottom_map_inactive.svg'),
+                  ),
                   label: AppStrings.map,
-                  activeIcon: SvgPicture.asset(
-                      'assets/images/home/ic_24_bottom_map_active.svg'),
+                  activeIcon: Padding(
+                    padding: bottomNavIconPadding,
+                    child: SvgPicture.asset('assets/images/home/ic_24_bottom_map_active.svg'),
+                  ),
                 ),
                 BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                      'assets/images/home/ic_24_bottom_bookmark_inactive.svg'),
+                  icon: Padding(
+                    padding: bottomNavIconPadding,
+                    child:
+                        SvgPicture.asset('assets/images/home/ic_24_bottom_bookmark_inactive.svg'),
+                  ),
                   label: AppStrings.bookmark,
-                  activeIcon: SvgPicture.asset(
-                      'assets/images/home/ic_24_bottom_bookmark_active.svg'),
+                  activeIcon: Padding(
+                    padding: bottomNavIconPadding,
+                    child: SvgPicture.asset('assets/images/home/ic_24_bottom_bookmark_active.svg'),
+                  ),
                 ),
                 BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                      'assets/images/home/ic_24_bottom_mypage_inactive.svg'),
+                  icon: Padding(
+                    padding: bottomNavIconPadding,
+                    child: SvgPicture.asset('assets/images/home/ic_24_bottom_mypage_inactive.svg'),
+                  ),
                   label: AppStrings.myPage,
-                  activeIcon: SvgPicture.asset(
-                      'assets/images/home/ic_24_bottom_mypage_active.svg'),
+                  activeIcon: Padding(
+                    padding: bottomNavIconPadding,
+                    child: SvgPicture.asset('assets/images/home/ic_24_bottom_mypage_active.svg'),
+                  ),
                 ),
               ],
               backgroundColor: Colors.white,
@@ -81,8 +97,8 @@ class MainTab extends ConsumerWidget {
               showUnselectedLabels: true,
               unselectedItemColor: const Color(0xFF999999),
               selectedItemColor: Colors.black,
-              unselectedFontSize: 8,
-              selectedFontSize: 8,
+              unselectedFontSize: 10,
+              selectedFontSize: 10,
               onTap: mainTabProvider.changeScreen,
               currentIndex: mainTabIndex,
               elevation: 0,

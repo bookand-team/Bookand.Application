@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../app_strings.dart';
 
-class BaseDialog extends StatelessWidget {
+class CommonDialog extends StatelessWidget {
   final bool isTwoBtn;
   final String negativeBtnText;
   final String positiveBtnText;
@@ -13,7 +13,7 @@ class BaseDialog extends StatelessWidget {
   final EdgeInsets? padding;
   final Widget content;
 
-  const BaseDialog({
+  const CommonDialog({
     Key? key,
     this.isTwoBtn = false,
     this.negativeBtnText = AppStrings.close,
@@ -97,8 +97,23 @@ class BaseDialog extends StatelessWidget {
                   )
                 : ElevatedButton(
                     onPressed: onTapPositiveBtn ?? context.pop,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      foregroundColor: Colors.grey,
+                      surfaceTintColor: Colors.black,
+                      fixedSize: const Size(128, 40),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
                     child: Text(
                       positiveBtnText,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                        letterSpacing: -0.04,
+                      ),
                     ),
                   )
           ],

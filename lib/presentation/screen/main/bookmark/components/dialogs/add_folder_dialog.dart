@@ -19,7 +19,7 @@ class _AddFolderDialogState extends State<AddFolderDialog> {
   final double textFieldHeight = 60;
   final Size clearIconPadding = const Size(2, 8);
 
-  final EdgeInsets dialogPadding = const EdgeInsets.fromLTRB(16, 4, 16, 16);
+  final EdgeInsets dialogPadding = const EdgeInsets.fromLTRB(16, 8, 16, 16);
 
   final Color activeColor = const Color(0xff222222);
   final Color activeTextColor = const Color(0xffffffff);
@@ -43,11 +43,17 @@ class _AddFolderDialogState extends State<AddFolderDialog> {
         mainAxisSize: MainAxisSize.min,
         children: [
           slideIconTop,
-          Text(
+          const Text(
             '새 폴더 추가',
-            style: titleStyel,
+            style: TextStyle(
+              color: Color(0xFF222222),
+              fontSize: 18,
+              fontFamily: 'Pretendard',
+              fontWeight: FontWeight.w500,
+              letterSpacing: -0.36,
+            ),
           ),
-          const SizedBox(height: 12.0),
+          const SizedBox(height: 30),
           SizedBox(
             width: widgetWidth,
             height: textFieldHeight,
@@ -58,6 +64,13 @@ class _AddFolderDialogState extends State<AddFolderDialog> {
                     width: widgetWidth,
                     height: textFieldHeight,
                     child: TextField(
+                      style: const TextStyle(
+                        color: Color(0xFF222222),
+                        fontSize: 20,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: -1,
+                      ),
                       autofocus: true,
                       onChanged: (value) {
                         setState(() {
@@ -74,6 +87,20 @@ class _AddFolderDialogState extends State<AddFolderDialog> {
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: deactiveColor)),
                         hintText: '폴더명 입력',
+                        hintStyle: const TextStyle(
+                          color: Color(0xFFDDDDDD),
+                          fontSize: 20,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: -1,
+                        ),
+                        counterStyle: const TextStyle(
+                          color: Color(0xFFACACAC),
+                          fontSize: 12,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1.20,
+                        ),
                         border: UnderlineInputBorder(
                             borderSide: BorderSide(color: deactiveColor)),
                       ),

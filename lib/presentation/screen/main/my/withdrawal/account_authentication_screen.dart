@@ -1,7 +1,7 @@
 import 'package:bookand/core/const/social_type.dart';
 import 'package:bookand/core/theme/custom_text_style.dart';
 import 'package:bookand/core/widget/base_app_bar.dart';
-import 'package:bookand/core/widget/base_dialog.dart';
+import 'package:bookand/core/widget/common_dialog.dart';
 import 'package:bookand/core/widget/base_layout.dart';
 import 'package:bookand/presentation/component/social_login_button.dart';
 import 'package:bookand/presentation/provider/member_provider.dart';
@@ -96,7 +96,7 @@ class AccountAuthenticationScreen extends ConsumerWidget {
           },
           onError: (e) {
             showDialog(
-                context: ref.context, builder: (_) => BaseDialog(content: Text(e.toString())));
+                context: ref.context, builder: (_) => CommonDialog(content: Text(e.toString())));
           },
         );
   }

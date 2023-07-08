@@ -69,14 +69,7 @@ class MemberStateNotifier extends _$MemberStateNotifier {
           },
           onCancel: () {
             authState.changeState(AuthState.init);
-            switch (socialType) {
-              case SocialType.NONE:
-                onError(AppStrings.loginCancel);
-              case SocialType.GOOGLE:
-                onError(AppStrings.googleLoginCancel);
-              case SocialType.APPLE:
-                onError(AppStrings.appleLoginCancel);
-            }
+            onError(AppStrings.loginCancel);
           },
           onSignUp: () {
             authState.changeState(AuthState.signUp);

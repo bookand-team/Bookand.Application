@@ -1,4 +1,4 @@
-import 'package:bookand/core/widget/base_dialog.dart';
+import 'package:bookand/core/widget/common_dialog.dart';
 import 'package:bookand/domain/model/error_response.dart';
 import 'package:bookand/presentation/screen/main/my/withdrawal/withdrawal_success_screen.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +80,7 @@ class _AccountAuthenticationSuccessScreenState
                   if (e is ErrorResponse) {
                     showDialog(
                       context: context,
-                      builder: (_) => BaseDialog(
+                      builder: (_) => CommonDialog(
                         content: Text(e.message.toString()),
                       ),
                     );
@@ -88,7 +88,7 @@ class _AccountAuthenticationSuccessScreenState
                     logger.e(e);
                     showDialog(
                       context: context,
-                      builder: (_) => BaseDialog(
+                      builder: (_) => CommonDialog(
                         content: Text('탈퇴 진행 중 문제가 발생하였습니다.\n에러: $e'),
                       ),
                     );

@@ -12,7 +12,7 @@ class BookmarkContainer extends ConsumerStatefulWidget {
   final BookmarkModel model;
   final void Function() onTap;
   final bool settingMode;
-  static Size size = const Size(156, 216);
+  static Size size = const Size(156, 208 + 24);
   const BookmarkContainer(
       {Key? key,
       required this.model,
@@ -58,11 +58,10 @@ class _BookmarkContainerState extends ConsumerState<BookmarkContainer> {
       child: SizedBox(
         width: BookmarkContainer.size.width,
         height: BookmarkContainer.size.height,
-        child: Stack(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            Stack(
               children: [
                 ClipRRect(
                     borderRadius: imageBr,
@@ -82,63 +81,78 @@ class _BookmarkContainerState extends ConsumerState<BookmarkContainer> {
                           height: imageSize.height,
                           fit: BoxFit.fill,
                         ))),
-                const SizedBox(
-                  height: 12,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      widget.model.title!,
-                      textAlign: TextAlign.start,
-                      style: titleStyle,
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                (widget.model.location != null &&
-                        widget.model.location != 'location')
-                    ? Row(
-                        children: [
-                          SvgPicture.asset(Assets.images.bookstore.icLocation12,
-                              width: iconSize.width, height: iconSize.height),
-                          Text(
-                            widget.model.location ?? '',
-                            style: locationStyle,
-                          )
-                        ],
-                      )
-                    : const SizedBox()
-              ],
-            ),
-            widget.settingMode
-                ? Positioned(
-                    top: 8,
-                    right: 8,
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        width: 24,
-                        height: 24,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(1000),
-                            color: isSelected
-                                ? const Color(0xffFF540B)
-                                : const Color(0xffDDDDDD)),
-                        child: Center(
-                          child: SvgPicture.asset(
-                            Assets.images.icCheckActive,
-                            width: 18,
-                            colorFilter: const ColorFilter.mode(
-                                Colors.white, BlendMode.srcIn),
-                            height: 18,
+                widget.settingMode
+                    ? Positioned(
+                        top: 8,
+                        right: 8,
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            width: 24,
+                            height: 24,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(1000),
+                                color: isSelected
+                                    ? const Color(0xffFF540B)
+                                    : const Color(0xffDDDDDD).withOpacity(0.8)),
+                            child: Center(
+                              child: SvgPicture.asset(
+                                Assets.images.bookmark.ic24Check,
+                                width: 19.5,
+                                height: 19.5,
+                                colorFilter: const ColorFilter.mode(
+                                    Colors.white, BlendMode.srcIn),
+                              ),
+                            ),
                           ),
                         ),
+                      )
+                    : const SizedBox(),
+              ],
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            Row(
+              children: [
+                Text(
+                  widget.model.title!,
+                  textAlign: TextAlign.start,
+                  style: const TextStyle(
+                    color: Color(0xFF222222),
+                    fontSize: 15,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: -0.30,
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            (widget.model.location != null &&
+                    widget.model.location != 'location')
+                ? Row(
+                    children: [
+                      SvgPicture.asset(Assets.images.bookstore.icLocation12,
+                          width: iconSize.width, height: iconSize.height),
+                      const SizedBox(
+                        width: 4,
                       ),
-                    ),
+                      Text(
+                        widget.model.location ?? '',
+                        style: const TextStyle(
+                          color: Color(0xFF666666),
+                          fontSize: 12,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w400,
+                          letterSpacing: -0.24,
+                        ),
+                      )
+                    ],
                   )
-                : const SizedBox(),
+                : const SizedBox()
           ],
         ),
       ),

@@ -85,7 +85,7 @@ class BookmarkDeleteDialog extends ConsumerWidget {
                           borderRadius: BorderRadius.all(buttonBr)),
                       child: Center(
                         child: Text(
-                          '삭제할래요',
+                          '삭제 할래요',
                           style: contentStyle.copyWith(color: Colors.white),
                         ),
                       ),

@@ -9,8 +9,6 @@ import 'package:bookand/presentation/screen/main/bookmark/components/folder_comp
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../bookmark_style.dart';
-
 class BookmarkFolders extends ConsumerWidget {
   final List<BookmarkFolderModel> folderList;
   const BookmarkFolders({Key? key, required this.folderList}) : super(key: key);
@@ -20,13 +18,14 @@ class BookmarkFolders extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      padding: pagePadding,
+      padding: const EdgeInsets.all(16),
       color: grey,
       width: MediaQuery.of(context).size.width,
       height: height,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             AddFolder(onTap: () {
               showModalBottomSheet(
@@ -51,6 +50,9 @@ class BookmarkFolders extends ConsumerWidget {
                 },
               );
             }),
+            const SizedBox(
+              width: 12,
+            ),
             ...folderList
                 .map((e) => FolderContainer(
                       folderModel: e,

@@ -15,8 +15,6 @@ class FolderContainer extends StatelessWidget {
 
   final Size conSize = const Size(80, 80);
 
-  final EdgeInsets margin = const EdgeInsets.symmetric(horizontal: 5);
-
   final TextStyle titleStyle = const TextStyle(fontSize: 10);
   final Color grey = const Color(0xff999999);
   @override
@@ -31,7 +29,7 @@ class FolderContainer extends StatelessWidget {
       child: Container(
           decoration: BoxDecoration(
               color: Colors.grey.shade200, borderRadius: BorderRadius.all(br)),
-          margin: margin,
+          margin: const EdgeInsets.only(right: 12),
           width: conSize.width,
           height: conSize.height,
           child: Stack(

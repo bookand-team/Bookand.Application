@@ -1,4 +1,5 @@
 import 'package:bookand/domain/repository/auth_repository.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../core/util/logger.dart';
@@ -20,6 +21,10 @@ class LogoutUseCase {
   Future<void> logout() async {
     try {
       await repository.logout();
+      final googleSignIn = GoogleSignIn();
+      if (await googleSignIn.isSignedIn()) {
+        await googleSignIn.signOut();
+      }
     } catch (e) {
       logger.e(e);
     }

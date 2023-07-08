@@ -44,8 +44,13 @@ class BookmarkDialog extends ConsumerWidget {
     this.rightIsImportant = true,
   }) : super(key: key);
 
-  final TextStyle titleStyle = const TextStyle(fontSize: 18);
-  final TextStyle contentStyle = const TextStyle(fontSize: 15);
+  final TextStyle contentStyle = const TextStyle(
+    color: Colors.white,
+    fontSize: 15,
+    fontFamily: 'Pretendard',
+    fontWeight: FontWeight.w500,
+    letterSpacing: -0.60,
+  );
 
   final Radius containerBr = const Radius.circular(18);
   final Radius buttonBr = const Radius.circular(8);
@@ -66,17 +71,20 @@ class BookmarkDialog extends ConsumerWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                  top: 50, right: 30, left: 30, bottom: 20),
+                  top: 48, right: 30, left: 30, bottom: 20),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   if (title != null)
                     Text(
                       title ?? '',
+                      textAlign: TextAlign.center,
                       style: const TextStyle(
-                        color: Color(0xff222222),
+                        color: Color(0xFF222222),
                         fontSize: 18,
-                        fontFamily: "Pretendard",
+                        fontFamily: 'Pretendard',
                         fontWeight: FontWeight.w500,
+                        letterSpacing: -0.36,
                       ),
                     ),
                   const SizedBox(
@@ -87,9 +95,9 @@ class BookmarkDialog extends ConsumerWidget {
                       description ?? '',
                       textAlign: TextAlign.center,
                       style: const TextStyle(
-                        color: Color(0xff999999),
+                        color: Color(0xFF999999),
                         fontSize: 15,
-                        fontFamily: "Pretendard",
+                        fontFamily: 'Pretendard',
                         fontWeight: FontWeight.w500,
                       ),
                     )
