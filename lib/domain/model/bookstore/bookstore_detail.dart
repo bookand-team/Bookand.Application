@@ -99,7 +99,6 @@ class BookstoreInfo {
 
 @JsonSerializable()
 class BookstoreSubImage {
-  @JsonKey(name: 'bookStore')
   final String bookstore;
   final int id;
   final String url;

@@ -62,6 +62,7 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const SizedBox(height: 16),
@@ -342,7 +343,9 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
           const SizedBox(height: 16),
           ElevatedButton(
             onPressed: () {
-              MapsLauncher.launchQuery(info?.address ?? '');
+              final address = info?.address;
+              if (address == null) return;
+              MapsLauncher.launchQuery(address);
             },
             style: ElevatedButton.styleFrom(
               elevation: 0,

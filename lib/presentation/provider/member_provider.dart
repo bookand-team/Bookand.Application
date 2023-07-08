@@ -18,6 +18,7 @@ import '../../core/const/social_type.dart';
 import '../../core/util/common_util.dart';
 import '../../core/util/logger.dart';
 import '../../data/repository/member_repository_impl.dart';
+import '../../domain/model/error_response.dart';
 import '../../domain/model/member/member_model.dart';
 
 part 'member_provider.g.dart';
@@ -74,6 +75,10 @@ class MemberStateNotifier extends _$MemberStateNotifier {
           onSignUp: () {
             authState.changeState(AuthState.signUp);
           });
+    } on ErrorResponse catch (e, stack) {
+      logger.e('[${e.code}] ${e.message}', e.log, stack);
+      authState.changeState(AuthState.init);
+      onError('${AppStrings.loggingInError}\n[${e.code}]');
     } catch (e, stack) {
       logger.e('로그인 에러', e, stack);
       authState.changeState(AuthState.init);

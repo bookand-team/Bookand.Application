@@ -57,8 +57,8 @@ class HomeStateNotifier extends _$HomeStateNotifier {
       cursorId = article.content.last.id;
       isEnd = article.last;
       state = article.content;
-    } catch (e) {
-      logger.e('아티클 불러오기 실패', e);
+    } catch (e, stack) {
+      logger.e('아티클 불러오기 실패', e, stack);
     } finally {
       isLoading = false;
     }
