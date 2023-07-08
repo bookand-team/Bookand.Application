@@ -41,6 +41,8 @@ class _FolderPageState extends ConsumerState<FolderPage> {
 
   final Size menuSize = const Size(224, 45);
 
+  Widget actionButton = const SizedBox();
+
   @override
   void initState() {
     name = widget.name;
@@ -74,25 +76,7 @@ class _FolderPageState extends ConsumerState<FolderPage> {
               fit: BoxFit.scaleDown,
             )),
         actions: [
-          if (modelList.isNotEmpty)
-            PopupMenuButton(
-              constraints: BoxConstraints(minWidth: menuSize.width),
-              surfaceTintColor: Colors.white,
-              position: PopupMenuPosition.under,
-              padding: EdgeInsets.zero,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(12))),
-              shadowColor: Colors.white,
-              color: Colors.white,
-              icon: SvgPicture.asset(
-                Assets.images.bookmark.ic24More,
-                width: 24,
-                height: 24,
-              ),
-              itemBuilder: (menuContext) {
-                return createMenuItem();
-              },
-            ),
+          actionButton,
           const SizedBox(
             width: 16,
           )
@@ -110,6 +94,9 @@ class _FolderPageState extends ConsumerState<FolderPage> {
             }
 
             if (snapshot.hasData) {
+              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                createActionButton(modelList.isEmpty);
+              });
               modelList = snapshot.data as List<BookmarkModel>;
               // 데이터가 있는데 more이 출력되지 않으면 setstate로 출력
               if (!showMore && modelList.isNotEmpty) {
@@ -276,9 +263,32 @@ class _FolderPageState extends ConsumerState<FolderPage> {
     );
   }
 
-  List<PopupMenuEntry> createMenuItem() {
+  void createActionButton(bool listEmpty) {
+    setState(() {
+      actionButton = PopupMenuButton(
+        constraints: BoxConstraints(minWidth: menuSize.width),
+        surfaceTintColor: Colors.white,
+        position: PopupMenuPosition.under,
+        padding: EdgeInsets.zero,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(12))),
+        color: Colors.white,
+        icon: SvgPicture.asset(
+          Assets.images.bookmark.ic24More,
+          width: 24,
+          height: 24,
+        ),
+        itemBuilder: (menuContext) {
+          return createMenuItem(listEmpty);
+        },
+      );
+    });
+  }
+
+  List<PopupMenuEntry> createMenuItem(bool listEmpty) {
     return [
       PopupMenuItem(
+        height: 50,
         onTap: () {
           Future.delayed(
             const Duration(milliseconds: 300),
@@ -313,36 +323,41 @@ class _FolderPageState extends ConsumerState<FolderPage> {
             },
           );
         },
-        child: Center(
+        child: createItemContainer(
+            "폴더명 수정",
+            SvgPicture.asset(
+              Assets.images.bookmark.ic24Edit,
+              width: 24,
+              height: 24,
+            )),
+      ),
+      if (!listEmpty)
+        const CustomPopupMenuDivider(
+          height: 1,
+          color: Color(0xfff5f5f5),
+        ),
+      if (!listEmpty)
+        PopupMenuItem(
+            height: 50,
+            onTap: () {
+              ref.read(bookmarkEditListNotifierProvider.notifier).clear();
+              setState(() {
+                editMode = !editMode;
+              });
+            },
             child: createItemContainer(
-                "폴더명 수정",
+                "북마크 삭제",
                 SvgPicture.asset(
-                  Assets.images.bookmark.ic24Edit,
+                  Assets.images.bookmark.ic16BookmarkX,
                   width: 24,
                   height: 24,
                 ))),
-      ),
       const CustomPopupMenuDivider(
+        height: 1,
         color: Color(0xfff5f5f5),
       ),
       PopupMenuItem(
-          onTap: () {
-            ref.read(bookmarkEditListNotifierProvider.notifier).clear();
-            setState(() {
-              editMode = !editMode;
-            });
-          },
-          child: createItemContainer(
-              "북마크 삭제",
-              SvgPicture.asset(
-                Assets.images.bookmark.ic16BookmarkX,
-                width: 24,
-                height: 24,
-              ))),
-      const CustomPopupMenuDivider(
-        color: Color(0xfff5f5f5),
-      ),
-      PopupMenuItem(
+          height: 50,
           onTap: () async {
             Future.delayed(
               const Duration(milliseconds: 200),
