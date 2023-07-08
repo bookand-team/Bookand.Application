@@ -1,3 +1,4 @@
+import 'package:bookand/gen/assets.gen.dart';
 import 'package:bookand/presentation/provider/map/bools/map_theme_toggle.dart';
 import 'package:bookand/presentation/provider/map/bottomhseet/map_bottomsheet_controller_provider.dart';
 import 'package:bookand/presentation/provider/map/map_theme_provider.dart';
@@ -5,6 +6,7 @@ import 'package:bookand/presentation/screen/main/map/component/theme_utils.dart'
 import 'package:flutter/material.dart';
 //providers
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 //components
 import '../../theme_bottom_sheet/theme_bottom_sheet.dart';
@@ -17,8 +19,8 @@ class ThemeButton extends ConsumerWidget {
   final double horiPadding = 12;
   final double vertPadding = 5;
 
-  final Size size = const Size(55, 28);
-  final double iconSize = 6;
+  final double height = 28;
+  final double iconSize = 12;
 
   final TextStyle textStyle = const TextStyle(fontSize: 12);
 
@@ -60,8 +62,7 @@ class ThemeButton extends ConsumerWidget {
               builder: (context) => const ThemeBottomSheet());
         },
         child: Container(
-          // width: size.width,
-          height: size.height,
+          height: height,
           padding: EdgeInsets.symmetric(
               vertical: vertPadding, horizontal: horiPadding),
           decoration: BoxDecoration(
@@ -70,24 +71,25 @@ class ThemeButton extends ConsumerWidget {
               borderRadius: BorderRadius.all(Radius.circular(bRauius))),
           child: Row(
             children: [
-              Text(
-                getContent(),
-                style:
-                    textStyle.copyWith(color: selected ? selectedColor : null),
+              Text(getContent(),
+                  style: TextStyle(
+                    color: selected ? selectedColor : const Color(0xFF222222),
+                    fontSize: 12,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w400,
+                    // height: 18,
+                    letterSpacing: -0.24,
+                  )),
+              const SizedBox(
+                width: 3,
               ),
               selected
                   ? GestureDetector(
                       onTap: () => themeCon.init(),
-                      child: Icon(
-                        Icons.close,
-                        color: selectedColor,
-                        size: iconSize,
-                      ),
-                    )
-                  : Icon(
-                      Icons.keyboard_arrow_down,
-                      size: iconSize,
-                    )
+                      child: SvgPicture.asset(Assets.images.map.clsoeIcon))
+                  : Container(
+                      padding: const EdgeInsets.only(top: 2),
+                      child: SvgPicture.asset(Assets.images.map.downVectorIcon))
             ],
           ),
         ));

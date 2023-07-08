@@ -121,9 +121,10 @@ class _ThemeBottomSheetState extends ConsumerState<ThemeBottomSheet> {
           color: Colors.white,
           borderRadius: BorderRadius.only(topLeft: bRaidus, topRight: bRaidus)),
       padding: padding,
-      width: 1000,
+      width: MediaQuery.of(context).size.width,
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           slideIcon,
           const SizedBox(

@@ -107,6 +107,7 @@ class BookmarkDialog extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.all(16),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
                     onTap: () {

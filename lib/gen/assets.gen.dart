@@ -309,6 +309,15 @@ class $AssetsImagesMapGen {
   String get bookstoreTilePosition =>
       'assets/images/map/bookstore_tile_position.svg';
 
+  /// File path: assets/images/map/clsoe_icon.svg
+  String get clsoeIcon => 'assets/images/map/clsoe_icon.svg';
+
+  /// File path: assets/images/map/down_vector_icon.svg
+  String get downVectorIcon => 'assets/images/map/down_vector_icon.svg';
+
+  /// File path: assets/images/map/gps_icon.svg
+  String get gpsIcon => 'assets/images/map/gps_icon.svg';
+
   /// File path: assets/images/map/hidestore.svg
   String get hidestore => 'assets/images/map/hidestore.svg';
 
@@ -319,6 +328,9 @@ class $AssetsImagesMapGen {
   AssetGenImage get icWarning =>
       const AssetGenImage('assets/images/map/ic_warning.png');
 
+  /// File path: assets/images/map/list_icon.svg
+  String get listIcon => 'assets/images/map/list_icon.svg';
+
   /// List of all assets
   List<dynamic> get values => [
         bookSearchedTest,
@@ -328,9 +340,13 @@ class $AssetsImagesMapGen {
         bookstoreBig,
         bookstoreNormal,
         bookstoreTilePosition,
+        clsoeIcon,
+        downVectorIcon,
+        gpsIcon,
         hidestore,
         hidestoreReset,
-        icWarning
+        icWarning,
+        listIcon
       ];
 }
 
