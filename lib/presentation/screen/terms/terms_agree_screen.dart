@@ -1,4 +1,4 @@
-import 'package:bookand/core/widget/base_dialog.dart';
+import 'package:bookand/core/widget/common_dialog.dart';
 import 'package:bookand/core/theme/custom_text_style.dart';
 import 'package:bookand/presentation/provider/auth_provider.dart';
 import 'package:bookand/presentation/provider/member_provider.dart';
@@ -116,7 +116,7 @@ class TermsAgreeScreen extends ConsumerWidget {
                         if (policyModel == null) {
                           showDialog(
                             context: context,
-                            builder: (_) => const BaseDialog(
+                            builder: (_) => const CommonDialog(
                               content: Text(AppStrings.termsLoadError),
                             ),
                           );
@@ -152,7 +152,7 @@ class TermsAgreeScreen extends ConsumerWidget {
                   memberProvider.signUp().onError((e, _) {
                     showDialog(
                         context: context,
-                        builder: (_) => BaseDialog(
+                        builder: (_) => CommonDialog(
                             content: Text('${AppStrings.signInError}\n에러: ${e.toString()}')));
                   });
                 },

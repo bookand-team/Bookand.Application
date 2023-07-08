@@ -1,6 +1,6 @@
 import 'package:bookand/core/extensions/string_extension.dart';
 import 'package:bookand/core/theme/color_table.dart';
-import 'package:bookand/core/widget/base_dialog.dart';
+import 'package:bookand/core/widget/common_dialog.dart';
 import 'package:bookand/presentation/provider/error_report_provider.dart';
 import 'package:bookand/presentation/screen/main/my/thank_you_opinion_screen.dart';
 import 'package:flutter/material.dart';
@@ -305,7 +305,7 @@ class ErrorReportScreen extends ConsumerWidget {
                       }, onError: (msg) {
                         showDialog(
                           context: context,
-                          builder: (_) => BaseDialog(content: Text(msg)),
+                          builder: (_) => CommonDialog(content: Text(msg)),
                         );
                       });
                     }),

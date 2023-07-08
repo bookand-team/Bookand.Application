@@ -11,9 +11,7 @@ class AppStrings {
   static const defaultDropdownHint = '선택해주세요';
   static const googleSocial = 'Google로 로그인';
   static const appleSocial = 'Apple로 로그인';
-  static const loginCancel = '로그인이 취소되었습니다.';
-  static const googleLoginCancel = '구글 로그인이 취소되었습니다.';
-  static const appleLoginCancel = '애플 로그인이 취소되었습니다.';
+  static const loginCancel = '로그인을 취소하였습니다.';
   static const loginError = '로그인 에러';
   static const loggingInError = '로그인 중 문제가 발생하였습니다.';
   static const signInError = '회원가입 중 문제가 발생하였습니다.';

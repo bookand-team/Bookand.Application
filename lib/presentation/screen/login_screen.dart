@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:bookand/core/widget/base_dialog.dart';
+import 'package:bookand/core/theme/color_table.dart';
+import 'package:bookand/core/widget/common_dialog.dart';
 import 'package:bookand/core/theme/custom_text_style.dart';
 import 'package:bookand/presentation/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
@@ -61,8 +62,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           onError: (errMsg) {
                             showDialog(
                               context: context,
-                              builder: (_) => BaseDialog(
-                                content: Text(errMsg),
+                              builder: (_) => CommonDialog(
+                                content: Text(
+                                  errMsg,
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500,
+                                      color: lightColorFF222222,
+                                      letterSpacing: -0.02),
+                                ),
                               ),
                             );
                           },
@@ -79,8 +87,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       onError: (errMsg) {
                         showDialog(
                           context: context,
-                          builder: (_) => BaseDialog(
-                            content: Text(errMsg),
+                          builder: (_) => CommonDialog(
+                            content: Text(
+                              errMsg,
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  color: lightColorFF222222,
+                                  letterSpacing: -0.02),
+                            ),
                           ),
                         );
                       },

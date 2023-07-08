@@ -1,5 +1,5 @@
 import 'package:bookand/core/widget/base_app_bar.dart';
-import 'package:bookand/core/widget/base_dialog.dart';
+import 'package:bookand/core/widget/common_dialog.dart';
 import 'package:bookand/core/widget/base_layout.dart';
 import 'package:bookand/presentation/provider/auth_provider.dart';
 import 'package:bookand/presentation/provider/member_provider.dart';
@@ -124,7 +124,7 @@ class AccountManagementScreen extends ConsumerWidget {
 
   void showLogoutDialog(WidgetRef ref) => showDialog(
         context: ref.context,
-        builder: (_) => BaseDialog(
+        builder: (_) => CommonDialog(
           isTwoBtn: true,
           negativeBtnText: AppStrings.cancel,
           onTapPositiveBtn: () {
