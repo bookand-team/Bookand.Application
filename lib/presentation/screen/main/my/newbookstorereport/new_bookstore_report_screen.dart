@@ -1,4 +1,4 @@
-import 'package:bookand/core/widget/base_dialog.dart';
+import 'package:bookand/core/widget/common_dialog.dart';
 import 'package:bookand/domain/model/kakao/search_keyword_response.dart';
 import 'package:bookand/domain/usecase/bookstore_report_use_case.dart';
 import 'package:bookand/presentation/provider/new_bookstore_report_provider.dart';
@@ -189,7 +189,7 @@ class _NewBookstoreReportScreenState extends ConsumerState<NewBookstoreReportScr
                   showDialog(
                     context: context,
                     builder: (context) {
-                      return BaseDialog(content: Text(e.toString()));
+                      return CommonDialog(content: Text(e.toString()));
                     },
                   );
                 });

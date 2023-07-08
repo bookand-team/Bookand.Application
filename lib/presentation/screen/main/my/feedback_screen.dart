@@ -1,4 +1,4 @@
-import 'package:bookand/core/widget/base_dialog.dart';
+import 'package:bookand/core/widget/common_dialog.dart';
 import 'package:bookand/presentation/component/custom_dropdown.dart';
 import 'package:bookand/presentation/screen/main/my/thank_you_opinion_screen.dart';
 import 'package:flutter/material.dart';
@@ -142,7 +142,7 @@ class FeedbackScreen extends ConsumerWidget {
                       onError: () {
                         showDialog(
                           context: context,
-                          builder: (_) => const BaseDialog(
+                          builder: (_) => const CommonDialog(
                             content: Text(AppStrings.feedbackSendError),
                           ),
                         );

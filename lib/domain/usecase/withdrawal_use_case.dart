@@ -1,3 +1,4 @@
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../core/const/revoke_type.dart';
@@ -24,6 +25,10 @@ class WithdrawalUseCase {
     String? reason,
   }) async {
     try {
+      final googleSignIn = GoogleSignIn();
+      if (await googleSignIn.isSignedIn()) {
+        await googleSignIn.signOut();
+      }
       await repository.revoke(socialAccessToken, revokeType, reason);
     } catch (_) {
       rethrow;

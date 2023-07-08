@@ -1,4 +1,4 @@
-import 'package:bookand/core/widget/base_dialog.dart';
+import 'package:bookand/core/widget/common_dialog.dart';
 import 'package:bookand/core/widget/base_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,7 +33,7 @@ class _UpdateGuideScreenState extends State<UpdateGuideScreen> {
   void showUpdateDialog() {
     showDialog(
       context: context,
-      builder: (_) => BaseDialog(
+      builder: (_) => CommonDialog(
         isTwoBtn: true,
         negativeBtnText: '종료',
         positiveBtnText: '업데이트',
