@@ -1,13 +1,16 @@
 import 'package:bookand/core/const/feedback_target.dart';
 import 'package:bookand/data/repository/feedback_repository_impl.dart';
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../core/const/feedback_type.dart';
+import '../../core/const/platform_type.dart';
 import '../../core/util/logger.dart';
 import '../../domain/model/feedback_model.dart';
 
 part 'feedback_provider.freezed.dart';
+
 part 'feedback_provider.g.dart';
 
 @freezed
@@ -23,7 +26,14 @@ class FeedbackNotifier extends _$FeedbackNotifier {
   bool isLoading = false;
 
   @override
-  FeedbackState build() => const FeedbackState(feedback: FeedbackModel(), isLoading: false);
+  FeedbackState build() {
+    final deviceOS = switch (defaultTargetPlatform) {
+      TargetPlatform.android => PlatformType.android,
+      TargetPlatform.iOS => PlatformType.ios,
+      _ => PlatformType.none
+    };
+    return FeedbackState(feedback: FeedbackModel(deviceOS: deviceOS), isLoading: false);
+  }
 
   void changeFeedbackType(FeedbackType? feedbackType) {
     final feedback = state.feedback.copyWith(
