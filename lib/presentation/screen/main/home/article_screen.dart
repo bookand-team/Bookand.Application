@@ -1,4 +1,5 @@
 import 'package:bookand/core/app_strings.dart';
+import 'package:bookand/core/util/common_util.dart';
 import 'package:bookand/presentation/provider/article_provider.dart';
 import 'package:bookand/presentation/screen/main/home/component/article_app_bar.dart';
 import 'package:bookand/presentation/screen/main/home/component/bookstore_card.dart';
@@ -14,13 +15,13 @@ import 'bookstore_screen.dart';
 
 class ArticleScreen extends ConsumerStatefulWidget {
   static String get routeName => 'article';
-  final String id;
-  final String isFirstScreen;
+  final String? id;
+  final String? showCloseButton;
 
   const ArticleScreen({
     super.key,
     required this.id,
-    required this.isFirstScreen,
+    required this.showCloseButton,
   });
 
   @override
@@ -30,7 +31,10 @@ class ArticleScreen extends ConsumerStatefulWidget {
 class _ArticleScreenState extends ConsumerState<ArticleScreen> {
   @override
   void didChangeDependencies() {
-    ref.read(articleStateNotifierProvider.notifier).fetchArticleDetail(int.parse(widget.id));
+    final id = widget.id;
+    if (id != null) {
+      ref.read(articleStateNotifierProvider.notifier).fetchArticleDetail(int.parse(id));
+    }
     super.didChangeDependencies();
   }
 
@@ -49,10 +53,11 @@ class _ArticleScreenState extends ConsumerState<ArticleScreen> {
             duration: const Duration(milliseconds: 200),
             onTapBookmark: () => articleProvider.updateArticleBookmark(),
             onTapShare: () {
-              // TODO: 임시
-              Share.share('공유하기 테스트');
+              final shareText =
+                  "${articleDetail.title}\n${CommonUtil.createDeeplink(query: 'route=${ArticleScreen.routeName}&id=${articleDetail.id}')}";
+              Share.share(shareText);
             },
-            showCloseBtn: widget.isFirstScreen != 'true',
+            showCloseBtn: widget.showCloseButton == 'true',
           ),
           _articleBody(articleDetail.content ?? ''),
           _articleFooter(
@@ -62,7 +67,8 @@ class _ArticleScreenState extends ConsumerState<ArticleScreen> {
               final bookstoreId = articleDetail.bookstoreList?[index].id;
               if (bookstoreId == null) return;
 
-              context.pushNamed(BookstoreScreen.routeName, pathParameters: {'id': bookstoreId.toString()});
+              context.pushNamed(BookstoreScreen.routeName,
+                  pathParameters: {'id': bookstoreId.toString()});
             },
           ),
         ],

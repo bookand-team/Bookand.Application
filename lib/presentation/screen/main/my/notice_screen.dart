@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 import '../../../../core/app_strings.dart';
 
 class NoticeScreen extends ConsumerStatefulWidget {
-  static String get routeName => 'noticeScreen';
+  static String get routeName => 'notice';
 
   const NoticeScreen({Key? key}) : super(key: key);
 

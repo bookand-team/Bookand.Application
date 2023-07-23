@@ -14,7 +14,7 @@ import '../../../component/round_rect_button.dart';
 import '../../../provider/feedback_provider.dart';
 
 class FeedbackScreen extends ConsumerWidget {
-  static String get routeName => 'feedbackScreen';
+  static String get routeName => 'feedback';
 
   const FeedbackScreen({Key? key}) : super(key: key);
 

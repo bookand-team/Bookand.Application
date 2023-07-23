@@ -10,7 +10,7 @@ import '../../../component/round_rect_button.dart';
 import '../../../provider/main_tab_provider.dart';
 
 class ThankYouOpinionScreen extends ConsumerWidget {
-  static String get routeName => 'ThankYouOpinionScreen';
+  static String get routeName => 'thankYouOpinion';
 
   const ThankYouOpinionScreen({Key? key}) : super(key: key);
 

@@ -11,7 +11,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../../core/app_strings.dart';
 
 class WithdrawalCheckScreen extends ConsumerWidget {
-  static String get routeName => 'withdrawalCheckScreen';
+  static String get routeName => 'withdrawalCheck';
 
   const WithdrawalCheckScreen({Key? key}) : super(key: key);
 

@@ -11,7 +11,7 @@ import '../../../../core/widget/base_app_bar.dart';
 import '../../../component/drawer_list_tile.dart';
 
 class TermsAndPolicyScreen extends ConsumerStatefulWidget {
-  static String get routeName => 'termsAndPolicyScreen';
+  static String get routeName => 'termsAndPolicy';
 
   const TermsAndPolicyScreen({Key? key}) : super(key: key);
 

@@ -23,8 +23,8 @@ class FolderPage extends ConsumerStatefulWidget {
   final String id;
   final String name;
   static const routeName = 'folderPage';
-  const FolderPage({Key? key, required this.id, required this.name})
-      : super(key: key);
+
+  const FolderPage({Key? key, required this.id, required this.name}) : super(key: key);
 
   @override
   ConsumerState<FolderPage> createState() => _FolderPageState();
@@ -113,8 +113,8 @@ class _FolderPageState extends ConsumerState<FolderPage> {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: GridView.count(
-                      childAspectRatio: BookmarkContainer.size.width /
-                          BookmarkContainer.size.height,
+                      childAspectRatio:
+                          BookmarkContainer.size.width / BookmarkContainer.size.height,
                       mainAxisSpacing: 0,
                       crossAxisSpacing: 10,
                       crossAxisCount: 2,
@@ -123,17 +123,12 @@ class _FolderPageState extends ConsumerState<FolderPage> {
                               key: Key(e.title!),
                               model: e,
                               onTap: () {
-                                ref.read(bookmarkTypeNotifierProvider) ==
-                                        BookmarkType.article
+                                ref.read(bookmarkTypeNotifierProvider) == BookmarkType.article
                                     ? context.pushNamed(ArticleScreen.routeName,
-                                        pathParameters: {
-                                            'id': e.bookmarkId.toString(),
-                                            'isFirstScreen': 'false',
-                                          })
+                                        pathParameters: {'id': e.bookmarkId.toString()},
+                                        queryParameters: {'showCloseButton': 'true'})
                                     : context.goNamed(BookstoreScreen.routeName,
-                                        pathParameters: {
-                                            'id': e.bookmarkId.toString()
-                                          });
+                                        pathParameters: {'id': e.bookmarkId.toString()});
                               },
                               settingMode: editMode))
                           .toList()),
@@ -189,27 +184,19 @@ class _FolderPageState extends ConsumerState<FolderPage> {
                   //북마크 삭제
                   GestureDetector(
                     onTap: () {
-                      bool isArticle = ref.read(bookmarkTypeNotifierProvider) ==
-                          BookmarkType.article;
-                      final selectedList =
-                          ref.read(bookmarkEditListNotifierProvider);
+                      bool isArticle =
+                          ref.read(bookmarkTypeNotifierProvider) == BookmarkType.article;
+                      final selectedList = ref.read(bookmarkEditListNotifierProvider);
                       isArticle
-                          ? ref
-                              .read(bookmarkUsecaseProvider)
-                              .delBookmarkArticleFolderContent(
-                                  folderId: int.parse(widget.id),
-                                  contentsIdList: selectedList)
-                          : ref
-                              .read(bookmarkUsecaseProvider)
-                              .delBookmarkStoreFolderContent(
-                                  folderId: int.parse(widget.id),
-                                  contentsIdList: selectedList);
+                          ? ref.read(bookmarkUsecaseProvider).delBookmarkArticleFolderContent(
+                              folderId: int.parse(widget.id), contentsIdList: selectedList)
+                          : ref.read(bookmarkUsecaseProvider).delBookmarkStoreFolderContent(
+                              folderId: int.parse(widget.id), contentsIdList: selectedList);
                       setState(() {
                         //TODO for in 조사 후 수정
                         // ignore: avoid_function_literals_in_foreach_calls
                         selectedList.forEach((id) {
-                          modelList.removeWhere(
-                              (element) => element.bookmarkId == id);
+                          modelList.removeWhere((element) => element.bookmarkId == id);
                         });
                         editMode = false;
                       });
@@ -270,8 +257,7 @@ class _FolderPageState extends ConsumerState<FolderPage> {
         surfaceTintColor: Colors.white,
         position: PopupMenuPosition.under,
         padding: EdgeInsets.zero,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(12))),
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
         color: Colors.white,
         icon: SvgPicture.asset(
           Assets.images.bookmark.ic24More,
@@ -304,16 +290,14 @@ class _FolderPageState extends ConsumerState<FolderPage> {
                       setState(() {
                         name = newName;
                       });
-                      bool isArticle = ref.read(bookmarkTypeNotifierProvider) ==
-                          BookmarkType.article;
+                      bool isArticle =
+                          ref.read(bookmarkTypeNotifierProvider) == BookmarkType.article;
                       isArticle
                           ? ref
-                              .read(bookmarkArticleFoldersNotifierProvider
-                                  .notifier)
+                              .read(bookmarkArticleFoldersNotifierProvider.notifier)
                               .updateName(int.parse(widget.id), newName)
                           : ref
-                              .read(
-                                  bookmarkStoreFoldersNotifierProvider.notifier)
+                              .read(bookmarkStoreFoldersNotifierProvider.notifier)
                               .updateName(int.parse(widget.id), newName);
 
                       showConfirmSnackBar(sheetContext, '폴더 이름이 수정되었습니다.');
@@ -371,25 +355,20 @@ class _FolderPageState extends ConsumerState<FolderPage> {
                     rightButtonString: '아니요',
                     rightIsImportant: false,
                     onLeftButtonTap: () {
-                      bool isArticle = ref.read(bookmarkTypeNotifierProvider) ==
-                          BookmarkType.article;
+                      bool isArticle =
+                          ref.read(bookmarkTypeNotifierProvider) == BookmarkType.article;
                       isArticle
                           ? ref
-                              .read(bookmarkArticleFoldersNotifierProvider
-                                  .notifier)
+                              .read(bookmarkArticleFoldersNotifierProvider.notifier)
                               .delete(int.parse(widget.id))
                           : ref
-                              .read(
-                                  bookmarkStoreFoldersNotifierProvider.notifier)
+                              .read(bookmarkStoreFoldersNotifierProvider.notifier)
                               .delete(int.parse(widget.id));
                       Future.delayed(
                         const Duration(milliseconds: 200),
                         () {
                           showConfirmSnackBar(
-                              ref
-                                  .read(mainContextNotifierProvider)
-                                  .currentState!
-                                  .context,
+                              ref.read(mainContextNotifierProvider).currentState!.context,
                               '폴더가 삭제되었습니다.');
                         },
                       );
@@ -448,8 +427,7 @@ class CustomPopupMenuDivider extends PopupMenuEntry<Never> {
   /// Creates a horizontal divider for a popup menu.
   ///
   /// By default, the divider has a height of 16 logical pixels.
-  const CustomPopupMenuDivider(
-      {super.key, this.height = 16, required this.color});
+  const CustomPopupMenuDivider({super.key, this.height = 16, required this.color});
 
   /// The height of the divider entry.
   ///

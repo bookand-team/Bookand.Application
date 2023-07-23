@@ -9,7 +9,7 @@ import '../../../../../core/widget/base_app_bar.dart';
 import '../../../../../core/widget/base_layout.dart';
 
 class WithdrawalSuccessScreen extends ConsumerWidget {
-  static String get routeName => 'withdrawalSuccessScreen';
+  static String get routeName => 'withdrawalSuccess';
 
   const WithdrawalSuccessScreen({Key? key}) : super(key: key);
 

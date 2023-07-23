@@ -1,3 +1,4 @@
+import 'package:bookand/presentation/screen/deeplink_screen.dart';
 import 'package:bookand/presentation/screen/main/bookmark/components/folder_page/folder_page.dart';
 import 'package:bookand/presentation/screen/main/home/bookstore_map_screen.dart';
 import 'package:bookand/presentation/screen/main/map/component/search_screen/map_search_screen.dart';
@@ -40,6 +41,10 @@ part 'router_provider.g.dart';
 class GoRouterStateNotifier extends _$GoRouterStateNotifier {
   late List<GoRoute> routes = [
     GoRoute(
+        path: '/deeplink',
+        name: DeeplinkScreen.routeName,
+        builder: (_, state) => DeeplinkScreen(queryParameters: state.queryParameters)),
+    GoRoute(
         path: '/update',
         name: UpdateGuideScreen.routeName,
         builder: (_, __) => const UpdateGuideScreen()),
@@ -74,11 +79,11 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
 
   late List<RouteBase> mainTabRoutes = [
     GoRoute(
-        path: 'article/:id/:isFirstScreen',
+        path: 'article/:id',
         name: ArticleScreen.routeName,
         builder: (_, state) => ArticleScreen(
-              id: state.pathParameters['id']!,
-              isFirstScreen: state.pathParameters['isFirstScreen']!,
+              id: state.pathParameters['id'],
+              showCloseButton: state.queryParameters['showCloseButton'],
             )),
     GoRoute(
         path: 'bookstore/:id',
@@ -197,10 +202,9 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
 
     if (authState == AuthState.signIn) {
       final isLoginScreen = goRouterState.location.startsWith('/login');
-      final isSplashScreen = goRouterState.location == '/splash';
       final isWelcomeScreen = goRouterState.location == '/welcome';
 
-      if (isLoginScreen || isSplashScreen || isWelcomeScreen) {
+      if (isLoginScreen || isWelcomeScreen) {
         return '/';
       } else {
         return null;

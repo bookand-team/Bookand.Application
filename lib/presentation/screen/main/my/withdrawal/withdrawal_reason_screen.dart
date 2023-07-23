@@ -15,7 +15,7 @@ import '../../../../../core/app_strings.dart';
 import '../../../../component/round_rect_button.dart';
 
 class WithdrawalReasonScreen extends ConsumerStatefulWidget {
-  static String get routeName => 'withdrawalReasonScreen';
+  static String get routeName => 'withdrawalReason';
 
   const WithdrawalReasonScreen({Key? key}) : super(key: key);
 

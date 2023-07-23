@@ -16,7 +16,7 @@ import '../../../component/custom_switch.dart';
 import '../../../component/round_rect_button.dart';
 
 class ErrorReportScreen extends ConsumerWidget {
-  static String get routeName => 'ErrorReportScreen';
+  static String get routeName => 'errorReport';
 
   const ErrorReportScreen({Key? key}) : super(key: key);
 

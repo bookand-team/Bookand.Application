@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:bookand/core/theme/color_table.dart';
+import 'package:bookand/core/util/common_util.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_detail.dart';
 import 'package:bookand/presentation/provider/bookstore_provider.dart';
 import 'package:bookand/presentation/screen/main/home/component/bookstore_app_bar.dart';
 import 'package:bookand/presentation/screen/main/home/component/bookstore_articles_card.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -54,8 +54,9 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
             duration: const Duration(milliseconds: 200),
             imageUrl: bookstoreDetail.mainImage ?? '',
             onTapShare: () {
-              // TODO: 임시
-              Share.share('공유하기 테스트');
+              final shareText =
+                  "${bookstoreDetail.name}\n${CommonUtil.createDeeplink(query: 'route=${BookstoreScreen.routeName}&id=${bookstoreDetail.id}')}";
+              Share.share(shareText);
             },
           ),
           SliverToBoxAdapter(
@@ -409,10 +410,9 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
                             final articleId = articles?[index].id;
                             if (articleId == null) return;
 
-                            context.pushNamed(ArticleScreen.routeName, pathParameters: {
-                              'id': articleId.toString(),
-                              'isFirstScreen': 'false',
-                            });
+                            context.pushNamed(ArticleScreen.routeName,
+                                pathParameters: {'id': articleId.toString()},
+                                queryParameters: {'showCloseButton': 'true'});
                           },
                           onTapBookmark: () {
                             onTapBookmark(index);
