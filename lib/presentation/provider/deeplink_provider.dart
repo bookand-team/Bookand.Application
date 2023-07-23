@@ -16,11 +16,10 @@ class DeeplinkProvider extends _$DeeplinkProvider {
   @override
   MemberModel build() => MemberModel();
 
-  void fetchMemberInfo({required Function onSuccess}) async {
+  Future<void> fetchMemberInfo() async {
     try {
       state = await memberRepository.getMe();
       authState.changeState(AuthState.signIn);
-      onSuccess();
     } catch (e, stack) {
       logger.e('사용자 정보를 불러올 수 없음', e, stack);
       authState.changeState(AuthState.init);

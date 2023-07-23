@@ -22,9 +22,9 @@ class DeeplinkScreen extends ConsumerStatefulWidget {
 class _DeeplinkScreenState extends ConsumerState<DeeplinkScreen> {
   @override
   void initState() {
-    ref.read(deeplinkProviderProvider.notifier).fetchMemberInfo(onSuccess: () {
-      FlutterNativeSplash.remove();
+    ref.read(deeplinkProviderProvider.notifier).fetchMemberInfo().then((_) {
       navigate();
+      FlutterNativeSplash.remove();
     });
     super.initState();
   }
