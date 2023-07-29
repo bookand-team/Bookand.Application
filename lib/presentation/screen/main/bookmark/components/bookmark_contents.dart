@@ -17,11 +17,9 @@ class BookmarkContents extends ConsumerWidget {
   final BookmarkType type;
   final List<BookmarkModel> bookmarkList;
   final ScrollController scrollController;
+
   const BookmarkContents(
-      {Key? key,
-      required this.type,
-      required this.bookmarkList,
-      required this.scrollController})
+      {Key? key, required this.type, required this.bookmarkList, required this.scrollController})
       : super(key: key);
 
   final TextStyle titleStyle = const TextStyle(
@@ -46,6 +44,7 @@ class BookmarkContents extends ConsumerWidget {
   final Size warningSize = const Size(36, 36);
 
   final warningPath = 'assets/images/map/ic_warning.png';
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     bool settingMode = ref.watch(bookmarkEditNotifierProvider);
@@ -104,30 +103,21 @@ class BookmarkContents extends ConsumerWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: BookmarkContainer.size.width /
-                          BookmarkContainer.size.height),
+                      childAspectRatio:
+                          BookmarkContainer.size.width / BookmarkContainer.size.height),
                   shrinkWrap: true,
                   itemCount: bookmarkList.length,
                   itemBuilder: (context, index) {
                     return BookmarkContainer(
                         model: bookmarkList[index],
                         onTap: () {
-                          ref.read(bookmarkTypeNotifierProvider) ==
-                                  BookmarkType.article
+                          ref.read(bookmarkTypeNotifierProvider) == BookmarkType.article
                               ? context.pushNamed(ArticleScreen.routeName,
-                                  pathParameters: {
-                                      'id': bookmarkList[index]
-                                          .bookmarkId
-                                          .toString(),
-                                      'isFirstScreen': 'false',
-                                    })
+                                  pathParameters: {'id': bookmarkList[index].bookmarkId.toString()},
+                                  queryParameters: {'showCloseButton': 'true'})
                               : context.goNamed(
                                   BookstoreScreen.routeName,
-                                  pathParameters: {
-                                    'id': bookmarkList[index]
-                                        .bookmarkId
-                                        .toString()
-                                  },
+                                  pathParameters: {'id': bookmarkList[index].bookmarkId.toString()},
                                 );
                         },
                         settingMode: settingMode);

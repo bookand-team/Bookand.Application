@@ -15,7 +15,7 @@ import '../../../../provider/member_provider.dart';
 import '../../../../provider/withdrawal_reason_provider.dart';
 
 class AccountAuthenticationSuccessScreen extends ConsumerStatefulWidget {
-  static String get routeName => 'accountAuthenticationSuccessScreen';
+  static String get routeName => 'accountAuthenticationSuccess';
 
   final String socialAccessToken;
 

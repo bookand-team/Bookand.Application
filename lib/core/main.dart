@@ -4,6 +4,7 @@ import 'package:bookand/presentation/provider/router_provider.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,9 +27,7 @@ void main() async {
       return stack;
     };
     runApp(const ProviderScope(child: App()));
-  },
-      (error, stack) =>
-          FirebaseCrashlytics.instance.recordError(error, stack, fatal: true));
+  }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack, fatal: true));
 }
 
 class App extends ConsumerWidget {
@@ -49,9 +48,14 @@ class App extends ConsumerWidget {
               title: AppStrings.appName,
               theme: lightThemeData,
               darkTheme: darkThemeData,
+              supportedLocales: const [Locale('ko', 'KR')],
+              localizationsDelegates: const [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
               builder: (context, child) => MediaQuery(
-                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-                  child: child!),
+                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0), child: child!),
             ));
   }
 }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class UpdateGuideScreen extends StatefulWidget {
-  static String get routeName => 'updateGuideScreen';
+  static String get routeName => 'updateGuide';
 
   const UpdateGuideScreen({Key? key}) : super(key: key);
 

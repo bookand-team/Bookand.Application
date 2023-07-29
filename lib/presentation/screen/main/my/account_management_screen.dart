@@ -12,7 +12,7 @@ import '../../../../core/app_strings.dart';
 import '../../../../core/const/auth_state.dart';
 
 class AccountManagementScreen extends ConsumerWidget {
-  static String get routeName => 'accountManagementScreen';
+  static String get routeName => 'accountManagement';
 
   const AccountManagementScreen({super.key});
 

@@ -14,7 +14,7 @@ import '../../../../component/round_rect_button.dart';
 import 'new_bookstore_report_success.dart';
 
 class NewBookstoreReportScreen extends ConsumerStatefulWidget {
-  static String get routeName => 'newBookstoreReportScreen';
+  static String get routeName => 'newBookstoreReport';
 
   const NewBookstoreReportScreen({Key? key}) : super(key: key);
 

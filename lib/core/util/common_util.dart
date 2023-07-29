@@ -29,10 +29,7 @@ class CommonUtil {
     required double maxLat,
     required double maxLon,
   }) {
-    if (targetLat >= minLat &&
-        targetLat <= maxLat &&
-        targetLon >= minLon &&
-        targetLon <= maxLon) {
+    if (targetLat >= minLat && targetLat <= maxLat && targetLon >= minLon && targetLon <= maxLon) {
       return true;
     } else {
       return false;
@@ -82,5 +79,9 @@ class CommonUtil {
       data = distance ~/ 1000;
     }
     return '$data$type';
+  }
+
+  static String createDeeplink({String? query}) {
+    return "http://bookand.co.kr/deeplink?$query";
   }
 }

@@ -100,5 +100,15 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>FlutterDeepLinkingEnabled</key>
+    <true/>
+    <key>CFBundleDevelopmentRegion</key>
+    <array>
+        <string>ko-KR</string>
+    </array>
+    <key>CFBundleLocalizations</key>
+    <array>
+        <string>ko-KR</string>
+    </array>
 </dict>
 </plist>

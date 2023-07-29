@@ -25,8 +25,8 @@ class NoticeStateNotifier extends _$NoticeStateNotifier {
       cursorId = noticeModel.content.last.id;
       isEnd = noticeModel.last;
       state = noticeModel.content;
-    } catch (e) {
-      logger.e(e);
+    } catch (e, stack) {
+      logger.e('공지사항 불러오기 실패', e, stack);
     } finally {
       isLoading = false;
     }

@@ -14,7 +14,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../../core/app_strings.dart';
 
 class AccountAuthenticationScreen extends ConsumerWidget {
-  static String get routeName => 'accountAuthenticationScreen';
+  static String get routeName => 'accountAuthentication';
 
   const AccountAuthenticationScreen({Key? key}) : super(key: key);
 
