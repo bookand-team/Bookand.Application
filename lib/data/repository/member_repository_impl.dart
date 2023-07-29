@@ -69,10 +69,10 @@ class MemberRepositoryImpl implements MemberRepository {
   }
 
   @override
-  Future<MemberModel> updateMemberProfile(String profileImage, String nickname) async {
+  Future<void> updateMemberProfile(String profileImage, String nickname) async {
     try {
       final accessToken = await tokenLocalDataSource.getAccessToken();
-      return await memberRemoteDataSource.updateMemberProfile(accessToken, profileImage, nickname);
+      await memberRemoteDataSource.updateMemberProfile(accessToken, profileImage, nickname);
     } on Response catch (e) {
       throw ErrorResponse.fromJson(Utf8Util.utf8JsonDecode(e.bodyString));
     } catch (_) {

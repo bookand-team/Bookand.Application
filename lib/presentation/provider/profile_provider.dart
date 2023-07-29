@@ -1,15 +1,21 @@
 import 'dart:io';
 
+import 'package:bookand/data/repository/member_repository_impl.dart';
 import 'package:bookand/domain/usecase/get_random_nickname_use_case.dart';
 import 'package:bookand/domain/usecase/update_member_profile_use_case.dart';
 import 'package:bookand/presentation/provider/member_provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../core/util/logger.dart';
+
 part 'profile_provider.g.dart';
 
 @riverpod
 class ProfileStateNotifier extends _$ProfileStateNotifier {
+  late final updateMemberProfileUseCase = ref.read(updateMemberProfileUseCaseProvider);
+  late final memberRepository = ref.read(memberRepositoryProvider);
+
   @override
   ProfileCardState build() => ProfileCardState(editMode: false);
 
@@ -17,12 +23,16 @@ class ProfileStateNotifier extends _$ProfileStateNotifier {
     state = state.copyWith(editMode: !state.editMode);
   }
 
-  void onTapComplete() async {
-    final memberModel = await ref
-        .read(updateMemberProfileUseCaseProvider)
-        .updateMemberProfile(state.previewImageFile, state.previewNickname);
-    state = ProfileCardState(editMode: false);
-    ref.read(memberStateNotifierProvider.notifier).state = memberModel;
+  void onTapComplete({required Function(String) onError}) async {
+    try {
+      await updateMemberProfileUseCase.updateMemberProfile(
+          state.previewImageFile, state.previewNickname);
+      state = ProfileCardState(editMode: false);
+      ref.read(memberStateNotifierProvider.notifier).state = await memberRepository.getMe();
+    } catch (e, stack) {
+      logger.e('사용자 정보 업데이트 중 문제 발생', e, stack);
+      onError('사용자 정보 수정 중 문제가 발생하였습니다.\n잠시 후 다시 시도해주세요.');
+    }
   }
 
   void onTapImgUpdate() async {
