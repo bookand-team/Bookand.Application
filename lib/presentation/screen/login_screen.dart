@@ -1,13 +1,19 @@
 import 'dart:io';
 
+import 'package:bookand/core/const/remote_config_key.dart';
 import 'package:bookand/core/theme/color_table.dart';
-import 'package:bookand/core/widget/common_dialog.dart';
 import 'package:bookand/core/theme/custom_text_style.dart';
+import 'package:bookand/core/util/common_util.dart';
+import 'package:bookand/core/util/logger.dart';
+import 'package:bookand/core/widget/common_dialog.dart';
 import 'package:bookand/presentation/provider/auth_provider.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../core/app_strings.dart';
 import '../../core/const/auth_state.dart';
@@ -27,10 +33,26 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
+  Future<bool> checkUpdate() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    final serverVersion = FirebaseRemoteConfig.instance.getString(RemoteConfigKey.serverVersion);
+
+    logger.i('앱 버전: ${packageInfo.version}\n서버 버전: $serverVersion');
+
+    return CommonUtil.checkRequiredUpdate(packageInfo.version, serverVersion);
+  }
+
   @override
   void initState() {
-    ref.read(memberStateNotifierProvider.notifier).fetchMemberInfo();
     ref.read(getPolicyUseCaseProvider).fetchAllPolicy();
+    checkUpdate().then((shouldRequireUpdate) {
+      if (shouldRequireUpdate) {
+        ref.read(authStateNotifierProvider.notifier).changeState(AuthState.update);
+      } else {
+        ref.read(memberStateNotifierProvider.notifier).fetchMemberInfo();
+      }
+      FlutterNativeSplash.remove();
+    });
     super.initState();
   }
 

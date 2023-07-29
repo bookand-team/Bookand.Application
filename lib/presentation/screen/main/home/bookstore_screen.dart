@@ -7,7 +7,6 @@ import 'package:bookand/presentation/screen/main/home/component/bookstore_app_ba
 import 'package:bookand/presentation/screen/main/home/component/bookstore_articles_card.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';

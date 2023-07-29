@@ -6,7 +6,7 @@ abstract interface class MemberRepository {
 
   Future<String> getRandomNickname();
 
-  Future<MemberModel> updateMemberProfile(String profileImage, String nickname);
+  Future<void> updateMemberProfile(String profileImage, String nickname);
 
   Future<String> revoke(String socialAccessToken, RevokeType revokeType, String? reason);
 }

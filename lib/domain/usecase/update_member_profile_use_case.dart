@@ -5,8 +5,6 @@ import 'package:bookand/domain/repository/member_repository.dart';
 import 'package:bookand/domain/usecase/upload_files_use_case.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../model/member/member_model.dart';
-
 part 'update_member_profile_use_case.g.dart';
 
 @riverpod
@@ -26,7 +24,7 @@ class UpdateMemberProfileUseCase {
     this.uploadFilesUseCase,
   );
 
-  Future<MemberModel> updateMemberProfile(File? imageFile, String? nickname) async {
+  Future<void> updateMemberProfile(File? imageFile, String? nickname) async {
     var member = await memberRepository.getMe();
     String? imageUrl;
 
@@ -35,7 +33,7 @@ class UpdateMemberProfileUseCase {
       imageUrl = files.first.fileUrl;
     }
 
-    return await memberRepository.updateMemberProfile(
+    await memberRepository.updateMemberProfile(
       imageUrl ?? (member.profileImage),
       nickname ?? member.nickname,
     );

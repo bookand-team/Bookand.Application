@@ -7,7 +7,7 @@ abstract interface class MemberRemoteDataSource {
 
   Future<String> getRandomNickname();
 
-  Future<MemberModel> updateMemberProfile(
+  Future<void> updateMemberProfile(
     String accessToken,
     String profileImage,
     String nickname,

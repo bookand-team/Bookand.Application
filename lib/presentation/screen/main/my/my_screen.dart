@@ -17,6 +17,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/app_strings.dart';
 import '../../../../core/widget/base_layout.dart';
 import '../../../../core/util/logger.dart';
+import '../../../../core/widget/common_dialog.dart';
 import '../../../component/menu_item.dart';
 import 'feedback_screen.dart';
 
@@ -65,7 +66,16 @@ class MyScreen extends ConsumerWidget {
                 }),
                 onTapEdit: profileProvider.editToggle,
                 onTapReset: profileProvider.onTapReset,
-                onTapComplete: profileProvider.onTapComplete,
+                onTapComplete: () {
+                  profileProvider.onTapComplete(onError: (message) {
+                    showDialog(
+                      context: context,
+                      builder: (_) => CommonDialog(
+                        content: Text(message),
+                      ),
+                    );
+                  });
+                },
                 onTapImgUpdate: profileProvider.onTapImgUpdate,
                 onTapChangeNickname: profileProvider.onTapChangeNickname,
               ),

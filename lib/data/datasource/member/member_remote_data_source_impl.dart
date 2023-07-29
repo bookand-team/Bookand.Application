@@ -59,7 +59,7 @@ class MemberRemoteDataSourceImpl implements MemberRemoteDataSource {
   }
 
   @override
-  Future<MemberModel> updateMemberProfile(
+  Future<void> updateMemberProfile(
     String accessToken,
     String profileImage,
     String nickname,
@@ -67,9 +67,7 @@ class MemberRemoteDataSourceImpl implements MemberRemoteDataSource {
     final memberProfileUpdate = MemberProfileUpdate(profileImage, nickname);
     final resp = await service.updateMemberProfile(accessToken, memberProfileUpdate.toJson());
 
-    if (resp.isSuccessful) {
-      return MemberModel.fromJson(Utf8Util.utf8JsonDecode(resp.bodyString));
-    } else {
+    if (!resp.isSuccessful) {
       throw resp;
     }
   }
