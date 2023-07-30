@@ -1,3 +1,4 @@
+import 'package:bookand/core/theme/color_table.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -76,17 +77,17 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>> {
         ),
       ),
       dropdownStyleData: DropdownStyleData(
-        width: MediaQuery.of(context).size.width - 32,
-        padding: EdgeInsets.zero,
-        decoration: BoxDecoration(
-          border: Border.all(color: const Color(0xFF222222)),
-          borderRadius: const BorderRadius.only(
-            bottomLeft: Radius.circular(8),
-            bottomRight: Radius.circular(8),
+          width: MediaQuery.of(context).size.width - 32,
+          padding: EdgeInsets.zero,
+          decoration: BoxDecoration(
+            border: Border.all(color: lightColorFF222222),
+            borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(8),
+              bottomRight: Radius.circular(8),
+            ),
           ),
-        ),
-        elevation: 0,
-      ),
+          elevation: 0,
+          offset: const Offset(0, 2)),
       menuItemStyleData: MenuItemStyleData(
         customHeights: List.generate(
           addDividerAfterItems().length,
