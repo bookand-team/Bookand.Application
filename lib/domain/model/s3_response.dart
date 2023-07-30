@@ -16,9 +16,9 @@ class S3Response {
 @JsonSerializable()
 class FileResponse {
   final String fileUrl;
-  final String filename;
+  final String fileName;
 
-  FileResponse(this.fileUrl, this.filename);
+  FileResponse(this.fileUrl, this.fileName);
 
   factory FileResponse.fromJson(Map<String, dynamic> json) => _$FileResponseFromJson(json);
 
