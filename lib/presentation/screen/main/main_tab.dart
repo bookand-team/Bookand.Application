@@ -1,5 +1,6 @@
 import 'package:bookand/presentation/provider/bookmark/main_context_provider.dart';
 import 'package:bookand/presentation/provider/bookmark/main_ref_provider.dart';
+import 'package:bookand/presentation/provider/bookstore_manager.dart';
 import 'package:bookand/presentation/provider/main_tab_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,6 +16,9 @@ class MainTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // managers init
+    ref.read(bookStoreManagerProvider.notifier).init();
+
     final mainTabProvider = ref.watch(mainTabNotifierProvider.notifier);
     final mainTabIndex = ref.watch(mainTabNotifierProvider);
     const bottomNavIconPadding = EdgeInsets.only(bottom: 4);
@@ -37,7 +41,9 @@ class MainTab extends ConsumerWidget {
         ),
         bottomNavigationBar: Container(
           decoration: const BoxDecoration(
-              border: Border(top: BorderSide(color: Color.fromRGBO(0, 0, 0, 0.05), width: 2))),
+              border: Border(
+                  top: BorderSide(
+                      color: Color.fromRGBO(0, 0, 0, 0.05), width: 2))),
           child: Theme(
             data: ThemeData(
               splashColor: Colors.transparent,
@@ -48,46 +54,53 @@ class MainTab extends ConsumerWidget {
                 BottomNavigationBarItem(
                   icon: Padding(
                     padding: bottomNavIconPadding,
-                    child: SvgPicture.asset('assets/images/home/ic_24_bottom_home_inactive.svg'),
+                    child: SvgPicture.asset(
+                        'assets/images/home/ic_24_bottom_home_inactive.svg'),
                   ),
                   label: AppStrings.home,
                   activeIcon: Padding(
                     padding: bottomNavIconPadding,
-                    child: SvgPicture.asset('assets/images/home/ic_24_bottom_home_active.svg'),
+                    child: SvgPicture.asset(
+                        'assets/images/home/ic_24_bottom_home_active.svg'),
                   ),
                 ),
                 BottomNavigationBarItem(
                   icon: Padding(
                     padding: bottomNavIconPadding,
-                    child: SvgPicture.asset('assets/images/home/ic_24_bottom_map_inactive.svg'),
+                    child: SvgPicture.asset(
+                        'assets/images/home/ic_24_bottom_map_inactive.svg'),
                   ),
                   label: AppStrings.map,
                   activeIcon: Padding(
                     padding: bottomNavIconPadding,
-                    child: SvgPicture.asset('assets/images/home/ic_24_bottom_map_active.svg'),
+                    child: SvgPicture.asset(
+                        'assets/images/home/ic_24_bottom_map_active.svg'),
                   ),
                 ),
                 BottomNavigationBarItem(
                   icon: Padding(
                     padding: bottomNavIconPadding,
-                    child:
-                        SvgPicture.asset('assets/images/home/ic_24_bottom_bookmark_inactive.svg'),
+                    child: SvgPicture.asset(
+                        'assets/images/home/ic_24_bottom_bookmark_inactive.svg'),
                   ),
                   label: AppStrings.bookmark,
                   activeIcon: Padding(
                     padding: bottomNavIconPadding,
-                    child: SvgPicture.asset('assets/images/home/ic_24_bottom_bookmark_active.svg'),
+                    child: SvgPicture.asset(
+                        'assets/images/home/ic_24_bottom_bookmark_active.svg'),
                   ),
                 ),
                 BottomNavigationBarItem(
                   icon: Padding(
                     padding: bottomNavIconPadding,
-                    child: SvgPicture.asset('assets/images/home/ic_24_bottom_mypage_inactive.svg'),
+                    child: SvgPicture.asset(
+                        'assets/images/home/ic_24_bottom_mypage_inactive.svg'),
                   ),
                   label: AppStrings.myPage,
                   activeIcon: Padding(
                     padding: bottomNavIconPadding,
-                    child: SvgPicture.asset('assets/images/home/ic_24_bottom_mypage_active.svg'),
+                    child: SvgPicture.asset(
+                        'assets/images/home/ic_24_bottom_mypage_active.svg'),
                   ),
                 ),
               ],
