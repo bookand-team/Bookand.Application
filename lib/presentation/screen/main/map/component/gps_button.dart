@@ -5,41 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 // import 'package:bookand/presentation/provider/map/map_marker_provider.dart';
 
-class GpsButton extends StatefulWidget {
-  final Future Function() onAcitve;
-  final void Function() onDeactive;
-  const GpsButton(
-      {super.key, required this.onAcitve, required this.onDeactive});
-  @override
-  State<GpsButton> createState() => _GpsButtonState();
-}
+class GpsButton extends StatelessWidget {
+  final void Function() onTap;
+  final bool selected;
+  const GpsButton({super.key, required this.onTap, required this.selected});
 
-class _GpsButtonState extends State<GpsButton> {
-  bool selected = false;
   final double size = 32;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () async {
-        //활성화 시
-        if (!selected) {
-          try {
-            await widget.onAcitve();
-            setState(() {
-              selected = true;
-            });
-          } catch (e) {
-            setState(() {
-              selected = false;
-            });
-          }
-        } else {
-          setState(() {
-            selected = false;
-          });
-          widget.onDeactive();
-        }
-      },
+      onTap: onTap,
       child: Container(
           height: size,
           width: size,

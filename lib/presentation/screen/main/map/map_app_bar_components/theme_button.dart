@@ -1,18 +1,18 @@
 import 'package:bookand/gen/assets.gen.dart';
-import 'package:bookand/presentation/provider/map/bools/map_theme_toggle.dart';
-import 'package:bookand/presentation/provider/map/bottomhseet/map_bottomsheet_controller_provider.dart';
-import 'package:bookand/presentation/provider/map/map_theme_provider.dart';
 import 'package:bookand/presentation/screen/main/map/component/theme_utils.dart';
 import 'package:flutter/material.dart';
-//providers
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-//components
-import '../../theme_bottom_sheet/theme_bottom_sheet.dart';
-
-class ThemeButton extends ConsumerWidget {
-  const ThemeButton({Key? key}) : super(key: key);
+class ThemeButton extends StatelessWidget {
+  final void Function() onTap;
+  final void Function() onClear;
+  final List<Themes> selectedThemes;
+  const ThemeButton(
+      {Key? key,
+      required this.selectedThemes,
+      required this.onTap,
+      required this.onClear})
+      : super(key: key);
 
   final double bRauius = 15;
   final double margin = 5;
@@ -28,17 +28,12 @@ class ThemeButton extends ConsumerWidget {
   final Color selectedColor = const Color(0xfff86c30);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final List<Themes> selectedThemes = ref.watch(mapThemeNotifierProvider);
-    final themeCon = ref.read(mapThemeNotifierProvider.notifier);
-    final bool buttonSelected = ref.watch(themeToggleNotifierProvider);
-    final buttonSelectCon = ref.watch(themeToggleNotifierProvider.notifier);
-    final bool themeSelected = selectedThemes.isNotEmpty;
-    final bool selected = buttonSelected || themeSelected;
+  Widget build(BuildContext context) {
+    final bool selected = selectedThemes.isNotEmpty;
     String getContent() {
       String data = '테마';
       //체크한 테마가 하나이상이면
-      if (themeSelected) {
+      if (selected) {
         int len = selectedThemes.length;
         //선택한 게 하나면
         if (len == 1) {
@@ -53,14 +48,7 @@ class ThemeButton extends ConsumerWidget {
     }
 
     return GestureDetector(
-        onTap: () {
-          ref.read(mapBottomSheetControllerProvider.notifier).close();
-          buttonSelectCon.activate();
-          showModalBottomSheet(
-              backgroundColor: Colors.white,
-              context: context,
-              builder: (context) => const ThemeBottomSheet());
-        },
+        onTap: onTap,
         child: Container(
           height: height,
           padding: EdgeInsets.symmetric(
@@ -85,7 +73,7 @@ class ThemeButton extends ConsumerWidget {
               ),
               selected
                   ? GestureDetector(
-                      onTap: () => themeCon.init(),
+                      onTap: () => onClear(),
                       child: SvgPicture.asset(Assets.images.map.clsoeIcon))
                   : Container(
                       padding: const EdgeInsets.only(top: 2),

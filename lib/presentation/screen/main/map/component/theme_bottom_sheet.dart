@@ -1,22 +1,21 @@
 import 'package:bookand/core/widget/slide_icon.dart';
-import 'package:bookand/presentation/provider/map/bools/map_theme_toggle.dart';
-import 'package:bookand/presentation/provider/map/map_bookstores_provider.dart';
-import 'package:bookand/presentation/provider/map/map_theme_provider.dart';
-import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
 import 'package:bookand/presentation/screen/main/map/component/theme_utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class ThemeBottomSheet extends ConsumerStatefulWidget {
-  const ThemeBottomSheet({Key? key}) : super(key: key);
+class ThemeBottomSheet extends StatefulWidget {
+  final List<Themes> selectedThemes;
+  final void Function(List<Themes> selectedThemes) onApply;
+  const ThemeBottomSheet(
+      {Key? key, required this.selectedThemes, required this.onApply})
+      : super(key: key);
 
   @override
-  ConsumerState<ThemeBottomSheet> createState() => _ThemeBottomSheetState();
+  State<ThemeBottomSheet> createState() => _ThemeBottomSheetState();
 }
 
-class _ThemeBottomSheetState extends ConsumerState<ThemeBottomSheet> {
+class _ThemeBottomSheetState extends State<ThemeBottomSheet> {
   final EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 15);
   final Radius bRaidus = const Radius.circular(24);
   final Radius chipBRaidus = const Radius.circular(4);
@@ -44,25 +43,11 @@ class _ThemeBottomSheetState extends ConsumerState<ThemeBottomSheet> {
   final buttonRaidus = const Radius.circular(8);
 
   List<Themes> selectedList = [];
-  //
-  late ThemeToggleNotifier buttonSelectCon;
-  late MapThemeNotifier themeCon;
   bool active = false;
   @override
   void initState() {
-    buttonSelectCon = ref.read(themeToggleNotifierProvider.notifier);
-    selectedList = List.from(ref.read(mapThemeNotifierProvider));
-    themeCon = ref.read(mapThemeNotifierProvider.notifier);
+    selectedList = widget.selectedThemes;
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    //위젯이 사라질 때 button selection은 deactivate, theme 선택한 게 있으면 그걸로 활성화 여부 판별
-    Future.delayed(
-        const Duration(milliseconds: 100), () => buttonSelectCon.deactivate());
-
-    super.dispose();
   }
 
   void toggleTheme(Themes theme) {
@@ -79,7 +64,6 @@ class _ThemeBottomSheetState extends ConsumerState<ThemeBottomSheet> {
 
   void initThemes() {
     setState(() {
-      // selectedList = ref.read(mapThemeNotifierProvider);
       selectedList = [];
       active = !isDifferent();
     });
@@ -106,8 +90,7 @@ class _ThemeBottomSheetState extends ConsumerState<ThemeBottomSheet> {
 
   bool isDifferent() {
     List<int> listOne = selectedList.map((e) => e.index).toList();
-    List<int> listTwo =
-        ref.read(mapThemeNotifierProvider).map((e) => e.index).toList();
+    List<int> listTwo = [];
 
     return listEquals(listOne, listTwo);
   }
@@ -191,15 +174,7 @@ class _ThemeBottomSheetState extends ConsumerState<ThemeBottomSheet> {
           GestureDetector(
             onTap: () {
               if (active) {
-                themeCon.setFromList(selectedList);
-                //북스토어 패치
-                ref
-                    .read(mapBookStoreNotifierProvider.notifier)
-                    .filteredBookstores();
-                //마커 변경
-                ref
-                    .read(widgetMarkerNotiferProvider.notifier)
-                    .setBookstoreMarker(ref.read(mapBookStoreNotifierProvider));
+                widget.onApply(selectedList);
 
                 context.pop();
               }

@@ -14,6 +14,13 @@ Widget slideIcon = Container(
   width: _slideIconSize.width,
   height: _slideIconSize.height,
 );
+Widget slideIconWithNoMargin = Container(
+  decoration: const BoxDecoration(
+      color: _slideIconColor,
+      borderRadius: BorderRadius.all(Radius.circular(1000))),
+  width: _slideIconSize.width,
+  height: _slideIconSize.height,
+);
 Widget slideIconTop = Container(
   decoration: const BoxDecoration(
       color: _slideIconColor,
