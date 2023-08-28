@@ -75,9 +75,12 @@ class _MapScreenState extends ConsumerState<MapSearchedScreen> {
   double minHeight = 0;
   double maxHeight = 0;
 
+  // 리스트, 마커 탭 시 패널 조정할 컨트롤러
+  PanelController panelController = PanelController();
+
   @override
   void initState() {
-    storeList = widget.searchedList;
+    storeList = List.from(widget.searchedList);
     markers = getInitMarkers(storeList, BookStoreMarkerType.basic);
 
     // 유저 위치
@@ -130,12 +133,16 @@ class _MapScreenState extends ConsumerState<MapSearchedScreen> {
           children: [
             // appbar 를 바텀리스트 위에 출력하기 위해 새로운 빌더로 생성
             SlidingUpPanel(
+              controller: panelController,
               borderRadius: bottomSheetbr,
               boxShadow: [],
               minHeight: minHeight,
               // 스테이터스 바는 padding값이네?
               maxHeight: maxHeight,
               onPanelSlide: (position) {
+                if (storeList.length == 1) {
+                  return;
+                }
                 double height = maxHeight - minHeight + 18 + 18;
                 setState(() {
                   buttonHeight = (height) * position + height;
@@ -228,6 +235,9 @@ class _MapScreenState extends ConsumerState<MapSearchedScreen> {
                     ListButton(
                       status: listStatus,
                       onTap: () {
+                        if (panelController.isAttached) {
+                          panelController.close();
+                        }
                         // 꺼지면 storeList 비우기, 패널 드래그 못하게
                         if (listStatus) {
                           minHeight = 40;
@@ -236,7 +246,7 @@ class _MapScreenState extends ConsumerState<MapSearchedScreen> {
                           listStatus = false;
                         } else {
                           // 켜지면 storelist 원래 받은 리스트, 최소 크기 조정
-                          storeList = widget.searchedList;
+                          storeList = List.from(widget.searchedList);
                           maxHeight = (bodyHeight) - 18;
                           minHeight = (bodyHeight * 0.5) >
                                   (storeList.length *
@@ -383,7 +393,7 @@ class _MapScreenState extends ConsumerState<MapSearchedScreen> {
     setState(() {
       listStatus = true;
       storeList = [target];
-      minHeight = math.min(minHeight, 200);
+      minHeight = 200;
       buttonHeight = minHeight + 18;
       maxHeight = minHeight;
     });

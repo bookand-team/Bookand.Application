@@ -792,9 +792,13 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             : StatefulBuilder(
                 builder: (context, innerSetState) {
                   bool isOpend = false;
-                  double maxHeight = MediaQuery.of(context).size.height;
-                  -MediaQuery.of(context).padding.bottom -
-                      MediaQuery.of(context).viewInsets.bottom;
+                  double maxHeight = MediaQuery.of(context).size.height -
+                      MAP_APPBAR_LONG_HEIGHT -
+                      // MediaQuery.of(context).padding.bottom -
+                      // MediaQuery.of(context).viewInsets.bottom -
+                      // MediaQuery.of(context).padding.top -
+                      // MediaQuery.of(context).viewInsets.top -
+                      kBottomNavigationBarHeight;
                   return NotificationListener<DraggableScrollableNotification>(
                     onNotification:
                         (DraggableScrollableNotification dsNotification) {
@@ -814,10 +818,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                       return false;
                     },
                     child: DraggableScrollableSheet(
-                        initialChildSize: STORE_SHEET_HEIGHT /
-                            (MediaQuery.of(context).size.height -
-                                MediaQuery.of(context).padding.bottom -
-                                MediaQuery.of(context).viewInsets.bottom),
+                        initialChildSize: STORE_SHEET_HEIGHT / maxHeight,
                         expand: false,
                         builder: (context, scrollController) {
                           // 앱 바 높이 조정

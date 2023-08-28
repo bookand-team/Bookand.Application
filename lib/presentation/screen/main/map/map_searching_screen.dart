@@ -32,9 +32,6 @@ class _MapSearchingScreenState extends ConsumerState<MapSearchingScreen> {
   final double buttonPading = 15;
   final double buttonSpace = 40;
 
-  // 검색 함수에서 완료한 시간
-  DateTime searchedTime = DateTime.now();
-
   List<BookStoreMapModel> allList = [];
   List<BookStoreMapModel> searchingList = [];
   bool searchEmpty = false;
@@ -68,19 +65,11 @@ class _MapSearchingScreenState extends ConsumerState<MapSearchingScreen> {
                     focusNode: focusNode,
                     controller: searchTextCon,
 
-                    onChanged: (value) async {
-                      if (DateTime.now()
-                              .difference(searchedTime)
-                              .inMilliseconds >
-                          STORES_SEARCH_INTERVAL) {
-                        setState(() {
-                          searchEmpty = false;
-
-                          searchingList = searchStores(value);
-                        });
-
-                        searchedTime = DateTime.now();
-                      }
+                    onChanged: (value) {
+                      setState(() {
+                        searchEmpty = false;
+                        searchingList = searchStores(value);
+                      });
                     },
                     // 검색 완료 시
                     onSubmitted: (value) {
