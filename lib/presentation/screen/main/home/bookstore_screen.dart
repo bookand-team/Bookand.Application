@@ -43,7 +43,8 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
   @override
   Widget build(BuildContext context) {
     final bookstoreProvider = ref.watch(bookstoreStateNotifierProvider.notifier);
-    final bookstoreDetail = ref.watch(bookstoreStateNotifierProvider);
+    final bookstoreDetail = ref.watch(bookstoreStateNotifierProvider).bookstoreDetail;
+    final markers = ref.watch(bookstoreStateNotifierProvider).markers;
 
     return BaseLayout(
       child: CustomScrollView(
@@ -74,7 +75,7 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
                     },
                   ),
                   const SizedBox(height: 16),
-                  _bookstoreMap(bookstoreDetail.info),
+                  _bookstoreMap(bookstoreDetail, markers),
                   const SizedBox(height: 40),
                   _bookstoreArticles(
                     articles: bookstoreDetail.articleResponse,
@@ -311,7 +312,7 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
         ],
       );
 
-  Widget _bookstoreMap(BookstoreInfo? info) => Column(
+  Widget _bookstoreMap(BookstoreDetail? bookstoreDetail, Set<Marker> markers) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
@@ -321,18 +322,24 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
               height: 160,
               child: GoogleMap(
                 onTap: (latLon) {
+                  if (bookstoreDetail == null) return;
+
                   context.pushNamed(BookstoreMapScreen.routeName, pathParameters: {
+                    'id': bookstoreDetail.id?.toString() ?? '0'
+                  }, queryParameters: {
+                    'name': bookstoreDetail.name,
                     'latitude': latLon.latitude.toString(),
                     'longitude': latLon.longitude.toString(),
                   });
                 },
                 initialCameraPosition: CameraPosition(
                   target: LatLng(
-                    double.parse(info?.latitude ?? '37.541'),
-                    double.parse(info?.longitude ?? '126.986'),
+                    double.parse(bookstoreDetail?.info?.latitude ?? '37.541'),
+                    double.parse(bookstoreDetail?.info?.longitude ?? '126.986'),
                   ),
                   zoom: 16,
                 ),
+                markers: markers,
                 rotateGesturesEnabled: false,
                 scrollGesturesEnabled: false,
                 zoomControlsEnabled: false,
@@ -344,7 +351,7 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
           const SizedBox(height: 16),
           ElevatedButton(
             onPressed: () {
-              final address = info?.address;
+              final address = bookstoreDetail?.info?.address;
               if (address == null) return;
               MapsLauncher.launchQuery(address);
             },
