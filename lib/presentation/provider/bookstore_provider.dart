@@ -23,8 +23,7 @@ class BookstoreStateNotifier extends _$BookstoreStateNotifier {
 
   void fetchBookstoreDetail(int id) async {
     try {
-      state =
-          await ref.read(bookstoreRepositoryProvider).getBookstoreDetail(id);
+      state = await ref.read(bookstoreRepositoryProvider).getBookstoreDetail(id);
     } on ErrorResponse catch (e, stack) {
       logger.e('[${e.code}] ${e.message}', e.log, stack);
     } catch (e, stack) {

@@ -94,11 +94,13 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
         builder: (_, state) =>
             BookstoreScreen(id: state.pathParameters['id']!)),
     GoRoute(
-        path: 'bookstoreMap/:latitude/:longitude',
+        path: 'bookstoreMap/:id',
         name: BookstoreMapScreen.routeName,
         builder: (_, state) => BookstoreMapScreen(
-              latitude: state.pathParameters['latitude']!,
-              longitude: state.pathParameters['longitude']!,
+              id: state.pathParameters['id'] ?? '0',
+              name: state.queryParameters['name'] ?? '',
+              latitude: state.queryParameters['latitude'] ?? '0.0',
+              longitude: state.queryParameters['longitude'] ?? '0.0',
             )),
     GoRoute(
         path: 'notificationSetting',
