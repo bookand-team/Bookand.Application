@@ -327,6 +327,9 @@ class $AssetsImagesMapGen {
   /// File path: assets/images/map/ic__searching_back.svg
   String get icSearchingBack => 'assets/images/map/ic__searching_back.svg';
 
+  /// File path: assets/images/map/ic_search.svg
+  String get icSearch => 'assets/images/map/ic_search.svg';
+
   /// File path: assets/images/map/ic_searching_delete.svg
   String get icSearchingDelete => 'assets/images/map/ic_searching_delete.svg';
 
@@ -352,6 +355,7 @@ class $AssetsImagesMapGen {
         hidestore,
         hidestoreReset,
         icSearchingBack,
+        icSearch,
         icSearchingDelete,
         icWarning,
         listIcon

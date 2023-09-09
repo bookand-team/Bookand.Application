@@ -1,5 +1,7 @@
+import 'package:bookand/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 
 class SearchField extends ConsumerWidget {
   final void Function() onTap;
@@ -29,9 +31,15 @@ class SearchField extends ConsumerWidget {
               ),
             ),
             const Spacer(),
-            Icon(
-              Icons.search,
-              color: greyColor,
+            Padding(
+              padding: const EdgeInsets.only(right: 6),
+              child: SvgPicture.asset(
+                Assets.images.map.icSearch,
+                width: 24,
+                height: 24,
+                colorFilter:
+                    const ColorFilter.mode(Color(0xff222222), BlendMode.srcIn),
+              ),
             ),
           ],
         ),
