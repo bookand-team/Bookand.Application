@@ -1,36 +1,17 @@
-import 'package:bookand/presentation/provider/map/bottomhseet/map_list_toggle.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter/material.dart';
-//providers
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../../gen/assets.gen.dart';
 
-class ListButton extends ConsumerWidget {
-  final void Function() onAcitve;
-  final void Function() onDeactive;
-  const ListButton(
-      {super.key, required this.onAcitve, required this.onDeactive});
+class ListButton extends StatelessWidget {
+  final bool status;
+  final void Function() onTap;
+  const ListButton({super.key, required this.onTap, required this.status});
   final double size = 32;
-
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // 패널열렸는지는 show panel 에서
-    final selected = ref.watch(mapListToggleProvider);
-    // 다시 누르면 list type은 List(기본)로
-    final con = ref.read(mapListToggleProvider.notifier);
-
+  Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        if (selected) {
-          con.deactivate();
-          onDeactive();
-        } else {
-          con.activate();
-          onAcitve();
-        }
-      },
+      onTap: onTap,
       child: Container(
           height: size,
           alignment: Alignment.center,
@@ -44,7 +25,7 @@ class ListButton extends ConsumerWidget {
             height: 24,
             fit: BoxFit.fill,
             colorFilter: ColorFilter.mode(
-                selected ? const Color(0xffF86C30) : Colors.black,
+                status ? const Color(0xffF86C30) : Colors.black,
                 BlendMode.srcIn),
           )),
     );

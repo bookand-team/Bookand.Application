@@ -1,7 +1,10 @@
 //provider
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../../gen/assets.gen.dart';
 
 class SearchTopBar extends ConsumerWidget {
   final TextEditingController controller;
@@ -20,7 +23,6 @@ class SearchTopBar extends ConsumerWidget {
       : super(key: key);
 
   final double bRadius = 8;
-  final double padding = 10;
   final Color greyColor = const Color(0xffacacac);
   final Color thinGreyColor = const Color(0xfff5f5f5);
 
@@ -29,7 +31,7 @@ class SearchTopBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      padding: EdgeInsets.all(padding),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border(bottom: BorderSide(color: thinGreyColor)),
@@ -42,9 +44,14 @@ class SearchTopBar extends ConsumerWidget {
             onTap: () {
               context.pop();
             },
-            child: const Icon(
-              Icons.arrow_back_ios_rounded,
+            child: SvgPicture.asset(
+              Assets.images.map.icSearchingBack,
+              width: 24,
+              height: 24,
             ),
+          ),
+          const SizedBox(
+            width: 2,
           ),
           Expanded(
             child: Focus(
@@ -58,11 +65,27 @@ class SearchTopBar extends ConsumerWidget {
                 controller: controller,
                 onChanged: onChanged,
                 onSubmitted: onSubmitted,
+                style: const TextStyle(
+                  color: Color(0xFF222222),
+                  fontSize: 15,
+                  fontFamily: 'Pretendard',
+                  fontWeight: FontWeight.w400,
+                  height: 1.50,
+                  letterSpacing: -0.30,
+                ),
                 decoration: const InputDecoration(
                     isCollapsed: true,
                     enabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     border: InputBorder.none,
+                    hintStyle: TextStyle(
+                      color: Color(0xFFACACAC),
+                      fontSize: 15,
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w400,
+                      height: 1.50,
+                      letterSpacing: -0.30,
+                    ),
                     hintText: '궁금한 서점/지역을 검색해 보세요'),
               ),
             ),
@@ -71,9 +94,10 @@ class SearchTopBar extends ConsumerWidget {
             onTap: () {
               controller.clear();
             },
-            child: Icon(
-              Icons.cancel,
-              color: greyColor,
+            child: SvgPicture.asset(
+              Assets.images.map.icSearchingDelete,
+              width: 16,
+              height: 16,
             ),
           )
         ],

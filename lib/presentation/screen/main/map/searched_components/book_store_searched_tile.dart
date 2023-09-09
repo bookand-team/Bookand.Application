@@ -7,7 +7,9 @@ import 'package:go_router/go_router.dart';
 
 class BookStoreSearchedTile extends StatelessWidget {
   final BookStoreMapModel model;
-  const BookStoreSearchedTile({Key? key, required this.model})
+  final bool isSeaching;
+  const BookStoreSearchedTile(
+      {Key? key, required this.model, required this.isSeaching})
       : super(key: key);
 
   static const double height = 50 + 16;
@@ -18,11 +20,28 @@ class BookStoreSearchedTile extends StatelessWidget {
   final Size imageSize = const Size(50, 50);
 
   final TextStyle titleStyle = const TextStyle(
-      fontSize: 15, fontWeight: FontWeight.w500, color: Color(0xff222222));
+    color: Color(0xFF222222),
+    fontSize: 15,
+    fontFamily: 'Pretendard',
+    fontWeight: FontWeight.w500,
+    height: 1.50,
+    letterSpacing: -0.30,
+  );
   final TextStyle locationStyle = const TextStyle(
-      fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xff565656));
+    color: Color(0xFF565656),
+    fontSize: 12,
+    fontFamily: 'Pretendard',
+    fontWeight: FontWeight.w400,
+    // height: 1.50,
+    letterSpacing: -0.24,
+  );
   final TextStyle distanceStyle = const TextStyle(
-      fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xffff4f4f));
+    color: Color(0xFFFF4E4E),
+    fontSize: 12,
+    fontFamily: 'Pretendard',
+    fontWeight: FontWeight.w400,
+    letterSpacing: -0.24,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +74,7 @@ class BookStoreSearchedTile extends StatelessWidget {
                   fit: BoxFit.fill,
                 )),
             const SizedBox(
-              width: 10,
+              width: 8,
             ),
             Expanded(
               child: Column(
@@ -66,16 +85,19 @@ class BookStoreSearchedTile extends StatelessWidget {
                     style: titleStyle,
                   ),
                   const SizedBox(
-                    height: 5,
+                    height: 2,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: isSeaching
+                        ? MainAxisAlignment.spaceBetween
+                        : MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Text(
                         model.address ?? '',
                         style: locationStyle,
                       ),
+                      SizedBox(width: isSeaching ? null : 4),
                       Text(
                         model.userDistance == null
                             ? ''

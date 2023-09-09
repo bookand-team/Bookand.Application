@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 void showConfirmDialog({
   required BuildContext context,
@@ -112,7 +111,6 @@ class BookmarkDialog extends ConsumerWidget {
                   GestureDetector(
                     onTap: () {
                       onLeftButtonTap();
-                      context.pop();
                     },
                     child: Container(
                       width: buttonSize.width,
@@ -137,7 +135,6 @@ class BookmarkDialog extends ConsumerWidget {
                   GestureDetector(
                     onTap: () {
                       onRightButtonTap();
-                      context.pop();
                     },
                     child: Container(
                       width: buttonSize.width,
