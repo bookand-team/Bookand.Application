@@ -1,7 +1,9 @@
+import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
 import 'package:bookand/presentation/screen/deeplink_screen.dart';
 import 'package:bookand/presentation/screen/main/bookmark/components/folder_page/folder_page.dart';
 import 'package:bookand/presentation/screen/main/home/bookstore_map_screen.dart';
-import 'package:bookand/presentation/screen/main/map/component/search_screen/map_search_screen.dart';
+import 'package:bookand/presentation/screen/main/map/map_searched_screen.dart';
+import 'package:bookand/presentation/screen/main/map/map_searching_screen.dart';
 import 'package:bookand/presentation/screen/main/my/error_report_screen.dart';
 import 'package:bookand/presentation/screen/main/my/feedback_screen.dart';
 import 'package:bookand/presentation/screen/main/my/newbookstorereport/new_bookstore_report_screen.dart';
@@ -43,7 +45,8 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
     GoRoute(
         path: '/deeplink',
         name: DeeplinkScreen.routeName,
-        builder: (_, state) => DeeplinkScreen(queryParameters: state.queryParameters)),
+        builder: (_, state) =>
+            DeeplinkScreen(queryParameters: state.queryParameters)),
     GoRoute(
         path: '/update',
         name: UpdateGuideScreen.routeName,
@@ -66,8 +69,8 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
                 GoRoute(
                     path: 'termsAgreeDetail',
                     name: TermsAgreeDetailScreen.routeName,
-                    builder: (_, state) =>
-                        TermsAgreeDetailScreen(policy: state.extra as Tuple2<int, PolicyModel>))
+                    builder: (_, state) => TermsAgreeDetailScreen(
+                        policy: state.extra as Tuple2<int, PolicyModel>))
               ]),
         ]),
     GoRoute(
@@ -88,7 +91,8 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
     GoRoute(
         path: 'bookstore/:id',
         name: BookstoreScreen.routeName,
-        builder: (_, state) => BookstoreScreen(id: state.pathParameters['id']!)),
+        builder: (_, state) =>
+            BookstoreScreen(id: state.pathParameters['id']!)),
     GoRoute(
         path: 'bookstoreMap/:id',
         name: BookstoreMapScreen.routeName,
@@ -102,7 +106,10 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
         path: 'notificationSetting',
         name: NotificationSettingScreen.routeName,
         builder: (_, __) => const NotificationSettingScreen()),
-    GoRoute(path: 'notice', name: NoticeScreen.routeName, builder: (_, __) => const NoticeScreen()),
+    GoRoute(
+        path: 'notice',
+        name: NoticeScreen.routeName,
+        builder: (_, __) => const NoticeScreen()),
     GoRoute(
         path: 'termsAndPolicy',
         name: TermsAndPolicyScreen.routeName,
@@ -122,8 +129,16 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
         builder: (_, __) => const NewBookstoreReportSuccessScreen()),
     GoRoute(
       path: 'mapSearch',
-      name: MapSearchScreen.routeName,
-      builder: (_, __) => const MapSearchScreen(),
+      name: MapSearchingScreen.routeName,
+      builder: (_, __) => const MapSearchingScreen(),
+    ),
+    GoRoute(
+      path: 'mapSearched',
+      name: MapSearchedScreen.routeName,
+      builder: (_, state) => MapSearchedScreen(
+        query: state.queryParameters['query']!,
+        searchedList: state.extra as List<BookStoreMapModel>,
+      ),
     ),
     GoRoute(
         path: 'folder/:id/:name',
@@ -195,7 +210,8 @@ class GoRouterStateNotifier extends _$GoRouterStateNotifier {
     }
 
     if (authState == AuthState.signUp) {
-      if (goRouterState.location.startsWith('/login/termsAgree/termsAgreeDetail')) {
+      if (goRouterState.location
+          .startsWith('/login/termsAgree/termsAgreeDetail')) {
         return null;
       } else {
         return '/login/termsAgree';

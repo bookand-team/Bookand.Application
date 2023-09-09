@@ -3,6 +3,7 @@ import 'package:bookand/domain/model/bookmark/bookmark_model.dart';
 import 'package:bookand/domain/model/bookstore/bookstore_map_model.dart';
 import 'package:bookand/gen/assets.gen.dart';
 import 'package:bookand/presentation/provider/bookmark/bookmark_store_provider.dart';
+import 'package:bookand/presentation/provider/bookstore_manager.dart';
 import 'package:bookand/presentation/screen/main/home/bookstore_screen.dart';
 import 'package:bookand/presentation/screen/main/map/component/book_mark_button.dart';
 import 'package:bookand/presentation/screen/main/map/component/theme_utils.dart';
@@ -162,6 +163,9 @@ class BookStoreTile extends ConsumerWidget {
                 acitve: store.isBookmark!,
                 onAcive: () {
                   store.isBookmark = true;
+                  ref
+                      .read(bookStoreManagerProvider.notifier)
+                      .updateBookmark(store.id ?? -1, true);
                   ref.read(bookmarkStoreNotifierProvider.notifier).add(
                       BookmarkModel(
                           bookmarkId: store.id,
@@ -170,6 +174,9 @@ class BookStoreTile extends ConsumerWidget {
                           title: store.name));
                 },
                 onDisactive: () {
+                  ref
+                      .read(bookStoreManagerProvider.notifier)
+                      .updateBookmark(store.id ?? -1, false);
                   store.isBookmark = false;
                   ref
                       .read(bookmarkStoreNotifierProvider.notifier)

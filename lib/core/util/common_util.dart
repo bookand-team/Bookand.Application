@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import 'logger.dart';
 
 class CommonUtil {
@@ -29,7 +31,10 @@ class CommonUtil {
     required double maxLat,
     required double maxLon,
   }) {
-    if (targetLat >= minLat && targetLat <= maxLat && targetLon >= minLon && targetLon <= maxLon) {
+    if (targetLat >= minLat &&
+        targetLat <= maxLat &&
+        targetLon >= minLon &&
+        targetLon <= maxLon) {
       return true;
     } else {
       return false;
@@ -83,5 +88,28 @@ class CommonUtil {
 
   static String createDeeplink({String? query}) {
     return "http://bookand.co.kr/deeplink?$query";
+  }
+
+  static LatLngBounds? getBoundsWithList(List<LatLng> coordinates) {
+    if (coordinates.isEmpty) {
+      return null;
+    }
+
+    double minLatitude = coordinates[0].latitude;
+    double maxLatitude = coordinates[0].latitude;
+    double minLongitude = coordinates[0].longitude;
+    double maxLongitude = coordinates[0].longitude;
+
+    for (LatLng coordinate in coordinates) {
+      minLatitude = min(minLatitude, coordinate.latitude);
+      maxLatitude = max(maxLatitude, coordinate.latitude);
+      minLongitude = min(minLongitude, coordinate.longitude);
+      maxLongitude = max(maxLongitude, coordinate.longitude);
+    }
+
+    LatLng southwest = LatLng(minLatitude, minLongitude);
+    LatLng northeast = LatLng(maxLatitude, maxLongitude);
+
+    return LatLngBounds(southwest: southwest, northeast: northeast);
   }
 }

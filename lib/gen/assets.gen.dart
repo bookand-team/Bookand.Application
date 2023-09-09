@@ -324,6 +324,12 @@ class $AssetsImagesMapGen {
   /// File path: assets/images/map/hidestore_reset.svg
   String get hidestoreReset => 'assets/images/map/hidestore_reset.svg';
 
+  /// File path: assets/images/map/ic__searching_back.svg
+  String get icSearchingBack => 'assets/images/map/ic__searching_back.svg';
+
+  /// File path: assets/images/map/ic_searching_delete.svg
+  String get icSearchingDelete => 'assets/images/map/ic_searching_delete.svg';
+
   /// File path: assets/images/map/ic_warning.png
   AssetGenImage get icWarning =>
       const AssetGenImage('assets/images/map/ic_warning.png');
@@ -345,6 +351,8 @@ class $AssetsImagesMapGen {
         gpsIcon,
         hidestore,
         hidestoreReset,
+        icSearchingBack,
+        icSearchingDelete,
         icWarning,
         listIcon
       ];

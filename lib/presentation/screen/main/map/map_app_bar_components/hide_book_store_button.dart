@@ -1,12 +1,13 @@
-import 'package:bookand/presentation/provider/map/bools/map_hidestore_toggle.dart';
-import 'package:bookand/presentation/provider/map/bottomhseet/map_bottomsheet_controller_provider.dart';
-import 'package:bookand/presentation/provider/map/widget_marker_provider.dart';
 import 'package:flutter/material.dart';
-//providers
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HideBookStoreButton extends ConsumerWidget {
-  const HideBookStoreButton({Key? key}) : super(key: key);
+class HideBookStoreButton extends StatelessWidget {
+  final bool status;
+  final void Function() onTap;
+  const HideBookStoreButton({
+    Key? key,
+    required this.status,
+    required this.onTap,
+  }) : super(key: key);
 
   final double bRauius = 15;
   final Size size = const Size(80, 28);
@@ -24,29 +25,16 @@ class HideBookStoreButton extends ConsumerWidget {
   final double bottomSheetHeight = 350;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final bool selected = ref.watch(hideStoreToggleNotifierProvider);
-    final con = ref.read(hideStoreToggleNotifierProvider.notifier);
+  Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () {
-          if (!ref.read(widgetMarkerNotiferProvider.notifier).inited) {
-            return;
-          }
-          if (!selected) {
-            con.activate();
-            ref.read(mapBottomSheetControllerProvider.notifier).showHideStore();
-          } else {
-            con.deactivate();
-            ref.read(mapBottomSheetControllerProvider)?.close();
-          }
-        },
+        onTap: onTap,
         child: Container(
           height: size.height,
           padding: EdgeInsets.symmetric(
               vertical: vertPadding, horizontal: horiPadding),
           decoration: BoxDecoration(
               color: Colors.white,
-              border: Border.all(color: selected ? Colors.black : grey),
+              border: Border.all(color: status ? Colors.black : grey),
               borderRadius: BorderRadius.all(Radius.circular(bRauius))),
           child: Row(
             children: [
