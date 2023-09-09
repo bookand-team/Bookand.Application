@@ -20,6 +20,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/widget/base_layout.dart';
 import '../../../../domain/model/article/article_model.dart';
 import '../../../component/bookmark_button.dart';
+import '../../../utils/marker_util.dart';
 import 'article_screen.dart';
 import 'bookstore_map_screen.dart';
 
@@ -43,8 +44,7 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
   @override
   Widget build(BuildContext context) {
     final bookstoreProvider = ref.watch(bookstoreStateNotifierProvider.notifier);
-    final bookstoreDetail = ref.watch(bookstoreStateNotifierProvider).bookstoreDetail;
-    final markers = ref.watch(bookstoreStateNotifierProvider).markers;
+    final bookstoreDetail = ref.watch(bookstoreStateNotifierProvider);
 
     return BaseLayout(
       child: CustomScrollView(
@@ -75,7 +75,7 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
                     },
                   ),
                   const SizedBox(height: 16),
-                  _bookstoreMap(bookstoreDetail, markers),
+                  _bookstoreMap(bookstoreDetail),
                   const SizedBox(height: 40),
                   _bookstoreArticles(
                     articles: bookstoreDetail.articleResponse,
@@ -312,7 +312,7 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
         ],
       );
 
-  Widget _bookstoreMap(BookstoreDetail? bookstoreDetail, Set<Marker> markers) => Column(
+  Widget _bookstoreMap(BookstoreDetail? bookstoreDetail) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
@@ -320,32 +320,54 @@ class _BookstoreScreenState extends ConsumerState<BookstoreScreen> {
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
               height: 160,
-              child: GoogleMap(
-                onTap: (latLon) {
-                  if (bookstoreDetail == null) return;
-
-                  context.pushNamed(BookstoreMapScreen.routeName, pathParameters: {
-                    'id': bookstoreDetail.id?.toString() ?? '0'
-                  }, queryParameters: {
-                    'name': bookstoreDetail.name,
-                    'latitude': latLon.latitude.toString(),
-                    'longitude': latLon.longitude.toString(),
-                  });
-                },
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(
-                    double.parse(bookstoreDetail?.info?.latitude ?? '37.541'),
-                    double.parse(bookstoreDetail?.info?.longitude ?? '126.986'),
+              child: FutureBuilder(
+                  future: createMarker(
+                    id: bookstoreDetail?.id.toString() ?? '0',
+                    label: bookstoreDetail?.name ?? 'N/A',
+                    latitude: double.parse(bookstoreDetail?.info?.latitude ?? '37.541'),
+                    longitude: double.parse(bookstoreDetail?.info?.longitude ?? '126.986'),
                   ),
-                  zoom: 16,
-                ),
-                markers: markers,
-                rotateGesturesEnabled: false,
-                scrollGesturesEnabled: false,
-                zoomControlsEnabled: false,
-                zoomGesturesEnabled: false,
-                myLocationButtonEnabled: false,
-              ),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData || snapshot.hasError) {
+                      return Container(
+                        alignment: Alignment.center,
+                        child: const CircularProgressIndicator(),
+                      );
+                    }
+
+                    final Set<Marker> markers = {};
+                    final marker = snapshot.data;
+                    if (marker != null) {
+                      markers.add(marker);
+                    }
+
+                    return GoogleMap(
+                      onTap: (latLon) {
+                        if (bookstoreDetail == null) return;
+
+                        context.pushNamed(BookstoreMapScreen.routeName, pathParameters: {
+                          'id': bookstoreDetail.id?.toString() ?? '0'
+                        }, queryParameters: {
+                          'name': bookstoreDetail.name,
+                          'latitude': latLon.latitude.toString(),
+                          'longitude': latLon.longitude.toString(),
+                        });
+                      },
+                      initialCameraPosition: CameraPosition(
+                        target: LatLng(
+                          double.parse(bookstoreDetail?.info?.latitude ?? '37.541'),
+                          double.parse(bookstoreDetail?.info?.longitude ?? '126.986'),
+                        ),
+                        zoom: 16,
+                      ),
+                      markers: markers,
+                      rotateGesturesEnabled: false,
+                      scrollGesturesEnabled: false,
+                      zoomControlsEnabled: false,
+                      zoomGesturesEnabled: false,
+                      myLocationButtonEnabled: false,
+                    );
+                  }),
             ),
           ),
           const SizedBox(height: 16),
