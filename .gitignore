@@ -45,3 +45,15 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# generate file
+*.g.dart
+*.chopper.dart
+*.freezed.dart
+/lig/gen
+
+# vscode
+.vscode/
+
+# fvm 
+.fvm

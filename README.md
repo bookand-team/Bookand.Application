@@ -1,16 +1,59 @@
-# bookand
+# BOOK& Mobile Application
 
-Bookand Mobile Application
+## 목차
+1. [처음 프로젝트 소스를 받는 경우](#1-처음-프로젝트-소스를-받는-경우)
+2. [빌드 방법](#2-빌드-방법)
 
-## Getting Started
+## 1. 처음 프로젝트 소스를 받는 경우
+### 자동 생성 파일을 생성해야 정상 작동하므로 build runner 실행 후 사용해야함.
 
-This project is a starting point for a Flutter application.
+#### 단일 빌드
+```shell
+flutter pub run build_runner build
+```
 
-A few resources to get you started if this is your first Flutter project:
+#### 실시간 빌드
+```shell
+flutter pub run build_runner watch
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 2. 빌드 방법
+### 대괄호로 표시한 것을 해당하는 값으로 수정 후 실행
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### APK
+#### Shell
+```shell
+flutter build apk -t lib/core/main.dart --flavor [dev/product] \
+--dart-define ANDROID_GOOGLE_MAP_API_KEY=[안드로이드 구글맵 API Key]
+```
+
+#### PowerShell
+```shell
+flutter build apk -t lib/core/main.dart --flavor [dev/product] `
+--dart-define ANDROID_GOOGLE_MAP_API_KEY=[안드로이드 구글맵 API Key]
+```
+
+### App Bundle
+#### Shell
+```shell
+flutter build -t appbundle lib/core/main.dart --flavor [dev/product] \
+--dart-define ANDROID_GOOGLE_MAP_API_KEY=[안드로이드 구글맵 API Key]
+```
+
+#### PowerShell
+```shell
+flutter build -t appbundle lib/core/main.dart --flavor [dev/product] `
+--dart-define ANDROID_GOOGLE_MAP_API_KEY=[안드로이드 구글맵 API Key]
+```
+
+### iOS
+```shell
+flutter build ios -t lib/core/main.dart --flavor [dev/product] \
+--dart-define IOS_GOOGLE_MAP_API_KEY=[iOS 구글맵 API Key]
+```
+
+### ipa
+```shell
+flutter build ipa -t lib/core/main.dart --flavor [dev/product] \
+--dart-define IOS_GOOGLE_MAP_API_KEY=[iOS 구글맵 API Key]
+```
